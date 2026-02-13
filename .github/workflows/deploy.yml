@@ -3,6 +3,7 @@ name: Deploy to HostGator
 on:
   push:
     branches: ["main"]
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -11,8 +12,62 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # If you have a build step, add it here.
-      # For plain HTML/CSS/JS, you can skip build entirely.
+      - name: Validate required FTP settings
+        env:
+          FTP_SERVER: ${{ secrets.FTP_SERVER }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+          FTP_DESTINATION: ${{ secrets.FTP_DESTINATION }}
+        run: |
+          set -euo pipefail
+          missing=()
+
+          [ -n "${FTP_SERVER:-}" ] || missing+=("FTP_SERVER")
+          [ -n "${FTP_USERNAME:-}" ] || missing+=("FTP_USERNAME")
+          [ -n "${FTP_PASSWORD:-}" ] || missing+=("FTP_PASSWORD")
+          [ -n "${FTP_DESTINATION:-}" ] || missing+=("FTP_DESTINATION")
+
+          if [ "${#missing[@]}" -gt 0 ]; then
+            echo "Missing required secrets:"
+            for name in "${missing[@]}"; do
+              echo "- ${name}"
+            done
+            exit 1
+          fi
+
+      - name: Normalize deploy settings
+        id: normalize
+        env:
+          RAW_DESTINATION: ${{ secrets.FTP_DESTINATION }}
+          RAW_PORT: ${{ secrets.FTP_PORT }}
+          RAW_PROTOCOL: ${{ vars.FTP_PROTOCOL }}
+        run: |
+          set -euo pipefail
+
+          server_dir="${RAW_DESTINATION%/}/"
+          port="${RAW_PORT:-}"
+          protocol="${RAW_PROTOCOL:-}"
+
+          if [ -z "$port" ]; then
+            port="21"
+          fi
+
+          if [ -z "$protocol" ]; then
+            protocol="ftp"
+          fi
+
+          protocol="$(echo "$protocol" | tr '[:upper:]' '[:lower:]')"
+          case "$protocol" in
+            ftp|ftps|sftp) ;;
+            *)
+              echo "Invalid protocol '$protocol'. Use ftp, ftps, or sftp via repository variable FTP_PROTOCOL."
+              exit 1
+              ;;
+          esac
+
+          echo "server_dir=$server_dir" >> "$GITHUB_OUTPUT"
+          echo "port=$port" >> "$GITHUB_OUTPUT"
+          echo "protocol=$protocol" >> "$GITHUB_OUTPUT"
 
       - name: FTP Deploy to HostGator
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
@@ -20,12 +75,20 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          port: ${{ secrets.FTP_PORT }}
-          protocol: ftp
+          port: ${{ steps.normalize.outputs.port }}
+          protocol: ${{ steps.normalize.outputs.protocol }}
           local-dir: ./
-          server-dir: ${{ secrets.FTP_DESTINATION }}
+          server-dir: ${{ steps.normalize.outputs.server_dir }}
           exclude: |
             **/.git*
             **/.github/**
             **/node_modules/**
+            **/.DS_Store
+            **/Thumbs.db
+            **/*.log
             **/*.md
+            **/*.markdown
+            README*
+            LICENSE*
+            CONTRIBUTING*
+            SECURITY*
