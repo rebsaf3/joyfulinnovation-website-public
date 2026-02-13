@@ -49,7 +49,17 @@ h1 { margin: 0 0 14px; font-size: clamp(2rem, 5vw, 3.1rem); line-height: 1.08; }
 .subtitle { margin: 0 0 22px; color: var(--muted); max-width: 58ch; }
 .actions { display: flex; flex-wrap: wrap; gap: 10px; }
 .metrics { margin-top: 18px; display: flex; flex-wrap: wrap; gap: 10px; }
-.metric { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 10px 14px; min-width: 140px; }
+.metric {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px 14px;
+  min-width: 140px;
+  min-height: 86px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 .metric strong { display: block; font-size: 1.15rem; }
 .hero-card, .card {
   background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px;
@@ -60,9 +70,16 @@ h1 { margin: 0 0 14px; font-size: clamp(2rem, 5vw, 3.1rem); line-height: 1.08; }
 section { padding: 28px 0; }
 h2 { margin: 0 0 14px; }
 .section-copy { margin: 0 0 16px; color: var(--muted); max-width: 70ch; }
-.grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  align-items: stretch;
+}
 .card p { margin: 8px 0 0; color: var(--muted); }
 .card a { color: var(--brand); font-weight: 700; text-decoration: none; }
+.grid-3 .card { display: flex; flex-direction: column; min-height: 220px; }
+.grid-3 .card p:last-child { margin-top: auto; }
 
 .product-highlight {
   background: var(--surface-soft); border: 1px solid var(--border); border-radius: 16px; padding: 20px;
