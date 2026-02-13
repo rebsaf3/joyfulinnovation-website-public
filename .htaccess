@@ -3,6 +3,9 @@ RewriteEngine On
 # Redirect only index.html to site root
 RewriteRule ^index\.html$ / [R=301,L]
 
+# Redirect retired FAQ page to Contact
+RewriteRule ^faq/?$ /contact [R=301,L]
+
 # Internally map clean URLs to existing .html files
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
