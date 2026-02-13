@@ -80,7 +80,12 @@ jobs:
           local-dir: ./
           server-dir: ${{ steps.normalize.outputs.server_dir }}
           exclude: |
-            **/.git*
+            .git
+            .git/**
+            **/.git
+            **/.git/**
+            .gitignore
+            .gitattributes
             **/.github/**
             **/node_modules/**
             **/.DS_Store
