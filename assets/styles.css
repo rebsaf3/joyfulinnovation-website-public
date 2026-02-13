@@ -33,6 +33,7 @@ nav { display: flex; align-items: center; justify-content: space-between; paddin
 .brand span { color: var(--brand); }
 .nav-links { display: flex; gap: 18px; align-items: center; flex-wrap: wrap; }
 .nav-links a { text-decoration: none; color: var(--muted); font-weight: 600; }
+.nav-links a[aria-current="page"] { color: var(--brand); font-weight: 700; }
 
 .btn {
   text-decoration: none; display: inline-block; border-radius: 10px;
