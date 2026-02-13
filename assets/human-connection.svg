@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 220" role="img" aria-labelledby="title desc">
+  <title id="title">People collaborating with AI</title>
+  <desc id="desc">Three people connected by flowing lines and chat bubbles to represent human-centered innovation.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#e8efff"/>
+      <stop offset="100%" stop-color="#dff9f2"/>
+    </linearGradient>
+    <linearGradient id="line" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#345dff"/>
+      <stop offset="100%" stop-color="#25c8ab"/>
+    </linearGradient>
+  </defs>
+  <rect x="6" y="6" width="408" height="208" rx="24" fill="url(#bg)"/>
+
+  <path d="M78 126 C130 90, 188 90, 236 126" fill="none" stroke="url(#line)" stroke-width="6" stroke-linecap="round"/>
+  <path d="M184 130 C236 98, 292 96, 344 130" fill="none" stroke="url(#line)" stroke-width="6" stroke-linecap="round"/>
+
+  <circle cx="84" cy="84" r="26" fill="#ffffff" stroke="#bdd1ff" stroke-width="3"/>
+  <circle cx="84" cy="80" r="10" fill="#5b7cff"/>
+  <rect x="70" y="92" width="28" height="14" rx="7" fill="#5b7cff"/>
+
+  <circle cx="210" cy="76" r="30" fill="#ffffff" stroke="#bdd1ff" stroke-width="3"/>
+  <circle cx="210" cy="70" r="11" fill="#345dff"/>
+  <rect x="194" y="84" width="32" height="15" rx="7.5" fill="#345dff"/>
+
+  <circle cx="338" cy="88" r="26" fill="#ffffff" stroke="#bde9e0" stroke-width="3"/>
+  <circle cx="338" cy="84" r="10" fill="#25c8ab"/>
+  <rect x="324" y="96" width="28" height="14" rx="7" fill="#25c8ab"/>
+
+  <rect x="132" y="142" width="70" height="34" rx="10" fill="#ffffff" stroke="#c7d6ff"/>
+  <circle cx="148" cy="159" r="4" fill="#345dff"/>
+  <circle cx="164" cy="159" r="4" fill="#345dff"/>
+  <circle cx="180" cy="159" r="4" fill="#345dff"/>
+
+  <rect x="226" y="142" width="84" height="34" rx="10" fill="#ffffff" stroke="#bde9e0"/>
+  <rect x="240" y="154" width="54" height="8" rx="4" fill="#25c8ab"/>
+</svg>
