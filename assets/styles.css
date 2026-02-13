@@ -41,6 +41,7 @@ nav { display: flex; align-items: center; justify-content: space-between; paddin
 }
 .btn-primary { background: linear-gradient(130deg, var(--brand), #567aff); color: #fff; }
 .btn-secondary { border: 1px solid var(--border); background: #fff; color: var(--text); }
+header .nav-links .btn.btn-primary { background: #fff; color: var(--brand); border: 1px solid var(--brand); }
 
 .hero { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 24px; padding: 66px 0 36px; align-items: center; }
 .eyebrow { color: var(--brand); font-weight: 700; margin: 0 0 8px; }
