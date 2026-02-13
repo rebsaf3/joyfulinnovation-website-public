@@ -1,8 +1,7 @@
 RewriteEngine On
 
-# Redirect direct .html requests to clean URLs
-RewriteCond %{THE_REQUEST} \s/+(.+?)\.html[\s?] [NC]
-RewriteRule ^ %1 [R=301,L,NE]
+# Redirect only index.html to site root
+RewriteRule ^index\.html$ / [R=301,L]
 
 # Internally map clean URLs to existing .html files
 RewriteCond %{REQUEST_FILENAME} !-d
