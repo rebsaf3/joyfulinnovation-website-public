@@ -64,6 +64,19 @@ No build step is required for normal content updates.
 2. Header CTA text: **Contact Us**
 3. Include links to Privacy Policy and Terms of Service in footer
 
+## Accessibility & Navigation
+
+- All pages include `aria-current="page"` attributes on active navigation links for screen reader support
+- Active nav links are styled in brand blue color with bold weight for visual clarity
+- All internal links are verified and working
+- No broken external resources (favicon.svg reference removed - file not in repo)
+
+## Deployment
+
+Site is deployed to HostGator via GitHub Actions workflow (`.github/workflows/deploy.yml`) on every push to `main` branch.
+
+See [CHANGELOG.md](CHANGELOG.md) for recent updates and fixes.
+
 ## License
 
 MIT License. See `LICENSE`.
