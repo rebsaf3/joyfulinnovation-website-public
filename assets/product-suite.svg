@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 420" role="img" aria-labelledby="title desc">
+  <title id="title">AssetPilot, FlowPilot, and InsightPilot product suite graphic</title>
+  <desc id="desc">Three connected product nodes representing license reclaim, workflow automation, and decision intelligence.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#edf3ff"/>
+      <stop offset="100%" stop-color="#f7fffc"/>
+    </linearGradient>
+    <linearGradient id="asset" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#4f72ff"/>
+      <stop offset="100%" stop-color="#345dff"/>
+    </linearGradient>
+    <linearGradient id="flow" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#22c55e"/>
+      <stop offset="100%" stop-color="#16a34a"/>
+    </linearGradient>
+    <linearGradient id="insight" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#06b6d4"/>
+      <stop offset="100%" stop-color="#0ea5e9"/>
+    </linearGradient>
+  </defs>
+
+  <rect x="8" y="8" width="944" height="404" rx="24" fill="url(#bg)" stroke="#d8e3ff"/>
+
+  <path d="M260 210 C340 150, 420 150, 480 210" fill="none" stroke="#9fb3ff" stroke-width="8" stroke-linecap="round"/>
+  <path d="M480 210 C540 270, 620 270, 700 210" fill="none" stroke="#9adccf" stroke-width="8" stroke-linecap="round"/>
+
+  <circle cx="230" cy="210" r="92" fill="url(#asset)"/>
+  <circle cx="230" cy="210" r="92" fill="none" stroke="#ffffff" stroke-opacity="0.45"/>
+  <text x="230" y="188" text-anchor="middle" fill="#ffffff" font-size="24" font-family="Segoe UI, Arial, sans-serif" font-weight="700">AssetPilot</text>
+  <text x="230" y="220" text-anchor="middle" fill="#e9efff" font-size="16" font-family="Segoe UI, Arial, sans-serif">Reclaim spend</text>
+
+  <circle cx="480" cy="210" r="92" fill="url(#flow)"/>
+  <circle cx="480" cy="210" r="92" fill="none" stroke="#ffffff" stroke-opacity="0.45"/>
+  <text x="480" y="188" text-anchor="middle" fill="#ffffff" font-size="24" font-family="Segoe UI, Arial, sans-serif" font-weight="700">FlowPilot</text>
+  <text x="480" y="220" text-anchor="middle" fill="#ecfff3" font-size="16" font-family="Segoe UI, Arial, sans-serif">Automate work</text>
+
+  <circle cx="730" cy="210" r="92" fill="url(#insight)"/>
+  <circle cx="730" cy="210" r="92" fill="none" stroke="#ffffff" stroke-opacity="0.45"/>
+  <text x="730" y="188" text-anchor="middle" fill="#ffffff" font-size="24" font-family="Segoe UI, Arial, sans-serif" font-weight="700">InsightPilot</text>
+  <text x="730" y="220" text-anchor="middle" fill="#effbff" font-size="16" font-family="Segoe UI, Arial, sans-serif">Guide decisions</text>
+
+  <rect x="338" y="318" width="284" height="52" rx="12" fill="#ffffff" stroke="#d8e3ff"/>
+  <text x="480" y="350" text-anchor="middle" fill="#1e2f54" font-size="18" font-family="Segoe UI, Arial, sans-serif" font-weight="600">One connected operating system for IT outcomes</text>
+</svg>
