@@ -48,14 +48,21 @@ header .nav-links .btn.btn-primary { background: #fff; color: var(--brand); bord
 h1 { margin: 0 0 14px; font-size: clamp(2rem, 5vw, 3.1rem); line-height: 1.08; }
 .subtitle { margin: 0 0 22px; color: var(--muted); max-width: 58ch; }
 .actions { display: flex; flex-wrap: wrap; gap: 10px; }
-.metrics { margin-top: 18px; display: flex; flex-wrap: wrap; gap: 10px; }
+.metrics {
+  margin-top: 18px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  align-items: stretch;
+}
 .metric {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 12px;
   padding: 10px 14px;
-  min-width: 140px;
-  min-height: 86px;
+  min-width: 0;
+  min-height: 96px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -175,6 +182,7 @@ footer { padding: 22px 0 30px; color: var(--muted); text-align: center; }
 
 @media (max-width: 900px) {
   .hero, .grid-3, .split { grid-template-columns: 1fr; }
+  .metrics { grid-template-columns: 1fr; }
   .nav-links a:not(.btn) { display: none; }
   .site-footer { text-align: center; }
   .footer-top { grid-template-columns: 1fr; }
