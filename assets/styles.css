@@ -614,12 +614,13 @@ footer {
 
 .blog-hero-image {
   display: block;
-  width: min(100%, 760px);
-  max-height: 220px;
-  margin: 14px auto 0;
+  width: 100%;
+  max-height: 200px;
+  margin: 0;
   object-fit: cover;
-  border: 1px solid #d7cdbc;
-  border-radius: 12px;
+  border: 0;
+  border-bottom: 1px solid #d7cdbc;
+  border-radius: 0;
   background: #eef4f1;
 }
 
@@ -727,4 +728,5 @@ footer {
     padding: 6px 2px 6px;
   }
 }
+
 
