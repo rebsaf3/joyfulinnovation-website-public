@@ -33,9 +33,9 @@ No build step is required for normal content updates.
 
 1. `index.html` - homepage
 2. `products.html` - product overview
-3. `product-assetpilot.html` - AssetPilot detail page
-4. `product-flowpilot.html` - FlowPilot detail page
-5. `product-insightpilot.html` - InsightPilot detail page
+3. `product-assetpilot.html` - NyLi Assets detail page
+4. `product-flowpilot.html` - NyLi Agent detail page
+5. `product-insightpilot.html` - NyLi Insights detail page
 6. `faq.html` - frequently asked questions
 7. `contact.html` - contact form page
 8. `privacy-policy.html` - privacy policy
@@ -80,4 +80,5 @@ See [CHANGELOG.md](CHANGELOG.md) for recent updates and fixes.
 ## License
 
 MIT License. See `LICENSE`.
+
 

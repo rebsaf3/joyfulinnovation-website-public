@@ -64,7 +64,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Initial site launch
 - Core pages: Home, Products, Insights, FAQ, Contact
-- Product detail pages: AssetPilot, FlowPilot, InsightPilot
+- Product detail pages: NyLi Assets, NyLi Agent, NyLi Insights
 - Legal pages: Privacy Policy, Terms of Service
 - Responsive CSS framework
 - HostGator FTP deployment workflow via GitHub Actions
+
