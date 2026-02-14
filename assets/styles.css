@@ -24,7 +24,7 @@ body {
     radial-gradient(circle at 0% 0%, rgba(208, 137, 47, 0.18) 0%, transparent 35%),
     radial-gradient(circle at 100% 0%, rgba(13, 107, 95, 0.14) 0%, transparent 42%),
     linear-gradient(180deg, #fbf8f1 0%, var(--bg) 100%);
-  line-height: 1.6;
+  line-height: 1.62;
 }
 
 .container {
@@ -504,8 +504,9 @@ footer {
   align-items: center;
   flex-wrap: wrap;
   gap: 10px;
+  margin-top: auto;
+  padding-top: 4px;
 }
-
 .btn-login-compact {
   min-height: 34px;
   padding: 0 12px;
@@ -523,3 +524,48 @@ footer {
 }
 
 
+
+.card-media {
+  margin-top: 2px;
+  padding: 8px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.52);
+}
+
+.product-suite-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+
+
+.page-hero h1 {
+  margin-bottom: 10px;
+}
+
+.page-hero .section-copy {
+  margin-bottom: 0;
+}
+
+.grid-3 {
+  gap: 14px;
+}
+
+.card > h3 + p {
+  margin-top: 2px;
+}
+
+.card .list {
+  margin-top: 6px;
+}
+
+.product-highlight .split {
+  margin-top: 8px;
+}
+
+.split .card {
+  min-height: 0;
+}
