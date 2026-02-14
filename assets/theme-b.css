@@ -1,0 +1,73 @@
+/* Theme B: Sandstone Contrast */
+:root {
+  --bg: #f8f3ea;
+  --surface: #fffefb;
+  --surface-soft: #f4eee0;
+  --surface-mint: #edf7f3;
+  --surface-blue: #eef2f7;
+  --text: #1f2a34;
+  --muted: #596572;
+  --brand: #0d6b5f;
+  --brand-strong: #075247;
+  --accent: #d0892f;
+  --border: #dfd5c4;
+  --shadow-soft: 0 12px 26px rgba(67, 55, 30, 0.12);
+  --shadow-card: 0 18px 34px rgba(53, 43, 21, 0.16);
+}
+
+body {
+  background:
+    radial-gradient(circle at 0% 0%, rgba(208, 137, 47, 0.18) 0%, transparent 35%),
+    radial-gradient(circle at 100% 0%, rgba(13, 107, 95, 0.14) 0%, transparent 42%),
+    linear-gradient(180deg, #fbf8f1 0%, var(--bg) 100%);
+}
+
+header {
+  background: rgba(251, 248, 241, 0.9);
+  border-bottom: 1px solid rgba(223, 213, 196, 0.9);
+}
+
+.nav-links a[aria-current="page"] {
+  color: var(--brand-strong);
+}
+
+.btn-secondary {
+  background: linear-gradient(180deg, #fffefb 0%, #f3eee3 100%);
+}
+
+main > section:not(.hero):not(.page-hero):not(.cta) {
+  background: linear-gradient(180deg, rgba(255, 254, 251, 0.9) 0%, rgba(247, 241, 231, 0.95) 100%);
+  border: 1px solid rgba(223, 213, 196, 0.9);
+}
+
+.card,
+.hero-card {
+  background: linear-gradient(170deg, #fffefb 0%, #f5efe3 100%);
+}
+
+.metric {
+  background: linear-gradient(160deg, #fffefb 0%, #f6efe3 100%);
+}
+
+.grid-3 .card:nth-child(3n + 2) {
+  background: linear-gradient(160deg, #fffefb 0%, #edf6f2 100%);
+}
+
+.grid-3 .card:nth-child(3n) {
+  background: linear-gradient(160deg, #fffefb 0%, #f5efe2 100%);
+}
+
+.card a,
+.footer-links a,
+.breadcrumb a {
+  color: var(--brand-strong);
+}
+
+.pill {
+  background: #e7efe9;
+  color: #0b5a4f;
+}
+
+.cta {
+  background: linear-gradient(135deg, #083f36 0%, #0d6b5f 58%, #c47f2a 100%);
+}

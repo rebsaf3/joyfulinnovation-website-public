@@ -1,0 +1,39 @@
+/* Theme A: Aurora Glass */
+:root {
+  --bg: #f2f8ff;
+  --surface: #ffffff;
+  --surface-soft: #eaf5ff;
+  --surface-mint: #e9fbf7;
+  --surface-blue: #e8f1ff;
+  --text: #11243f;
+  --muted: #4b5f83;
+  --brand: #2f5bff;
+  --brand-strong: #1f46d6;
+  --accent: #1cc6ad;
+  --border: #cfe0ff;
+  --shadow-soft: 0 12px 28px rgba(36, 79, 207, 0.1);
+  --shadow-card: 0 16px 34px rgba(28, 66, 183, 0.14);
+}
+
+body {
+  background:
+    radial-gradient(circle at 0% 0%, rgba(47, 91, 255, 0.2) 0%, transparent 34%),
+    radial-gradient(circle at 100% 0%, rgba(28, 198, 173, 0.14) 0%, transparent 38%),
+    linear-gradient(180deg, #f8fbff 0%, var(--bg) 100%);
+}
+
+main > section:not(.hero):not(.page-hero):not(.cta) {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.82) 0%, rgba(238, 247, 255, 0.9) 100%);
+}
+
+.grid-3 .card:nth-child(3n + 2) {
+  background: linear-gradient(160deg, #ffffff 0%, #eaf6ff 100%);
+}
+
+.grid-3 .card:nth-child(3n) {
+  background: linear-gradient(160deg, #ffffff 0%, #ebfbf7 100%);
+}
+
+.cta {
+  background: linear-gradient(135deg, #1a47d1 0%, #2f63ff 62%, #23bea6 100%);
+}
