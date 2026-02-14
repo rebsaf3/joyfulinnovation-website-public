@@ -599,7 +599,7 @@ footer {
   border-bottom: 1px solid #d7cdbc;
 }
 
-\.post-card h3 {
+.post-card h3 {
   margin-top: 12px;
   padding: 0 14px;
   font-size: 1.02rem;
@@ -627,7 +627,7 @@ footer {
   background: #eef4f1;
 }
 
- .post-card p {
+.post-card p {
   padding: 0 14px;
 }
 
@@ -646,7 +646,7 @@ footer {
   font-size: 0.78rem;
   font-weight: 760;
   letter-spacing: 0.01em;
-  margin: 0 0 10px;
+  margin: 12px 14px 4px;
 }
 
 .blog-hero {
@@ -733,5 +733,12 @@ footer {
 }
 
 
+
+
+
+
+.post-label + h3 {
+  margin-top: 0;
+}
 
 
