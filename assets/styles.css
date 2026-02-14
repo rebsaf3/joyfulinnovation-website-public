@@ -600,3 +600,37 @@ footer {
   font-size: 1.02rem;
   line-height: 1.3;
 }
+
+.blog-post {
+  background: linear-gradient(180deg, #fffefb 0%, #f5efe2 100%);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 0;
+  overflow: hidden;
+  box-shadow: var(--shadow-soft);
+}
+
+.blog-hero-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-bottom: 1px solid #d7cdbc;
+  background: #eef4f1;
+}
+
+.blog-body {
+  padding: 24px;
+  max-width: 860px;
+}
+
+.blog-body h2 {
+  margin-top: 20px;
+  margin-bottom: 8px;
+  font-size: 1.28rem;
+}
+
+.blog-body p {
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: var(--muted);
+}
