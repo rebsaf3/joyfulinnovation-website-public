@@ -497,3 +497,19 @@ footer {
     padding-top: 34px;
   }
 }
+
+
+.card-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.btn-login-compact {
+  min-height: 34px;
+  padding: 0 12px;
+  font-size: 0.86rem;
+  letter-spacing: 0.01em;
+  box-shadow: 0 6px 14px rgba(24, 93, 81, 0.22);
+}
