@@ -1138,3 +1138,5 @@ main > section:not(.hero):not(.page-hero):not(.cta) {
 }
 
 .span-all { grid-column: 1 / -1; }
+
+.how-we-work-graphic { width: 100%; height: auto; display: block; border-radius: 18px; border: 1px solid var(--border); box-shadow: var(--shadow-soft); background: #fff; }
