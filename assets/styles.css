@@ -907,3 +907,37 @@ footer {
     grid-template-columns: 1fr;
   }
 }
+
+.support-hero {
+  background:
+    radial-gradient(circle at 14% 0%, rgba(13, 107, 95, 0.14) 0%, transparent 34%),
+    radial-gradient(circle at 86% 0%, rgba(208, 137, 47, 0.13) 0%, transparent 32%),
+    linear-gradient(165deg, #fffefb 0%, #f1eadc 100%);
+  border: 1px solid #d8ccb7;
+  border-radius: 18px;
+  padding: 20px;
+  box-shadow: var(--shadow-soft);
+}
+
+.support-featured {
+  background:
+    radial-gradient(circle at 8% 0%, rgba(21, 108, 157, 0.12) 0%, transparent 30%),
+    linear-gradient(160deg, #fffefb 0%, #edf3f8 100%);
+  border-color: #c8d7e6;
+}
+
+.support-ticket-zone .support-card:first-child {
+  background: linear-gradient(160deg, #fffefb 0%, #edf7f3 100%);
+}
+
+.support-ticket-zone .support-card:last-child {
+  background: linear-gradient(160deg, #fffefb 0%, #f0f4fa 100%);
+}
+
+.support-intake .card {
+  background: linear-gradient(165deg, #fffefb 0%, #f6efe2 100%);
+}
+
+.support-count {
+  font-weight: 650;
+}

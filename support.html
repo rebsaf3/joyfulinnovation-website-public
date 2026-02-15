@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Support | Joyful Innovation</title>
-    <meta name="description" content="Support center for NyLi products with lightweight ticket tracking and searchable knowledge base resources." />
+    <meta name="description" content="Support center with searchable knowledge base, lightweight ticketing, and consultation intake for NyLi products." />
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
     <link rel="stylesheet" href="assets/styles.css" />
   </head>
@@ -19,8 +19,6 @@
             <a href="/services">Services</a>
             <a href="/insights">Resources</a>
             <a href="/support" aria-current="page">Support</a>
-            <a href="/contact">Contact Us</a>
-
             <details class="login-menu">
               <summary class="btn btn-secondary">Login</summary>
               <div class="login-menu-list">
@@ -35,62 +33,17 @@
     </header>
 
     <main class="container">
-      <section class="page-hero">
+      <section class="page-hero support-hero">
         <p class="breadcrumb"><a href="/">Home</a> / Support</p>
-        <h1>Support</h1>
-        <p class="section-copy">Open a support request and search the knowledge base by product. This page is designed for fast triage and quick self-service answers.</p>
+        <h1>Support Center</h1>
+        <p class="section-copy">Start with the knowledge base, open a ticket when needed, and submit consultation requests from one page.</p>
       </section>
 
-      <section class="support-grid">
-        <article class="card support-card">
-          <h2>Submit a Ticket</h2>
-          <p class="section-copy">Lightweight request capture for product and implementation support.</p>
-          <form id="ticket-form" class="support-form">
-            <label for="ticket-name">Name</label>
-            <input id="ticket-name" name="name" type="text" required />
-
-            <label for="ticket-email">Work Email</label>
-            <input id="ticket-email" name="email" type="email" required />
-
-            <label for="ticket-product">Product</label>
-            <select id="ticket-product" name="product" required>
-              <option value="NyLi Assets">NyLi Assets</option>
-              <option value="NyLi Insights">NyLi Insights</option>
-              <option value="NyLi Agent">NyLi Agent</option>
-              <option value="General">General</option>
-            </select>
-
-            <label for="ticket-priority">Priority</label>
-            <select id="ticket-priority" name="priority" required>
-              <option value="Low">Low</option>
-              <option value="Medium" selected>Medium</option>
-              <option value="High">High</option>
-            </select>
-
-            <label for="ticket-subject">Subject</label>
-            <input id="ticket-subject" name="subject" type="text" required />
-
-            <label for="ticket-details">Details</label>
-            <textarea id="ticket-details" name="details" rows="5" required placeholder="Describe issue, business impact, and what you already tried."></textarea>
-
-            <button type="submit" class="btn btn-secondary">Create Ticket</button>
-          </form>
-          <p id="ticket-message" class="support-note" role="status" aria-live="polite"></p>
-          <p class="support-note">Note: ticket history on this page is stored in your current browser for lightweight tracking.</p>
-        </article>
-
-        <article class="card support-card">
-          <h2>Recent Tickets</h2>
-          <p class="section-copy">Latest requests created from this browser session history.</p>
-          <ul id="ticket-list" class="ticket-list"></ul>
-        </article>
-      </section>
-
-      <section>
+      <section class="card support-featured">
         <h2>Knowledge Base</h2>
-        <p class="section-copy">Filter by product and search across article titles and summaries.</p>
+        <p class="section-copy">Search by keyword and filter by product to quickly find setup, troubleshooting, and governance guidance.</p>
         <div class="kb-controls">
-          <label for="kb-product">Product Filter</label>
+          <label for="kb-product">Product</label>
           <select id="kb-product">
             <option value="all">All Products</option>
             <option value="assets">NyLi Assets</option>
@@ -101,7 +54,7 @@
           <label for="kb-search">Search</label>
           <input id="kb-search" type="search" placeholder="Search topics, workflows, and troubleshooting" />
         </div>
-        <p id="kb-count" class="section-copy" style="margin-top:10px;">Showing all knowledge base articles</p>
+        <p id="kb-count" class="section-copy support-count">Showing all knowledge base articles</p>
         <div class="grid-3" id="kb-grid">
           <article class="card kb-card" data-product="assets" data-search="license compare csv active directory mismatch users upload troubleshooting">
             <p class="post-label">NyLi Assets</p>
@@ -135,6 +88,96 @@
           </article>
         </div>
       </section>
+
+      <section class="support-grid support-ticket-zone">
+        <article class="card support-card">
+          <h2>Submit a Ticket</h2>
+          <p class="section-copy">Open a support request for product issues, access problems, or data workflow blockers.</p>
+          <form id="ticket-form" class="support-form">
+            <label for="ticket-name">Name</label>
+            <input id="ticket-name" name="name" type="text" required />
+
+            <label for="ticket-email">Work Email</label>
+            <input id="ticket-email" name="email" type="email" required />
+
+            <label for="ticket-product">Product</label>
+            <select id="ticket-product" name="product" required>
+              <option value="NyLi Assets">NyLi Assets</option>
+              <option value="NyLi Insights">NyLi Insights</option>
+              <option value="NyLi Agent">NyLi Agent</option>
+              <option value="General">General</option>
+            </select>
+
+            <label for="ticket-priority">Priority</label>
+            <select id="ticket-priority" name="priority" required>
+              <option value="Low">Low</option>
+              <option value="Medium" selected>Medium</option>
+              <option value="High">High</option>
+            </select>
+
+            <label for="ticket-subject">Subject</label>
+            <input id="ticket-subject" name="subject" type="text" required />
+
+            <label for="ticket-details">Details</label>
+            <textarea id="ticket-details" name="details" rows="5" required placeholder="Describe issue, business impact, and what you already tried."></textarea>
+
+            <button type="submit" class="btn btn-secondary">Create Ticket</button>
+          </form>
+          <p id="ticket-message" class="support-note" role="status" aria-live="polite"></p>
+          <p class="support-note">Note: ticket history on this page is stored in your browser for lightweight tracking.</p>
+        </article>
+
+        <article class="card support-card">
+          <h2>Recent Tickets</h2>
+          <p class="section-copy">Latest requests created from this browser.</p>
+          <ul id="ticket-list" class="ticket-list"></ul>
+        </article>
+      </section>
+
+      <section class="split support-intake">
+        <article class="card">
+          <h3>What you get from the first call</h3>
+          <p>Confirm your current process and available data sources.</p>
+          <p>Recommend the best starting path based on your goals and timeline.</p>
+          <p>Outline a practical first-run scope with clear inputs and outputs.</p>
+          <p>Define next steps for implementation planning.</p>
+        </article>
+        <form action="#" method="post">
+          <h3 style="margin-top:0">Consultation Intake</h3>
+          <label for="name">Full Name</label>
+          <input id="name" name="name" type="text" required />
+
+          <label for="email">Work Email</label>
+          <input id="email" name="email" type="email" required />
+
+          <label for="company">Company</label>
+          <input id="company" name="company" type="text" />
+
+          <label for="interest">Primary goal area</label>
+          <select id="interest" name="interest">
+            <option>NyLi Assets (License Reclaim and Audit)</option>
+            <option>NyLi Insights (Analytics and Reporting)</option>
+            <option>General AI Consulting</option>
+          </select>
+
+          <label for="message">Problem area, timeline, systems involved, and desired outcomes</label>
+          <textarea id="message" name="message" required></textarea>
+          <p class="section-copy" style="margin-top:8px">If you can share a sanitized sample export, we can scope faster.</p>
+
+          <div style="margin-top:12px"><button class="btn btn-primary" type="submit">Submit Consultation Request</button></div>
+        </form>
+      </section>
+
+      <section class="stack">
+        <article class="card"><h3>How long does a first run take end to end?</h3><p>Most teams run the compare step in minutes once two CSV files are ready. Verification then runs on your schedule, and reclaim candidates update as responses arrive.</p></article>
+        <article class="card"><h3>What do we need to export from our license system?</h3><p>A CSV with user identifier and license assignment is enough to start. Additional fields improve matching quality, but NyLi Assets works with minimal exports.</p></article>
+        <article class="card"><h3>Do you store our CSV data and for how long?</h3><p>Uploaded CSV row data is stored in the application database to support comparisons, verification workflows, and audit history. Verification responses include timestamp and IP logging. Retention terms are defined in customer agreements and implementation settings. See our <a href="/privacy-policy">Privacy Policy</a> for more detail.</p></article>
+        <article class="card"><h3>Can we disable verification emails and only use compare?</h3><p>Yes. Compare-only is a common starting approach to identify obvious waste and validate data quality before enabling verification.</p></article>
+        <article class="card"><h3>How do you prevent risky deactivations?</h3><p>NyLi Assets provides recommendations, not automatic deactivations. It provides evidence, status tracking, and verification signals so human owners make final decisions.</p></article>
+        <article class="card"><h3>What security controls exist for multi tenant separation?</h3><p>NyLi Assets applies tenant isolation at the application level so company data remains scoped and separated. Contact us for a detailed security review for your environment.</p></article>
+        <article class="card"><h3>Do you support API access?</h3><p>API access is available on Enterprise plans. Use Support to scope the right integration approach for your environment.</p></article>
+        <article class="card"><h3>What does onboarding look like?</h3><p>We guide export setup, run the first compare cycle with you, and walk through verification and reclaim actions so your team can operate with confidence.</p></article>
+      </section>
     </main>
 
     <footer class="site-footer">
@@ -151,7 +194,6 @@
           <a href="/terms">Terms of Service</a>
           <a href="/insights">Resources</a>
           <a href="/support">Support</a>
-          <a href="/contact">Contact Us</a>
         </div>
         <p class="footer-meta">&copy; 2026 Joyful Innovation. All rights reserved.</p>
       </div>
@@ -197,7 +239,7 @@
                   <span class="post-label">${t.product}</span>
                 </div>
                 <p><strong>${t.subject}</strong></p>
-                <p>Priority: ${t.priority} • Status: ${t.status}</p>
+                <p>Priority: ${t.priority} | Status: ${t.status}</p>
                 <p class="support-note">${t.createdAt}</p>
               </li>
             `)
@@ -211,7 +253,7 @@
 
           kbCards.forEach((card) => {
             const cProduct = (card.getAttribute("data-product") || "").toLowerCase();
-            const text = (card.getAttribute("data-search") || "").toLowerCase() + " " + card.textContent.toLowerCase();
+            const text = ((card.getAttribute("data-search") || "") + " " + card.textContent).toLowerCase();
             const productMatch = product === "all" || cProduct === product;
             const searchMatch = !term || text.includes(term);
             const show = productMatch && searchMatch;
