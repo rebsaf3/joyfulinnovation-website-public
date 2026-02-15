@@ -56,13 +56,13 @@ nav {
 .brand {
   display: inline-flex;
   align-items: center;
-  min-height: 42px;
+  min-height: 52px;
   font-weight: 800;
   font-size: 1.14rem;
   text-decoration: none;
   color: var(--text);
 }
-.brand-logo { height: 28px; width: auto; margin-right: 10px; display: inline-block; vertical-align: middle; }
+.brand-logo { height: 44px; width: auto; display: inline-block; vertical-align: middle; }
 
 .brand span { color: var(--brand); }
 
@@ -481,11 +481,17 @@ footer {
 }
 
 @media (max-width: 780px) {
-  .nav-links a:not(.btn) {
-    display: none;
+  .nav-links {
+    width: 100%;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 8px 12px;
   }
 
-  main > section:not(.hero):not(.page-hero):not(.cta) {
+  .nav-links a {
+    display: inline-flex;
+  }
+main > section:not(.hero):not(.page-hero):not(.cta) {
     padding: 18px;
     border-radius: 16px;
   }
