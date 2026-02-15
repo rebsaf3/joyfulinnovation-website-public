@@ -764,3 +764,45 @@ footer {
 .suite-steps .grid-3 .card:nth-child(2) {
   background: linear-gradient(165deg, #ffffff 0%, #e9f5f2 100%);
 }
+
+/* Header login dropdown */
+.login-menu {
+  position: relative;
+}
+
+.login-menu summary {
+  list-style: none;
+}
+
+.login-menu summary::-webkit-details-marker {
+  display: none;
+}
+
+.login-menu-list {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  min-width: 190px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: linear-gradient(180deg, #fffefb 0%, #f3eee3 100%);
+  box-shadow: var(--shadow-soft);
+  padding: 8px;
+  display: grid;
+  gap: 4px;
+  z-index: 40;
+}
+
+.login-menu-list a {
+  display: block;
+  min-height: 36px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 650;
+}
+
+.login-menu-list a:hover {
+  background: rgba(13, 107, 95, 0.08);
+}
