@@ -62,7 +62,7 @@ nav {
   text-decoration: none;
   color: var(--text);
 }
-.brand-logo { height: 44px; width: auto; display: inline-block; vertical-align: middle; }
+.brand-logo { height: 72px; width: auto; display: inline-block; vertical-align: middle; }
 
 .brand span { color: var(--brand); }
 
@@ -481,6 +481,55 @@ footer {
 }
 
 @media (max-width: 780px) {
+  .brand-logo { height: 40px; }
+
+  nav {
+    min-height: 62px;
+    flex-wrap: wrap;
+  }
+
+  .nav-toggle-label {
+    display: inline-flex;
+  }
+
+  .nav-links {
+    display: none;
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px 0 0;
+    gap: 8px;
+  }
+
+  .nav-links a {
+    display: inline-flex;
+  }
+
+  .nav-toggle:checked + .nav-toggle-label + .nav-links {
+    display: flex;
+  }
+
+  main > section:not(.hero):not(.page-hero):not(.cta) {
+    padding: 18px;
+    border-radius: 16px;
+  }
+
+  section {
+    padding: 24px 0;
+  }
+
+  .cta {
+    padding: 22px;
+    border-radius: 16px;
+  }
+
+  .page-hero {
+    padding-top: 34px;
+  }
+}
+  nav {
+    min-height: 60px;
+  }
   .nav-links {
     width: 100%;
     justify-content: flex-start;
@@ -977,3 +1026,9 @@ main > section:not(.hero):not(.page-hero):not(.cta) {
 .support-single {
   grid-template-columns: 1fr;
 }
+
+
+/* Mobile nav toggle */
+.nav-toggle { display: none; }
+.nav-toggle-label { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 6px; border-radius: 8px; border: 1px solid var(--border); background: #fffefb; }
+.nav-toggle-label span { display: block; width: 26px; height: 3px; background: var(--text); }
