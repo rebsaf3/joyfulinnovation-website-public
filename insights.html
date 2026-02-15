@@ -38,6 +38,7 @@
 
             <a href="/insights" aria-current="page">Resources</a>
 
+            <a href="/contact">Contact</a>
             <a href="/support">Support</a>
   
 
@@ -100,11 +101,11 @@
         <h2>Filter Resources</h2>
 
         <div class="actions filter-actions">
-          <button type="button" class="btn btn-secondary" data-filter="all" aria-pressed="true">All</button>
-          <button type="button" class="btn btn-secondary" data-filter="blog-posts" aria-pressed="false">Blog Posts</button>
-          <button type="button" class="btn btn-secondary" data-filter="case-studies" aria-pressed="false">Case Studies</button>
-          <button type="button" class="btn btn-secondary" data-filter="strategy-documents" aria-pressed="false">Strategy Documents</button>
-        </div>
+  <button type="button" class="btn btn-secondary" data-filter="all" aria-pressed="true">All</button>
+  <button type="button" class="btn btn-secondary" data-filter="case-studies" aria-pressed="false">Case Studies</button>
+  <button type="button" class="btn btn-secondary" data-filter="blog-posts" aria-pressed="false">Blog Posts</button>
+  <button type="button" class="btn btn-secondary" data-filter="strategy-documents" aria-pressed="false">Strategy Documents</button>
+</div>
         <p id="resource-count" class="section-copy" style="margin:8px 0 0;" aria-live="polite">Showing all resources</p>
 
       </section>
@@ -222,6 +223,8 @@
 
           <a href="/insights">Resources</a>
 
+          <a href="/contact">Contact</a>
+
           <a href="/support">Support</a>
   
 
@@ -249,9 +252,9 @@
           const selected = (filter || "all").toLowerCase();
           const filterLabels = {
             all: "All",
-            guides: "Guides",
-            "case-notes": "Case Notes",
-            templates: "Templates"
+            "blog-posts": "Blog Posts",
+            "case-studies": "Case Studies",
+            "strategy-documents": "Strategy Documents"
           };
           let visibleCount = 0;
 
@@ -295,6 +298,15 @@
   </body>
 
 </html>
+
+
+
+
+
+
+
+
+
 
 
 
