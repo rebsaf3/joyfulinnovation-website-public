@@ -65,6 +65,7 @@
           <button type="button" class="btn btn-secondary kb-tag" data-kb-tag="security" aria-pressed="false">Security</button>
           <button type="button" class="btn btn-secondary kb-tag" data-kb-tag="billing" aria-pressed="false">Billing</button>
           <button type="button" class="btn btn-secondary kb-tag" data-kb-tag="access" aria-pressed="false">Access</button>
+          <button type="button" class="btn btn-secondary kb-tag" data-kb-tag="faq" aria-pressed="false">FAQ</button>
         </div>
 
         <p id="kb-count" class="section-copy support-count">Showing all knowledge base articles</p>
@@ -100,6 +101,47 @@
             <h3>Security and Access FAQ</h3>
             <p>Quick answers for SSO, 2FA, role access, and environment separation across customer workspaces.</p>
           </article>
+          <article class="card kb-card" data-product="general" data-tags="faq,governance,workflows" data-search="How long does a first run take end to end? Most teams run the compare step in minutes once two CSV files are ready. Verification then runs on your schedule, and reclaim candidates update as responses arrive.">
+            <p class="post-label">General</p>
+            <h3>How long does a first run take end to end?</h3>
+            <p>Most teams run the compare step in minutes once two CSV files are ready. Verification then runs on your schedule, and reclaim candidates update as responses arrive.</p>
+          </article>
+          <article class="card kb-card" data-product="general" data-tags="faq,governance,workflows" data-search="What do we need to export from our license system? A CSV with user identifier and license assignment is enough to start. Additional fields improve matching quality, but NyLi Assets works with minimal exports.">
+            <p class="post-label">General</p>
+            <h3>What do we need to export from our license system?</h3>
+            <p>A CSV with user identifier and license assignment is enough to start. Additional fields improve matching quality, but NyLi Assets works with minimal exports.</p>
+          </article>
+          <article class="card kb-card" data-product="general" data-tags="faq,governance,workflows" data-search="Do you store our CSV data and for how long? Uploaded CSV row data is stored in the application database to support comparisons, verification workflows, and audit history. Verification responses include timestamp and IP logging. Retention terms are defined in customer agreements and implementation settings. See our Privacy Policy for more detail.">
+            <p class="post-label">General</p>
+            <h3>Do you store our CSV data and for how long?</h3>
+            <p>Uploaded CSV row data is stored in the application database to support comparisons, verification workflows, and audit history. Verification responses include timestamp and IP logging. Retention terms are defined in customer agreements and implementation settings. See our <a href="/privacy-policy">Privacy Policy</a> for more detail.</p>
+          </article>
+          <article class="card kb-card" data-product="general" data-tags="faq,governance,workflows" data-search="Can we disable verification emails and only use compare? Yes. Compare-only is a common starting approach to identify obvious waste and validate data quality before enabling verification.">
+            <p class="post-label">General</p>
+            <h3>Can we disable verification emails and only use compare?</h3>
+            <p>Yes. Compare-only is a common starting approach to identify obvious waste and validate data quality before enabling verification.</p>
+          </article>
+          <article class="card kb-card" data-product="general" data-tags="faq,governance,workflows" data-search="How do you prevent risky deactivations? NyLi Assets provides recommendations, not automatic deactivations. It provides evidence, status tracking, and verification signals so human owners make final decisions.">
+            <p class="post-label">General</p>
+            <h3>How do you prevent risky deactivations?</h3>
+            <p>NyLi Assets provides recommendations, not automatic deactivations. It provides evidence, status tracking, and verification signals so human owners make final decisions.</p>
+          </article>
+          <article class="card kb-card" data-product="general" data-tags="faq,governance,workflows" data-search="What security controls exist for multi tenant separation? NyLi Assets applies tenant isolation at the application level so company data remains scoped and separated. Contact us for a detailed security review for your environment.">
+            <p class="post-label">General</p>
+            <h3>What security controls exist for multi tenant separation?</h3>
+            <p>NyLi Assets applies tenant isolation at the application level so company data remains scoped and separated. Contact us for a detailed security review for your environment.</p>
+          </article>
+          <article class="card kb-card" data-product="general" data-tags="faq,governance,workflows" data-search="Do you support API access? API access is available on Enterprise plans. Use Support to scope the right integration approach for your environment.">
+            <p class="post-label">General</p>
+            <h3>Do you support API access?</h3>
+            <p>API access is available on Enterprise plans. Use Support to scope the right integration approach for your environment.</p>
+          </article>
+          <article class="card kb-card" data-product="general" data-tags="faq,governance,workflows" data-search="What does onboarding look like? We guide export setup, run the first compare cycle with you, and walk through verification and reclaim actions so your team can operate with confidence.">
+            <p class="post-label">General</p>
+            <h3>What does onboarding look like?</h3>
+            <p>We guide export setup, run the first compare cycle with you, and walk through verification and reclaim actions so your team can operate with confidence.</p>
+          </article>
+
         </div>
       </section>
 
@@ -175,16 +217,7 @@
         </form>
       </section>
 
-      <section class="stack">
-        <article class="card"><h3>How long does a first run take end to end?</h3><p>Most teams run the compare step in minutes once two CSV files are ready. Verification then runs on your schedule, and reclaim candidates update as responses arrive.</p></article>
-        <article class="card"><h3>What do we need to export from our license system?</h3><p>A CSV with user identifier and license assignment is enough to start. Additional fields improve matching quality, but NyLi Assets works with minimal exports.</p></article>
-        <article class="card"><h3>Do you store our CSV data and for how long?</h3><p>Uploaded CSV row data is stored in the application database to support comparisons, verification workflows, and audit history. Verification responses include timestamp and IP logging. Retention terms are defined in customer agreements and implementation settings. See our <a href="/privacy-policy">Privacy Policy</a> for more detail.</p></article>
-        <article class="card"><h3>Can we disable verification emails and only use compare?</h3><p>Yes. Compare-only is a common starting approach to identify obvious waste and validate data quality before enabling verification.</p></article>
-        <article class="card"><h3>How do you prevent risky deactivations?</h3><p>NyLi Assets provides recommendations, not automatic deactivations. It provides evidence, status tracking, and verification signals so human owners make final decisions.</p></article>
-        <article class="card"><h3>What security controls exist for multi tenant separation?</h3><p>NyLi Assets applies tenant isolation at the application level so company data remains scoped and separated. Contact us for a detailed security review for your environment.</p></article>
-        <article class="card"><h3>Do you support API access?</h3><p>API access is available on Enterprise plans. Use Support to scope the right integration approach for your environment.</p></article>
-        <article class="card"><h3>What does onboarding look like?</h3><p>We guide export setup, run the first compare cycle with you, and walk through verification and reclaim actions so your team can operate with confidence.</p></article>
-      </section>
+      
     </main>
 
     <footer class="site-footer">
