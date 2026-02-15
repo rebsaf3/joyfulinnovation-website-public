@@ -1101,3 +1101,9 @@ main > section:not(.hero):not(.page-hero):not(.cta) {
 
 .top-align .card { justify-content: flex-start; }
 .top-align .card p:last-child { margin-top: 8px; }
+
+/* Desktop nav fix */
+@media (min-width: 781px) {
+  .nav-links { display: flex !important; }
+  .nav-toggle-label { display: none !important; }
+}
