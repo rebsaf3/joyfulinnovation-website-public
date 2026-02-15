@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="AI chatbot evolution: rules to NLU to generative assistants, with trends and adoption signals.">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#eef2f7"/>
+      <stop offset="1" stop-color="#f4eee0"/>
+    </linearGradient>
+    <linearGradient id="card" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fffefb"/>
+      <stop offset="1" stop-color="#f3eee3"/>
+    </linearGradient>
+    <linearGradient id="bar" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#0d6b5f"/>
+      <stop offset="1" stop-color="#d0892f"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <rect x="80" y="92" width="1040" height="446" rx="26" fill="url(#card)" stroke="#dfd5c4" stroke-width="2"/>
+  <rect x="80" y="92" width="1040" height="8" rx="4" fill="url(#bar)"/>
+
+  <text x="130" y="164" font-family="Inter, system-ui, Arial" font-size="32" font-weight="800" fill="#1f2a34">AI Chatbots: Concepts and Trends</text>
+  <text x="130" y="198" font-family="Inter, system-ui, Arial" font-size="18" fill="#596572">From basic responders to assistants with NLP, NLU, and LLMs.</text>
+
+  <g>
+    <rect x="130" y="244" width="310" height="260" rx="18" fill="#fff" stroke="#dfd5c4"/>
+    <text x="156" y="284" font-family="Inter, system-ui, Arial" font-size="16" font-weight="800" fill="#1f2a34">Evolution</text>
+
+    <g>
+      <rect x="156" y="306" width="250" height="54" rx="14" fill="#f5efe2" stroke="#dfd5c4"/>
+      <text x="176" y="338" font-family="Inter, system-ui, Arial" font-size="14" font-weight="800" fill="#d0892f">Rule-based</text>
+      <text x="176" y="356" font-family="Inter, system-ui, Arial" font-size="12" fill="#596572">Rigid decision trees</text>
+
+      <rect x="156" y="374" width="250" height="54" rx="14" fill="#eef2f7" stroke="#d6deea"/>
+      <text x="176" y="406" font-family="Inter, system-ui, Arial" font-size="14" font-weight="800" fill="#1a6fa1">NLU/NLP</text>
+      <text x="176" y="424" font-family="Inter, system-ui, Arial" font-size="12" fill="#596572">Intent + entities</text>
+
+      <rect x="156" y="442" width="250" height="54" rx="14" fill="#edf7f3" stroke="#cfe7de"/>
+      <text x="176" y="474" font-family="Inter, system-ui, Arial" font-size="14" font-weight="800" fill="#075247">LLM assistants</text>
+      <text x="176" y="492" font-family="Inter, system-ui, Arial" font-size="12" fill="#596572">Generative responses</text>
+    </g>
+  </g>
+
+  <g opacity="0.55">
+    <path d="M 440 333 H 478" stroke="#1f2a34" stroke-width="4" stroke-linecap="round"/>
+    <path d="M 468 323 L 478 333 L 468 343" fill="#1f2a34"/>
+    <path d="M 440 401 H 478" stroke="#1f2a34" stroke-width="4" stroke-linecap="round"/>
+    <path d="M 468 391 L 478 401 L 468 411" fill="#1f2a34"/>
+    <path d="M 440 469 H 478" stroke="#1f2a34" stroke-width="4" stroke-linecap="round"/>
+    <path d="M 468 459 L 478 469 L 468 479" fill="#1f2a34"/>
+  </g>
+
+  <g>
+    <rect x="500" y="244" width="620" height="124" rx="18" fill="#eef2f7" stroke="#d6deea"/>
+    <text x="526" y="284" font-family="Inter, system-ui, Arial" font-size="16" font-weight="800" fill="#1a6fa1">Key concepts</text>
+    <g font-family="Inter, system-ui, Arial" font-size="14" fill="#596572">
+      <text x="526" y="312">NLP and NLU for meaning and intent</text>
+      <text x="526" y="336">LLMs for richer responses and ambiguity handling</text>
+      <text x="526" y="360">Virtual assistants vs. traditional bots</text>
+    </g>
+  </g>
+
+  <g>
+    <rect x="500" y="392" width="620" height="112" rx="18" fill="#edf7f3" stroke="#cfe7de"/>
+    <text x="526" y="432" font-family="Inter, system-ui, Arial" font-size="16" font-weight="800" fill="#075247">Adoption trends</text>
+    <g font-family="Inter, system-ui, Arial" font-size="14" fill="#596572">
+      <text x="526" y="460">More interest, uneven execution</text>
+      <text x="526" y="484">Success depends on strategy, workflows, and people</text>
+    </g>
+
+    <g>
+      <rect x="902" y="428" width="192" height="10" rx="5" fill="#0d6b5f" opacity="0.18"/>
+      <rect x="902" y="448" width="152" height="10" rx="5" fill="#0d6b5f" opacity="0.12"/>
+      <rect x="902" y="468" width="176" height="10" rx="5" fill="#0d6b5f" opacity="0.10"/>
+      <circle cx="890" cy="433" r="8" fill="#0d6b5f" opacity="0.25"/>
+      <circle cx="890" cy="453" r="8" fill="#0d6b5f" opacity="0.20"/>
+      <circle cx="890" cy="473" r="8" fill="#0d6b5f" opacity="0.16"/>
+    </g>
+  </g>
+</svg>
