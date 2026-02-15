@@ -1092,3 +1092,6 @@ main > section:not(.hero):not(.page-hero):not(.cta) {
   .nav-links a { display: inline-flex; }
   .nav-toggle:checked + .nav-toggle-label + .nav-links { display: flex; }
 }
+
+.top-align .card { justify-content: flex-start; }
+.top-align .card p:last-child { margin-top: 8px; }
