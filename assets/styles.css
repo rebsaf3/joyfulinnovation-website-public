@@ -1107,3 +1107,16 @@ main > section:not(.hero):not(.page-hero):not(.cta) {
   .nav-links { display: flex !important; }
   .nav-toggle-label { display: none !important; }
 }
+
+/* Desktop vs mobile nav split */
+@media (min-width: 781px) {
+  .nav-toggle { display: none !important; }
+  .nav-toggle-label { display: none !important; }
+  .nav-links { display: flex !important; flex-wrap: nowrap; }
+}
+
+@media (max-width: 780px) {
+  .nav-links { display: none; width: 100%; flex-direction: column; align-items: flex-start; padding: 10px 0 0; gap: 10px; }
+  .nav-toggle:checked + .nav-toggle-label + .nav-links { display: flex; }
+  .nav-toggle-label { display: inline-flex; }
+}
