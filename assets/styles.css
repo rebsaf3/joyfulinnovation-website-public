@@ -1137,6 +1137,43 @@ main > section:not(.hero):not(.page-hero):not(.cta) {
   .login-menu-list { position: absolute; right: 0; top: calc(100% + 8px); }
 }
 
+.how-we-work-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  align-items: stretch;
+}
+
+.how-we-work-grid .card {
+  display: flex;
+  flex-direction: column;
+  min-height: 210px;
+}
+
+.how-we-work-grid .card h3 {
+  font-size: 1.02rem;
+}
+
+.how-we-work-grid .card p {
+  margin-top: 8px;
+}
+
+@media (max-width: 1000px) {
+  .how-we-work-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .how-we-work-grid .card {
+    min-height: 0;
+  }
+}
+
+@media (max-width: 720px) {
+  .how-we-work-grid {
+    grid-template-columns: 1fr;
+  }
+}
 .span-all { grid-column: 1 / -1; }
 
 .how-we-work-graphic { width: 100%; height: auto; display: block; border-radius: 18px; border: 1px solid var(--border); box-shadow: var(--shadow-soft); background: #fff; }
+
