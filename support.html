@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Support | Joyful Innovation</title>
+    <meta name="description" content="Support center for NyLi products with lightweight ticket tracking and searchable knowledge base resources." />
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+    <link rel="stylesheet" href="assets/styles.css" />
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <nav>
+          <a class="brand" href="/">Joyful <span>Innovation</span></a>
+          <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/products">Products</a>
+            <a href="/services">Services</a>
+            <a href="/insights">Resources</a>
+            <a href="/support" aria-current="page">Support</a>
+            <a href="/contact">Contact Us</a>
+
+            <details class="login-menu">
+              <summary class="btn btn-secondary">Login</summary>
+              <div class="login-menu-list">
+                <a href="https://leo-production-d251.up.railway.app/login" target="_blank" rel="noopener noreferrer">NyLi Assets</a>
+                <a href="https://insight-pilot-production.up.railway.app/" target="_blank" rel="noopener noreferrer">NyLi Insights</a>
+                <a href="https://nyli.railway.internal" target="_blank" rel="noopener noreferrer">NyLi Agent</a>
+              </div>
+            </details>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="page-hero">
+        <p class="breadcrumb"><a href="/">Home</a> / Support</p>
+        <h1>Support</h1>
+        <p class="section-copy">Open a support request and search the knowledge base by product. This page is designed for fast triage and quick self-service answers.</p>
+      </section>
+
+      <section class="support-grid">
+        <article class="card support-card">
+          <h2>Submit a Ticket</h2>
+          <p class="section-copy">Lightweight request capture for product and implementation support.</p>
+          <form id="ticket-form" class="support-form">
+            <label for="ticket-name">Name</label>
+            <input id="ticket-name" name="name" type="text" required />
+
+            <label for="ticket-email">Work Email</label>
+            <input id="ticket-email" name="email" type="email" required />
+
+            <label for="ticket-product">Product</label>
+            <select id="ticket-product" name="product" required>
+              <option value="NyLi Assets">NyLi Assets</option>
+              <option value="NyLi Insights">NyLi Insights</option>
+              <option value="NyLi Agent">NyLi Agent</option>
+              <option value="General">General</option>
+            </select>
+
+            <label for="ticket-priority">Priority</label>
+            <select id="ticket-priority" name="priority" required>
+              <option value="Low">Low</option>
+              <option value="Medium" selected>Medium</option>
+              <option value="High">High</option>
+            </select>
+
+            <label for="ticket-subject">Subject</label>
+            <input id="ticket-subject" name="subject" type="text" required />
+
+            <label for="ticket-details">Details</label>
+            <textarea id="ticket-details" name="details" rows="5" required placeholder="Describe issue, business impact, and what you already tried."></textarea>
+
+            <button type="submit" class="btn btn-secondary">Create Ticket</button>
+          </form>
+          <p id="ticket-message" class="support-note" role="status" aria-live="polite"></p>
+          <p class="support-note">Note: ticket history on this page is stored in your current browser for lightweight tracking.</p>
+        </article>
+
+        <article class="card support-card">
+          <h2>Recent Tickets</h2>
+          <p class="section-copy">Latest requests created from this browser session history.</p>
+          <ul id="ticket-list" class="ticket-list"></ul>
+        </article>
+      </section>
+
+      <section>
+        <h2>Knowledge Base</h2>
+        <p class="section-copy">Filter by product and search across article titles and summaries.</p>
+        <div class="kb-controls">
+          <label for="kb-product">Product Filter</label>
+          <select id="kb-product">
+            <option value="all">All Products</option>
+            <option value="assets">NyLi Assets</option>
+            <option value="insights">NyLi Insights</option>
+            <option value="agent">NyLi Agent</option>
+            <option value="general">General</option>
+          </select>
+          <label for="kb-search">Search</label>
+          <input id="kb-search" type="search" placeholder="Search topics, workflows, and troubleshooting" />
+        </div>
+        <p id="kb-count" class="section-copy" style="margin-top:10px;">Showing all knowledge base articles</p>
+        <div class="grid-3" id="kb-grid">
+          <article class="card kb-card" data-product="assets" data-search="license compare csv active directory mismatch users upload troubleshooting">
+            <p class="post-label">NyLi Assets</p>
+            <h3>Fix CSV Compare Mismatch Errors</h3>
+            <p>Checklist for column mapping, key normalization, and invalid row handling before rerunning compare.</p>
+          </article>
+          <article class="card kb-card" data-product="assets" data-search="verification emails token status pending revoked reminder cycle">
+            <p class="post-label">NyLi Assets</p>
+            <h3>Verification Workflow Status Guide</h3>
+            <p>Understand pending, confirmed, and revoked states so reclaim decisions are traceable and defensible.</p>
+          </article>
+          <article class="card kb-card" data-product="insights" data-search="dashboard prompt template chart revisions reporting project instructions">
+            <p class="post-label">NyLi Insights</p>
+            <h3>Build a Reusable Reporting Project</h3>
+            <p>Set project instructions and prompt templates to standardize recurring dashboard outputs.</p>
+          </article>
+          <article class="card kb-card" data-product="insights" data-search="credits usage limits top up file size dashboard count plan">
+            <p class="post-label">NyLi Insights</p>
+            <h3>Understand Credits and Usage Limits</h3>
+            <p>How credits are consumed, when resets occur, and what limits apply by plan tier.</p>
+          </article>
+          <article class="card kb-card" data-product="agent" data-search="agent login routing approvals escalation workflow status">
+            <p class="post-label">NyLi Agent</p>
+            <h3>NyLi Agent Access and Routing Basics</h3>
+            <p>Initial setup guidance for sign-in paths, request routing, and status visibility across teams.</p>
+          </article>
+          <article class="card kb-card" data-product="general" data-search="security sso two factor privacy tenancy roles permissions onboarding">
+            <p class="post-label">General</p>
+            <h3>Security and Access FAQ</h3>
+            <p>Quick answers for SSO, 2FA, role access, and environment separation across customer workspaces.</p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-wrap">
+        <div class="footer-top">
+          <div>
+            <p class="footer-quote">"Innovation works best when it feels human."</p>
+            <p class="footer-copy">Joyful Innovation helps teams remove friction, protect focus time, and deliver better outcomes with practical AI.</p>
+          </div>
+          <img class="footer-visual" src="assets/human-connection.svg" alt="Illustration of people collaborating with AI" />
+        </div>
+        <div class="footer-links">
+          <a href="/privacy-policy">Privacy Policy</a>
+          <a href="/terms">Terms of Service</a>
+          <a href="/insights">Resources</a>
+          <a href="/support">Support</a>
+          <a href="/contact">Contact Us</a>
+        </div>
+        <p class="footer-meta">&copy; 2026 Joyful Innovation. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script>
+      (() => {
+        const storageKey = "joyful_support_tickets_v1";
+        const form = document.getElementById("ticket-form");
+        const list = document.getElementById("ticket-list");
+        const msg = document.getElementById("ticket-message");
+
+        const kbProduct = document.getElementById("kb-product");
+        const kbSearch = document.getElementById("kb-search");
+        const kbCount = document.getElementById("kb-count");
+        const kbCards = Array.from(document.querySelectorAll("#kb-grid .kb-card"));
+
+        function loadTickets() {
+          try {
+            return JSON.parse(localStorage.getItem(storageKey) || "[]");
+          } catch {
+            return [];
+          }
+        }
+
+        function saveTickets(tickets) {
+          localStorage.setItem(storageKey, JSON.stringify(tickets));
+        }
+
+        function renderTickets() {
+          const tickets = loadTickets();
+          if (!tickets.length) {
+            list.innerHTML = '<li class="ticket-item"><strong>No tickets yet.</strong><p>Create your first support request using the form.</p></li>';
+            return;
+          }
+
+          list.innerHTML = tickets
+            .slice(0, 8)
+            .map((t) => `
+              <li class="ticket-item">
+                <div class="ticket-top">
+                  <strong>${t.id}</strong>
+                  <span class="post-label">${t.product}</span>
+                </div>
+                <p><strong>${t.subject}</strong></p>
+                <p>Priority: ${t.priority} • Status: ${t.status}</p>
+                <p class="support-note">${t.createdAt}</p>
+              </li>
+            `)
+            .join("");
+        }
+
+        function applyKbFilter() {
+          const product = (kbProduct.value || "all").toLowerCase();
+          const term = (kbSearch.value || "").trim().toLowerCase();
+          let visible = 0;
+
+          kbCards.forEach((card) => {
+            const cProduct = (card.getAttribute("data-product") || "").toLowerCase();
+            const text = (card.getAttribute("data-search") || "").toLowerCase() + " " + card.textContent.toLowerCase();
+            const productMatch = product === "all" || cProduct === product;
+            const searchMatch = !term || text.includes(term);
+            const show = productMatch && searchMatch;
+            card.hidden = !show;
+            card.style.display = show ? "" : "none";
+            if (show) {
+              visible += 1;
+            }
+          });
+
+          kbCount.textContent = product === "all" && !term
+            ? `Showing all knowledge base articles (${visible})`
+            : `Showing ${visible} article${visible === 1 ? "" : "s"}`;
+        }
+
+        form.addEventListener("submit", (event) => {
+          event.preventDefault();
+          const formData = new FormData(form);
+          const ticket = {
+            id: `SUP-${Date.now().toString().slice(-6)}`,
+            name: String(formData.get("name") || "").trim(),
+            email: String(formData.get("email") || "").trim(),
+            product: String(formData.get("product") || "General"),
+            priority: String(formData.get("priority") || "Medium"),
+            subject: String(formData.get("subject") || "").trim(),
+            details: String(formData.get("details") || "").trim(),
+            status: "Open",
+            createdAt: new Date().toLocaleString()
+          };
+
+          const tickets = loadTickets();
+          tickets.unshift(ticket);
+          saveTickets(tickets);
+          renderTickets();
+          msg.textContent = `Ticket ${ticket.id} created.`;
+          form.reset();
+        });
+
+        kbProduct.addEventListener("change", applyKbFilter);
+        kbSearch.addEventListener("input", applyKbFilter);
+
+        renderTickets();
+        applyKbFilter();
+      })();
+    </script>
+  </body>
+</html>

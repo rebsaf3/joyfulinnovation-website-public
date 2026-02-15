@@ -806,3 +806,104 @@ footer {
 .login-menu-list a:hover {
   background: rgba(13, 107, 95, 0.08);
 }
+
+/* Support page */
+.support-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 14px;
+}
+
+.support-card h2 {
+  margin-bottom: 8px;
+}
+
+.support-form {
+  display: grid;
+  gap: 8px;
+}
+
+.support-form label {
+  font-weight: 650;
+  color: var(--text);
+}
+
+.support-form input,
+.support-form select,
+.support-form textarea {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  background: #fff;
+  color: var(--text);
+  font: inherit;
+}
+
+.support-form textarea {
+  resize: vertical;
+}
+
+.support-note {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.ticket-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.ticket-item {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px;
+  background: #fffdf9;
+}
+
+.ticket-item p {
+  margin: 6px 0 0;
+}
+
+.ticket-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.kb-controls {
+  display: grid;
+  grid-template-columns: auto minmax(180px, 260px) auto minmax(220px, 1fr);
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.kb-controls label {
+  font-weight: 650;
+}
+
+.kb-controls select,
+.kb-controls input {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  background: #fff;
+  color: var(--text);
+  font: inherit;
+}
+
+@media (max-width: 980px) {
+  .support-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .kb-controls {
+    grid-template-columns: 1fr;
+  }
+}
