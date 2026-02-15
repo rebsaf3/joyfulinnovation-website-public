@@ -41,7 +41,8 @@
 
       <section class="card support-featured">
         <h2>Knowledge Base</h2>
-        <p class="section-copy">Search by keyword and filter by product to quickly find setup, troubleshooting, and governance guidance.</p>
+        <p class="section-copy">Search by keyword and filter by product and tag to quickly find setup, troubleshooting, and governance guidance.</p>
+
         <div class="kb-controls">
           <label for="kb-product">Product</label>
           <select id="kb-product">
@@ -54,34 +55,47 @@
           <label for="kb-search">Search</label>
           <input id="kb-search" type="search" placeholder="Search topics, workflows, and troubleshooting" />
         </div>
+
+        <div class="kb-tags" role="group" aria-label="Knowledge base tag filters">
+          <button type="button" class="btn btn-secondary kb-tag active" data-kb-tag="all" aria-pressed="true">All Tags</button>
+          <button type="button" class="btn btn-secondary kb-tag" data-kb-tag="setup" aria-pressed="false">Setup</button>
+          <button type="button" class="btn btn-secondary kb-tag" data-kb-tag="troubleshooting" aria-pressed="false">Troubleshooting</button>
+          <button type="button" class="btn btn-secondary kb-tag" data-kb-tag="workflows" aria-pressed="false">Workflows</button>
+          <button type="button" class="btn btn-secondary kb-tag" data-kb-tag="governance" aria-pressed="false">Governance</button>
+          <button type="button" class="btn btn-secondary kb-tag" data-kb-tag="security" aria-pressed="false">Security</button>
+          <button type="button" class="btn btn-secondary kb-tag" data-kb-tag="billing" aria-pressed="false">Billing</button>
+          <button type="button" class="btn btn-secondary kb-tag" data-kb-tag="access" aria-pressed="false">Access</button>
+        </div>
+
         <p id="kb-count" class="section-copy support-count">Showing all knowledge base articles</p>
+
         <div class="grid-3" id="kb-grid">
-          <article class="card kb-card" data-product="assets" data-search="license compare csv active directory mismatch users upload troubleshooting">
+          <article class="card kb-card" data-product="assets" data-tags="setup,troubleshooting" data-search="license compare csv active directory mismatch users upload troubleshooting">
             <p class="post-label">NyLi Assets</p>
             <h3>Fix CSV Compare Mismatch Errors</h3>
             <p>Checklist for column mapping, key normalization, and invalid row handling before rerunning compare.</p>
           </article>
-          <article class="card kb-card" data-product="assets" data-search="verification emails token status pending revoked reminder cycle">
+          <article class="card kb-card" data-product="assets" data-tags="workflows,governance" data-search="verification emails token status pending revoked reminder cycle">
             <p class="post-label">NyLi Assets</p>
             <h3>Verification Workflow Status Guide</h3>
             <p>Understand pending, confirmed, and revoked states so reclaim decisions are traceable and defensible.</p>
           </article>
-          <article class="card kb-card" data-product="insights" data-search="dashboard prompt template chart revisions reporting project instructions">
+          <article class="card kb-card" data-product="insights" data-tags="setup,workflows" data-search="dashboard prompt template chart revisions reporting project instructions">
             <p class="post-label">NyLi Insights</p>
             <h3>Build a Reusable Reporting Project</h3>
             <p>Set project instructions and prompt templates to standardize recurring dashboard outputs.</p>
           </article>
-          <article class="card kb-card" data-product="insights" data-search="credits usage limits top up file size dashboard count plan">
+          <article class="card kb-card" data-product="insights" data-tags="billing,troubleshooting" data-search="credits usage limits top up file size dashboard count plan">
             <p class="post-label">NyLi Insights</p>
             <h3>Understand Credits and Usage Limits</h3>
             <p>How credits are consumed, when resets occur, and what limits apply by plan tier.</p>
           </article>
-          <article class="card kb-card" data-product="agent" data-search="agent login routing approvals escalation workflow status">
+          <article class="card kb-card" data-product="agent" data-tags="access,workflows" data-search="agent login routing approvals escalation workflow status">
             <p class="post-label">NyLi Agent</p>
             <h3>NyLi Agent Access and Routing Basics</h3>
             <p>Initial setup guidance for sign-in paths, request routing, and status visibility across teams.</p>
           </article>
-          <article class="card kb-card" data-product="general" data-search="security sso two factor privacy tenancy roles permissions onboarding">
+          <article class="card kb-card" data-product="general" data-tags="security,governance,access" data-search="security sso two factor privacy tenancy roles permissions onboarding">
             <p class="post-label">General</p>
             <h3>Security and Access FAQ</h3>
             <p>Quick answers for SSO, 2FA, role access, and environment separation across customer workspaces.</p>
@@ -89,7 +103,7 @@
         </div>
       </section>
 
-      <section class="support-grid support-ticket-zone">
+      <section class="support-grid support-ticket-zone support-single">
         <article class="card support-card">
           <h2>Submit a Ticket</h2>
           <p class="section-copy">Open a support request for product issues, access problems, or data workflow blockers.</p>
@@ -124,13 +138,6 @@
             <button type="submit" class="btn btn-secondary">Create Ticket</button>
           </form>
           <p id="ticket-message" class="support-note" role="status" aria-live="polite"></p>
-          <p class="support-note">Note: ticket history on this page is stored in your browser for lightweight tracking.</p>
-        </article>
-
-        <article class="card support-card">
-          <h2>Recent Tickets</h2>
-          <p class="section-copy">Latest requests created from this browser.</p>
-          <ul id="ticket-list" class="ticket-list"></ul>
         </article>
       </section>
 
@@ -201,50 +208,16 @@
 
     <script>
       (() => {
-        const storageKey = "joyful_support_tickets_v1";
         const form = document.getElementById("ticket-form");
-        const list = document.getElementById("ticket-list");
         const msg = document.getElementById("ticket-message");
 
         const kbProduct = document.getElementById("kb-product");
         const kbSearch = document.getElementById("kb-search");
         const kbCount = document.getElementById("kb-count");
         const kbCards = Array.from(document.querySelectorAll("#kb-grid .kb-card"));
+        const kbTags = Array.from(document.querySelectorAll("button[data-kb-tag]"));
 
-        function loadTickets() {
-          try {
-            return JSON.parse(localStorage.getItem(storageKey) || "[]");
-          } catch {
-            return [];
-          }
-        }
-
-        function saveTickets(tickets) {
-          localStorage.setItem(storageKey, JSON.stringify(tickets));
-        }
-
-        function renderTickets() {
-          const tickets = loadTickets();
-          if (!tickets.length) {
-            list.innerHTML = '<li class="ticket-item"><strong>No tickets yet.</strong><p>Create your first support request using the form.</p></li>';
-            return;
-          }
-
-          list.innerHTML = tickets
-            .slice(0, 8)
-            .map((t) => `
-              <li class="ticket-item">
-                <div class="ticket-top">
-                  <strong>${t.id}</strong>
-                  <span class="post-label">${t.product}</span>
-                </div>
-                <p><strong>${t.subject}</strong></p>
-                <p>Priority: ${t.priority} | Status: ${t.status}</p>
-                <p class="support-note">${t.createdAt}</p>
-              </li>
-            `)
-            .join("");
-        }
+        let activeTag = "all";
 
         function applyKbFilter() {
           const product = (kbProduct.value || "all").toLowerCase();
@@ -253,10 +226,12 @@
 
           kbCards.forEach((card) => {
             const cProduct = (card.getAttribute("data-product") || "").toLowerCase();
+            const cTags = (card.getAttribute("data-tags") || "").toLowerCase().split(",").map((s) => s.trim());
             const text = ((card.getAttribute("data-search") || "") + " " + card.textContent).toLowerCase();
             const productMatch = product === "all" || cProduct === product;
+            const tagMatch = activeTag === "all" || cTags.includes(activeTag);
             const searchMatch = !term || text.includes(term);
-            const show = productMatch && searchMatch;
+            const show = productMatch && tagMatch && searchMatch;
             card.hidden = !show;
             card.style.display = show ? "" : "none";
             if (show) {
@@ -264,38 +239,33 @@
             }
           });
 
-          kbCount.textContent = product === "all" && !term
+          kbCount.textContent = product === "all" && !term && activeTag === "all"
             ? `Showing all knowledge base articles (${visible})`
             : `Showing ${visible} article${visible === 1 ? "" : "s"}`;
         }
 
-        form.addEventListener("submit", (event) => {
-          event.preventDefault();
-          const formData = new FormData(form);
-          const ticket = {
-            id: `SUP-${Date.now().toString().slice(-6)}`,
-            name: String(formData.get("name") || "").trim(),
-            email: String(formData.get("email") || "").trim(),
-            product: String(formData.get("product") || "General"),
-            priority: String(formData.get("priority") || "Medium"),
-            subject: String(formData.get("subject") || "").trim(),
-            details: String(formData.get("details") || "").trim(),
-            status: "Open",
-            createdAt: new Date().toLocaleString()
-          };
-
-          const tickets = loadTickets();
-          tickets.unshift(ticket);
-          saveTickets(tickets);
-          renderTickets();
-          msg.textContent = `Ticket ${ticket.id} created.`;
-          form.reset();
-        });
-
         kbProduct.addEventListener("change", applyKbFilter);
         kbSearch.addEventListener("input", applyKbFilter);
 
-        renderTickets();
+        kbTags.forEach((button) => {
+          button.addEventListener("click", () => {
+            activeTag = button.getAttribute("data-kb-tag") || "all";
+            kbTags.forEach((btn) => {
+              const isActive = btn === button;
+              btn.classList.toggle("active", isActive);
+              btn.setAttribute("aria-pressed", String(isActive));
+            });
+            applyKbFilter();
+          });
+        });
+
+        form.addEventListener("submit", (event) => {
+          event.preventDefault();
+          const ticketId = `SUP-${Date.now().toString().slice(-6)}`;
+          msg.textContent = `Ticket ${ticketId} created. We will follow up via email.`;
+          form.reset();
+        });
+
         applyKbFilter();
       })();
     </script>

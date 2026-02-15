@@ -941,3 +941,27 @@ footer {
 .support-count {
   font-weight: 650;
 }
+
+.kb-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 8px 0 2px;
+}
+
+.kb-tag {
+  min-height: 34px;
+  padding: 0 12px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+}
+
+.kb-tag.active {
+  border-color: var(--brand);
+  color: var(--brand-strong);
+  background: linear-gradient(180deg, #f8fffc 0%, #e7f5ef 100%);
+}
+
+.support-single {
+  grid-template-columns: 1fr;
+}
