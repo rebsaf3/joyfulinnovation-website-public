@@ -252,6 +252,7 @@ main > section + section {
   display: flex;
   flex-direction: column;
   min-height: 216px;
+  align-items: flex-start;
 }
 
 .grid-3 .card:nth-child(3n + 2) {
