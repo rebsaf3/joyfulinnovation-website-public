@@ -104,29 +104,39 @@
     <script>
       (() => {
         const buttons = document.querySelectorAll("button[data-filter]");
-        const cards = document.querySelectorAll("#resources-grid .post-card");
+        const cards = document.querySelectorAll("#resources-grid .post-card");
+        const filterDebug = window.location.search.includes("debug=resources");
+
+        function logFilter(message, detail) {
+          if (filterDebug) {
+            console.log("[resources-filter]", message, detail || "");
+          }
+        }
 
-        function applyFilter(filter) {
+        function applyFilter(filter) {
+          logFilter("apply", { filter });
           const selected = (filter || "all").toLowerCase();
           cards.forEach((card) => {
             const topic = (card.getAttribute("data-topic") || "").toLowerCase();
             card.hidden = selected !== "all" && topic !== selected;
           });
           buttons.forEach((btn) => {
-            const isActive = btn.getAttribute("data-filter") == selected;
+            const isActive = btn.getAttribute("data-filter") === selected;
             btn.classList.toggle("active", isActive);
-            btn.setAttribute("aria-pressed", str(isActive).lower());
+            btn.setAttribute("aria-pressed", String(isActive));
           });
         }
 
         buttons.forEach((button) => {
-          button.addEventListener("click", (event) => {
+          button.addEventListener("click", (event) => {
+            logFilter("click", { filter: button.getAttribute("data-filter") });
             event.preventDefault();
             const filter = button.getAttribute("data-filter");
             applyFilter(filter);
           });
         });
 
+        logFilter("init", { buttons: buttons.length, cards: cards.length });
         applyFilter("all");
       })();
     </script>
@@ -141,3 +151,8 @@
 
 
 
+
+
+
+
+
