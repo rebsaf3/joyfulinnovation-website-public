@@ -62,6 +62,7 @@ nav {
   text-decoration: none;
   color: var(--text);
 }
+.brand-logo { height: 28px; width: auto; margin-right: 10px; display: inline-block; vertical-align: middle; }
 
 .brand span { color: var(--brand); }
 
@@ -395,6 +396,8 @@ footer {
   align-items: center;
 }
 
+.footer-logo { height: 34px; width: auto; margin-bottom: 10px; display: inline-block; }
+
 .footer-quote {
   margin: 0;
   font-size: clamp(1.05rem, 2vw, 1.3rem);
@@ -464,6 +467,8 @@ footer {
   .footer-top {
     grid-template-columns: 1fr;
   }
+
+.footer-logo { height: 34px; width: auto; margin-bottom: 10px; display: inline-block; }
 
   .footer-visual {
     justify-self: center;
