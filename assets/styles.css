@@ -481,6 +481,9 @@ footer {
 }
 
 @media (max-width: 780px) {
+  .login-menu { width: 100%; }
+  .login-menu-list { position: static; min-width: 0; width: 100%; }
+  .login-menu summary { width: 100%; justify-content: space-between; }
   .brand-logo { height: 52px; }
 
   nav {
@@ -1084,6 +1087,9 @@ main > section:not(.hero):not(.page-hero):not(.cta) {
 .nav-toggle { position: absolute; opacity: 0; pointer-events: none; }
 .nav-toggle-label { display: none; }
 @media (max-width: 780px) {
+  .login-menu { width: 100%; }
+  .login-menu-list { position: static; min-width: 0; width: 100%; }
+  .login-menu summary { width: 100%; justify-content: space-between; }
   .brand-logo { height: 52px; }
   nav { min-height: 70px; flex-wrap: wrap; }
   .nav-toggle-label { display: inline-flex; flex-direction: column; gap: 5px; cursor: pointer; padding: 6px; border-radius: 8px; border: 1px solid var(--border); background: #fffefb; }
