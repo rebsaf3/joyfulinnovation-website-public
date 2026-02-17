@@ -7,12 +7,22 @@ RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 # Redirect only index.html to site root
 RewriteRule ^index\.html$ / [R=301,L]
 
-# Redirect retired FAQ page to Contact
-RewriteRule ^faq/?$ /contact [R=301,L]
-
+# Map blog post clean URLs
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{DOCUMENT_ROOT}/blog/$1.html -f
+RewriteRule ^blog/(.+?)/?$ blog/$1.html [L]
 # Internally map clean URLs to existing .html files
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{DOCUMENT_ROOT}/$1.html -f
 RewriteRule ^(.+?)/?$ $1.html [L]
+
+# Redirect retired FAQ page to Contact
+RewriteRule ^faq/?$ /contact [R=301,L]
+
+# Redirect legacy blog URLs to /blog/
+RewriteRule ^(insight-[^/]+)/?$ /blog/$1 [R=301,L]
+
+
 
