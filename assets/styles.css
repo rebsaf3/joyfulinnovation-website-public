@@ -62,7 +62,7 @@ nav {
   text-decoration: none;
   color: var(--text);
 }
-.brand-logo { height: clamp(56px, 6vw, 104px); width: auto; display: inline-block; vertical-align: middle; }
+.brand-logo { height: clamp(64px, 7vw, 120px); width: auto; display: inline-block; vertical-align: middle; }
 
 .brand span { color: var(--brand); }
 
@@ -484,7 +484,7 @@ footer {
   .login-menu { width: 100%; }
   .login-menu-list { position: static; min-width: 0; width: 100%; }
   .login-menu summary { width: 100%; justify-content: space-between; }
-  .brand-logo { height: clamp(44px, 10vw, 68px); }
+  .brand-logo { height: clamp(52px, 12vw, 80px); }
 
   nav {
     min-height: 70px;
@@ -1157,7 +1157,7 @@ main > section:not(.hero):not(.page-hero):not(.cta) {
 
 
 /* Nav overrides */
-.brand-logo { height: clamp(56px, 6vw, 104px); width: auto; display: inline-block; vertical-align: middle; }
+.brand-logo { height: clamp(64px, 7vw, 120px); width: auto; display: inline-block; vertical-align: middle; }
 .nav-links { flex-wrap: nowrap; }
 .nav-toggle { position: absolute; opacity: 0; pointer-events: none; }
 .nav-toggle-label { display: none; }
@@ -1165,7 +1165,7 @@ main > section:not(.hero):not(.page-hero):not(.cta) {
   .login-menu { width: 100%; }
   .login-menu-list { position: static; min-width: 0; width: 100%; }
   .login-menu summary { width: 100%; justify-content: space-between; }
-  .brand-logo { height: clamp(44px, 10vw, 68px); }
+  .brand-logo { height: clamp(52px, 12vw, 80px); }
   nav { min-height: 70px; flex-wrap: wrap; }
   .nav-toggle-label { display: inline-flex; flex-direction: column; gap: 5px; cursor: pointer; padding: 6px; border-radius: 8px; border: 1px solid var(--border); background: #fffefb; }
   .nav-toggle-label span { width: 26px; height: 3px; background: var(--text); }
@@ -1256,3 +1256,79 @@ main > section:not(.hero):not(.page-hero):not(.cta) {
 
 
 
+
+
+/* Canonical header and nav sizing */
+header .container nav {
+  min-height: 86px;
+  align-items: center;
+}
+
+header .brand {
+  min-height: 64px;
+  align-items: center;
+}
+
+header .brand-logo {
+  height: clamp(68px, 7.2vw, 124px) !important;
+  width: auto;
+  display: inline-block;
+}
+
+header .nav-links {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: nowrap;
+}
+
+header .nav-links a,
+header .nav-links .btn {
+  min-height: 42px;
+  font-size: 0.95rem;
+  line-height: 1.2;
+}
+
+@media (max-width: 780px) {
+  header .container nav {
+    min-height: 74px;
+    flex-wrap: wrap;
+  }
+
+  header .brand {
+    min-height: 52px;
+  }
+
+  header .brand-logo {
+    height: clamp(56px, 13vw, 86px) !important;
+  }
+
+  header .nav-links {
+    display: none;
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 0 0;
+  }
+
+  header .nav-toggle:checked + .nav-toggle-label + .nav-links {
+    display: flex;
+  }
+}
+
+@media (min-width: 781px) {
+  header .nav-toggle {
+    display: none !important;
+  }
+
+  header .nav-toggle-label {
+    display: none !important;
+  }
+
+  header .nav-links {
+    display: flex !important;
+    flex-direction: row !important;
+    width: auto !important;
+  }
+}
