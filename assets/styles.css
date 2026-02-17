@@ -62,7 +62,7 @@ nav {
   text-decoration: none;
   color: var(--text);
 }
-.brand-logo { height: clamp(64px, 7vw, 120px); width: auto; display: inline-block; vertical-align: middle; }
+.brand-logo { height: clamp(77px, 8.4vw, 144px); width: auto; display: inline-block; vertical-align: middle; }
 
 .brand span { color: var(--brand); }
 
@@ -484,7 +484,7 @@ footer {
   .login-menu { width: 100%; }
   .login-menu-list { position: static; min-width: 0; width: 100%; }
   .login-menu summary { width: 100%; justify-content: space-between; }
-  .brand-logo { height: clamp(52px, 12vw, 80px); }
+  .brand-logo { height: clamp(62px, 14.4vw, 96px); }
 
   nav {
     min-height: 70px;
@@ -1157,7 +1157,7 @@ main > section:not(.hero):not(.page-hero):not(.cta) {
 
 
 /* Nav overrides */
-.brand-logo { height: clamp(64px, 7vw, 120px); width: auto; display: inline-block; vertical-align: middle; }
+.brand-logo { height: clamp(77px, 8.4vw, 144px); width: auto; display: inline-block; vertical-align: middle; }
 .nav-links { flex-wrap: nowrap; }
 .nav-toggle { position: absolute; opacity: 0; pointer-events: none; }
 .nav-toggle-label { display: none; }
@@ -1165,7 +1165,7 @@ main > section:not(.hero):not(.page-hero):not(.cta) {
   .login-menu { width: 100%; }
   .login-menu-list { position: static; min-width: 0; width: 100%; }
   .login-menu summary { width: 100%; justify-content: space-between; }
-  .brand-logo { height: clamp(52px, 12vw, 80px); }
+  .brand-logo { height: clamp(62px, 14.4vw, 96px); }
   nav { min-height: 70px; flex-wrap: wrap; }
   .nav-toggle-label { display: inline-flex; flex-direction: column; gap: 5px; cursor: pointer; padding: 6px; border-radius: 8px; border: 1px solid var(--border); background: #fffefb; }
   .nav-toggle-label span { width: 26px; height: 3px; background: var(--text); }
@@ -1270,7 +1270,7 @@ header .brand {
 }
 
 header .brand-logo {
-  height: clamp(68px, 7.2vw, 124px) !important;
+  height: clamp(82px, 8.6vw, 149px) !important;
   width: auto;
   display: inline-block;
 }
@@ -1300,7 +1300,7 @@ header .nav-links .btn {
   }
 
   header .brand-logo {
-    height: clamp(56px, 13vw, 86px) !important;
+    height: clamp(67px, 15.6vw, 103px) !important;
   }
 
   header .nav-links {
@@ -1332,3 +1332,4 @@ header .nav-links .btn {
     width: auto !important;
   }
 }
+
