@@ -1,0 +1,12 @@
+# Standard Python/Node/General ignores
+__pycache__/
+node_modules/
+.env
+.DS_Store
+*.pyc
+*.pyo
+*.log
+.idea/
+.vscode/
+dist/
+build/
