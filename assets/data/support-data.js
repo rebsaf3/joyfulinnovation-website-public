@@ -43,8 +43,8 @@ window.JOYFUL_SUPPORT_ARTICLES = [
   },
   {
     id: 'support-agent-availability',
-    title: 'NyLi Agent Deployment Expectations',
-    summary: 'What is currently available for production use and how to request onboarding.',
+    title: 'NyLi Agent Access Expectations',
+    summary: 'What NyLi Agent is designed to do and how to request access for your team.',
     product: 'agent',
     tags: ['access', 'faq'],
   },

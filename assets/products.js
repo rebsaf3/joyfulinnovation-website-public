@@ -17,8 +17,8 @@
       cta: 'View NyLi Insights',
     },
     assistant: {
-      title: 'Use NyLi Agent for Production Workflows',
-      copy: 'NyLi Agent supports production implementations with scoped onboarding when you want assistant-led workflows and guided automation goals.',
+      title: 'Add NyLi Agent',
+      copy: 'NyLi Agent is an AI-powered assistant platform for authorized users. Use this path when you want assistant-led workflows like drafting and summarization.',
       href: '/product-flowpilot',
       cta: 'View NyLi Agent',
     },

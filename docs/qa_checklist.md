@@ -21,7 +21,7 @@
    - Verify `Request a demo` routes to `/contact?interest=NyLi%20Insights`.
    - Verify `Go to login options` routes to `/login`.
 3. `product-flowpilot`:
-   - Verify `Request onboarding` routes to `/contact?interest=NyLi%20Agent`.
+   - Verify `Request access` routes to `/contact?interest=NyLi%20Agent`.
    - Verify `Request a demo` routes to `/contact?intent=demo`.
 
 ## Login page routing
@@ -29,7 +29,7 @@
    - NyLi Assets login external link opens.
    - NyLi Insights login external link opens.
    - NyLi Agent login external link opens.
-2. Verify NyLi Agent card also offers `Request onboarding` fallback path.
+2. Verify NyLi Agent card also offers `Request access` fallback path.
 
 ## Contact form submission and success state
 1. Open `/contact` and confirm required fields are present.
