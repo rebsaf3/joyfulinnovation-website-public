@@ -52,13 +52,18 @@
           /></a>
           <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">Menu</button>
           <div class="nav-links" id="primary-nav">
-            <a href="/">Home</a>
-            <a href="/products">Products</a>
-            <a href="/services">Services</a>
-            <a href="/insights">Resources</a>
-            <a href="/support">Support</a>
-            <a href="/contact">Contact</a>
-            <a class="btn btn-secondary" href="/login">Login</a>
+            <div class="nav-main">
+              <a href="/">Home</a>
+              <a href="/products">Products</a>
+              <a href="/services">Services</a>
+              <a href="/insights">Resources</a>
+              <a href="/contact">Contact</a>
+            </div>
+            <div class="nav-utility">
+              <a href="/support">Support</a>
+              <a class="btn btn-secondary" href="/login">Login</a>
+              <a class="btn btn-primary header-cta" href="/contact?intent=demo">Request a demo</a>
+            </div>
           </div>
         </nav>
       </div>
@@ -75,96 +80,239 @@
           </p>
           <div class="hero-actions">
             <a class="btn btn-primary" href="/contact?intent=demo">Request a demo</a>
-            <a class="btn btn-secondary" href="/products">View products</a>
+            <a class="btn btn-secondary" href="#product-paths" data-scroll-link>Explore product paths</a>
             <a class="btn btn-secondary" href="/services">View services</a>
           </div>
-          <div class="hero-metrics">
-            <div class="metric">
-              <strong>Who we serve</strong>
-              Operations, IT, analytics, and business teams across companies and nonprofits.
-            </div>
-            <div class="metric">
-              <strong>What outcomes we deliver</strong>
-              Faster access to trusted information, better visibility into performance, and cleaner execution cycles.
-            </div>
-            <div class="metric">
-              <strong>Why governance matters</strong>
-              Adoption succeeds when ownership, review steps, and enablement are clear from day one.
-            </div>
-          </div>
         </div>
-        <aside class="hero-panel" aria-label="What we deliver">
-          <h2>What we deliver</h2>
-          <ul class="list">
-            <li>Discovery sessions that map business goals to practical delivery scope.</li>
-            <li>NyLi Assets setup for organized, searchable, and reusable content.</li>
-            <li>NyLi Insights dashboard workflows for data-driven decision visibility.</li>
-            <li>NyLi Agent support for assistant-led drafting, summaries, and workflow help.</li>
-            <li>Enablement and operating cadence so teams can sustain adoption.</li>
-          </ul>
+        <aside class="hero-panel hero-router" aria-label="Choose your path">
+          <h2>Choose your path</h2>
+          <p class="small">Jump to the path that matches your first priority.</p>
+          <div class="hero-router-options">
+            <a class="router-tile" href="#path-governed" data-scroll-link>
+              <span class="pill">Governed knowledge</span>
+              <span>Start with trusted, reusable content and knowledge operations.</span>
+            </a>
+            <a class="router-tile" href="#path-visibility" data-scroll-link>
+              <span class="pill">Decision visibility</span>
+              <span>Start with recurring dashboards and operating insight reviews.</span>
+            </a>
+            <a class="router-tile" href="#path-assistant" data-scroll-link>
+              <span class="pill">Assistant support</span>
+              <span>Start with assistant-led workflows and governance planning.</span>
+            </a>
+          </div>
         </aside>
       </section>
 
-      <section>
+      <nav
+        class="products-mini-nav home-section-nav"
+        aria-label="Homepage sections"
+        data-track-sections="overview,how-we-work,product-paths,proof,next-step"
+      >
+        <a class="pill" href="#overview">Overview</a>
+        <a class="pill" href="#how-we-work">How we work</a>
+        <a class="pill" href="#product-paths">Product paths</a>
+        <a class="pill" href="#proof">Proof</a>
+        <a class="pill" href="#next-step">Next step</a>
+      </nav>
+
+      <section class="scroll-target" id="overview">
+        <h2>Overview</h2>
+        <p class="section-copy">Start with the context that shapes an effective rollout.</p>
+        <div class="grid-3 context-card-grid">
+          <a class="card context-card" href="/services#discovery">
+            <span class="context-icon context-icon-serve" aria-hidden="true"></span>
+            <h3>Who we serve</h3>
+            <p>Operations, IT, analytics, and business teams across companies and nonprofits.</p>
+          </a>
+          <a class="card context-card" href="#proof" data-scroll-link>
+            <span class="context-icon context-icon-outcomes" aria-hidden="true"></span>
+            <h3>What outcomes we deliver</h3>
+            <p>Faster access to trusted information, better visibility into performance, and cleaner execution cycles.</p>
+          </a>
+          <a class="card context-card" href="/services#enablement">
+            <span class="context-icon context-icon-governance" aria-hidden="true"></span>
+            <h3>Why governance matters</h3>
+            <p>Adoption succeeds when ownership, review steps, and enablement are clear from day one.</p>
+          </a>
+        </div>
+        <div class="actions section-actions">
+          <a class="btn btn-primary" href="/contact?intent=demo">Request a demo</a>
+          <a class="btn btn-secondary" href="#product-paths" data-scroll-link>Explore product paths</a>
+        </div>
+      </section>
+
+      <section class="scroll-target" id="how-we-work">
         <h2>How we work</h2>
         <p class="section-copy">
           Our approach is built around business outcomes first, then implementation detail. We keep delivery practical, phased,
           and grounded in how people actually work.
         </p>
         <div class="grid-4">
-          <article class="card">
+          <article
+            class="card clickable-card"
+            data-card-link="/services#discovery"
+            role="link"
+            tabindex="0"
+            aria-label="Open services: discovery and strategy"
+          >
             <h3>1. Define the target outcome</h3>
             <p>We align leaders and delivery teams on goals, constraints, and measurable success signals.</p>
           </article>
-          <article class="card">
+          <article
+            class="card clickable-card"
+            data-card-link="/services#trusted-inputs"
+            role="link"
+            tabindex="0"
+            aria-label="Open services: knowledge and content operations"
+          >
             <h3>2. Organize trusted inputs</h3>
             <p>We connect the right data and content sources so decisions start from consistent information.</p>
           </article>
-          <article class="card">
+          <article
+            class="card clickable-card"
+            data-card-link="/services#phased-implementation"
+            role="link"
+            tabindex="0"
+            aria-label="Open services: implementation and integration"
+          >
             <h3>3. Implement in phases</h3>
             <p>We launch practical workflows, iterate quickly, and keep controls in place as adoption grows.</p>
           </article>
-          <article class="card">
+          <article
+            class="card clickable-card"
+            data-card-link="/services#enablement"
+            role="link"
+            tabindex="0"
+            aria-label="Open services: enablement and operating cadence"
+          >
             <h3>4. Enable long-term use</h3>
             <p>We provide training and operating rhythms that help teams sustain outcomes beyond initial rollout.</p>
           </article>
         </div>
-      </section>
-
-      <section>
-        <h2>NyLi product paths</h2>
-        <div class="grid-3">
-          <article class="card">
-            <p class="post-label">NyLi Assets</p>
-            <h3>Content and knowledge backbone</h3>
-            <p>Centralize important assets, improve searchability, and support consistent messaging across teams.</p>
-            <div class="actions">
-              <a class="btn btn-secondary" href="/product-assetpilot">View NyLi Assets</a>
-            </div>
-          </article>
-          <article class="card">
-            <p class="post-label">NyLi Insights</p>
-            <h3>Analytics and decision visibility</h3>
-            <p>Turn raw exports into dashboards, narrative summaries, and recurring performance reviews.</p>
-            <div class="actions">
-              <a class="btn btn-secondary" href="/product-insightpilot">View NyLi Insights</a>
-            </div>
-          </article>
-          <article class="card">
-            <p class="post-label">NyLi Agent</p>
-            <h3>AI assistant interface</h3>
-            <p>Use a web-based assistant to draft content, summarize information, and support routine tasks.</p>
-            <div class="actions">
-              <a class="btn btn-secondary" href="/product-flowpilot">View NyLi Agent</a>
-            </div>
-          </article>
+        <div class="actions section-actions">
+          <a class="btn btn-primary" href="/contact?intent=demo">Request a demo</a>
+          <a class="btn btn-secondary" href="/services">View services</a>
         </div>
       </section>
 
-      <section class="cta">
+      <section class="scroll-target" id="product-paths">
+        <h2>NyLi product paths</h2>
+        <p class="section-copy">Choose the path that best matches your first milestone, then expand from there.</p>
+        <div class="grid-3 product-path-grid">
+          <article
+            class="card clickable-card product-path-card"
+            id="path-governed"
+            data-card-link="/product-assetpilot"
+            role="link"
+            tabindex="0"
+            aria-label="See how NyLi Assets works"
+          >
+            <p class="post-label">Governed knowledge</p>
+            <h3>NyLi Assets</h3>
+            <p>Centralize important assets, improve searchability, and support consistent messaging across teams.</p>
+            <p class="small product-line"><strong>Who it is for:</strong> Teams that need one trusted source for reusable content.</p>
+            <p class="small product-line"><strong>What you get:</strong> A permissioned knowledge backbone for daily execution.</p>
+            <div class="actions">
+              <a class="btn btn-secondary" href="/product-assetpilot">See how it works</a>
+              <a class="btn btn-primary" href="/contact?intent=demo&interest=NyLi%20Assets">Request a demo</a>
+            </div>
+          </article>
+          <article
+            class="card clickable-card product-path-card"
+            id="path-visibility"
+            data-card-link="/product-insightpilot"
+            role="link"
+            tabindex="0"
+            aria-label="See how NyLi Insights works"
+          >
+            <p class="post-label">Decision visibility</p>
+            <h3>NyLi Insights</h3>
+            <p>Turn raw exports into dashboards, narrative summaries, and recurring performance reviews.</p>
+            <p class="small product-line"><strong>Who it is for:</strong> Teams that run on recurring KPI reviews and shared reporting.</p>
+            <p class="small product-line"><strong>What you get:</strong> Decision-ready visibility with consistent operating cadence.</p>
+            <div class="actions">
+              <a class="btn btn-secondary" href="/product-insightpilot">See how it works</a>
+              <a class="btn btn-primary" href="/contact?intent=demo&interest=NyLi%20Insights">Request a demo</a>
+            </div>
+          </article>
+          <article
+            class="card clickable-card product-path-card"
+            id="path-assistant"
+            data-card-link="/product-flowpilot"
+            role="link"
+            tabindex="0"
+            aria-label="See how NyLi Agent works"
+          >
+            <p class="post-label">Assistant support</p>
+            <h3>NyLi Agent</h3>
+            <p>Use a web-based assistant to draft content, summarize information, and support routine tasks.</p>
+            <p class="small product-line"><strong>Who it is for:</strong> Teams preparing assistant-led workflows with clear governance.</p>
+            <p class="small product-line"><strong>What you get:</strong> Guided assistant support aligned with rollout services.</p>
+            <div class="actions">
+              <a class="btn btn-secondary" href="/product-flowpilot">See how it works</a>
+              <a class="btn btn-primary" href="/contact?intent=demo&interest=NyLi%20Agent">Request a demo</a>
+            </div>
+          </article>
+        </div>
+        <div class="actions section-actions">
+          <a class="btn btn-primary" href="/contact?intent=demo">Request a demo</a>
+          <a class="btn btn-secondary" href="/products">Explore product paths</a>
+        </div>
+      </section>
+
+      <section class="scroll-target" id="proof">
+        <h2>Proof</h2>
+        <p class="section-copy">Credibility starts with concrete delivery scope and transparent expectations.</p>
+        <h3>What a first milestone typically includes</h3>
+        <div class="grid-4 proof-grid">
+          <article class="card">
+            <h4 class="proof-title">Discovery brief</h4>
+            <p>Agreed business goals, constraints, and first-milestone scope with owners.</p>
+          </article>
+          <article class="card">
+            <h4 class="proof-title">Source map</h4>
+            <p>Prioritized data/content inputs with access decisions and governance checkpoints.</p>
+          </article>
+          <article class="card">
+            <h4 class="proof-title">Pilot workflow</h4>
+            <p>A usable workflow with initial controls, feedback capture, and iteration rhythm.</p>
+          </article>
+          <article class="card">
+            <h4 class="proof-title">Enablement plan</h4>
+            <p>Role-based adoption steps, handoff expectations, and a recurring review cadence.</p>
+          </article>
+        </div>
+        <div class="grid-2 proof-empty-states">
+          <article class="card proof-placeholder">
+            <h3>Customer logos</h3>
+            <p>Placeholder only. Logos can be added after explicit client approval.</p>
+          </article>
+          <article class="card proof-placeholder">
+            <h3>Testimonials</h3>
+            <p>Placeholder only. Quotes can be added when approved and attributable.</p>
+          </article>
+        </div>
+        <h3>Outcome categories teams track after rollout</h3>
+        <ul class="list proof-list">
+          <li>Time to retrieve trusted information.</li>
+          <li>Consistency of reporting and decision review cadence.</li>
+          <li>Adoption of governed workflows across teams.</li>
+          <li>Reduction in manual status compilation and rework.</li>
+        </ul>
+        <div class="actions section-actions">
+          <a class="btn btn-primary" href="/contact?intent=demo">Request a demo</a>
+          <a class="btn btn-secondary" href="/services">View services</a>
+        </div>
+      </section>
+
+      <section class="cta scroll-target" id="next-step">
         <h2 style="margin-top: 0">Ready to scope your first milestone?</h2>
         <p>Tell us your goals and current tools. We will recommend the right starting mix of products and services.</p>
-        <a class="btn btn-secondary" href="/contact?intent=demo">Request a demo</a>
+        <div class="actions">
+          <a class="btn btn-primary" href="/contact?intent=demo">Request a demo</a>
+          <a class="btn btn-secondary" href="/products">Explore product paths</a>
+        </div>
       </section>
     </main>
 
@@ -174,15 +322,27 @@
           Joyful Innovation combines strategic consulting and practical product delivery to help teams adopt AI and analytics with
           stronger governance and day-to-day usability.
         </p>
-        <div class="footer-links">
-          <a href="/products">Products</a>
-          <a href="/services">Services</a>
-          <a href="/insights">Resources</a>
-          <a href="/support">Support</a>
-          <a href="/contact">Contact</a>
-          <a href="/login">Login</a>
-          <a href="/privacy-policy">Privacy Policy</a>
-          <a href="/terms">Terms of Service</a>
+        <div class="footer-columns" aria-label="Footer links">
+          <div class="footer-col">
+            <h2 class="footer-heading">Explore</h2>
+            <a href="/products">Products</a>
+            <a href="/services">Services</a>
+          </div>
+          <div class="footer-col">
+            <h2 class="footer-heading">Learn</h2>
+            <a href="/insights">Resources</a>
+          </div>
+          <div class="footer-col">
+            <h2 class="footer-heading">Customer</h2>
+            <a href="/support">Support</a>
+            <a href="/contact">Contact</a>
+            <a href="/login">Login</a>
+          </div>
+          <div class="footer-col">
+            <h2 class="footer-heading">Legal</h2>
+            <a href="/privacy-policy">Privacy Policy</a>
+            <a href="/terms">Terms of Service</a>
+          </div>
         </div>
         <p class="footer-meta">© <span id="footer-year">2026</span> Joyful Innovation. All rights reserved.</p>
       </div>
@@ -190,3 +350,4 @@
     <script src="/assets/site.js?v=20260303" defer></script>
   </body>
 </html>
+

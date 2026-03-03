@@ -38,13 +38,18 @@
           /></a>
           <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">Menu</button>
           <div class="nav-links" id="primary-nav">
-            <a href="/">Home</a>
-            <a href="/products">Products</a>
-            <a href="/services">Services</a>
-            <a href="/insights">Resources</a>
-            <a href="/support">Support</a>
-            <a href="/contact">Contact</a>
-            <a class="btn btn-secondary" href="/login">Login</a>
+            <div class="nav-main">
+              <a href="/">Home</a>
+              <a href="/products">Products</a>
+              <a href="/services">Services</a>
+              <a href="/insights">Resources</a>
+              <a href="/contact">Contact</a>
+            </div>
+            <div class="nav-utility">
+              <a href="/support">Support</a>
+              <a class="btn btn-secondary" href="/login">Login</a>
+              <a class="btn btn-primary header-cta" href="/contact?intent=demo">Request a demo</a>
+            </div>
           </div>
         </nav>
       </div>
@@ -81,17 +86,17 @@
       <section>
         <h2>Engagement model</h2>
         <div class="grid-3">
-          <article class="card">
+          <article class="card" id="discovery">
             <p class="post-label">Phase 1</p>
             <h3>Discovery and strategy</h3>
             <p>Assess current tools, data, and team workflows, then prioritize the first solution milestone.</p>
           </article>
-          <article class="card">
+          <article class="card" id="phased-implementation">
             <p class="post-label">Phase 2</p>
             <h3>Implementation and integration</h3>
             <p>Configure product workflows, connect source systems, and launch practical use cases in controlled phases.</p>
           </article>
-          <article class="card">
+          <article class="card" id="enablement">
             <p class="post-label">Phase 3</p>
             <h3>Enablement and operating cadence</h3>
             <p>Train users, define ownership, and establish review routines so teams can sustain results.</p>
@@ -114,7 +119,7 @@
               Build repeatable reporting practices so teams can move from ad hoc exports to recurring decision support.
             </p>
           </article>
-          <article class="card">
+          <article class="card" id="trusted-inputs">
             <h3>Knowledge and content operations</h3>
             <p>
               Structure business content for discoverability and consistency so teams can reuse trusted material quickly.
@@ -132,7 +137,10 @@
       <section class="cta">
         <h2 style="margin-top: 0">Need a consult-first path?</h2>
         <p>Share your current process and target outcome. We will recommend the right starting engagement.</p>
-        <a class="btn btn-secondary" href="/contact?interest=Services">Request a consult</a>
+        <div class="actions">
+          <a class="btn btn-primary" href="/contact?intent=demo">Request a demo</a>
+          <a class="btn btn-secondary" href="/contact?interest=Services">Request a consult</a>
+        </div>
       </section>
     </main>
 
@@ -142,15 +150,27 @@
           Joyful Innovation combines strategic consulting and practical product delivery to help teams adopt AI and analytics with
           stronger governance and day-to-day usability.
         </p>
-        <div class="footer-links">
-          <a href="/products">Products</a>
-          <a href="/services">Services</a>
-          <a href="/insights">Resources</a>
-          <a href="/support">Support</a>
-          <a href="/contact">Contact</a>
-          <a href="/login">Login</a>
-          <a href="/privacy-policy">Privacy Policy</a>
-          <a href="/terms">Terms of Service</a>
+        <div class="footer-columns" aria-label="Footer links">
+          <div class="footer-col">
+            <h2 class="footer-heading">Explore</h2>
+            <a href="/products">Products</a>
+            <a href="/services">Services</a>
+          </div>
+          <div class="footer-col">
+            <h2 class="footer-heading">Learn</h2>
+            <a href="/insights">Resources</a>
+          </div>
+          <div class="footer-col">
+            <h2 class="footer-heading">Customer</h2>
+            <a href="/support">Support</a>
+            <a href="/contact">Contact</a>
+            <a href="/login">Login</a>
+          </div>
+          <div class="footer-col">
+            <h2 class="footer-heading">Legal</h2>
+            <a href="/privacy-policy">Privacy Policy</a>
+            <a href="/terms">Terms of Service</a>
+          </div>
         </div>
         <p class="footer-meta">© <span id="footer-year">2026</span> Joyful Innovation. All rights reserved.</p>
       </div>

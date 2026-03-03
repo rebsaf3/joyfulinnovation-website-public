@@ -107,13 +107,18 @@
           /></a>
           <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">Menu</button>
           <div class="nav-links" id="primary-nav">
-            <a href="/">Home</a>
-            <a href="/products">Products</a>
-            <a href="/services">Services</a>
-            <a href="/insights">Resources</a>
-            <a href="/support">Support</a>
-            <a href="/contact">Contact</a>
-            <a class="btn btn-secondary" href="/login">Login</a>
+            <div class="nav-main">
+              <a href="/">Home</a>
+              <a href="/products">Products</a>
+              <a href="/services">Services</a>
+              <a href="/insights">Resources</a>
+              <a href="/contact">Contact</a>
+            </div>
+            <div class="nav-utility">
+              <a href="/support">Support</a>
+              <a class="btn btn-secondary" href="/login">Login</a>
+              <a class="btn btn-primary header-cta" href="/contact?intent=demo">Request a demo</a>
+            </div>
           </div>
         </nav>
       </div>
@@ -195,15 +200,27 @@
           Joyful Innovation combines strategic consulting and practical product delivery to help teams adopt AI and analytics with
           stronger governance and day-to-day usability.
         </p>
-        <div class="footer-links">
-          <a href="/products">Products</a>
-          <a href="/services">Services</a>
-          <a href="/insights">Resources</a>
-          <a href="/support">Support</a>
-          <a href="/contact">Contact</a>
-          <a href="/login">Login</a>
-          <a href="/privacy-policy">Privacy Policy</a>
-          <a href="/terms">Terms of Service</a>
+        <div class="footer-columns" aria-label="Footer links">
+          <div class="footer-col">
+            <h2 class="footer-heading">Explore</h2>
+            <a href="/products">Products</a>
+            <a href="/services">Services</a>
+          </div>
+          <div class="footer-col">
+            <h2 class="footer-heading">Learn</h2>
+            <a href="/insights">Resources</a>
+          </div>
+          <div class="footer-col">
+            <h2 class="footer-heading">Customer</h2>
+            <a href="/support">Support</a>
+            <a href="/contact">Contact</a>
+            <a href="/login">Login</a>
+          </div>
+          <div class="footer-col">
+            <h2 class="footer-heading">Legal</h2>
+            <a href="/privacy-policy">Privacy Policy</a>
+            <a href="/terms">Terms of Service</a>
+          </div>
         </div>
         <p class="footer-meta">© <span id="footer-year">2026</span> Joyful Innovation. All rights reserved.</p>
       </div>

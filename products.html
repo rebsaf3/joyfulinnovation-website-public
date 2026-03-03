@@ -51,22 +51,72 @@
     </header>
 
     <main id="main-content" class="container">
-      <section class="page-hero">
+      <section class="page-hero scroll-target" id="overview">
         <p class="breadcrumb"><a href="/">Home</a> / Products</p>
         <h1>Products designed for real work: content, analytics, and assistant workflows</h1>
         <p class="section-copy">
           The NyLi suite is built to help teams organize trusted information, understand performance, and move faster with AI support.
           Start with the job to be done, then add services for rollout and adoption.
         </p>
+        <nav class="path-selector" aria-label="Choose a product path">
+          <p class="small" style="margin-top: 10px">Choose a path:</p>
+          <div class="path-selector-links">
+            <a class="pill" href="#nli-assets">Governed knowledge</a>
+            <a class="pill" href="#nli-insights">Decision visibility</a>
+            <a class="pill" href="#nli-agent">Assistant support</a>
+          </div>
+        </nav>
       </section>
 
-      <section>
+      <nav class="products-mini-nav" aria-label="On this page">
+        <a class="pill" href="#overview">Overview</a>
+        <a class="pill" href="#nli-assets">NyLi Assets</a>
+        <a class="pill" href="#nli-insights">NyLi Insights</a>
+        <a class="pill" href="#nli-agent">NyLi Agent</a>
+        <a class="pill" href="#next-step">Next step</a>
+      </nav>
+
+      <section class="scroll-target" id="how-to-choose">
+        <h2>How to choose a starting point</h2>
+        <p class="section-copy">
+          Pick the path that matches your first job-to-be-done. You can layer services in for rollout planning, governance, and operating
+          cadence.
+        </p>
+        <div class="grid-3">
+          <article class="card">
+            <p class="pill">Governed knowledge</p>
+            <h3 style="margin-top: 0">Start with NyLi Assets</h3>
+            <p>Use this when you need one permissioned place for approved decks, FAQs, and internal knowledge with fast retrieval.</p>
+            <div class="actions">
+              <a class="btn btn-secondary" href="#nli-assets">Jump to NyLi Assets</a>
+            </div>
+          </article>
+          <article class="card">
+            <p class="pill">Decision visibility</p>
+            <h3 style="margin-top: 0">Start with NyLi Insights</h3>
+            <p>Use this when you need consistent dashboards, reporting cadence, and shared decision context across teams.</p>
+            <div class="actions">
+              <a class="btn btn-secondary" href="#nli-insights">Jump to NyLi Insights</a>
+            </div>
+          </article>
+          <article class="card">
+            <p class="pill">Assistant support</p>
+            <h3 style="margin-top: 0">Consider NyLi Agent</h3>
+            <p>Use this path when you want an assistant interface for authorized users and are planning workflow and governance.</p>
+            <div class="actions">
+              <a class="btn btn-secondary" href="#nli-agent">Jump to NyLi Agent</a>
+              <a class="btn btn-secondary" href="/services">View services</a>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="product-section scroll-target" id="nli-assets">
         <h2>NyLi Assets</h2>
-        <div class="split">
+        <div class="split product-row" data-href="/product-assetpilot" role="link" tabindex="0" aria-label="View product: NyLi Assets">
           <article class="card">
             <p class="section-copy">
-              <strong>One sentence:</strong> NyLi Assets is a web-based content and knowledge hub where teams store, manage, and retrieve
-              business assets with natural-language search.
+              <strong>What you get:</strong> A governed content and knowledge hub with natural-language search and permissioned access.
             </p>
             <h3>Capabilities</h3>
             <ul class="list">
@@ -75,12 +125,16 @@
               <li>User accounts and permissions so admins can control who can view, upload, and update assets.</li>
             </ul>
             <div class="actions">
-              <a class="btn btn-secondary" href="/product-assetpilot">View NyLi Assets</a>
-              <a class="btn btn-primary" href="/contact?interest=NyLi%20Assets">Request a demo</a>
+              <a class="btn btn-primary" href="/product-assetpilot" aria-label="View product: NyLi Assets">View product</a>
+              <a class="btn btn-secondary" href="/contact?interest=NyLi%20Assets&intent=walkthrough">Request a walkthrough</a>
             </div>
+            <p class="small product-login">
+              <a href="/login">Customer login</a>
+            </p>
           </article>
           <article class="card">
             <h3>Best for</h3>
+            <p class="section-copy best-for-summary">Best for teams that need governed materials that stay consistent across outreach.</p>
             <ul class="list">
               <li>Sales and marketing teams that need consistent, approved messaging.</li>
               <li>Business development prep before meetings and proposals.</li>
@@ -90,13 +144,12 @@
         </div>
       </section>
 
-      <section>
+      <section class="product-section scroll-target" id="nli-insights">
         <h2>NyLi Insights</h2>
-        <div class="split">
+        <div class="split product-row" data-href="/product-insightpilot" role="link" tabindex="0" aria-label="View product: NyLi Insights">
           <article class="card">
             <p class="section-copy">
-              <strong>One sentence:</strong> NyLi Insights is an AI-enhanced analytics and business intelligence platform that turns data into
-              dashboards, summaries, and decision-ready insights through natural-language questions.
+              <strong>What you get:</strong> Dashboards and narrative reporting that turn operational data into decision-ready visibility.
             </p>
             <h3>Capabilities</h3>
             <ul class="list">
@@ -105,12 +158,16 @@
               <li>AI-generated narrative summaries and alert-style notifications for key metric changes.</li>
             </ul>
             <div class="actions">
-              <a class="btn btn-secondary" href="/product-insightpilot">View NyLi Insights</a>
-              <a class="btn btn-primary" href="/contact?interest=NyLi%20Insights">Request a demo</a>
+              <a class="btn btn-primary" href="/product-insightpilot" aria-label="View product: NyLi Insights">View product</a>
+              <a class="btn btn-secondary" href="/contact?interest=NyLi%20Insights&intent=walkthrough">Request a walkthrough</a>
             </div>
+            <p class="small product-login">
+              <a href="/login">Customer login</a>
+            </p>
           </article>
           <article class="card">
             <h3>Best for</h3>
+            <p class="section-copy best-for-summary">Best for teams that need repeatable visibility into KPIs and performance changes.</p>
             <ul class="list">
               <li>Business development and sales teams that need fast answers from data.</li>
               <li>Leaders who want consistent reporting cadence and shared context.</li>
@@ -120,13 +177,16 @@
         </div>
       </section>
 
-      <section>
-        <h2>NyLi Agent</h2>
-        <div class="split">
+      <section class="product-section scroll-target" id="nli-agent">
+        <h2>
+          NyLi Agent
+          <span class="pill product-status" aria-label="Status: in development">In development</span>
+        </h2>
+        <div class="split product-row" data-href="/product-flowpilot" role="link" tabindex="0" aria-label="View product: NyLi Agent">
           <article class="card">
             <p class="section-copy">
-              <strong>One sentence:</strong> NyLi Agent is a web-based AI assistant platform where authorized users log in to ask questions, draft
-              content, and get workflow support.
+              <strong>What you get:</strong> An assistant interface for authorized users, designed for workflow support with governance and
+              service-led rollout.
             </p>
             <h3>Capabilities</h3>
             <ul class="list">
@@ -134,45 +194,45 @@
               <li>Secure login and user accounts for business use.</li>
               <li>Email/notification workflows and saved context for repeatable work.</li>
             </ul>
-            <div class="actions">
-              <a class="btn btn-secondary" href="/product-flowpilot">View NyLi Agent</a>
-              <a class="btn btn-primary" href="/contact?interest=NyLi%20Agent">Request a demo</a>
-            </div>
-          </article>
-          <article class="card">
             <h3>Best for</h3>
+            <p class="section-copy best-for-summary">Best for teams that want assistant-led workflows and are planning governance and rollout.</p>
             <ul class="list">
               <li>Drafting outreach and internal communication faster.</li>
               <li>Summarizing meeting notes and compiling action items.</li>
-              <li>Onboarding support through interactive Q&A.</li>
+              <li>Onboarding support through interactive Q&amp;A.</li>
             </ul>
+            <div class="actions">
+              <a class="btn btn-primary" href="/product-flowpilot" aria-label="View product: NyLi Agent">View product</a>
+              <a class="btn btn-secondary" href="/contact?interest=NyLi%20Agent&intent=walkthrough">Request a walkthrough</a>
+            </div>
+            <p class="small product-login">
+              <a href="/login">Customer login</a>
+            </p>
+          </article>
+          <article class="card">
+            <h3>Status</h3>
+            <p class="section-copy"><strong>Current status:</strong> In development. Not generally available.</p>
+            <p class="section-copy">
+              <strong>What is available today:</strong> Workflow and governance delivery through services, including planning, operating cadence,
+              and rollout support.
+            </p>
+            <div class="actions">
+              <a class="btn btn-secondary" href="/services">View services for workflow + governance</a>
+            </div>
           </article>
         </div>
       </section>
 
-      <section class="decision-helper">
-        <h2>Decision helper</h2>
-        <p class="section-copy">Tell us your primary goal and get a recommended starting point.</p>
-        <form id="decision-helper-form" novalidate>
-          <label for="decision-goal">Primary goal</label>
-          <select id="decision-goal" name="goal" required>
-            <option value="">Choose one</option>
-            <option value="content">Organize trusted content and knowledge</option>
-            <option value="analytics">Improve dashboards and decision visibility</option>
-            <option value="assistant">Add an AI assistant interface for work</option>
-            <option value="strategy">Need implementation strategy first</option>
-          </select>
-          <div class="actions" style="margin-top: 12px">
-            <button type="submit" class="btn btn-primary">Get recommendation</button>
-          </div>
-        </form>
-        <div id="decision-result" style="margin-top: 12px"></div>
-      </section>
-
-      <section class="cta">
-        <h2 style="margin-top: 0">Want help picking the right starting point?</h2>
-        <p>Share your goal and current systems. We will recommend a practical product and rollout path.</p>
-        <a class="btn btn-secondary" href="/contact?intent=demo">Request a demo</a>
+      <section class="cta next-step scroll-target" id="next-step">
+        <h2 style="margin-top: 0">Next step</h2>
+        <p>
+          If you want help choosing a starting mix of products and services, request a walkthrough. We will focus on your first job-to-be-done
+          and the rollout constraints you have today.
+        </p>
+        <div class="actions">
+          <a class="btn btn-primary" href="/contact?intent=walkthrough">Request a walkthrough</a>
+          <a class="btn btn-secondary" href="/services">View services</a>
+        </div>
       </section>
     </main>
 

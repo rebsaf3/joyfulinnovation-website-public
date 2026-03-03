@@ -1,54 +1,151 @@
 (() => {
-  const form = document.getElementById('decision-helper-form');
-  if (!form) return;
+  const prefersReducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches ?? false;
 
-  const output = document.getElementById('decision-result');
-  const map = {
-    content: {
-      title: 'Start with NyLi Assets',
-      copy: 'NyLi Assets is the content and knowledge backbone. Use it when your team needs one place to organize, search, and reuse approved materials.',
-      href: '/product-assetpilot',
-      cta: 'View NyLi Assets',
-    },
-    analytics: {
-      title: 'Start with NyLi Insights',
-      copy: 'NyLi Insights is built for dashboards, natural-language analytics, and clear decision visibility across teams.',
-      href: '/product-insightpilot',
-      cta: 'View NyLi Insights',
-    },
-    assistant: {
-      title: 'Add NyLi Agent',
-      copy: 'NyLi Agent is an AI-powered assistant platform for authorized users. Use this path when you want assistant-led workflows like drafting and summarization.',
-      href: '/product-flowpilot',
-      cta: 'View NyLi Agent',
-    },
-    strategy: {
-      title: 'Start with Services',
-      copy: 'If your first need is rollout planning, governance, or operating cadence, begin with a service engagement and then map products.',
-      href: '/services',
-      cta: 'View Services',
-    },
+  const isInteractiveElement = (element) => {
+    if (!element) return false;
+    return Boolean(element.closest('a, button, input, select, textarea, summary, details, label'));
   };
 
-  form.addEventListener('submit', (event) => {
-    event.preventDefault();
-    const goal = new FormData(form).get('goal');
-    const recommendation = map[goal];
+  const flashTarget = (element) => {
+    if (!element) return;
+    element.classList.add('nav-flash');
+    window.setTimeout(() => {
+      element.classList.remove('nav-flash');
+    }, prefersReducedMotion ? 600 : 1400);
+  };
 
-    if (!recommendation) {
-      output.innerHTML = '<p class="field-error">Choose a goal to get a recommendation.</p>';
-      return;
+  const flashWhenVisible = (section) => {
+    if (!section) return;
+
+    const target = section.querySelector('.product-row') || section;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries.find((item) => item.isIntersecting);
+        if (!entry) return;
+        observer.disconnect();
+        flashTarget(target);
+      },
+      { threshold: 0.6 }
+    );
+
+    observer.observe(section);
+  };
+
+  const focusSection = (section) => {
+    const focusTarget = section.querySelector('h2, h3') || section;
+    if (!focusTarget.hasAttribute('tabindex')) {
+      focusTarget.setAttribute('tabindex', '-1');
     }
+    focusTarget.focus({ preventScroll: true });
+  };
 
-    output.innerHTML = `
-      <article class="card" aria-live="polite">
-        <h3>${recommendation.title}</h3>
-        <p>${recommendation.copy}</p>
-        <div class="actions">
-          <a class="btn btn-secondary" href="${recommendation.href}">${recommendation.cta}</a>
-          <a class="btn btn-primary" href="/contact?intent=demo">Request a demo</a>
-        </div>
-      </article>
-    `;
+  const scrollToSection = (hash, { updateUrl } = { updateUrl: true }) => {
+    if (!hash || !hash.startsWith('#')) return;
+    const section = document.querySelector(hash);
+    if (!section) return;
+
+    section.scrollIntoView({
+      behavior: prefersReducedMotion ? 'auto' : 'smooth',
+      block: 'start',
+    });
+
+    flashWhenVisible(section);
+    focusSection(section);
+
+    if (updateUrl) {
+      history.pushState(null, '', hash);
+    }
+  };
+
+  const enhancedScrollLinks = document.querySelectorAll(
+    '.path-selector a[href^=\"#\"], .products-mini-nav a[href^=\"#\"], #how-to-choose a[href^=\"#\"]'
+  );
+
+  enhancedScrollLinks.forEach((link) => {
+    link.addEventListener('click', (event) => {
+      const hash = link.getAttribute('href');
+      if (!hash || !hash.startsWith('#')) return;
+      const target = document.querySelector(hash);
+      if (!target) return;
+
+      event.preventDefault();
+      scrollToSection(hash);
+    });
   });
+
+  const nav = document.querySelector('.products-mini-nav');
+  const sectionIds = ['overview', 'nli-assets', 'nli-insights', 'nli-agent', 'next-step'];
+  const sections = sectionIds.map((id) => document.getElementById(id)).filter(Boolean);
+  const navLinks = new Map();
+
+  if (nav) {
+    nav.querySelectorAll('a[href^=\"#\"]').forEach((link) => {
+      const hash = link.getAttribute('href') || '';
+      const id = hash.replace('#', '');
+      if (id) navLinks.set(id, link);
+    });
+
+    const setActive = (id) => {
+      const resolved = navLinks.has(id) ? id : 'overview';
+      navLinks.forEach((link, key) => {
+        if (key === resolved) {
+          link.setAttribute('aria-current', 'location');
+        } else {
+          link.removeAttribute('aria-current');
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+        if (!visible[0]) return;
+        setActive(visible[0].target.id);
+      },
+      {
+        rootMargin: '-35% 0px -55% 0px',
+        threshold: [0.15, 0.3, 0.6],
+      }
+    );
+
+    sections.forEach((section) => observer.observe(section));
+
+    window.addEventListener('hashchange', () => {
+      const id = (window.location.hash || '').replace('#', '');
+      if (id) setActive(id);
+    });
+
+    const initialActive = (window.location.hash || '').replace('#', '') || 'overview';
+    setActive(initialActive);
+  }
+
+  const rows = document.querySelectorAll('.product-row[data-href]');
+  rows.forEach((row) => {
+    const href = row.getAttribute('data-href');
+    if (!href) return;
+
+    row.addEventListener('click', (event) => {
+      if (event.defaultPrevented) return;
+      if (isInteractiveElement(event.target)) return;
+      window.location.href = href;
+    });
+
+    row.addEventListener('keydown', (event) => {
+      if (event.defaultPrevented) return;
+      if (isInteractiveElement(event.target)) return;
+      if (event.key !== 'Enter' && event.key !== ' ') return;
+      event.preventDefault();
+      window.location.href = href;
+    });
+  });
+
+  if (window.location.hash) {
+    const section = document.querySelector(window.location.hash);
+    if (section) {
+      flashWhenVisible(section);
+    }
+  }
 })();

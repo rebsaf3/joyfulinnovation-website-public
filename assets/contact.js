@@ -34,7 +34,10 @@
       interestField.value = option.value;
     }
   } else if (interestField && requestedIntent && requestedIntent.toLowerCase() === 'demo') {
-    interestField.value = 'NyLi Assets';
+    const demoOption = Array.from(interestField.options).find((item) => item.value.toLowerCase() === 'request a demo');
+    if (demoOption) {
+      interestField.value = demoOption.value;
+    }
   }
 
   function validateField(field) {
