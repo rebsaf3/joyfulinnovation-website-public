@@ -120,13 +120,13 @@ img {
 }
 
 .brand-logo {
-  width: auto;
-  height: clamp(58px, 8vw, 96px);
-  transition: height 180ms ease;
+  width: clamp(136px, 16vw, 188px);
+  height: auto;
+  transition: width 180ms ease;
 }
 
 .site-header.is-scrolled .brand-logo {
-  height: clamp(50px, 7vw, 80px);
+  width: clamp(124px, 14vw, 164px);
 }
 
 .nav-toggle {
@@ -346,6 +346,10 @@ h4 {
   transition: border-color 150ms ease, box-shadow 150ms ease;
 }
 
+.router-tile span {
+  text-decoration: none;
+}
+
 .router-tile:hover {
   border-color: rgba(15, 105, 94, 0.34);
   box-shadow: 0 10px 20px rgba(31, 44, 56, 0.08);
@@ -429,6 +433,11 @@ h4 {
   flex-direction: column;
   gap: 2px;
   min-height: 178px;
+}
+
+.context-card h3,
+.context-card p {
+  text-decoration: none;
 }
 
 .context-card:hover {
@@ -687,6 +696,8 @@ select[aria-invalid="true"] {
 
 .home-section-nav {
   margin: 10px 0 14px;
+  background: rgba(246, 240, 229, 0.95);
+  border-color: rgba(34, 42, 52, 0.16);
 }
 
 .products-mini-nav .pill {
@@ -697,12 +708,15 @@ select[aria-invalid="true"] {
   flex: 0 0 auto;
   min-height: 40px;
   padding: 0 12px;
+  color: var(--ink-soft);
+  font-weight: 700;
   transition: background 160ms ease, border-color 160ms ease;
 }
 
 .products-mini-nav a[aria-current="location"] {
   background: rgba(15, 105, 94, 0.16);
   border-color: rgba(15, 105, 94, 0.22);
+  color: var(--brand-deep);
 }
 
 .products-mini-nav .pill:focus-visible {
@@ -957,6 +971,8 @@ select[aria-invalid="true"] {
 }
 
 .footer-col a {
+  display: inline-flex;
+  width: fit-content;
   text-decoration: none;
   color: var(--brand-deep);
   font-weight: 700;
@@ -998,7 +1014,7 @@ select[aria-invalid="true"] {
   }
 
   .brand-logo {
-    height: clamp(56px, 16vw, 84px);
+    width: clamp(124px, 32vw, 168px);
   }
 
   .nav-toggle {
