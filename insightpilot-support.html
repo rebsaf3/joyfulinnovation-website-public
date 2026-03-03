@@ -1,137 +1,89 @@
 <!doctype html>
 <html lang="en">
-  <head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>InsightPilot Support and Documentation | Joyful Innovation</title><meta name="description" content="Support and documentation for InsightPilot covering setup, security, pricing, API usage, and troubleshooting." /><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg?v=20260217" /><link rel="stylesheet" href="/assets/styles.css?v=20260217" /></head>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NyLi Insights Support Notes | Joyful Innovation</title>
+    <meta
+      name="description"
+      content="Legacy Insights support route. Use the main Support Center for searchable guidance and escalation paths."
+    />
+    <link rel="canonical" href="https://joyfulinnovation.com/insightpilot-support" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="NyLi Insights Support Notes | Joyful Innovation" />
+    <meta
+      property="og:description"
+      content="Use the Support Center for searchable NyLi support resources and contact paths."
+    />
+    <meta property="og:url" content="https://joyfulinnovation.com/insightpilot-support" />
+    <meta property="og:image" content="https://joyfulinnovation.com/assets/human-connection.svg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="NyLi Insights Support Notes | Joyful Innovation" />
+    <meta
+      name="twitter:description"
+      content="Use the Support Center for searchable NyLi support resources and contact paths."
+    />
+    <meta name="twitter:image" content="https://joyfulinnovation.com/assets/human-connection.svg" />
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg?v=20260303" />
+    <link rel="stylesheet" href="/assets/styles.css?v=20260303" />
+  </head>
   <body>
-    <header>
-
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <header class="site-header">
       <div class="container">
-
-        <nav>
-
-          <a class="brand" href="/"><img class="brand-logo" src="/assets/joyfull_innovation_logo.png" alt="Joyful Innovation logo" /></a><input class="nav-toggle" type="checkbox" id="nav-toggle" /><label class="nav-toggle-label" for="nav-toggle"><span></span><span></span><span></span></label>
-
-          <div class="nav-links">
-
+        <nav class="site-nav" aria-label="Primary" data-open="false">
+          <a class="brand" href="/"
+            ><img class="brand-logo" src="/assets/joyfull_innovation_logo.png" alt="Joyful Innovation logo"
+          /></a>
+          <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">Menu</button>
+          <div class="nav-links" id="primary-nav">
             <a href="/">Home</a>
-
             <a href="/products">Products</a>
-
             <a href="/services">Services</a>
-
             <a href="/insights">Resources</a>
-
-            <a href="/contact">Contact</a>
             <a href="/support">Support</a>
-  
-
-
-            <details class="login-menu">
-
-              <summary class="btn btn-secondary">Login</summary>
-
-              <div class="login-menu-list">
-
-                <a href="https://leo-production-d251.up.railway.app/login" target="_blank" rel="noopener noreferrer">NyLi Assets</a>
-
-                <a href="https://insight-pilot-production.up.railway.app/" target="_blank" rel="noopener noreferrer">NyLi Insights</a>
-
-                <a href="https://nyli-agent-production.up.railway.app/login" target="_blank" rel="noopener noreferrer">NyLi Agent</a>
-
-              </div>
-
-            </details>          </div>
-
+            <a href="/contact">Contact</a>
+            <a class="btn btn-secondary" href="/login">Login</a>
+          </div>
         </nav>
-
       </div>
-
     </header>
-    <main class="container">
-      <section class="page-hero"><p class="breadcrumb"><a href="/">Home</a> / <a href="/product-insightpilot">InsightPilot</a> / Support and Documentation</p><h1>InsightPilot Support and Documentation</h1><p class="section-copy">Everything your team needs to deploy, operate, and scale InsightPilot with confidence.</p></section>
 
-      <section class="grid-3">
-        <article class="card"><h3>Platform URL</h3><p><a href="https://insight-pilot-production.up.railway.app" target="_blank" rel="noopener noreferrer">insight-pilot-production.up.railway.app</a></p></article>
-        <article class="card"><h3>Core Stack</h3><p>Python, Streamlit, FastAPI, SQLite, Claude AI, Stripe, and Railway deployment.</p></article>
-        <article class="card"><h3>Support Path</h3><p>Use <a href="/contact">Contact Us</a> for onboarding support, technical review requests, and Enterprise planning.</p></article>
-      </section>
-
-      <section>
-        <h2>Quick Start</h2>
-        <div class="grid-3">
-          <article class="card"><h3>1. Create Workspace</h3><p>Create your workspace, add team members, and assign roles for access control.</p></article>
-          <article class="card"><h3>2. Upload Data</h3><p>Upload CSV, Excel, or JSON files. InsightPilot profiles columns and prepares data for analysis.</p></article>
-          <article class="card"><h3>3. Describe Analysis</h3><p>Use plain English prompts such as Show revenue trends by category for chart generation.</p></article>
-          <article class="card"><h3>4. Review and Revise</h3><p>Inspect chart output, request modifications, and use follow up prompts for fast iteration.</p></article>
-          <article class="card"><h3>5. Save Dashboard</h3><p>Store charts in dashboards, reorder layouts, and prepare exports for stakeholders.</p></article>
-          <article class="card"><h3>6. Operationalize</h3><p>Enable project instructions, prompt templates, and API access for repeatable workflows.</p></article>
-        </div>
-      </section>
-
-      <section>
-        <h2>Feature Documentation</h2>
-        <div class="stack">
-          <article class="card"><h3>Authentication and Access</h3><p>Email and password authentication, Google and Microsoft OIDC, SAML support, TOTP and email 2FA, backup codes, and session management with remote revocation.</p></article>
-          <article class="card"><h3>Data Pipeline</h3><p>CSV, Excel, and JSON uploads with encoding detection, nested JSON normalization, and automated profiling for types, nulls, unique values, and statistical summaries.</p></article>
-          <article class="card"><h3>AI Chart Generation</h3><p>Plain language prompts to production Plotly charts, three step Describe Review Save workflow, project level instructions, prompt templates, and revision support.</p></article>
-          <article class="card"><h3>Security Controls</h3><p>Sandboxed execution with AST validation, restricted builtins, blocked attribute patterns, execution timeout, and read only data protections.</p></article>
-          <article class="card"><h3>Dashboards and Export</h3><p>Create and manage multi chart dashboards with chart ordering and PDF export support on Pro and Enterprise plans.</p></article>
-          <article class="card"><h3>API and Automation</h3><p>REST API endpoints for project, file, chart, and dashboard workflows with API keys, permissions, and rate limiting.</p></article>
-        </div>
-      </section>
-
-      <section>
-        <h2>Plans and Limits</h2>
-        <div class="grid-3">
-          <article class="card"><h3>Free</h3><p>50 monthly credits, 1 member, 1 daily upload, 10 MB max file size, and 3 dashboards.</p></article>
-          <article class="card"><h3>Pro</h3><p>500 monthly credits, up to 10 members, 10 daily uploads, 100 MB max file size, and 25 dashboards.</p></article>
-          <article class="card"><h3>Enterprise</h3><p>2,000 monthly credits, unlimited members and uploads, 500 MB max file size, unlimited dashboards, and advanced SSO and white label controls.</p></article>
-        </div>
-      </section>
-
-      <section>
-        <h2>Troubleshooting</h2>
-        <div class="stack">
-          <article class="card"><h3>Upload issues</h3><p>Check file format and size limits by plan. CSV encoding is auto detected, but malformed files may still require correction before upload.</p></article>
-          <article class="card"><h3>Chart generation errors</h3><p>InsightPilot uses automatic retry for generated code failures. If errors persist, simplify the prompt and validate key data fields in your file.</p></article>
-          <article class="card"><h3>Access and permission issues</h3><p>Confirm workspace role, invitation status, and SSO configuration. Enterprise SSO setup may require IdP metadata review.</p></article>
-          <article class="card"><h3>Billing and credits</h3><p>Review subscription tier, credit balance, and add on settings. AI analysis requests require available credits before execution.</p></article>
-        </div>
+    <main id="main-content" class="container">
+      <section class="page-hero">
+        <p class="breadcrumb"><a href="/">Home</a> / Insight Support</p>
+        <h1>NyLi Insights support route</h1>
+        <p class="section-copy">
+          This page is retained for legacy links. Use the Support Center for current, searchable guidance and escalation paths.
+        </p>
       </section>
 
       <section class="cta">
-        <h2 style="margin-top:0">Need implementation help?</h2>
-        <p>Share your data sources and target dashboard outcomes and we will map the fastest rollout plan for your team.</p>
-        <a href="/contact" class="btn btn-secondary">Contact InsightPilot support</a>
+        <h2 style="margin-top: 0">Go to Support Center</h2>
+        <p>Search by product and topic, then move to contact or consult paths when needed.</p>
+        <a class="btn btn-secondary" href="/support">Open Support Center</a>
       </section>
     </main>
+
     <footer class="site-footer">
-  <div class="container footer-wrap">
-    <div class="footer-top">
-      <div>
-        <img class="footer-logo" src="/assets/joyfull_innovation_logo.png" alt="Joyful Innovation logo" />
-        <p class="footer-quote">"Innovation works best when it feels human."</p>
-        <p class="footer-copy">Joyful Innovation helps teams remove friction, protect focus time, and deliver better outcomes with practical AI.</p>
+      <div class="container footer-wrap">
+        <p class="footer-copy">
+          Joyful Innovation combines strategic consulting and practical product delivery to help teams adopt AI and analytics with
+          stronger governance and day-to-day usability.
+        </p>
+        <div class="footer-links">
+          <a href="/products">Products</a>
+          <a href="/services">Services</a>
+          <a href="/insights">Resources</a>
+          <a href="/support">Support</a>
+          <a href="/contact">Contact</a>
+          <a href="/login">Login</a>
+          <a href="/privacy-policy">Privacy Policy</a>
+          <a href="/terms">Terms of Service</a>
+        </div>
+        <p class="footer-meta">© <span id="footer-year">2026</span> Joyful Innovation. All rights reserved.</p>
       </div>
-      <img class="footer-visual" src="assets/human-connection.svg" alt="Illustration of people collaborating with AI" />
-    </div>
-    <div class="footer-links">
-      <a href="/privacy-policy">Privacy Policy</a>
-      <a href="/terms">Terms of Service</a>
-      <a href="/contact">Contact</a>`n          <a href="/insights">Insights</a>
-      <a href="/contact">Contact Us</a>
-    </div>
-    <p class="footer-meta">© 2026 Joyful Innovation. All rights reserved.</p>
-  </div>
-</footer>
+    </footer>
+    <script src="/assets/site.js?v=20260303" defer></script>
   </body>
 </html>
-
-
-
-
-
-
-
-
-
-

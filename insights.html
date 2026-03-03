@@ -1,347 +1,112 @@
 <!doctype html>
-
 <html lang="en">
-
   <head>
-
     <meta charset="UTF-8" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
     <title>Resources | Joyful Innovation</title>
-
-    <meta name="description" content="Practical playbooks, patterns, and examples for building governed automation, reliable knowledge systems, and auditable operations." />
-
-    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg?v=20260217" />
-
-    <link rel="stylesheet" href="/assets/styles.css?v=20260217" />
-
+    <meta
+      name="description"
+      content="Browse Joyful Innovation resources by Guides, Case Notes, Templates, and Blog Posts with working search and filters."
+    />
+    <link rel="canonical" href="https://joyfulinnovation.com/insights" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Resources | Joyful Innovation" />
+    <meta
+      property="og:description"
+      content="Find practical resources for NyLi products and service planning, organized by taxonomy with quick filtering."
+    />
+    <meta property="og:url" content="https://joyfulinnovation.com/insights" />
+    <meta property="og:image" content="https://joyfulinnovation.com/assets/insight-post-10.svg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Resources | Joyful Innovation" />
+    <meta
+      name="twitter:description"
+      content="Find practical resources for NyLi products and service planning, organized by taxonomy with quick filtering."
+    />
+    <meta name="twitter:image" content="https://joyfulinnovation.com/assets/insight-post-10.svg" />
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg?v=20260303" />
+    <link rel="stylesheet" href="/assets/styles.css?v=20260303" />
   </head>
-
   <body>
-
-    <header>
-
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <header class="site-header">
       <div class="container">
-
-        <nav>
-
-          <a class="brand" href="/"><img class="brand-logo" src="/assets/joyfull_innovation_logo.png" alt="Joyful Innovation logo" /></a><input class="nav-toggle" type="checkbox" id="nav-toggle" /><label class="nav-toggle-label" for="nav-toggle"><span></span><span></span><span></span></label>
-
-          <div class="nav-links">
-
+        <nav class="site-nav" aria-label="Primary" data-open="false">
+          <a class="brand" href="/"
+            ><img class="brand-logo" src="/assets/joyfull_innovation_logo.png" alt="Joyful Innovation logo"
+          /></a>
+          <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">Menu</button>
+          <div class="nav-links" id="primary-nav">
             <a href="/">Home</a>
-
             <a href="/products">Products</a>
-
             <a href="/services">Services</a>
-
             <a href="/insights">Resources</a>
-
-            <a href="/contact">Contact</a>
             <a href="/support">Support</a>
-  
-
-
-            <details class="login-menu">
-
-              <summary class="btn btn-secondary">Login</summary>
-
-              <div class="login-menu-list">
-
-                <a href="https://leo-production-d251.up.railway.app/login" target="_blank" rel="noopener noreferrer">NyLi Assets</a>
-
-                <a href="https://insight-pilot-production.up.railway.app/" target="_blank" rel="noopener noreferrer">NyLi Insights</a>
-
-                <a href="https://nyli-agent-production.up.railway.app/login" target="_blank" rel="noopener noreferrer">NyLi Agent</a>
-
-              </div>
-
-            </details>          </div>
-
+            <a href="/contact">Contact</a>
+            <a class="btn btn-secondary" href="/login">Login</a>
+          </div>
         </nav>
-
       </div>
-
     </header>
 
-    <main class="container">
-
+    <main id="main-content" class="container">
       <section class="page-hero">
-
         <p class="breadcrumb"><a href="/">Home</a> / Resources</p>
-
         <h1>Resources</h1>
-
-        <p class="section-copy">Practical playbooks, patterns, and examples for building governed automation, reliable knowledge systems, and auditable operations.</p>
+        <p class="section-copy">
+          Browse practical material for product rollout, governance planning, and operational improvement.
+        </p>
       </section>
 
       <section>
-        <h2>Content Types We Publish</h2>
-        <div class="resource-grid top-align">
-          <article class="card">
-            <h3>Guides</h3>
-            <p>Step by step playbooks for building workflows, knowledge layers, and operational controls that hold up in production.</p>
-          </article>
-          <article class="card">
-            <h3>Case Notes</h3>
-            <p>Real world implementation snapshots that show what worked, what broke, and how we fixed it without chaos.</p>
-          </article>
-          <article class="card">
-            <h3>Templates</h3>
-            <p>Reusable structures for prompts, routing, change control, and documentation so teams stay consistent as they scale.</p>
-          </article>
+        <h2>Find what you need quickly</h2>
+        <div class="filters">
+          <div>
+            <label for="resource-search">Search resources</label>
+            <input id="resource-search" type="search" placeholder="Search by topic, keyword, or category" />
+          </div>
+          <p id="resource-count" class="result-count" aria-live="polite">Showing resources</p>
         </div>
-      </section>
 
+        <div class="filter-buttons" role="group" aria-label="Resource categories">
+          <button class="chip" type="button" data-resource-filter="all" aria-pressed="true">All</button>
+          <button class="chip" type="button" data-resource-filter="guides" aria-pressed="false">Guides</button>
+          <button class="chip" type="button" data-resource-filter="case-notes" aria-pressed="false">Case Notes</button>
+          <button class="chip" type="button" data-resource-filter="templates" aria-pressed="false">Templates</button>
+          <button class="chip" type="button" data-resource-filter="blog-posts" aria-pressed="false">Blog posts</button>
+        </div>
 
-
-      <section>
-
-        <h2>Filter Resources</h2>
-
-        <div class="actions filter-actions">
-  <button type="button" class="btn btn-secondary" data-filter="all" aria-pressed="true">All</button>
-  <button type="button" class="btn btn-secondary" data-filter="case-studies" aria-pressed="false">Case Studies</button>
-  <button type="button" class="btn btn-secondary" data-filter="blog-posts" aria-pressed="false">Blog Posts</button>
-  <button type="button" class="btn btn-secondary" data-filter="strategy-documents" aria-pressed="false">Strategy Documents</button>
-</div>
-        <p id="resource-count" class="section-copy" style="margin:8px 0 0;" aria-live="polite">Showing all resources</p>
-
-      </section>
-
-
-
-                                    <section class="resource-grid" id="resources-grid">
-        <a class="card post-card resource-card" data-topic="blog-posts" href="/blog/insight-navigating-ai-chatbots-key-concepts-trends">
-          <img class="post-image" src="assets/insight-post-10.svg" alt="AI chatbot evolution: rules to NLU to generative assistants, with trends and adoption signals." onerror="this.outerHTML='&lt;div class=&quot;post-image placeholder&quot; aria-hidden=&quot;true&quot;&gt;Resource image&lt;/div&gt;'" />
-          <p class="post-label">Blog Post</p>
-          <h3>Navigating the Evolving Landscape of AI Chatbots: Key Concepts and Trends</h3>
-          <p>A practical reflection on chatbot evolution, key technologies, and what leaders need to ground adoption in real workflows.</p>
-          <p class="resource-link">Read full post</p>
-        </a>
-        <a class="card post-card resource-card" data-topic="blog-posts" href="/blog/insight-demystifying-ai-chatbots-practical-guide-2026">
-          <img class="post-image" src="assets/insight-post-9.svg" alt="AI chatbot architecture flow: intent, entities, dialogue, orchestration, and feedback." onerror="this.outerHTML='&lt;div class=&quot;post-image placeholder&quot; aria-hidden=&quot;true&quot;&gt;Resource image&lt;/div&gt;'" />
-          <p class="post-label">Blog Post</p>
-          <h3>Demystifying AI Chatbots: A Practical Guide for 2026</h3>
-          <p>How modern chatbots work, where they deliver value, and how to implement safely with measurable outcomes.</p>
-          <p class="resource-link">Read full post</p>
-        </a>
-        <a class="card post-card resource-card" data-topic="blog-posts" href="/blog/insight-review-software-inventory">
-          <img class="post-image" src="assets/insight-post-8.svg" alt="Software inventory review: discovery, validation, normalization, and infrastructure context." onerror="this.outerHTML='&lt;div class=&quot;post-image placeholder&quot; aria-hidden=&quot;true&quot;&gt;Resource image&lt;/div&gt;'" />
-          <p class="post-label">Blog Post</p>
-          <h3>Review Software Inventory: The Backbone of Effective SAM</h3>
-          <p>Why inventory accuracy, normalization, and infrastructure context determine compliance confidence and cost optimization.</p>
-          <p class="resource-link">Read full post</p>
-        </a>
-        <a class="card post-card resource-card" data-topic="blog-posts" href="/blog/insight-reflections-software-asset-management-on-demand">
-          <img class="post-image" src="assets/insight-post-7.svg" alt="Four phase SAM journey: onboarding, activation, deployment, usage." onerror="this.outerHTML='&lt;div class=&quot;post-image placeholder&quot; aria-hidden=&quot;true&quot;&gt;Resource image&lt;/div&gt;'" />
-          <p class="post-label">Blog Post</p>
-          <h3>Reflections on Software Asset Management On Demand</h3>
-          <p>A practical reflection on SAM as a strategic discipline for compliance confidence, SaaS optimization, and lower software costs.</p>
-          <p class="resource-link">Read full post</p>
-        </a>
-        <a class="card post-card resource-card" data-topic="blog-posts" href="/blog/insight-ai-fatigue-progress-optional">
-          <img class="post-image" src="assets/insight-post-6.svg" alt="Team simplifying AI adoption into one clear workflow." onerror="this.outerHTML='&lt;div class=&quot;post-image placeholder&quot; aria-hidden=&quot;true&quot;&gt;Resource image&lt;/div&gt;'" />
-          <p class="post-label">Blog Post</p>
-          <h3>AI Fatigue Is Real. Progress Is Optional. A Practical Company Playbook</h3>
-          <p>Leaders are overwhelmed by AI hype and tool sprawl. A pragmatic governance first approach to ship value in 90 days without burning out teams.</p>
-          <p class="resource-link">Read full post</p>
-        </a>
-        <a class="card post-card resource-card" data-topic="blog-posts" href="/blog/insight-ai-breakthroughs-2025-enterprise-adoption">
-          <img class="post-image" src="assets/insight-post-5.svg" alt="AI breakthroughs and enterprise adoption illustration" onerror="this.outerHTML='&lt;div class=&quot;post-image placeholder&quot; aria-hidden=&quot;true&quot;&gt;Resource image&lt;/div&gt;'" />
-          <p class="post-label">Blog Post</p>
-          <h3>AI Breakthroughs in 2025: Why Enterprise Adoption Still Lags Behind the Hype</h3>
-          <p>A practical view of why enterprise AI adoption still lags technical progress and how teams can plan responsibly.</p>
-          <p class="resource-link">Read full post</p>
-        </a>
-        <a class="card post-card resource-card" data-topic="blog-posts" href="/blog/insight-startups-global-ai-transformation">
-          <img class="post-image" src="assets/insight-post-4.svg" alt="Startup led global AI transformation illustration" onerror="this.outerHTML='&lt;div class=&quot;post-image placeholder&quot; aria-hidden=&quot;true&quot;&gt;Resource image&lt;/div&gt;'" />
-          <p class="post-label">Blog Post</p>
-          <h3>Why Startups Are Pushing the Boundaries of Global AI Transformation</h3>
-          <p>How startup execution speed, ownership, and measurable outcomes are shaping practical enterprise AI adoption decisions.</p>
-          <p class="resource-link">Read full post</p>
-        </a>
-        <a class="card post-card resource-card" data-topic="case-studies" href="/blog/insight-license-reclaim-playbook">
-          <img class="post-image" src="assets/insight-post-1.svg" alt="License reclaim workflow illustration" onerror="this.outerHTML='&lt;div class=&quot;post-image placeholder&quot; aria-hidden=&quot;true&quot;&gt;Resource image&lt;/div&gt;'" />
-          <p class="post-label">Case Study</p>
-          <h3>License Reclaim Playbook</h3>
-          <p>A structured reclaim cadence for compare, verify, and revoke cycles with clear ownership and defensible decisions.</p>
-          <p class="resource-link">Read full post</p>
-        </a>
-        <a class="card post-card resource-card" data-topic="case-studies" href="/blog/insight-audit-trail-best-practices">
-          <img class="post-image" src="assets/insight-post-2.svg" alt="Compliance audit trail illustration" onerror="this.outerHTML='&lt;div class=&quot;post-image placeholder&quot; aria-hidden=&quot;true&quot;&gt;Resource image&lt;/div&gt;'" />
-          <p class="post-label">Case Study</p>
-          <h3>Audit Trail Best Practices</h3>
-          <p>What reviewers need to see in timestamped logs, IP records, and export ready evidence to validate audit actions.</p>
-          <p class="resource-link">Read full post</p>
-        </a>
-        <a class="card post-card resource-card" data-topic="strategy-documents" href="/blog/insight-ai-risk-review-patterns">
-          <img class="post-image" src="assets/insight-post-3.svg" alt="AI risk analysis illustration" onerror="this.outerHTML='&lt;div class=&quot;post-image placeholder&quot; aria-hidden=&quot;true&quot;&gt;Resource image&lt;/div&gt;'" />
-          <p class="post-label">Strategy Document</p>
-          <h3>AI Risk Review Patterns</h3>
-          <p>How teams use AI summaries, anomaly detection, and user categorization to prioritize risk review while keeping human judgment in control.</p>
-          <p class="resource-link">Read full post</p>
-        </a>
+        <div id="resources-grid" class="resource-grid" style="margin-top: 12px"></div>
       </section>
 
       <section class="cta">
-
-        <h2 style="margin-top:0">Ready to plan your next solution review?</h2>
-
-        <p>Use these resources to plan your next governance review, workflow launch, or operational rollout with clarity and control.</p>
-
-        <a href="/support" class="btn btn-secondary">Request a Consultation</a>
-
+        <h2 style="margin-top: 0">Need help applying these patterns?</h2>
+        <p>Request a consult to map your current workflows to a realistic product and service plan.</p>
+        <a class="btn btn-secondary" href="/contact?interest=Services">Request a consult</a>
       </section>
-
     </main>
 
     <footer class="site-footer">
-
       <div class="container footer-wrap">
-
-        <div class="footer-top">
-
-          <div>
-
-            <p class="footer-quote">"Innovation works best when it feels human."</p>
-
-            <p class="footer-copy">Joyful Innovation helps teams remove friction, protect focus time, and deliver better outcomes with practical AI.</p>
-
-          </div>
-
-          <img class="footer-visual" src="assets/human-connection.svg" alt="Illustration of people collaborating with AI" />
-
-        </div>
-
+        <p class="footer-copy">
+          Joyful Innovation combines strategic consulting and practical product delivery to help teams adopt AI and analytics with
+          stronger governance and day-to-day usability.
+        </p>
         <div class="footer-links">
-
-          <a href="/privacy-policy">Privacy Policy</a>
-
-          <a href="/terms">Terms of Service</a>
-
+          <a href="/products">Products</a>
+          <a href="/services">Services</a>
           <a href="/insights">Resources</a>
-
-          <a href="/contact">Contact</a>
-
           <a href="/support">Support</a>
-  
-
+          <a href="/contact">Contact</a>
+          <a href="/login">Login</a>
+          <a href="/privacy-policy">Privacy Policy</a>
+          <a href="/terms">Terms of Service</a>
         </div>
-
-        <p class="footer-meta">© 2026 Joyful Innovation. All rights reserved.</p>
-
+        <p class="footer-meta">© <span id="footer-year">2026</span> Joyful Innovation. All rights reserved.</p>
       </div>
-
     </footer>
-    <script>
-      (() => {
-        const buttons = Array.from(document.querySelectorAll("button[data-filter]"));
-        const cards = Array.from(document.querySelectorAll("#resources-grid .post-card"));
-        const countEl = document.getElementById("resource-count");
-        const filterDebug = window.location.search.includes("debug=resources");
-
-        function logFilter(message, detail) {
-          if (filterDebug) {
-            console.log("[resources-filter]", message, detail || "");
-          }
-        }
-
-        function applyFilter(filter) {
-          const selected = (filter || "all").toLowerCase();
-          const filterLabels = {
-            all: "All",
-            "blog-posts": "Blog Posts",
-            "case-studies": "Case Studies",
-            "strategy-documents": "Strategy Documents"
-          };
-          let visibleCount = 0;
-
-          cards.forEach((card) => {
-            const topic = (card.getAttribute("data-topic") || "").toLowerCase();
-            const show = selected === "all" || topic === selected;
-            card.hidden = !show;
-            card.style.display = show ? "" : "none";
-            if (show) visibleCount += 1;
-          });
-
-          buttons.forEach((btn) => {
-            const isActive = btn.getAttribute("data-filter") === selected;
-            btn.classList.toggle("active", isActive);
-            btn.setAttribute("aria-pressed", String(isActive));
-          });
-
-          if (countEl) {
-            const label = filterLabels[selected] || filterLabels.all;
-            countEl.textContent = selected === "all"
-              ? `Showing all resources (${visibleCount})`
-              : `Showing ${visibleCount} ${label}`;
-          }
-
-          logFilter("apply", { selected, visibleCount });
-        }
-
-        buttons.forEach((button) => {
-          button.addEventListener("click", (event) => {
-            event.preventDefault();
-            const filter = button.getAttribute("data-filter");
-            logFilter("click", { filter });
-            applyFilter(filter);
-          });
-        });
-
-        logFilter("init", { buttons: buttons.length, cards: cards.length });
-        applyFilter("all");
-      })();
-    </script>
+    <script src="/assets/data/resources-data.js?v=20260303" defer></script>
+    <script src="/assets/site.js?v=20260303" defer></script>
+    <script src="/assets/resources.js?v=20260303" defer></script>
   </body>
-
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -4,306 +4,134 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Support | Joyful Innovation</title>
-    <meta name="description" content="Support center with searchable knowledge base, lightweight ticketing, and consultation intake for NyLi products." />
-    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg?v=20260217" />
-    <link rel="stylesheet" href="/assets/styles.css?v=20260217" />
+    <meta
+      name="description"
+      content="Search Joyful Innovation support guidance by product and topic, then route to contact or consult paths as needed."
+    />
+    <link rel="canonical" href="https://joyfulinnovation.com/support" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Support | Joyful Innovation" />
+    <meta
+      property="og:description"
+      content="Self-serve support first, then guided contact and consult paths for deeper implementation needs."
+    />
+    <meta property="og:url" content="https://joyfulinnovation.com/support" />
+    <meta property="og:image" content="https://joyfulinnovation.com/assets/human-connection.svg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Support | Joyful Innovation" />
+    <meta
+      name="twitter:description"
+      content="Self-serve support first, then guided contact and consult paths for deeper implementation needs."
+    />
+    <meta name="twitter:image" content="https://joyfulinnovation.com/assets/human-connection.svg" />
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg?v=20260303" />
+    <link rel="stylesheet" href="/assets/styles.css?v=20260303" />
   </head>
   <body>
-    <header>
-
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <header class="site-header">
       <div class="container">
-
-        <nav>
-
-          <a class="brand" href="/"><img class="brand-logo" src="/assets/joyfull_innovation_logo.png" alt="Joyful Innovation logo" /></a><input class="nav-toggle" type="checkbox" id="nav-toggle" /><label class="nav-toggle-label" for="nav-toggle"><span></span><span></span><span></span></label>
-
-          <div class="nav-links">
-
+        <nav class="site-nav" aria-label="Primary" data-open="false">
+          <a class="brand" href="/"
+            ><img class="brand-logo" src="/assets/joyfull_innovation_logo.png" alt="Joyful Innovation logo"
+          /></a>
+          <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">Menu</button>
+          <div class="nav-links" id="primary-nav">
             <a href="/">Home</a>
-
             <a href="/products">Products</a>
-
             <a href="/services">Services</a>
-
             <a href="/insights">Resources</a>
-
-            <a href="/contact">Contact</a>
             <a href="/support">Support</a>
-  
-
-
-            <details class="login-menu">
-
-              <summary class="btn btn-secondary">Login</summary>
-
-              <div class="login-menu-list">
-
-                <a href="https://leo-production-d251.up.railway.app/login" target="_blank" rel="noopener noreferrer">NyLi Assets</a>
-
-                <a href="https://insight-pilot-production.up.railway.app/" target="_blank" rel="noopener noreferrer">NyLi Insights</a>
-
-                <a href="https://nyli-agent-production.up.railway.app/login" target="_blank" rel="noopener noreferrer">NyLi Agent</a>
-
-              </div>
-
-            </details>          </div>
-
+            <a href="/contact">Contact</a>
+            <a class="btn btn-secondary" href="/login">Login</a>
+          </div>
         </nav>
-
       </div>
-
     </header>
 
-    <main class="container">
-      <section class="page-hero support-hero">
+    <main id="main-content" class="container">
+      <section class="page-hero">
         <p class="breadcrumb"><a href="/">Home</a> / Support</p>
-        <h1>Support Center</h1>
-        <p class="section-copy">Start with the knowledge base, open a ticket when needed, and submit consultation requests from one page.</p>
+        <h1>Support center</h1>
+        <p class="section-copy">Start with self-serve guidance, then escalate to contact or consult paths when needed.</p>
       </section>
 
-      <section class="card support-featured">
-        <h2>Knowledge Base</h2>
-        <p class="section-copy">Search by keyword and filter by product and tag to quickly find setup, troubleshooting, and governance guidance.</p>
-
-        <div class="kb-controls">
-          <label for="kb-product">Product</label>
-          <select id="kb-product">
-            <option value="all">All Products</option>
-            <option value="assets">NyLi Assets</option>
-            <option value="insights">NyLi Insights</option>
-            <option value="agent">NyLi Agent</option>
-            <option value="general">General</option>
-          </select>
-          <label for="kb-search">Search</label>
-          <input id="kb-search" type="search" placeholder="Search topics, workflows, and troubleshooting" />
-        </div>
-
-        <div class="kb-tags" role="group" aria-label="Knowledge base tag filters">
-          <button type="button" class="btn btn-secondary kb-tag active" data-kb-tag="all" aria-pressed="true">All Tags</button>
-          <button type="button" class="btn btn-secondary kb-tag" data-kb-tag="setup" aria-pressed="false">Setup</button>
-          <button type="button" class="btn btn-secondary kb-tag" data-kb-tag="troubleshooting" aria-pressed="false">Troubleshooting</button>
-          <button type="button" class="btn btn-secondary kb-tag" data-kb-tag="workflows" aria-pressed="false">Workflows</button>
-          <button type="button" class="btn btn-secondary kb-tag" data-kb-tag="governance" aria-pressed="false">Governance</button>
-          <button type="button" class="btn btn-secondary kb-tag" data-kb-tag="security" aria-pressed="false">Security</button>
-          <button type="button" class="btn btn-secondary kb-tag" data-kb-tag="billing" aria-pressed="false">Billing</button>
-          <button type="button" class="btn btn-secondary kb-tag" data-kb-tag="access" aria-pressed="false">Access</button>
-          <button type="button" class="btn btn-secondary kb-tag" data-kb-tag="faq" aria-pressed="false">FAQ</button>
-        </div>
-
-        <p id="kb-count" class="section-copy support-count">Showing all knowledge base articles</p>
-
-        <div class="grid-3" id="kb-grid">
-          <article class="card kb-card" data-product="assets" data-tags="setup,troubleshooting" data-search="license compare csv active directory mismatch users upload troubleshooting">
-            <p class="post-label">NyLi Assets</p>
-            <h3>Fix CSV Compare Mismatch Errors</h3>
-            <p>Checklist for column mapping, key normalization, and invalid row handling before rerunning compare.</p>
+      <section>
+        <h2>Support path</h2>
+        <div class="support-path">
+          <article class="card" data-step="Step 1">
+            <h3>Self-serve knowledge first</h3>
+            <p>Search the knowledge entries below by product, tag, or keyword to resolve common setup and workflow issues quickly.</p>
           </article>
-          <article class="card kb-card" data-product="assets" data-tags="workflows,governance" data-search="verification emails token status pending revoked reminder cycle">
-            <p class="post-label">NyLi Assets</p>
-            <h3>Verification Workflow Status Guide</h3>
-            <p>Understand pending, confirmed, and revoked states so reclaim decisions are traceable and defensible.</p>
+          <article class="card" data-step="Step 2">
+            <h3>Then contact support</h3>
+            <p>If you are blocked, send a support request through the contact form and choose <strong>Other</strong> with context.</p>
+            <p><a href="/contact?interest=Other">Open contact form</a></p>
           </article>
-          <article class="card kb-card" data-product="insights" data-tags="setup,workflows" data-search="dashboard prompt template chart revisions reporting project instructions">
-            <p class="post-label">NyLi Insights</p>
-            <h3>Build a Reusable Reporting Project</h3>
-            <p>Set project instructions and prompt templates to standardize recurring dashboard outputs.</p>
+          <article class="card" data-step="Step 3">
+            <h3>Then consult request if needed</h3>
+            <p>For recurring workflow problems or rollout redesign, request a consult engagement.</p>
+            <p><a href="/contact?interest=Services">Request consult</a></p>
           </article>
-          <article class="card kb-card" data-product="insights" data-tags="billing,troubleshooting" data-search="credits usage limits top up file size dashboard count plan">
-            <p class="post-label">NyLi Insights</p>
-            <h3>Understand Credits and Usage Limits</h3>
-            <p>How credits are consumed, when resets occur, and what limits apply by plan tier.</p>
-          </article>
-          <article class="card kb-card" data-product="agent" data-tags="access,workflows" data-search="agent login routing approvals escalation workflow status">
-            <p class="post-label">NyLi Agent</p>
-            <h3>NyLi Agent Access and Routing Basics</h3>
-            <p>Initial setup guidance for sign-in paths, request routing, and status visibility across teams.</p>
-          </article>
-          <article class="card kb-card" data-product="general" data-tags="security,governance,access" data-search="security sso two factor privacy tenancy roles permissions onboarding">
-            <p class="post-label">General</p>
-            <h3>Security and Access FAQ</h3>
-            <p>Quick answers for SSO, 2FA, role access, and environment separation across customer workspaces.</p>
-          </article>
-          <article class="card kb-card" data-product="general" data-tags="faq,governance,workflows" data-search="How long does a first run take end to end? Most teams run the compare step in minutes once two CSV files are ready. Verification then runs on your schedule, and reclaim candidates update as responses arrive.">
-            <p class="post-label">General</p>
-            <h3>How long does a first run take end to end?</h3>
-            <p>Most teams run the compare step in minutes once two CSV files are ready. Verification then runs on your schedule, and reclaim candidates update as responses arrive.</p>
-          </article>
-          <article class="card kb-card" data-product="general" data-tags="faq,governance,workflows" data-search="What do we need to export from our license system? A CSV with user identifier and license assignment is enough to start. Additional fields improve matching quality, but NyLi Assets works with minimal exports.">
-            <p class="post-label">General</p>
-            <h3>What do we need to export from our license system?</h3>
-            <p>A CSV with user identifier and license assignment is enough to start. Additional fields improve matching quality, but NyLi Assets works with minimal exports.</p>
-          </article>
-          <article class="card kb-card" data-product="general" data-tags="faq,governance,workflows" data-search="Do you store our CSV data and for how long? Uploaded CSV row data is stored in the application database to support comparisons, verification workflows, and audit history. Verification responses include timestamp and IP logging. Retention terms are defined in customer agreements and implementation settings. See our Privacy Policy for more detail.">
-            <p class="post-label">General</p>
-            <h3>Do you store our CSV data and for how long?</h3>
-            <p>Uploaded CSV row data is stored in the application database to support comparisons, verification workflows, and audit history. Verification responses include timestamp and IP logging. Retention terms are defined in customer agreements and implementation settings. See our <a href="/privacy-policy">Privacy Policy</a> for more detail.</p>
-          </article>
-          <article class="card kb-card" data-product="general" data-tags="faq,governance,workflows" data-search="Can we disable verification emails and only use compare? Yes. Compare-only is a common starting approach to identify obvious waste and validate data quality before enabling verification.">
-            <p class="post-label">General</p>
-            <h3>Can we disable verification emails and only use compare?</h3>
-            <p>Yes. Compare-only is a common starting approach to identify obvious waste and validate data quality before enabling verification.</p>
-          </article>
-          <article class="card kb-card" data-product="general" data-tags="faq,governance,workflows" data-search="How do you prevent risky deactivations? NyLi Assets provides recommendations, not automatic deactivations. It provides evidence, status tracking, and verification signals so human owners make final decisions.">
-            <p class="post-label">General</p>
-            <h3>How do you prevent risky deactivations?</h3>
-            <p>NyLi Assets provides recommendations, not automatic deactivations. It provides evidence, status tracking, and verification signals so human owners make final decisions.</p>
-          </article>
-          <article class="card kb-card" data-product="general" data-tags="faq,governance,workflows" data-search="What security controls exist for multi tenant separation? NyLi Assets applies tenant isolation at the application level so company data remains scoped and separated. Contact us for a detailed security review for your environment.">
-            <p class="post-label">General</p>
-            <h3>What security controls exist for multi tenant separation?</h3>
-            <p>NyLi Assets applies tenant isolation at the application level so company data remains scoped and separated. Contact us for a detailed security review for your environment.</p>
-          </article>
-          <article class="card kb-card" data-product="general" data-tags="faq,governance,workflows" data-search="Do you support API access? API access is available on Enterprise plans. Use Support to scope the right integration approach for your environment.">
-            <p class="post-label">General</p>
-            <h3>Do you support API access?</h3>
-            <p>API access is available on Enterprise plans. Use Support to scope the right integration approach for your environment.</p>
-          </article>
-          <article class="card kb-card" data-product="general" data-tags="faq,governance,workflows" data-search="What does onboarding look like? We guide export setup, run the first compare cycle with you, and walk through verification and reclaim actions so your team can operate with confidence.">
-            <p class="post-label">General</p>
-            <h3>What does onboarding look like?</h3>
-            <p>We guide export setup, run the first compare cycle with you, and walk through verification and reclaim actions so your team can operate with confidence.</p>
-          </article>
-
         </div>
       </section>
 
-      <section class="support-grid support-ticket-zone support-single">
-        <article class="card support-card">
-          <h2>Submit a Ticket</h2>
-          <p class="section-copy">Open a support request for product issues, access problems, or data workflow blockers.</p>
-          <form id="ticket-form" class="support-form">
-            <label for="ticket-name">Name</label>
-            <input id="ticket-name" name="name" type="text" required />
-
-            <label for="ticket-email">Work Email</label>
-            <input id="ticket-email" name="email" type="email" required />
-
-            <label for="ticket-product">Product</label>
-            <select id="ticket-product" name="product" required>
-              <option value="NyLi Assets">NyLi Assets</option>
-              <option value="NyLi Insights">NyLi Insights</option>
-              <option value="NyLi Agent">NyLi Agent</option>
-              <option value="General">General</option>
+      <section>
+        <h2>Knowledge base</h2>
+        <div class="filters">
+          <div>
+            <label for="support-search">Search support articles</label>
+            <input id="support-search" type="search" placeholder="Search by issue, workflow, or keyword" />
+          </div>
+          <div>
+            <label for="support-product">Product filter</label>
+            <select id="support-product">
+              <option value="all">All products</option>
+              <option value="assets">NyLi Assets</option>
+              <option value="insights">NyLi Insights</option>
+              <option value="agent">NyLi Agent</option>
+              <option value="general">General</option>
             </select>
+          </div>
+        </div>
 
-            <label for="ticket-priority">Priority</label>
-            <select id="ticket-priority" name="priority" required>
-              <option value="Low">Low</option>
-              <option value="Medium" selected>Medium</option>
-              <option value="High">High</option>
-            </select>
+        <div class="kb-tags" role="group" aria-label="Support topic filters">
+          <button class="kb-tag" type="button" data-support-tag="all" aria-pressed="true">All tags</button>
+          <button class="kb-tag" type="button" data-support-tag="setup" aria-pressed="false">Setup</button>
+          <button class="kb-tag" type="button" data-support-tag="troubleshooting" aria-pressed="false">Troubleshooting</button>
+          <button class="kb-tag" type="button" data-support-tag="workflows" aria-pressed="false">Workflows</button>
+          <button class="kb-tag" type="button" data-support-tag="governance" aria-pressed="false">Governance</button>
+          <button class="kb-tag" type="button" data-support-tag="security" aria-pressed="false">Security</button>
+          <button class="kb-tag" type="button" data-support-tag="access" aria-pressed="false">Access</button>
+          <button class="kb-tag" type="button" data-support-tag="faq" aria-pressed="false">FAQ</button>
+        </div>
 
-            <label for="ticket-subject">Subject</label>
-            <input id="ticket-subject" name="subject" type="text" required />
-
-            <label for="ticket-details">Details</label>
-            <textarea id="ticket-details" name="details" rows="5" required placeholder="Describe issue, business impact, and what you already tried."></textarea>
-
-            <button type="submit" class="btn btn-secondary">Create Ticket</button>
-          </form>
-          <p id="ticket-message" class="support-note" role="status" aria-live="polite"></p>
-        </article>
+        <p id="support-count" class="result-count" aria-live="polite">Showing support articles</p>
+        <div id="support-grid" class="grid-3"></div>
       </section>
-
-      
     </main>
 
     <footer class="site-footer">
       <div class="container footer-wrap">
-        <div class="footer-top">
-          <div>
-            <p class="footer-quote">"Innovation works best when it feels human."</p>
-            <p class="footer-copy">Joyful Innovation helps teams remove friction, protect focus time, and deliver better outcomes with practical AI.</p>
-          </div>
-          <img class="footer-visual" src="assets/human-connection.svg" alt="Illustration of people collaborating with AI" />
-        </div>
+        <p class="footer-copy">
+          Joyful Innovation combines strategic consulting and practical product delivery to help teams adopt AI and analytics with
+          stronger governance and day-to-day usability.
+        </p>
         <div class="footer-links">
+          <a href="/products">Products</a>
+          <a href="/services">Services</a>
+          <a href="/insights">Resources</a>
+          <a href="/support">Support</a>
+          <a href="/contact">Contact</a>
+          <a href="/login">Login</a>
           <a href="/privacy-policy">Privacy Policy</a>
           <a href="/terms">Terms of Service</a>
-          <a href="/insights">Resources</a>
-          <a href="/contact">Contact</a>
-
-          <a href="/support">Support</a>
         </div>
-        <p class="footer-meta">&copy; 2026 Joyful Innovation. All rights reserved.</p>
+        <p class="footer-meta">© <span id="footer-year">2026</span> Joyful Innovation. All rights reserved.</p>
       </div>
     </footer>
-
-    <script>
-      (() => {
-        const form = document.getElementById("ticket-form");
-        const msg = document.getElementById("ticket-message");
-
-        const kbProduct = document.getElementById("kb-product");
-        const kbSearch = document.getElementById("kb-search");
-        const kbCount = document.getElementById("kb-count");
-        const kbCards = Array.from(document.querySelectorAll("#kb-grid .kb-card"));
-        const kbTags = Array.from(document.querySelectorAll("button[data-kb-tag]"));
-
-        let activeTag = "all";
-
-        function applyKbFilter() {
-          const product = (kbProduct.value || "all").toLowerCase();
-          const term = (kbSearch.value || "").trim().toLowerCase();
-          let visible = 0;
-
-          kbCards.forEach((card) => {
-            const cProduct = (card.getAttribute("data-product") || "").toLowerCase();
-            const cTags = (card.getAttribute("data-tags") || "").toLowerCase().split(",").map((s) => s.trim());
-            const text = ((card.getAttribute("data-search") || "") + " " + card.textContent).toLowerCase();
-            const productMatch = product === "all" || cProduct === product;
-            const tagMatch = activeTag === "all" || cTags.includes(activeTag);
-            const searchMatch = !term || text.includes(term);
-            const show = productMatch && tagMatch && searchMatch;
-            card.hidden = !show;
-            card.style.display = show ? "" : "none";
-            if (show) {
-              visible += 1;
-            }
-          });
-
-          kbCount.textContent = product === "all" && !term && activeTag === "all"
-            ? `Showing all knowledge base articles (${visible})`
-            : `Showing ${visible} article${visible === 1 ? "" : "s"}`;
-        }
-
-        kbProduct.addEventListener("change", applyKbFilter);
-        kbSearch.addEventListener("input", applyKbFilter);
-
-        kbTags.forEach((button) => {
-          button.addEventListener("click", () => {
-            activeTag = button.getAttribute("data-kb-tag") || "all";
-            kbTags.forEach((btn) => {
-              const isActive = btn === button;
-              btn.classList.toggle("active", isActive);
-              btn.setAttribute("aria-pressed", String(isActive));
-            });
-            applyKbFilter();
-          });
-        });
-
-        form.addEventListener("submit", (event) => {
-          event.preventDefault();
-          const ticketId = `SUP-${Date.now().toString().slice(-6)}`;
-          msg.textContent = `Ticket ${ticketId} created. We will follow up via email.`;
-          form.reset();
-        });
-
-        applyKbFilter();
-      })();
-    </script>
+    <script src="/assets/data/support-data.js?v=20260303" defer></script>
+    <script src="/assets/site.js?v=20260303" defer></script>
+    <script src="/assets/support.js?v=20260303" defer></script>
   </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-

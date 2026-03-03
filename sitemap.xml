@@ -1,7 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://joyfulinnovation.com/contact</loc>
+  </url>
+  <url>
     <loc>https://joyfulinnovation.com/</loc>
+  </url>
+  <url>
+    <loc>https://joyfulinnovation.com/insightpilot-support</loc>
+  </url>
+  <url>
+    <loc>https://joyfulinnovation.com/insights</loc>
+  </url>
+  <url>
+    <loc>https://joyfulinnovation.com/login</loc>
+  </url>
+  <url>
+    <loc>https://joyfulinnovation.com/privacy-policy</loc>
+  </url>
+  <url>
+    <loc>https://joyfulinnovation.com/product-assetpilot</loc>
+  </url>
+  <url>
+    <loc>https://joyfulinnovation.com/product-flowpilot</loc>
+  </url>
+  <url>
+    <loc>https://joyfulinnovation.com/product-insightpilot</loc>
+  </url>
+  <url>
+    <loc>https://joyfulinnovation.com/products</loc>
+  </url>
+  <url>
+    <loc>https://joyfulinnovation.com/services</loc>
+  </url>
+  <url>
+    <loc>https://joyfulinnovation.com/support</loc>
+  </url>
+  <url>
+    <loc>https://joyfulinnovation.com/terms</loc>
   </url>
   <url>
     <loc>https://joyfulinnovation.com/blog/insight-ai-breakthroughs-2025-enterprise-adoption</loc>
@@ -32,38 +68,5 @@
   </url>
   <url>
     <loc>https://joyfulinnovation.com/blog/insight-startups-global-ai-transformation</loc>
-  </url>
-  <url>
-    <loc>https://joyfulinnovation.com/contact</loc>
-  </url>
-  <url>
-    <loc>https://joyfulinnovation.com/insightpilot-support</loc>
-  </url>
-  <url>
-    <loc>https://joyfulinnovation.com/insights</loc>
-  </url>
-  <url>
-    <loc>https://joyfulinnovation.com/privacy-policy</loc>
-  </url>
-  <url>
-    <loc>https://joyfulinnovation.com/product-assetpilot</loc>
-  </url>
-  <url>
-    <loc>https://joyfulinnovation.com/product-flowpilot</loc>
-  </url>
-  <url>
-    <loc>https://joyfulinnovation.com/product-insightpilot</loc>
-  </url>
-  <url>
-    <loc>https://joyfulinnovation.com/products</loc>
-  </url>
-  <url>
-    <loc>https://joyfulinnovation.com/services</loc>
-  </url>
-  <url>
-    <loc>https://joyfulinnovation.com/support</loc>
-  </url>
-  <url>
-    <loc>https://joyfulinnovation.com/terms</loc>
   </url>
 </urlset>

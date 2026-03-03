@@ -3,159 +3,152 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Contact Us | Joyful Innovation</title>
-    <meta name="description" content="Contact Joyful Innovation for sales, partnerships, or general inquiries." />
-    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg?v=20260217" />
-    <link rel="stylesheet" href="/assets/styles.css?v=20260217" />
+    <title>Contact | Joyful Innovation</title>
+    <meta
+      name="description"
+      content="Contact Joyful Innovation for sales conversations, product demos, implementation planning, and partnerships."
+    />
+    <link rel="canonical" href="https://joyfulinnovation.com/contact" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Contact | Joyful Innovation" />
+    <meta
+      property="og:description"
+      content="Start a sales or partnership conversation with Joyful Innovation about NyLi products and services."
+    />
+    <meta property="og:url" content="https://joyfulinnovation.com/contact" />
+    <meta property="og:image" content="https://joyfulinnovation.com/assets/joyfull_innovation_logo.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Contact | Joyful Innovation" />
+    <meta
+      name="twitter:description"
+      content="Start a sales or partnership conversation with Joyful Innovation about NyLi products and services."
+    />
+    <meta name="twitter:image" content="https://joyfulinnovation.com/assets/joyfull_innovation_logo.png" />
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg?v=20260303" />
+    <link rel="stylesheet" href="/assets/styles.css?v=20260303" />
   </head>
   <body>
-    <header>
-
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <header class="site-header">
       <div class="container">
-
-        <nav>
-
-          <a class="brand" href="/"><img class="brand-logo" src="/assets/joyfull_innovation_logo.png" alt="Joyful Innovation logo" /></a><input class="nav-toggle" type="checkbox" id="nav-toggle" /><label class="nav-toggle-label" for="nav-toggle"><span></span><span></span><span></span></label>
-
-          <div class="nav-links">
-
+        <nav class="site-nav" aria-label="Primary" data-open="false">
+          <a class="brand" href="/"
+            ><img class="brand-logo" src="/assets/joyfull_innovation_logo.png" alt="Joyful Innovation logo"
+          /></a>
+          <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">Menu</button>
+          <div class="nav-links" id="primary-nav">
             <a href="/">Home</a>
-
             <a href="/products">Products</a>
-
             <a href="/services">Services</a>
-
             <a href="/insights">Resources</a>
-
-            <a href="/contact">Contact</a>
             <a href="/support">Support</a>
-  
-
-
-            <details class="login-menu">
-
-              <summary class="btn btn-secondary">Login</summary>
-
-              <div class="login-menu-list">
-
-                <a href="https://leo-production-d251.up.railway.app/login" target="_blank" rel="noopener noreferrer">NyLi Assets</a>
-
-                <a href="https://insight-pilot-production.up.railway.app/" target="_blank" rel="noopener noreferrer">NyLi Insights</a>
-
-                <a href="https://nyli-agent-production.up.railway.app/login" target="_blank" rel="noopener noreferrer">NyLi Agent</a>
-
-              </div>
-
-            </details>          </div>
-
+            <a href="/contact">Contact</a>
+            <a class="btn btn-secondary" href="/login">Login</a>
+          </div>
         </nav>
-
       </div>
-
     </header>
 
-    <main class="container">
+    <main id="main-content" class="container">
       <section class="page-hero">
-        <p class="breadcrumb"><a href="/">Home</a> / Contact Us</p>
-        <h1>Contact Us</h1>
-        <p class="section-copy">Let’s build something that holds up in the real world.</p>
-        <p class="section-copy">Joyful Innovation helps teams turn messy operations into governed automation and auditable outcomes. If you are exploring a new build, improving an existing workflow, or looking for a delivery partner who ships reliably, reach out. We will respond within 1 business day.</p>
+        <p class="breadcrumb"><a href="/">Home</a> / Contact</p>
+        <h1>Talk with our sales and partnership team</h1>
+        <p class="section-copy">
+          Use this form for demos, implementation planning, and partnership discussions. For product troubleshooting, visit
+          <a href="/support">Support</a> first.
+        </p>
       </section>
 
       <section class="split">
         <article class="card">
-          <h2>What happens next</h2>
-          <p class="section-copy">To help us route your request, share the goal, the systems involved, and your timeline. Sanitized examples are perfect.</p>
+          <h2>What to expect</h2>
           <ul class="list">
-            <li>Fast response within 1 business day</li>
-            <li>Clear scope and practical next steps</li>
-            <li>Built for reliability, governance, and auditability</li>
+            <li>Initial reply with next-step options after review.</li>
+            <li>A focused discovery call when your request needs deeper scoping.</li>
+            <li>Clear recommendation for product path, services, or both.</li>
           </ul>
+          <p class="field-note">Do not include credentials, protected personal data, or other confidential secrets in this form.</p>
         </article>
 
-        <form id="contact-form" class="contact-form">
-          <h2 style="margin-top:0">Tell us about your request</h2>
-          <label for="contact-name">Full Name</label>
-          <input id="contact-name" name="name" type="text" required />
+        <form id="contact-form" novalidate>
+          <h2 style="margin-top: 0">Start your request</h2>
 
-          <label for="contact-email">Work Email</label>
-          <input id="contact-email" name="email" type="email" required />
+          <label for="contact-name">Name</label>
+          <input id="contact-name" name="name" type="text" required autocomplete="name" />
+          <p class="field-error" data-error-for="contact-name" aria-live="polite"></p>
+
+          <label for="contact-email">Work email</label>
+          <input id="contact-email" name="email" type="email" required autocomplete="email" />
+          <p class="field-error" data-error-for="contact-email" aria-live="polite"></p>
 
           <label for="contact-company">Company</label>
-          <input id="contact-company" name="company" type="text" />
+          <input id="contact-company" name="company" type="text" autocomplete="organization" />
+          <p class="field-error" data-error-for="contact-company" aria-live="polite"></p>
 
-          <label for="contact-inquiry">Inquiry Type</label>
-          <select id="contact-inquiry" name="inquiry" required>
-            <option value="">Select a topic</option>
-            <option>Sales and product questions</option>
-            <option>Services and delivery</option>
-            <option>Partnerships</option>
-            <option>Speaking and workshops</option>
-            <option>Media and press</option>
-            <option>Other</option>
+          <label for="contact-interest">Interest</label>
+          <select id="contact-interest" name="interest" required>
+            <option value="">Select one</option>
+            <option value="Services">Services</option>
+            <option value="NyLi Assets">NyLi Assets</option>
+            <option value="NyLi Insights">NyLi Insights</option>
+            <option value="NyLi Agent">NyLi Agent</option>
+            <option value="Partnerships">Partnerships</option>
+            <option value="Other">Other</option>
           </select>
+          <p class="field-error" data-error-for="contact-interest" aria-live="polite"></p>
 
-          <label for="contact-message">What are you trying to accomplish</label>
-          <textarea id="contact-message" name="message" required placeholder="Example: We want a governed intake workflow that routes requests, uses approved knowledge only, and produces consistent outputs with an audit trail. Target first phase in 4 weeks."></textarea>
-          <p class="section-copy" style="margin-top:8px">Include the systems involved, timeline, and what a successful output looks like.</p>
+          <label for="contact-message">Message</label>
+          <textarea
+            id="contact-message"
+            name="message"
+            required
+            placeholder="Describe your goals, timeline, and the systems involved."
+          ></textarea>
+          <p class="field-error" data-error-for="contact-message" aria-live="polite"></p>
 
-          <label for="contact-sample">Attach a sanitized sample</label>
-          <textarea id="contact-sample" name="sample" rows="3"></textarea>
-          <p class="section-copy" style="margin-top:8px">If sharing a sample is easier, mention it here and we will provide a secure way to send it.</p>
-
-          <div style="margin-top:12px">
-            <button class="btn btn-secondary" type="submit">Submit Contact Request</button>
+          <div class="honeypot" aria-hidden="true">
+            <label for="company-website">Company website</label>
+            <input id="company-website" name="company_website" type="text" tabindex="-1" autocomplete="off" />
           </div>
-          <p class="section-copy" style="margin-top:10px">Do not include secrets, credentials, or sensitive personal data.</p>
-          <p id="contact-success" class="support-note" role="status" aria-live="polite"></p>
+
+          <button class="btn btn-primary" type="submit">Submit request</button>
+          <p class="form-help">
+            Static form submission uses a configurable endpoint in <code>/assets/site-config.js</code>.
+          </p>
+          <p id="contact-status" class="form-status" role="status" aria-live="polite"></p>
+          <div id="contact-success" class="card" hidden>
+            <h3>Next steps</h3>
+            <ul class="list">
+              <li>We review your request and confirm fit.</li>
+              <li>We send recommended next steps and optional scheduling options.</li>
+              <li>If needed, we prepare a scoped demo or discovery agenda.</li>
+            </ul>
+          </div>
         </form>
       </section>
     </main>
 
     <footer class="site-footer">
       <div class="container footer-wrap">
-        <div class="footer-top">
-          <div>
-            <p class="footer-quote">"Innovation works best when it feels human."</p>
-            <p class="footer-copy">Joyful Innovation helps teams remove friction, protect focus time, and deliver better outcomes with practical AI.</p>
-          </div>
-          <img class="footer-visual" src="assets/human-connection.svg" alt="Illustration of people collaborating with AI" />
-        </div>
+        <p class="footer-copy">
+          Joyful Innovation combines strategic consulting and practical product delivery to help teams adopt AI and analytics with
+          stronger governance and day-to-day usability.
+        </p>
         <div class="footer-links">
-          <a href="/privacy-policy">Privacy Policy</a>
-          <a href="/terms">Terms of Service</a>
-          <a href="/contact">Contact</a>
+          <a href="/products">Products</a>
+          <a href="/services">Services</a>
           <a href="/insights">Resources</a>
           <a href="/support">Support</a>
+          <a href="/contact">Contact</a>
+          <a href="/login">Login</a>
+          <a href="/privacy-policy">Privacy Policy</a>
+          <a href="/terms">Terms of Service</a>
         </div>
-        <p class="footer-meta">© 2026 Joyful Innovation. All rights reserved.</p>
+        <p class="footer-meta">© <span id="footer-year">2026</span> Joyful Innovation. All rights reserved.</p>
       </div>
     </footer>
-
-    <script>
-      (() => {
-        const form = document.getElementById("contact-form");
-        const success = document.getElementById("contact-success");
-
-        if (!form || !success) return;
-
-        form.addEventListener("submit", (event) => {
-          event.preventDefault();
-          if (!form.reportValidity()) return;
-          success.textContent = "Thanks. We received your message and will respond within 1 business day.";
-          form.reset();
-        });
-      })();
-    </script>
+    <script src="/assets/site-config.js?v=20260303" defer></script>
+    <script src="/assets/site.js?v=20260303" defer></script>
+    <script src="/assets/contact.js?v=20260303" defer></script>
   </body>
 </html>
-
-
-
-
-
-
-
-
-
-
