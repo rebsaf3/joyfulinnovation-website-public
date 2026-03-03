@@ -43,8 +43,8 @@ window.JOYFUL_SUPPORT_ARTICLES = [
   },
   {
     id: 'support-agent-availability',
-    title: 'NyLi Agent Early Access Expectations',
-    summary: 'What is currently available in early access and how to request a scoped evaluation.',
+    title: 'NyLi Agent Deployment Expectations',
+    summary: 'What is currently available for production use and how to request onboarding.',
     product: 'agent',
     tags: ['access', 'faq'],
   },

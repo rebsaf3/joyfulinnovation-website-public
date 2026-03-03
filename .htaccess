@@ -21,6 +21,9 @@ RewriteRule ^(.+?)/?$ $1.html [L]
 # Redirect retired FAQ page to Contact
 RewriteRule ^faq/?$ /contact [R=301,L]
 
+# Redirect retired InsightPilot support route to Support
+RewriteRule ^insightpilot-support/?$ /support [R=301,L]
+
 # Redirect legacy blog URLs to /blog/
 RewriteRule ^(insight-[^/]+)/?$ /blog/$1 [R=301,L]
 

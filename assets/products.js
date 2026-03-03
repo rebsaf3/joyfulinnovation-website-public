@@ -17,8 +17,8 @@
       cta: 'View NyLi Insights',
     },
     assistant: {
-      title: 'Consider NyLi Agent Early Access',
-      copy: 'NyLi Agent is currently in early access planning. Use this path when you want assistant-led workflows and guided automation goals.',
+      title: 'Use NyLi Agent for Production Workflows',
+      copy: 'NyLi Agent supports production implementations with scoped onboarding when you want assistant-led workflows and guided automation goals.',
       href: '/product-flowpilot',
       cta: 'View NyLi Agent',
     },
