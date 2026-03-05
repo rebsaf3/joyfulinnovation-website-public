@@ -95,7 +95,7 @@
     </script>
     <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg?v=20260303c" />
     <link rel="icon" href="/favicon.ico" sizes="any" />
-    <link rel="stylesheet" href="/assets/styles.css?v=20260303c" />
+    <link rel="stylesheet" href="/assets/styles.css?v=20260303e" />
   </head>
   <body>
     <a class="skip-link" href="#main-content">Skip to main content</a>
@@ -127,31 +127,118 @@
     <main id="main-content" class="container">
       <section class="page-hero">
         <p class="breadcrumb"><a href="/">Home</a> / Resources</p>
-        <h1>Resources</h1>
+        <div class="resource-hero-heading">
+          <h1>Resources</h1>
+          <span class="pill resource-total-badge" id="resource-total-badge" aria-live="polite">0 available</span>
+        </div>
         <p class="section-copy">
           Browse practical material for product rollout, governance planning, and operational improvement.
         </p>
+        <p class="small resource-hero-help">Use search and filters together to quickly narrow to the right starting point.</p>
       </section>
 
       <section>
         <h2>Find what you need quickly</h2>
-        <div class="filters">
-          <div>
-            <label for="resource-search">Search resources</label>
-            <input id="resource-search" type="search" placeholder="Search by topic, keyword, or category" />
+
+        <div class="resource-presets-wrap" id="resource-presets-wrap">
+          <h3 class="resource-presets-title">Popular starting points</h3>
+          <div class="resource-presets" role="group" aria-label="Resource filter presets">
+            <button class="pill resource-preset" type="button" data-resource-preset="governance">Governance</button>
+            <button class="pill resource-preset" type="button" data-resource-preset="rollout">Rollout planning</button>
+            <button class="pill resource-preset" type="button" data-resource-preset="templates">Templates</button>
           </div>
-          <p id="resource-count" class="result-count" aria-live="polite">Showing resources</p>
         </div>
 
-        <div class="filter-buttons" role="group" aria-label="Resource categories">
-          <button class="chip" type="button" data-resource-filter="all" aria-pressed="true">All</button>
-          <button class="chip" type="button" data-resource-filter="guides" aria-pressed="false">Guides</button>
-          <button class="chip" type="button" data-resource-filter="case-notes" aria-pressed="false">Case Notes</button>
-          <button class="chip" type="button" data-resource-filter="templates" aria-pressed="false">Templates</button>
-          <button class="chip" type="button" data-resource-filter="blog-posts" aria-pressed="false">Blog posts</button>
+        <div class="resources-layout" data-resources-layout>
+          <aside class="card resources-sidebar" id="resources-sidebar" aria-label="Filter resources" tabindex="-1">
+            <div class="resources-sidebar-head">
+              <h3>Filters</h3>
+              <button class="btn btn-secondary resources-sidebar-collapse" type="button" data-sidebar-collapse>Collapse</button>
+            </div>
+
+            <div class="resources-sidebar-block">
+              <label for="resource-sort-sidebar">Sort</label>
+              <select id="resource-sort-sidebar" data-resource-sort></select>
+            </div>
+
+            <div class="resources-sidebar-block">
+              <p class="small resources-sidebar-title">Categories</p>
+              <div class="resources-sidebar-list" id="resource-category-list" role="group" aria-label="Resource categories"></div>
+            </div>
+
+            <div class="resources-sidebar-block" id="resource-secondary-filter-wrap" hidden>
+              <p class="small resources-sidebar-title">Tags</p>
+              <div class="resources-sidebar-list" id="resource-secondary-list" role="group" aria-label="Resource tags"></div>
+            </div>
+
+            <button class="btn btn-secondary" type="button" data-clear-all>Clear all</button>
+          </aside>
+
+          <div class="resources-main">
+            <div class="resources-toolbar">
+              <button
+                class="btn btn-secondary resources-mobile-filters"
+                type="button"
+                data-open-filters
+                aria-controls="resources-sidebar"
+                aria-expanded="false"
+              >
+                Filters
+              </button>
+              <div>
+                <label for="resource-search">Search resources</label>
+                <input
+                  id="resource-search"
+                  type="search"
+                  placeholder="Search by topic, keyword, or category (Press / to focus)"
+                  autocomplete="off"
+                />
+              </div>
+              <div class="resources-toolbar-sort">
+                <label for="resource-sort-top">Sort</label>
+                <select id="resource-sort-top" data-resource-sort></select>
+              </div>
+            </div>
+
+            <div class="resources-count-row">
+              <p id="resource-count" class="result-count result-count-prominent" aria-live="polite">Showing resources</p>
+              <button class="btn btn-secondary resources-clear-all-inline" type="button" data-clear-all>Clear all</button>
+            </div>
+
+            <div class="filter-buttons resources-quick-filters" role="group" aria-label="Quick category filters">
+              <button class="chip" type="button" data-resource-filter="all" aria-pressed="true">All</button>
+              <button class="chip" type="button" data-resource-filter="guides" aria-pressed="false">Guides</button>
+              <button class="chip" type="button" data-resource-filter="case-notes" aria-pressed="false">Case Notes</button>
+              <button class="chip" type="button" data-resource-filter="templates" aria-pressed="false">Templates</button>
+              <button class="chip" type="button" data-resource-filter="blog-posts" aria-pressed="false">Blog posts</button>
+            </div>
+            <div
+              class="filter-buttons resources-secondary-filters"
+              id="resource-secondary-pills"
+              role="group"
+              aria-label="Quick tag filters"
+              hidden
+            ></div>
+
+            <div class="active-filter-chips" id="active-filter-chips" aria-live="polite"></div>
+
+            <div id="resources-grid" class="resource-grid resources-grid" style="margin-top: 12px"></div>
+
+            <div id="resource-empty-state" class="card resource-empty-state" hidden>
+              <h3>No resources match your current filters</h3>
+              <p>Try a different keyword or clear filters to see all resources.</p>
+              <div class="actions">
+                <button class="btn btn-primary" type="button" data-clear-all>Reset filters</button>
+              </div>
+            </div>
+
+            <div class="resources-load-more-wrap">
+              <button id="resources-load-more" class="btn btn-secondary" type="button" hidden>Load more</button>
+            </div>
+          </div>
         </div>
 
-        <div id="resources-grid" class="resource-grid" style="margin-top: 12px"></div>
+        <div class="resources-drawer-backdrop" data-filters-backdrop hidden></div>
 
         <noscript>
           <div class="card" style="margin-top: 12px">
@@ -227,6 +314,6 @@
     </footer>
     <script src="/assets/data/resources-data.js?v=20260303c" defer></script>
     <script src="/assets/site.js?v=20260303c" defer></script>
-    <script src="/assets/resources.js?v=20260303c" defer></script>
+    <script src="/assets/resources.js?v=20260303e" defer></script>
   </body>
 </html>

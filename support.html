@@ -26,7 +26,7 @@
     <meta name="twitter:image" content="https://joyfulinnovation.com/assets/human-connection.svg" />
     <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg?v=20260303c" />
     <link rel="icon" href="/favicon.ico" sizes="any" />
-    <link rel="stylesheet" href="/assets/styles.css?v=20260303c" />
+    <link rel="stylesheet" href="/assets/styles.css?v=20260304a" />
   </head>
   <body>
     <a class="skip-link" href="#main-content">Skip to main content</a>
@@ -60,34 +60,51 @@
         <p class="breadcrumb"><a href="/">Home</a> / Support</p>
         <h1>Support center</h1>
         <p class="section-copy">Start with self-serve guidance, then escalate to contact or consult paths when needed.</p>
+        <div class="support-hero-actions">
+          <a class="btn btn-primary" href="#support-contact" data-scroll-link>Open contact form</a>
+          <a class="btn btn-secondary" href="#knowledge-base" data-scroll-link>Browse knowledge base</a>
+        </div>
+        <p class="small support-hero-helper">Guidance first, then contact, then consult when deeper support is needed.</p>
       </section>
 
-      <section>
+      <section id="support-flow" class="scroll-target">
         <h2>Support path</h2>
-        <div class="support-path">
-          <article class="card" data-step="Step 1">
+        <p class="small support-step-indicator" id="support-step-indicator" aria-live="polite">Current step: Step 1</p>
+        <div class="support-path" role="list">
+          <article class="card support-step-card clickable-card" data-step="Step 1" data-step-target="knowledge" role="button" tabindex="0" aria-label="Go to step 1: self-serve knowledge first">
             <h3>Self-serve knowledge first</h3>
             <p>Search the knowledge entries below by product, tag, or keyword to resolve common setup and workflow issues quickly.</p>
           </article>
-          <article class="card" data-step="Step 2">
+          <article class="card support-step-card clickable-card" data-step="Step 2" data-step-target="contact" role="button" tabindex="0" aria-label="Go to step 2: then contact support">
             <h3>Then contact support</h3>
             <p>If you are blocked, send a support request through the contact form and choose <strong>Other</strong> with context.</p>
-            <p><a href="/contact?interest=Other">Open contact form</a></p>
+            <p><span class="support-inline-link">Open contact form</span></p>
           </article>
-          <article class="card" data-step="Step 3">
+          <article class="card support-step-card clickable-card" data-step="Step 3" data-step-target="consult" role="button" tabindex="0" aria-label="Go to step 3: then consult request if needed">
             <h3>Then consult request if needed</h3>
             <p>For recurring workflow problems or rollout redesign, request a consult engagement.</p>
-            <p><a href="/contact?interest=Services">Request consult</a></p>
+            <p><span class="support-inline-link">Request consult</span></p>
           </article>
         </div>
       </section>
 
-      <section>
+      <section id="knowledge-base" class="scroll-target">
         <h2>Knowledge base</h2>
-        <div class="filters">
+        <div class="support-presets-wrap" id="support-presets-wrap">
+          <h3 class="resource-presets-title">Popular starting points</h3>
+          <div class="support-presets" role="group" aria-label="Support filter presets">
+            <button class="pill support-preset" type="button" data-support-preset="setup">Setup</button>
+            <button class="pill support-preset" type="button" data-support-preset="troubleshooting">Troubleshooting</button>
+            <button class="pill support-preset" type="button" data-support-preset="workflows">Workflows</button>
+            <button class="pill support-preset" type="button" data-support-preset="governance">Governance</button>
+            <button class="pill support-preset" type="button" data-support-preset="access-security">Access and security</button>
+          </div>
+        </div>
+
+        <div class="support-toolbar">
           <div>
             <label for="support-search">Search support articles</label>
-            <input id="support-search" type="search" placeholder="Search by issue, workflow, or keyword" />
+            <input id="support-search" type="search" placeholder="Search by issue, workflow, or keyword (Press / to focus)" />
           </div>
           <div>
             <label for="support-product">Product filter</label>
@@ -98,6 +115,13 @@
               <option value="agent">NyLi Agent</option>
               <option value="general">General</option>
             </select>
+          </div>
+          <div>
+            <label for="support-sort">Sort</label>
+            <select id="support-sort"></select>
+          </div>
+          <div class="support-toolbar-clear">
+            <button class="btn btn-secondary" type="button" data-support-clear-all>Clear all</button>
           </div>
         </div>
 
@@ -112,8 +136,72 @@
           <button class="kb-tag" type="button" data-support-tag="faq" aria-pressed="false">FAQ</button>
         </div>
 
-        <p id="support-count" class="result-count" aria-live="polite">Showing support articles</p>
-        <div id="support-grid" class="grid-3"></div>
+        <div class="support-active-chips" id="support-active-chips" aria-live="polite" hidden></div>
+
+        <p id="support-count" class="result-count result-count-prominent" aria-live="polite">Showing support articles</p>
+        <div id="support-grid" class="grid-3 support-grid" aria-live="polite"></div>
+
+        <div id="support-empty-state" class="card resource-empty-state" hidden>
+          <h3>No support articles match your current filters</h3>
+          <p>Try another keyword, product, or tag combination.</p>
+          <div class="actions">
+            <button class="btn btn-primary" type="button" data-support-clear-all>Reset filters</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="support-contact" class="scroll-target">
+        <h2>Contact support</h2>
+        <p class="section-copy">Use this form when guidance does not resolve the issue and you need direct help.</p>
+        <form id="support-contact-form" class="contact-form" novalidate>
+          <div class="grid-2">
+            <div>
+              <label for="support-contact-name">Name</label>
+              <input id="support-contact-name" name="name" type="text" autocomplete="name" required />
+            </div>
+            <div>
+              <label for="support-contact-email">Email</label>
+              <input id="support-contact-email" name="email" type="email" autocomplete="email" required />
+            </div>
+          </div>
+          <div class="grid-2">
+            <div>
+              <label for="support-contact-product">Product</label>
+              <select id="support-contact-product" name="product" required>
+                <option value="">Select a product</option>
+                <option value="NyLi Assets">NyLi Assets</option>
+                <option value="NyLi Insights">NyLi Insights</option>
+                <option value="NyLi Agent">NyLi Agent</option>
+                <option value="General">General</option>
+              </select>
+            </div>
+            <div>
+              <label for="support-contact-topic">Topic</label>
+              <input id="support-contact-topic" name="topic" type="text" required />
+            </div>
+          </div>
+          <div>
+            <label for="support-contact-message">Message</label>
+            <textarea id="support-contact-message" name="message" rows="5" required></textarea>
+          </div>
+          <div class="actions">
+            <button class="btn btn-primary" type="submit">Submit support request</button>
+            <a class="btn btn-secondary" href="/contact?interest=Other">Open full contact page</a>
+          </div>
+          <p class="small support-form-note">Share enough context for triage. Response timing depends on queue and scope.</p>
+          <p class="small" id="support-form-success" role="status" aria-live="polite" hidden>
+            Support request received. We will follow up through the contact details you provided.
+          </p>
+        </form>
+      </section>
+
+      <section id="support-consult" class="cta scroll-target">
+        <h2 style="margin-top: 0">Need deeper workflow support?</h2>
+        <p>Use this path for recurring operational issues, governance redesign, or scoped rollout work.</p>
+        <div class="actions">
+          <a class="btn btn-primary" href="/contact?interest=Services">Request a consultation</a>
+          <a class="btn btn-secondary" href="/services">View services</a>
+        </div>
       </section>
     </main>
 
@@ -150,6 +238,6 @@
     </footer>
     <script src="/assets/data/support-data.js?v=20260303c" defer></script>
     <script src="/assets/site.js?v=20260303c" defer></script>
-    <script src="/assets/support.js?v=20260303c" defer></script>
+    <script src="/assets/support.js?v=20260304a" defer></script>
   </body>
 </html>

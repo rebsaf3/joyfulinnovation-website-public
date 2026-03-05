@@ -26,7 +26,7 @@
     <meta name="twitter:image" content="https://joyfulinnovation.com/assets/joyfull_innovation_how_we_work_map.png" />
     <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg?v=20260303c" />
     <link rel="icon" href="/favicon.ico" sizes="any" />
-    <link rel="stylesheet" href="/assets/styles.css?v=20260303c" />
+    <link rel="stylesheet" href="/assets/styles.css?v=20260303d" />
   </head>
   <body>
     <a class="skip-link" href="#main-content">Skip to main content</a>
@@ -48,7 +48,7 @@
             <div class="nav-utility">
               <a href="/support">Support</a>
               <a class="btn btn-secondary" href="/login">Login</a>
-              <a class="btn btn-primary header-cta" href="/contact?intent=demo">Request a demo</a>
+              <a class="btn btn-primary header-cta" href="/contact?interest=Services">Request a consultation</a>
             </div>
           </div>
         </nav>
@@ -56,90 +56,279 @@
     </header>
 
     <main id="main-content" class="container">
-      <section class="page-hero">
+      <section class="page-hero scroll-target" id="overview">
         <p class="breadcrumb"><a href="/">Home</a> / Services</p>
         <h1>Outcome-focused services for practical AI and analytics delivery</h1>
         <p class="section-copy">
           Joyful Innovation services are designed for teams that need real adoption, not slideware. We align business priorities,
           implement workable systems, and help teams sustain operating cadence.
         </p>
+        <div class="actions service-hero-actions">
+          <a class="btn btn-primary" href="/contact?interest=Services">Request a consultation</a>
+          <a class="btn btn-secondary" href="#services-list" data-scroll-link>View services</a>
+        </div>
+        <p class="small service-hero-help">
+          We map goals to a practical first milestone, then align delivery steps with your current tools.
+        </p>
       </section>
 
-      <section>
-        <h2>What engagements are built to deliver</h2>
-        <div class="grid-3">
-          <article class="card">
-            <h3>Clear implementation scope</h3>
-            <p>Translate goals into phased execution plans with defined owners, dependencies, and milestones.</p>
+      <nav
+        class="products-mini-nav home-section-nav"
+        aria-label="Services page sections"
+        data-track-sections="overview,services-list,how-we-work,engagement-options,faq,next-step"
+      >
+        <a class="pill" href="#overview">Overview</a>
+        <a class="pill" href="#services-list">Services</a>
+        <a class="pill" href="#how-we-work">How we work</a>
+        <a class="pill" href="#engagement-options">Engagement options</a>
+        <a class="pill" href="#faq">FAQ</a>
+        <a class="pill" href="#next-step">Next step</a>
+      </nav>
+
+      <section class="scroll-target" id="services-list">
+        <h2>Services</h2>
+        <p class="section-copy">
+          Choose a starting service based on the immediate decision you need to make, then expand as delivery matures.
+        </p>
+
+        <article class="card services-router" data-service-router aria-label="Choose where to start">
+          <h3>Choose where to start</h3>
+          <div class="services-router-controls" role="toolbar" aria-label="Service intent router">
+            <button class="chip" type="button" data-intent="live-fast" aria-pressed="false">Get live fast with a first milestone</button>
+            <button class="chip" type="button" data-intent="governance" aria-pressed="false">Set governance and decision rules</button>
+            <button class="chip" type="button" data-intent="workflows" aria-pressed="false">Map and improve workflows</button>
+            <button class="chip" type="button" data-intent="enablement" aria-pressed="false">Enable the team after launch</button>
+          </div>
+          <p class="small services-router-guidance" data-router-guidance aria-live="polite">
+            Recommended starting point: Select an intent to focus the services list.
+          </p>
+          <div class="services-router-meta">
+            <p class="small" data-router-count>Showing all 4 services.</p>
+            <button class="btn btn-secondary services-router-reset" type="button" data-router-reset hidden>Reset</button>
+          </div>
+        </article>
+
+        <div class="grid-2 services-grid" aria-live="polite">
+          <article
+            class="card clickable-card service-card"
+            id="service-ai-adoption"
+            data-service-card
+            data-intents="live-fast,governance"
+            data-card-link="/services#how-step-discovery"
+            role="link"
+            tabindex="0"
+            aria-label="Learn more about AI adoption planning"
+          >
+            <h3>AI adoption planning</h3>
+            <p class="service-intent"><strong>Best for:</strong> Teams establishing responsible AI guardrails early.</p>
+            <p class="service-summary">
+              Identify high-value workflows, set practical guardrails, and define how human oversight stays in the loop.
+            </p>
+            <p class="small service-deliverable">
+              <strong>What you get:</strong> A scoped adoption plan with decision rules, ownership model, and rollout priorities.
+            </p>
+            <div class="actions">
+              <a class="btn btn-primary" href="/services#how-step-discovery">Learn more</a>
+              <a class="btn btn-secondary" href="/contact?interest=Services">Request a consultation</a>
+            </div>
           </article>
-          <article class="card">
-            <h3>Faster decision cycles</h3>
-            <p>Improve visibility with reporting and knowledge practices that reduce manual handoffs.</p>
+
+          <article
+            class="card clickable-card service-card"
+            id="service-analytics"
+            data-service-card
+            data-intents="live-fast,workflows"
+            data-card-link="/services#how-step-implementation"
+            role="link"
+            tabindex="0"
+            aria-label="Learn more about analytics operating model"
+          >
+            <h3>Analytics operating model</h3>
+            <p class="service-intent"><strong>Best for:</strong> Teams needing repeatable decision visibility.</p>
+            <p class="service-summary">
+              Build repeatable reporting practices so teams can move from ad hoc exports to recurring decision support.
+            </p>
+            <p class="small service-deliverable">
+              <strong>What you get:</strong> KPI structure, reporting cadence, and practical dashboard workflow definitions.
+            </p>
+            <div class="actions">
+              <a class="btn btn-primary" href="/services#how-step-implementation">Learn more</a>
+              <a class="btn btn-secondary" href="/contact?interest=Services">Request a consultation</a>
+            </div>
           </article>
-          <article class="card">
-            <h3>Responsible adoption</h3>
-            <p>Establish governance and review patterns so new AI-enabled workflows stay manageable.</p>
+
+          <article
+            class="card clickable-card service-card"
+            id="service-knowledge"
+            data-service-card
+            data-intents="governance,workflows"
+            data-card-link="/services#how-step-implementation"
+            role="link"
+            tabindex="0"
+            aria-label="Learn more about knowledge and content operations"
+          >
+            <h3>Knowledge and content operations</h3>
+            <p class="service-intent"><strong>Best for:</strong> Teams that need governed, reusable content inputs.</p>
+            <p class="service-summary">
+              Structure business content for discoverability and consistency so teams can reuse trusted material quickly.
+            </p>
+            <p class="small service-deliverable">
+              <strong>What you get:</strong> Content structure standards, retrieval workflow rules, and governance checkpoints.
+            </p>
+            <div class="actions">
+              <a class="btn btn-primary" href="/services#how-step-implementation">Learn more</a>
+              <a class="btn btn-secondary" href="/contact?interest=Services">Request a consultation</a>
+            </div>
+          </article>
+
+          <article
+            class="card clickable-card service-card"
+            id="service-rollout"
+            data-service-card
+            data-intents="live-fast,enablement"
+            data-card-link="/services#how-step-enablement"
+            role="link"
+            tabindex="0"
+            aria-label="Learn more about cross-functional rollout support"
+          >
+            <h3>Cross-functional rollout support</h3>
+            <p class="service-intent"><strong>Best for:</strong> Teams coordinating adoption across functions.</p>
+            <p class="service-summary">
+              Guide implementation across business and technical groups with clear communication and practical delivery cadence.
+            </p>
+            <p class="small service-deliverable">
+              <strong>What you get:</strong> A cross-functional rollout plan, handoff checkpoints, and enablement routines.
+            </p>
+            <div class="actions">
+              <a class="btn btn-primary" href="/services#how-step-enablement">Learn more</a>
+              <a class="btn btn-secondary" href="/contact?interest=Services">Request a consultation</a>
+            </div>
           </article>
         </div>
       </section>
 
-      <section>
-        <h2>Engagement model</h2>
+      <section class="scroll-target" id="how-we-work">
+        <h2>How We Work</h2>
+        <p class="section-copy">
+          We use a practical phased method that turns goals into scoped delivery, then into repeatable execution.
+        </p>
         <div class="grid-3">
-          <article class="card" id="discovery">
+          <article
+            class="card clickable-card"
+            id="how-step-discovery"
+            data-card-link="/services#engagement-discovery"
+            role="link"
+            tabindex="0"
+            aria-label="Learn more about discovery and scope"
+          >
             <p class="post-label">Phase 1</p>
             <h3>Discovery and strategy</h3>
             <p>Assess current tools, data, and team workflows, then prioritize the first solution milestone.</p>
           </article>
-          <article class="card" id="phased-implementation">
+          <article
+            class="card clickable-card"
+            id="how-step-implementation"
+            data-card-link="/services#engagement-fixed"
+            role="link"
+            tabindex="0"
+            aria-label="Learn more about fixed-scope milestone"
+          >
             <p class="post-label">Phase 2</p>
             <h3>Implementation and integration</h3>
             <p>Configure product workflows, connect source systems, and launch practical use cases in controlled phases.</p>
           </article>
-          <article class="card" id="enablement">
+          <article
+            class="card clickable-card"
+            id="how-step-enablement"
+            data-card-link="/services#engagement-implementation"
+            role="link"
+            tabindex="0"
+            aria-label="Learn more about implementation and enablement"
+          >
             <p class="post-label">Phase 3</p>
             <h3>Enablement and operating cadence</h3>
             <p>Train users, define ownership, and establish review routines so teams can sustain results.</p>
           </article>
         </div>
+        <div class="actions section-actions">
+          <a class="btn btn-primary" href="/contact?interest=Services">Request a consultation</a>
+          <a class="btn btn-secondary" href="#services-list" data-scroll-link>View services</a>
+        </div>
       </section>
 
-      <section>
-        <h2>Service tracks</h2>
-        <div class="grid-2">
-          <article class="card">
-            <h3>AI adoption planning</h3>
-            <p>
-              Identify high-value workflows, set practical guardrails, and define how human oversight stays in the loop.
-            </p>
+      <section class="scroll-target" id="engagement-options">
+        <h2>Engagement Options</h2>
+        <p class="section-copy">Select the engagement level that fits your current stage and internal capacity.</p>
+        <div class="grid-3 engagement-grid">
+          <article class="card engagement-card" id="engagement-discovery">
+            <h3>Discovery and scope</h3>
+            <p><strong>What it is:</strong> A focused assessment to define scope, constraints, and priorities.</p>
+            <p><strong>What you walk away with:</strong> A first-milestone plan with owners, dependencies, and decision checkpoints.</p>
+            <div class="actions">
+              <a class="btn btn-primary" href="/contact?interest=Services">Request a consultation</a>
+            </div>
           </article>
-          <article class="card">
-            <h3>Analytics operating model</h3>
-            <p>
-              Build repeatable reporting practices so teams can move from ad hoc exports to recurring decision support.
-            </p>
+          <article class="card engagement-card" id="engagement-fixed">
+            <h3>Fixed scope milestone</h3>
+            <p><strong>What it is:</strong> A bounded implementation focused on one clearly defined business outcome.</p>
+            <p><strong>What you walk away with:</strong> A working milestone plus documentation for governance and operating handoff.</p>
+            <div class="actions">
+              <a class="btn btn-primary" href="/contact?interest=Services">Request a consultation</a>
+            </div>
           </article>
-          <article class="card" id="trusted-inputs">
-            <h3>Knowledge and content operations</h3>
-            <p>
-              Structure business content for discoverability and consistency so teams can reuse trusted material quickly.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Cross-functional rollout support</h3>
-            <p>
-              Guide implementation across business and technical groups with clear communication and practical delivery cadence.
-            </p>
+          <article class="card engagement-card" id="engagement-implementation">
+            <h3>Implementation and enablement</h3>
+            <p><strong>What it is:</strong> Delivery support across rollout, training, and operating cadence setup.</p>
+            <p><strong>What you walk away with:</strong> Adoptable workflows, role clarity, and a repeatable review rhythm.</p>
+            <div class="actions">
+              <a class="btn btn-primary" href="/contact?interest=Services">Request a consultation</a>
+            </div>
           </article>
         </div>
       </section>
 
-      <section class="cta">
-        <h2 style="margin-top: 0">Need a consult-first path?</h2>
-        <p>Share your current process and target outcome. We will recommend the right starting engagement.</p>
+      <section class="scroll-target" id="faq">
+        <h2>FAQ</h2>
+        <div class="faq-list">
+          <details class="card faq-item">
+            <summary>What does the first milestone look like?</summary>
+            <p>
+              It usually starts with discovery, scope confirmation, and one defined implementation target that can be delivered and reviewed.
+            </p>
+          </details>
+          <details class="card faq-item">
+            <summary>How do services connect to NyLi products?</summary>
+            <p>
+              Services help define where products fit, configure the first workflow, and set adoption practices around product use.
+            </p>
+          </details>
+          <details class="card faq-item">
+            <summary>What do you need from us to start?</summary>
+            <p>
+              We need a clear business objective, key stakeholders, current process context, and access to the systems involved in scope.
+            </p>
+          </details>
+          <details class="card faq-item">
+            <summary>How do you handle governance and safety?</summary>
+            <p>
+              We define ownership, review checkpoints, and usage guardrails as part of scope and implementation planning.
+            </p>
+          </details>
+          <details class="card faq-item">
+            <summary>How do we decide which path is right?</summary>
+            <p>
+              Start with the immediate decision or workflow bottleneck, then choose the service path that delivers the first practical milestone.
+            </p>
+          </details>
+        </div>
+      </section>
+
+      <section class="cta scroll-target" id="next-step">
+        <h2 style="margin-top: 0">Next step</h2>
+        <p>Share your goals and current tools, and we will recommend the right service-first starting path.</p>
         <div class="actions">
-          <a class="btn btn-primary" href="/contact?intent=demo">Request a demo</a>
-          <a class="btn btn-secondary" href="/contact?interest=Services">Request a consult</a>
+          <a class="btn btn-primary" href="/contact?interest=Services">Request a consultation</a>
+          <a class="btn btn-secondary" href="/products">View products</a>
         </div>
       </section>
     </main>
@@ -176,5 +365,6 @@
       </div>
     </footer>
     <script src="/assets/site.js?v=20260303c" defer></script>
+    <script src="/assets/services.js?v=20260303d" defer></script>
   </body>
 </html>
