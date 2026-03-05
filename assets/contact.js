@@ -244,7 +244,7 @@
     }
 
     if (!endpoint) {
-      showStatus('Form endpoint is not configured. Set JOYFUL_SITE_CONFIG.contactForm.endpoint in /assets/site-config.js.', 'error');
+      showStatus('We could not submit the form right now. Please try again shortly.', 'error');
       return;
     }
 
