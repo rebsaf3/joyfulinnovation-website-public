@@ -56,43 +56,58 @@
     </header>
 
     <main id="main-content" class="container">
-      <section class="page-hero">
+      <section class="page-hero contact-hero">
         <p class="breadcrumb"><a href="/">Home</a> / Contact</p>
         <h1>Talk with our sales and partnership team</h1>
         <p class="section-copy">
           Use this form for demos, implementation planning, and partnership discussions. For product troubleshooting, visit
           <a href="/support">Support</a> first.
         </p>
+        <div class="contact-hero-actions">
+          <a class="btn btn-primary contact-hero-cta" href="#contact-form" data-contact-start>Start your request</a>
+          <a class="btn btn-secondary contact-hero-cta" href="/support">For product troubleshooting, go to Support</a>
+        </div>
+        <p class="small contact-hero-helper">
+          The best triage context includes your goal, timeline, systems involved, and decision makers or stakeholders.
+        </p>
       </section>
 
-      <section class="split">
-        <article class="card">
-          <h2>What to expect</h2>
-          <ul class="list">
-            <li>Initial reply with next-step options after review.</li>
-            <li>A focused discovery call when your request needs deeper scoping.</li>
-            <li>Clear recommendation for product path, services, or both.</li>
-          </ul>
-          <p class="field-note">Do not include credentials, protected personal data, or other confidential secrets in this form.</p>
-        </article>
-
-        <form id="contact-form" novalidate>
+      <section class="split contact-split">
+        <form id="contact-form" class="contact-form-shell" novalidate>
           <h2 style="margin-top: 0">Start your request</h2>
+          <p id="contact-form-intro" class="form-help contact-form-intro">
+            Required fields are marked with <span class="required-indicator" aria-hidden="true">*</span>.
+          </p>
 
-          <label for="contact-name">Name</label>
-          <input id="contact-name" name="name" type="text" required autocomplete="name" />
-          <p class="field-error" data-error-for="contact-name" aria-live="polite"></p>
+          <label for="contact-name"
+            >Name <span class="required-indicator" aria-hidden="true">*</span><span class="visually-hidden">required</span></label
+          >
+          <input id="contact-name" name="name" type="text" required autocomplete="name" aria-describedby="contact-name-error" />
+          <p id="contact-name-error" class="field-error" data-error-for="contact-name" aria-live="polite" aria-atomic="true"></p>
 
-          <label for="contact-email">Work email</label>
-          <input id="contact-email" name="email" type="email" required autocomplete="email" />
-          <p class="field-error" data-error-for="contact-email" aria-live="polite"></p>
+          <label for="contact-email"
+            >Work email <span class="required-indicator" aria-hidden="true">*</span
+            ><span class="visually-hidden">required</span></label
+          >
+          <input
+            id="contact-email"
+            name="email"
+            type="email"
+            required
+            autocomplete="email"
+            aria-describedby="contact-email-help contact-email-error"
+          />
+          <p id="contact-email-help" class="field-note field-help">Example: name@company.com</p>
+          <p id="contact-email-error" class="field-error" data-error-for="contact-email" aria-live="polite" aria-atomic="true"></p>
 
           <label for="contact-company">Company</label>
-          <input id="contact-company" name="company" type="text" autocomplete="organization" />
-          <p class="field-error" data-error-for="contact-company" aria-live="polite"></p>
+          <input id="contact-company" name="company" type="text" autocomplete="organization" aria-describedby="contact-company-error" />
+          <p id="contact-company-error" class="field-error" data-error-for="contact-company" aria-live="polite" aria-atomic="true"></p>
 
-          <label for="contact-interest">Interest</label>
-          <select id="contact-interest" name="interest" required>
+          <label for="contact-interest"
+            >Interest <span class="required-indicator" aria-hidden="true">*</span><span class="visually-hidden">required</span></label
+          >
+          <select id="contact-interest" name="interest" required aria-describedby="contact-interest-help contact-interest-guidance contact-interest-error">
             <option value="">Select one</option>
             <option value="Request a demo">Request a demo</option>
             <option value="Services">Services</option>
@@ -102,36 +117,79 @@
             <option value="Partnerships">Partnerships</option>
             <option value="Other">Other</option>
           </select>
-          <p class="field-error" data-error-for="contact-interest" aria-live="polite"></p>
+          <p id="contact-interest-help" class="field-note field-help">
+            Choose the option closest to your request: demos for walkthroughs, services for implementation planning, and partnerships
+            for collaboration conversations.
+          </p>
+          <p id="contact-interest-guidance" class="field-note field-help" aria-live="polite">
+            Select an interest to see the most helpful details to include.
+          </p>
+          <p
+            id="contact-interest-error"
+            class="field-error"
+            data-error-for="contact-interest"
+            aria-live="polite"
+            aria-atomic="true"
+          ></p>
 
-          <label for="contact-message">Message</label>
+          <label for="contact-message"
+            >Message <span class="required-indicator" aria-hidden="true">*</span><span class="visually-hidden">required</span></label
+          >
           <textarea
             id="contact-message"
             name="message"
             required
+            aria-describedby="contact-message-help contact-message-guidance contact-message-error"
             placeholder="Describe your goals, timeline, and the systems involved."
           ></textarea>
-          <p class="field-error" data-error-for="contact-message" aria-live="polite"></p>
+          <p id="contact-message-help" class="field-note field-help">
+            Include your goal, timeline, and systems involved so we can route your request correctly.
+          </p>
+          <p id="contact-message-guidance" class="field-note field-help contact-character-guidance">Recommended: 2 to 6 sentences.</p>
+          <p
+            id="contact-message-error"
+            class="field-error"
+            data-error-for="contact-message"
+            aria-live="polite"
+            aria-atomic="true"
+          ></p>
 
           <div class="honeypot" aria-hidden="true">
             <label for="company-website">Company website</label>
             <input id="company-website" name="company_website" type="text" tabindex="-1" autocomplete="off" />
           </div>
 
-          <button class="btn btn-primary" type="submit">Submit request</button>
+          <button id="contact-submit" class="btn btn-primary contact-submit" type="submit">Submit request</button>
           <p class="form-help">
             Static form submission uses a configurable endpoint in <code>/assets/site-config.js</code>.
           </p>
           <p id="contact-status" class="form-status" role="status" aria-live="polite"></p>
-          <div id="contact-success" class="card" hidden>
-            <h3>Next steps</h3>
-            <ul class="list">
-              <li>We review your request and confirm fit.</li>
-              <li>We send recommended next steps and optional scheduling options.</li>
-              <li>If needed, we prepare a scoped demo or discovery agenda.</li>
-            </ul>
+          <div id="contact-success" class="card contact-success" hidden>
+            <h3>Request received</h3>
+            <p>Thanks for sharing the details. We will review your request and follow up through the contact details you provided.</p>
+            <p class="small">For product troubleshooting, use the <a href="/support">Support page</a>.</p>
           </div>
         </form>
+
+        <article class="card contact-info-card">
+          <h2>What happens next</h2>
+          <ol class="contact-steps">
+            <li><strong>Review</strong><span>We review your request context and current priorities.</span></li>
+            <li><strong>Clarify</strong><span>We confirm any details needed to route the request correctly.</span></li>
+            <li><strong>Recommend next steps</strong><span>We share the best next step for your request type.</span></li>
+          </ol>
+
+          <h3>What to include</h3>
+          <ul class="list contact-include-list">
+            <li>Your goal</li>
+            <li>Timeline</li>
+            <li>Systems involved</li>
+            <li>Decision makers or stakeholders</li>
+          </ul>
+
+          <h3>What not to include</h3>
+          <p class="field-note">Do not include credentials, protected personal data, or other confidential secrets in this form.</p>
+        </article>
       </section>
     </main>
 
