@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>All Users — Owner Portal — NyLi Assets</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #0f172a; color: #e2e8f0; }
+
+    .sidebar {
+      position: fixed; top: 0; left: 0; width: 240px; height: 100vh;
+      background: #1e293b; border-right: 1px solid #334155;
+      display: flex; flex-direction: column; z-index: 100;
+    }
+    .sidebar .brand { padding: 20px 24px; border-bottom: 1px solid #334155; }
+    .sidebar .brand .logo { font-size: 1.1rem; font-weight: 700; color: #818cf8; }
+    .sidebar .brand .sub { font-size: 0.7rem; color: #64748b; text-transform: uppercase; letter-spacing: 2px; margin-top: 2px; }
+    .sidebar nav { flex: 1; padding: 16px 12px; display: flex; flex-direction: column; gap: 4px; }
+    .sidebar nav a {
+      display: flex; align-items: center; gap: 10px; padding: 10px 14px;
+      border-radius: 8px; color: #94a3b8; text-decoration: none;
+      font-size: 0.9rem; font-weight: 500; transition: all 0.15s;
+    }
+    .sidebar nav a:hover { background: rgba(129, 140, 248, 0.08); color: #c7d2fe; }
+    .sidebar nav a.active { background: rgba(129, 140, 248, 0.15); color: #818cf8; font-weight: 600; }
+    .sidebar nav a .icon { font-size: 1.1rem; width: 22px; text-align: center; }
+    .sidebar .sidebar-footer { padding: 16px 12px; border-top: 1px solid #334155; }
+    .sidebar .sidebar-footer .owner-info { padding: 8px 14px; font-size: 0.82rem; color: #64748b; }
+    .sidebar .sidebar-footer .owner-name { color: #e2e8f0; font-weight: 600; font-size: 0.88rem; }
+    .sidebar .sidebar-footer button {
+      display: flex; align-items: center; gap: 10px; width: 100%; padding: 10px 14px;
+      border: none; background: none; border-radius: 8px; color: #ef4444;
+      font-size: 0.9rem; font-weight: 500; cursor: pointer; transition: background 0.15s;
+    }
+    .sidebar .sidebar-footer button:hover { background: rgba(239, 68, 68, 0.08); }
+
+    .main { margin-left: 240px; min-height: 100vh; padding: 32px; }
+    .page-header { margin-bottom: 24px; }
+    .page-header h1 { font-size: 1.6rem; font-weight: 700; color: #f1f5f9; }
+
+    .toolbar { display: flex; gap: 12px; align-items: center; margin-bottom: 20px; flex-wrap: wrap; }
+    .toolbar input, .toolbar select {
+      padding: 9px 14px; border: 1px solid #475569; border-radius: 8px;
+      background: #1e293b; color: #e2e8f0; font-size: 0.88rem; outline: none; transition: border 0.2s;
+    }
+    .toolbar input:focus, .toolbar select:focus { border-color: #818cf8; }
+    .toolbar input { flex: 1; min-width: 200px; }
+    .toolbar .page-info { color: #64748b; font-size: 0.82rem; margin-left: auto; }
+    .toolbar button {
+      padding: 9px 16px; border: 1px solid #475569; border-radius: 8px;
+      background: #1e293b; color: #94a3b8; font-size: 0.88rem; cursor: pointer; transition: all 0.15s;
+    }
+    .toolbar button:hover { border-color: #818cf8; color: #818cf8; }
+
+    .section-card { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 24px; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 12px 14px; text-align: left; border-bottom: 1px solid #334155; font-size: 0.88rem; }
+    th { color: #64748b; font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.5px; }
+    td { color: #cbd5e1; }
+    tr:hover td { background: rgba(129, 140, 248, 0.04); }
+    .badge { display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: 0.75rem; font-weight: 600; }
+    .badge-active { background: rgba(34, 197, 94, 0.12); color: #4ade80; }
+    .badge-disabled { background: rgba(239, 68, 68, 0.12); color: #f87171; }
+    .badge-member { background: rgba(148, 163, 184, 0.12); color: #94a3b8; }
+    .badge-admin { background: rgba(129, 140, 248, 0.12); color: #818cf8; }
+    .badge-superadmin { background: rgba(167, 139, 250, 0.12); color: #a78bfa; }
+    .empty-row { text-align: center; color: #475569; padding: 32px; }
+    .btn-sm { padding:5px 10px; border-radius:6px; border:none; cursor:pointer; font-size:0.8rem; transition:all 0.15s; }
+    .btn-enable { background:rgba(34,197,94,0.12); color:#4ade80; }
+    .btn-enable:hover { background:#22c55e; color:#fff; }
+    .btn-disable { background:rgba(239,68,68,0.12); color:#f87171; }
+    .btn-disable:hover { background:#ef4444; color:#fff; }
+    .btn-reset { background:rgba(251,191,36,0.12); color:#fbbf24; }
+    .btn-reset:hover { background:#f59e0b; color:#fff; }
+
+    .btn-create { padding:9px 16px; border:none; border-radius:8px; background:#818cf8; color:#fff; font-size:0.88rem; font-weight:600; cursor:pointer; transition:all 0.15s; }
+    .btn-create:hover { background:#6366f1; }
+
+    .modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:200; align-items:center; justify-content:center; }
+    .modal-overlay.open { display:flex; }
+    .modal { background:#1e293b; border:1px solid #334155; border-radius:12px; padding:28px; width:440px; max-width:90vw; }
+    .modal h2 { font-size:1.15rem; font-weight:700; color:#f1f5f9; margin-bottom:18px; }
+    .modal label { display:block; font-size:0.82rem; color:#94a3b8; margin-bottom:4px; margin-top:12px; font-weight:500; }
+    .modal input, .modal select { width:100%; padding:9px 12px; border:1px solid #475569; border-radius:8px; background:#0f172a; color:#e2e8f0; font-size:0.88rem; outline:none; transition:border 0.2s; }
+    .modal input:focus, .modal select:focus { border-color:#818cf8; }
+    .modal .actions { display:flex; gap:10px; justify-content:flex-end; margin-top:20px; }
+    .modal .btn-cancel { padding:9px 18px; border:1px solid #475569; border-radius:8px; background:none; color:#94a3b8; font-size:0.88rem; cursor:pointer; transition:all 0.15s; }
+    .modal .btn-cancel:hover { border-color:#818cf8; color:#818cf8; }
+    .modal .btn-submit { padding:9px 18px; border:none; border-radius:8px; background:#818cf8; color:#fff; font-size:0.88rem; font-weight:600; cursor:pointer; transition:all 0.15s; }
+    .modal .btn-submit:hover { background:#6366f1; }
+    .modal .btn-submit:disabled { opacity:0.5; cursor:not-allowed; }
+    .modal .error-msg { color:#f87171; font-size:0.82rem; margin-top:8px; display:none; }
+    .modal .row { display:flex; gap:12px; }
+    .modal .row > div { flex:1; }
+
+    @media (max-width: 768px) {
+      .sidebar { width: 60px; }
+      .sidebar .brand .logo, .sidebar .brand .sub, .sidebar nav a span, .sidebar .sidebar-footer .owner-info { display: none; }
+      .sidebar nav a { justify-content: center; padding: 12px; }
+      .main { margin-left: 60px; padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="logo">NyLi Assets</div>
+      <div class="sub">Owner Portal</div>
+    </div>
+    <nav>
+      <a href="/owner/dashboard"><span class="icon">📊</span><span>Dashboard</span></a>
+      <a href="/owner/clients"><span class="icon">🏢</span><span>Clients</span></a>
+      <a href="/owner/users" class="active"><span class="icon">👥</span><span>Users</span></a>
+      <a href="/owner/activity"><span class="icon">📋</span><span>Activity</span></a>
+      <a href="/owner/billing"><span class="icon">💰</span><span>Billing</span></a>
+      <a href="/owner/integrations"><span class="icon">🔌</span><span>Integrations</span></a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="owner-info">
+        <div class="owner-name" id="ownerName">—</div>
+        <div id="ownerEmail">—</div>
+      </div>
+      <button id="logoutBtn"><span class="icon">🚪</span><span>Sign Out</span></button>
+    </div>
+  </aside>
+
+  <div class="main">
+    <div class="page-header"><h1>All Platform Users</h1></div>
+
+    <div class="toolbar">
+      <input id="searchInput" placeholder="Search by email, name, or company…" />
+      <select id="roleFilter">
+        <option value="">All Roles</option>
+        <option value="member">Member</option>
+        <option value="admin">Admin</option>
+        <option value="superadmin">Superadmin</option>
+      </select>
+      <select id="statusFilter">
+        <option value="">All Status</option>
+        <option value="active">Active</option>
+        <option value="disabled">Disabled</option>
+      </select>
+      <button class="btn-create" onclick="openCreateModal()">＋ Create User</button>
+      <button id="prevBtn">← Prev</button>
+      <button id="nextBtn">Next →</button>
+      <span class="page-info" id="pageInfo"></span>
+    </div>
+
+    <div class="section-card">
+      <table>
+        <thead><tr><th>Email</th><th>Name</th><th>Company</th><th>Role</th><th>Status</th><th>Joined</th><th>Actions</th></tr></thead>
+        <tbody id="usersBody"><tr><td colspan="7" class="empty-row">Loading…</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Create User Modal -->
+  <div class="modal-overlay" id="createModal">
+    <div class="modal">
+      <h2>Create New User</h2>
+      <label for="cEmail">Email *</label>
+      <input id="cEmail" type="email" placeholder="user@company.com" />
+      <div class="row">
+        <div><label for="cFirstName">First Name</label><input id="cFirstName" placeholder="John" /></div>
+        <div><label for="cLastName">Last Name</label><input id="cLastName" placeholder="Doe" /></div>
+      </div>
+      <label for="cCompany">Company *</label>
+      <select id="cCompany"><option value="">Select company…</option></select>
+      <label for="cRole">Role</label>
+      <select id="cRole">
+        <option value="member">Member</option>
+        <option value="admin">Admin</option>
+        <option value="superadmin">Superadmin</option>
+      </select>
+      <label for="cPassword">Password * <span style="font-weight:400;color:#64748b">(min 8 chars)</span></label>
+      <input id="cPassword" type="password" placeholder="••••••••" />
+      <div class="error-msg" id="createError"></div>
+      <div class="actions">
+        <button class="btn-cancel" onclick="closeCreateModal()">Cancel</button>
+        <button class="btn-submit" id="createSubmitBtn" onclick="submitCreateUser()">Create User</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Reset Password Modal -->
+  <div class="modal-overlay" id="resetModal">
+    <div class="modal">
+      <h2>Reset Password</h2>
+      <p style="color:#94a3b8;font-size:0.88rem;margin-bottom:12px;">Resetting password for <strong id="resetEmail" style="color:#e2e8f0;">—</strong></p>
+      <label for="rPassword">New Password * <span style="font-weight:400;color:#64748b">(min 8 chars)</span></label>
+      <input id="rPassword" type="password" placeholder="••••••••" />
+      <div class="error-msg" id="resetError"></div>
+      <div class="actions">
+        <button class="btn-cancel" onclick="closeResetModal()">Cancel</button>
+        <button class="btn-submit" id="resetSubmitBtn" onclick="submitResetPassword()">Reset Password</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    async function api(url, opts) {
+      const r = await fetch(url, opts);
+      if (r.status === 401) { window.location.href = '/owner/login'; return null; }
+      if (!r.ok) {
+        let msg = `Error ${r.status}`;
+        try { const d = await r.json(); msg = d.error || msg; } catch (_) {}
+        throw new Error(msg);
+      }
+      return r.json();
+    }
+    function esc(s) { const d = document.createElement('div'); d.textContent = s || ''; return d.innerHTML; }
+
+    let offset = 0, limit = 25, total = 0;
+
+    (async () => {
+      const me = await api('/api/owner/me');
+      if (!me) return;
+      document.getElementById('ownerName').textContent = me.name || 'Owner';
+      document.getElementById('ownerEmail').textContent = me.email;
+    })();
+
+    async function loadUsers() {
+      const q = document.getElementById('searchInput').value.trim();
+      const role = document.getElementById('roleFilter').value;
+      const status = document.getElementById('statusFilter').value;
+      let url = `/api/owner/users?limit=${limit}&offset=${offset}`;
+      if (q) url += `&q=${encodeURIComponent(q)}`;
+      if (role) url += `&role=${encodeURIComponent(role)}`;
+      if (status) url += `&status=${encodeURIComponent(status)}`;
+
+      const data = await api(url);
+      if (!data) return;
+      total = data.total || 0;
+      renderUsers(data.users || []);
+      const page = Math.floor(offset / limit) + 1;
+      const pages = Math.max(1, Math.ceil(total / limit));
+      document.getElementById('pageInfo').textContent = `Page ${page} / ${pages} — ${total} users`;
+    }
+
+    function renderUsers(users) {
+      const body = document.getElementById('usersBody');
+      if (!users.length) { body.innerHTML = '<tr><td colspan="7" class="empty-row">No users found</td></tr>'; return; }
+      body.innerHTML = users.map(u => `
+        <tr>
+          <td>${esc(u.email)}</td>
+          <td>${esc([u.first_name, u.last_name].filter(Boolean).join(' ') || '—')}</td>
+          <td>${esc(u.company_name || '—')}</td>
+          <td><span class="badge badge-${u.role}">${esc(u.role)}</span></td>
+          <td>${u.disabled
+            ? '<span class="badge badge-disabled">Disabled</span>'
+            : '<span class="badge badge-active">Active</span>'}</td>
+          <td>${u.created_at ? new Date(u.created_at).toLocaleDateString() : '—'}</td>
+          <td>
+            <button class="btn-sm btn-reset" onclick="openResetModal('${esc(u.id)}', '${esc(u.email)}')">Reset PW</button>
+            ${u.disabled
+              ? `<button class="btn-sm btn-enable" onclick="toggleUser('${esc(u.id)}', true)">Enable</button>`
+              : `<button class="btn-sm btn-disable" onclick="toggleUser('${esc(u.id)}', false)">Disable</button>`}
+          </td>
+        </tr>`).join('');
+    }
+
+    async function toggleUser(userId, enable) {
+      try {
+        await api(`/api/owner/users/${userId}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ disabled: enable ? 0 : 1 }),
+        });
+        loadUsers();
+      } catch (e) { alert('Action failed: ' + e.message); }
+    }
+
+    /* ── Company list for create modal ── */
+    let companies = [];
+    async function loadCompanies() {
+      try {
+        const data = await api('/api/owner/clients?limit=500');
+        if (data && data.clients) { companies = data.clients; populateCompanyDropdown(); }
+      } catch (e) { console.error('Failed to load companies', e); }
+    }
+    function populateCompanyDropdown() {
+      const sel = document.getElementById('cCompany');
+      sel.innerHTML = '<option value="">Select company…</option>' +
+        companies.map(c => `<option value="${esc(c.id)}">${esc(c.name)}</option>`).join('');
+    }
+
+    /* ── Create User Modal ── */
+    function openCreateModal() {
+      document.getElementById('cEmail').value = '';
+      document.getElementById('cFirstName').value = '';
+      document.getElementById('cLastName').value = '';
+      document.getElementById('cCompany').value = '';
+      document.getElementById('cRole').value = 'member';
+      document.getElementById('cPassword').value = '';
+      document.getElementById('createError').style.display = 'none';
+      document.getElementById('createSubmitBtn').disabled = false;
+      document.getElementById('createModal').classList.add('open');
+    }
+    function closeCreateModal() { document.getElementById('createModal').classList.remove('open'); }
+
+    async function submitCreateUser() {
+      const btn = document.getElementById('createSubmitBtn');
+      const err = document.getElementById('createError');
+      err.style.display = 'none';
+      const email = document.getElementById('cEmail').value.trim();
+      const password = document.getElementById('cPassword').value;
+      const companyId = document.getElementById('cCompany').value;
+      const role = document.getElementById('cRole').value;
+      const firstName = document.getElementById('cFirstName').value.trim();
+      const lastName = document.getElementById('cLastName').value.trim();
+
+      if (!email || !password || !companyId) {
+        err.textContent = 'Email, password, and company are required.';
+        err.style.display = 'block'; return;
+      }
+      if (password.length < 8) {
+        err.textContent = 'Password must be at least 8 characters.';
+        err.style.display = 'block'; return;
+      }
+      btn.disabled = true;
+      try {
+        await api('/api/owner/users', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password, companyId, role, firstName, lastName }),
+        });
+        closeCreateModal();
+        loadUsers();
+      } catch (e) {
+        err.textContent = e.message;
+        err.style.display = 'block';
+        btn.disabled = false;
+      }
+    }
+
+    /* ── Reset Password Modal ── */
+    let resetUserId = null;
+    function openResetModal(userId, email) {
+      resetUserId = userId;
+      document.getElementById('resetEmail').textContent = email;
+      document.getElementById('rPassword').value = '';
+      document.getElementById('resetError').style.display = 'none';
+      document.getElementById('resetSubmitBtn').disabled = false;
+      document.getElementById('resetModal').classList.add('open');
+    }
+    function closeResetModal() { document.getElementById('resetModal').classList.remove('open'); resetUserId = null; }
+
+    async function submitResetPassword() {
+      const btn = document.getElementById('resetSubmitBtn');
+      const err = document.getElementById('resetError');
+      err.style.display = 'none';
+      const password = document.getElementById('rPassword').value;
+      if (!password || password.length < 8) {
+        err.textContent = 'Password must be at least 8 characters.';
+        err.style.display = 'block'; return;
+      }
+      btn.disabled = true;
+      try {
+        await api(`/api/owner/users/${resetUserId}/reset-password`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ password }),
+        });
+        closeResetModal();
+        alert('Password reset successfully.');
+      } catch (e) {
+        err.textContent = e.message;
+        err.style.display = 'block';
+        btn.disabled = false;
+      }
+    }
+
+    /* ── Close modals on overlay click ── */
+    document.getElementById('createModal').addEventListener('click', e => { if (e.target === e.currentTarget) closeCreateModal(); });
+    document.getElementById('resetModal').addEventListener('click', e => { if (e.target === e.currentTarget) closeResetModal(); });
+
+    document.getElementById('prevBtn').addEventListener('click', () => { if (offset - limit >= 0) { offset -= limit; loadUsers(); } });
+    document.getElementById('nextBtn').addEventListener('click', () => { if (offset + limit < total) { offset += limit; loadUsers(); } });
+    document.getElementById('searchInput').addEventListener('keydown', e => { if (e.key === 'Enter') { offset = 0; loadUsers(); } });
+    document.getElementById('roleFilter').addEventListener('change', () => { offset = 0; loadUsers(); });
+    document.getElementById('statusFilter').addEventListener('change', () => { offset = 0; loadUsers(); });
+
+    document.getElementById('logoutBtn').addEventListener('click', async () => {
+      await fetch('/api/owner/logout', { method: 'POST' });
+      window.location.href = '/owner/login';
+    });
+
+    loadCompanies();
+    loadUsers();
+  </script>
+</body>
+</html>

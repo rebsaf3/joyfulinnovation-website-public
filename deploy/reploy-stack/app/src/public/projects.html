@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projects — NyLi Assets</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: linear-gradient(170deg, #fdf8f4 0%, #faf5f0 50%, #fff 100%);
+      color: #1a1a2e;
+      min-height: 100vh;
+    }
+    nav {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 16px 28px; background: white; border-bottom: 1px solid #e8e2db;
+      position: sticky; top: 0; z-index: 1000;
+      overflow: visible;
+    }
+    nav .logo { font-weight: 700; color: #1a1a2e; font-size: 1.1rem; text-decoration: none; }
+    nav .nav-links { display: flex; gap: 24px; align-items: center; }
+    nav a { color: #555; text-decoration: none; font-size: 0.9rem; font-weight: 600; transition: color 0.2s; }
+    nav a:hover, nav a.active { color: #0d9488; }
+    /* User dropdown */
+    .user-menu { position: relative; }
+    .user-menu-btn {
+      display: flex; align-items: center; gap: 6px; padding: 7px 14px;
+      background: #fdf8f4; border: 1px solid #d6cfc7; border-radius: 8px;
+      cursor: pointer; font-size: 0.85rem; font-weight: 600; color: #0d9488;
+      transition: all 0.2s;
+    }
+    .user-menu-btn:hover { background: #f0ebe4; }
+    .user-menu-btn .avatar {
+      width: 26px; height: 26px; border-radius: 50%; background: #0d9488;
+      color: white; display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem; font-weight: 700;
+    }
+    .user-dropdown {
+      display: none; position: absolute; right: 0; top: calc(100% + 6px);
+      background: white; border: 1px solid #e8e2db; border-radius: 10px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12); min-width: 200px; z-index: 100;
+      overflow: visible;
+    }
+    .user-dropdown.open { display: block; }
+    .user-dropdown a, .user-dropdown button {
+      display: flex; align-items: center; gap: 10px; width: 100%;
+      padding: 11px 16px; font-size: 0.88rem; font-weight: 500; color: #333;
+      text-decoration: none; border: none; background: none; cursor: pointer;
+      transition: background 0.15s;
+    }
+    .user-dropdown a:hover, .user-dropdown button:hover { background: #fdf8f4; color: #0d9488; }
+    .user-dropdown .sep { height: 1px; background: #e8e2db; margin: 4px 0; }
+    .user-dropdown button.logout { color: #dc2626; }
+    .user-dropdown button.logout:hover { background: #fef2f2; color: #dc2626; }
+    main { max-width: 1100px; margin: 0 auto; padding: 32px 16px; }
+    h1 { font-size: 1.6rem; margin-bottom: 4px; }
+    .subtitle { color: #666; margin-bottom: 24px; font-size: 0.95rem; }
+    .btn {
+      padding: 10px 18px; border-radius: 6px; border: none; cursor: pointer;
+      font-size: 0.9rem; font-weight: 500; transition: all 0.2s;
+    }
+    .btn-primary { background: #0d9488; color: white; }
+    .btn-primary:hover { background: #0f766e; }
+    .card {
+      background: #fff; border-radius: 12px; border: 1px solid #e8e2db;
+      box-shadow: 0 4px 24px rgba(13, 148, 136, 0.07); padding: 24px; margin-bottom: 24px;
+    }
+    .form-group { display: flex; flex-direction: column; gap: 4px; margin-bottom: 16px; }
+    .form-group label { font-size: 0.9rem; font-weight: 600; color: #555; }
+    .form-group input, .form-group textarea {
+      padding: 10px 14px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 0.9rem;
+      width: 100%; outline: none; transition: border 0.2s;
+    }
+    .form-group input:focus, .form-group textarea:focus { border-color: #0d9488; }
+    .filter-bar {
+      background: white; border-radius: 12px; border: 1px solid #e8e2db;
+      padding: 16px 24px; margin-bottom: 20px;
+      box-shadow: 0 4px 24px rgba(13,148,136,0.07);
+      display: flex; gap: 16px; align-items: flex-end; flex-wrap: wrap;
+    }
+    .filter-group { display: flex; flex-direction: column; gap: 4px; flex: 1; min-width: 150px; }
+    .filter-group label { font-size: 0.8rem; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.5px; }
+    .filter-group input, .filter-group select {
+      padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 6px;
+      font-size: 0.9rem; outline: none; transition: border 0.2s; background: white;
+    }
+    .filter-group input:focus, .filter-group select:focus { border-color: #0d9488; }
+    .projects-table-wrap {
+      background: #fff; border-radius: 12px; border: 1px solid #e8e2db;
+      box-shadow: 0 4px 24px rgba(13,148,136,0.07); overflow: hidden;
+    }
+    .projects-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    .projects-table th {
+      background: #f8f9fb; padding: 12px 16px; text-align: left; font-weight: 600;
+      color: #1a1a2e; border-bottom: 2px solid #e8e2db; cursor: pointer;
+      user-select: none; white-space: nowrap; transition: background 0.2s;
+    }
+    .projects-table th:hover { background: #eef1f8; }
+    .projects-table th .sort-icon { margin-left: 4px; font-size: 0.7rem; color: #aaa; }
+    .projects-table th.sort-active .sort-icon { color: #0d9488; }
+    .projects-table td { padding: 12px 16px; border-bottom: 1px solid #e8e2db; color: #555; }
+    .projects-table tr:hover { background: #f8f9fb; }
+    .projects-table a.project-link { color: #0d9488; font-weight: 600; text-decoration: none; }
+    .projects-table a.project-link:hover { text-decoration: underline; }
+    .status-badge {
+      display: inline-block; padding: 3px 10px; border-radius: 12px;
+      font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;
+    }
+    .status-active { background: #f0fdf4; color: #16a34a; }
+    .status-completed { background: #eff6ff; color: #2563eb; }
+    .status-archived { background: #f5f5f5; color: #888; }
+    .no-data { text-align: center; padding: 40px 20px; color: #888; }
+    /* KPI grid */
+    .kpi-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 16px; margin-bottom: 28px;
+    }
+    .kpi-card {
+      background: white; border-radius: 12px; border: 1px solid #e8e2db;
+      padding: 20px; text-align: center;
+      box-shadow: 0 4px 24px rgba(13, 148, 136, 0.07);
+    }
+    .kpi-icon { font-size: 1.4rem; margin-bottom: 6px; }
+    .kpi-value { font-size: 2rem; font-weight: 700; color: #0d9488; margin-bottom: 2px; }
+    .kpi-label {
+      font-size: 0.78rem; color: #888; text-transform: uppercase;
+      letter-spacing: 0.5px; font-weight: 600;
+    }
+    /* Tooltips */
+    .tooltip-trigger { position: relative; display: inline-flex; align-items: center; gap: 5px; }
+    .tooltip-icon {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 16px; height: 16px; border-radius: 50%; background: #e8e2db; color: #888;
+      font-size: 0.65rem; font-weight: 700; cursor: help; flex-shrink: 0;
+      transition: background 0.2s, color 0.2s; font-style: normal;
+    }
+    .tooltip-icon:hover { background: #0d9488; color: white; }
+    .tooltip-icon::after {
+      content: attr(data-tooltip); position: absolute; left: 50%; transform: translateX(-50%);
+      bottom: calc(100% + 8px); background: #1a1a2e; color: #fff; padding: 8px 12px;
+      border-radius: 8px; font-size: 0.78rem; font-weight: 400; line-height: 1.4;
+      white-space: normal; width: max-content; max-width: 260px;
+      pointer-events: none; opacity: 0; transition: opacity 0.2s;
+      z-index: 1000; box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+      text-transform: none; letter-spacing: normal;
+    }
+    .tooltip-icon::before {
+      content: ''; position: absolute; left: 50%; transform: translateX(-50%);
+      bottom: calc(100% + 2px); border: 5px solid transparent;
+      border-top-color: #1a1a2e; pointer-events: none; opacity: 0; transition: opacity 0.2s;
+      z-index: 1000;
+    }
+    .tooltip-icon:hover::after, .tooltip-icon:hover::before { opacity: 1; }
+    @media (max-width: 768px) { .kpi-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 480px) { .kpi-grid { grid-template-columns: 1fr; } }
+    .toast {
+      position: fixed; bottom: 24px; right: 24px; padding: 12px 20px; border-radius: 8px;
+      color: white; font-size: 0.9rem; font-weight: 500; z-index: 1000; opacity: 0;
+      transition: opacity 0.3s; pointer-events: none;
+    }
+    .toast.visible { opacity: 1; }
+    .toast.success { background: #16a34a; }
+    .toast.error { background: #dc2626; }
+  </style>
+</head>
+<body>
+<nav>
+    <a href="/home" class="logo">NyLi<span style="color:#0d9488">Assets</span></a>
+    <div class="nav-links">
+      <a href="/home">Home</a>
+      <a href="/projects" class="active">Projects</a>
+      <a href="/dashboard">Dashboard</a>
+      <a href="/communications">Communications</a>
+      <a href="/calendar">Calendar</a>
+      <div class="user-menu">
+        <button class="user-menu-btn" id="userMenuBtn">
+          <span class="avatar" id="userAvatar">?</span>
+          <span id="userMenuLabel">Menu</span>
+          <span style="font-size:0.6rem;">&#9660;</span>
+        </button>
+        <div class="user-dropdown" id="userDropdown">
+          <a href="/settings">&#9881; Account Settings</a>
+          <a href="/settings#preferences">&#9776; Preferences</a>
+          <a href="/help">&#10067; Help</a>
+          <div class="sep"></div>
+          <button class="logout" id="logoutBtn">&#10140; Log Out</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+<main>
+  <h1>Projects</h1>
+  <p class="subtitle">Organize your license audits into projects.</p>
+
+  <div class="kpi-grid" id="kpiGrid">
+    <div class="kpi-card"><div class="kpi-icon">&#x1F4C1;</div><div class="kpi-value" id="kpiTotal">0</div><div class="kpi-label tooltip-trigger">Total Projects <span class="tooltip-icon" data-tooltip="Total number of audit projects created by your organisation">i</span></div></div>
+    <div class="kpi-card"><div class="kpi-icon">&#x2705;</div><div class="kpi-value" style="color:#16a34a;" id="kpiActive">0</div><div class="kpi-label tooltip-trigger">Active <span class="tooltip-icon" data-tooltip="Projects currently in progress and accepting audit data">i</span></div></div>
+    <div class="kpi-card"><div class="kpi-icon">&#x1F3C1;</div><div class="kpi-value" style="color:#2563eb;" id="kpiCompleted">0</div><div class="kpi-label tooltip-trigger">Completed <span class="tooltip-icon" data-tooltip="Projects that have finished their audit cycle">i</span></div></div>
+    <div class="kpi-card"><div class="kpi-icon">&#x1F4E6;</div><div class="kpi-value" style="color:#888;" id="kpiArchived">0</div><div class="kpi-label tooltip-trigger">Archived <span class="tooltip-icon" data-tooltip="Projects moved to archive for historical reference">i</span></div></div>
+    <div class="kpi-card"><div class="kpi-icon">&#x1F4B5;</div><div class="kpi-value" style="color:#8b5cf6;" id="kpiTotalCost">—</div><div class="kpi-label tooltip-trigger">Total Cost / Mo <span class="tooltip-icon" data-tooltip="Sum of monthly per-user license costs across all projects with a cost assigned">i</span></div></div>
+    <div class="kpi-card"><div class="kpi-icon">&#x1F4B0;</div><div class="kpi-value" style="color:#ca8a04;" id="kpiAvgCost">—</div><div class="kpi-label tooltip-trigger">Avg Cost / User <span class="tooltip-icon" data-tooltip="Average monthly cost per user across projects that have a cost assigned">i</span></div></div>
+  </div>
+
+  <div class="card">
+    <h2>Create New Project</h2>
+    <form id="newProjectForm">
+      <div class="form-group">
+        <label for="projectName">Project Name</label>
+        <input id="projectName" type="text" required placeholder="e.g., Q3 Finance Dept Audit">
+      </div>
+      <div class="form-group">
+        <label for="productName">Product Name</label>
+        <input id="productName" type="text" placeholder="e.g., Microsoft 365, Adobe Creative Cloud">
+      </div>
+      <div class="form-group" style="display:grid;grid-template-columns:1fr auto;gap:12px;align-items:end;">
+        <div>
+          <label for="costPerUser">Cost per User (per month) *</label>
+          <input id="costPerUser" type="number" step="0.01" min="0" required placeholder="e.g., 22.00">
+        </div>
+        <div>
+          <label for="currency">Currency</label>
+          <select id="currency" style="padding:9px 12px;border:1px solid #d1d5db;border-radius:6px;font-size:0.9rem;background:#fff;">
+            <option value="USD">USD ($)</option>
+            <option value="EUR">EUR (€)</option>
+            <option value="GBP">GBP (£)</option>
+            <option value="CAD">CAD (C$)</option>
+            <option value="AUD">AUD (A$)</option>
+            <option value="JPY">JPY (¥)</option>
+            <option value="CHF">CHF</option>
+            <option value="INR">INR (₹)</option>
+            <option value="BRL">BRL (R$)</option>
+            <option value="MXN">MXN (MX$)</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="projectDesc">Description</label>
+        <textarea id="projectDesc" rows="3" placeholder="A brief description of the project's scope."></textarea>
+      </div>
+      <div class="form-group">
+        <label for="emailTemplate">Email Template</label>
+        <textarea id="emailTemplate" rows="8" placeholder="Enter the email message to send to users added to this project. You can use {name}, {email}, {product}, and {link} as placeholders."></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary">Create Project</button>
+    </form>
+  </div>
+  <h2>Existing Projects</h2>
+  <div class="filter-bar">
+    <div class="filter-group">
+      <label for="searchInput">Search</label>
+      <input id="searchInput" type="text" placeholder="Search by name or product...">
+    </div>
+    <div class="filter-group" style="max-width:160px;">
+      <label for="statusFilter">Status</label>
+      <select id="statusFilter">
+        <option value="">All</option>
+        <option value="active">Active</option>
+        <option value="completed">Completed</option>
+        <option value="archived">Archived</option>
+      </select>
+    </div>
+  </div>
+  <div class="projects-table-wrap">
+    <table class="projects-table" id="projectsTable">
+      <thead>
+        <tr>
+          <th data-col="name">Name <span class="sort-icon">&#x25B2;&#x25BC;</span></th>
+          <th data-col="product_name">Product <span class="sort-icon">&#x25B2;&#x25BC;</span></th>
+          <th data-col="cost_per_user_cents">Cost/User <span class="sort-icon">&#x25B2;&#x25BC;</span></th>
+          <th data-col="status">Status <span class="sort-icon">&#x25B2;&#x25BC;</span></th>
+          <th data-col="created_by_email">Owner <span class="sort-icon">&#x25B2;&#x25BC;</span></th>
+          <th data-col="created_at">Created <span class="sort-icon">&#x25B2;&#x25BC;</span></th>
+        </tr>
+      </thead>
+      <tbody id="projectsBody">
+        <tr><td colspan="6" class="no-data">Loading projects...</td></tr>
+      </tbody>
+    </table>
+  </div>
+</main>
+<div class="toast" id="toast"></div>
+<script>
+(async function () {
+  var form = document.getElementById('newProjectForm');
+  var tbody = document.getElementById('projectsBody');
+  var allProjects = [];
+  var sortCol = 'created_at';
+  var sortDir = 'desc';
+  async function api(url, opts) {
+    var res = await fetch(url, Object.assign({ credentials: 'same-origin', headers: { 'Content-Type': 'application/json' } }, opts || {}));
+    if (res.status === 401) { window.location.href = '/login'; return null; }
+    return res;
+  }
+  function toast(msg, type) {
+    var el = document.getElementById('toast');
+    el.textContent = msg;
+    el.className = 'toast visible ' + type;
+    setTimeout(function() { el.classList.remove('visible'); }, 3000);
+  }
+  function escapeHtml(str) {
+    if (!str) return '';
+    var el = document.createElement('span');
+    el.textContent = str;
+    return el.innerHTML;
+  }
+  var currencySymbols = { USD:'$', EUR:'\u20ac', GBP:'\u00a3', CAD:'C$', AUD:'A$', JPY:'\u00a5', CHF:'CHF ', INR:'\u20b9', BRL:'R$', MXN:'MX$' };
+  function formatCurrency(amount, currency) {
+    var sym = currencySymbols[currency] || currency + ' ';
+    if (currency === 'JPY') return sym + Math.round(amount).toLocaleString();
+    return sym + amount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }
+  function updateKpis() {
+    var total = allProjects.length;
+    var active = 0, completed = 0, archived = 0;
+    var costSum = 0, costCount = 0;
+    allProjects.forEach(function(p) {
+      var s = p.status || 'active';
+      if (s === 'active') active++;
+      else if (s === 'completed') completed++;
+      else if (s === 'archived') archived++;
+      if (p.cost_per_user_cents && p.cost_per_user_cents > 0) {
+        costSum += p.cost_per_user_cents;
+        costCount++;
+      }
+    });
+    document.getElementById('kpiTotal').textContent = total;
+    document.getElementById('kpiActive').textContent = active;
+    document.getElementById('kpiCompleted').textContent = completed;
+    document.getElementById('kpiArchived').textContent = archived;
+    if (costSum > 0) {
+      document.getElementById('kpiTotalCost').textContent = formatCurrency(costSum / 100, 'USD') + '/mo';
+    } else {
+      document.getElementById('kpiTotalCost').textContent = '\u2014';
+    }
+    if (costCount > 0) {
+      var avgCents = costSum / costCount;
+      document.getElementById('kpiAvgCost').textContent = formatCurrency(avgCents / 100, 'USD') + '/mo';
+    } else {
+      document.getElementById('kpiAvgCost').textContent = '\u2014';
+    }
+  }
+  function renderTable() {
+    var search = document.getElementById('searchInput').value.toLowerCase();
+    var statusFilter = document.getElementById('statusFilter').value;
+    var filtered = allProjects.filter(function(p) {
+      if (statusFilter && (p.status || 'active') !== statusFilter) return false;
+      if (search) {
+        var haystack = ((p.name || '') + ' ' + (p.product_name || '') + ' ' + (p.description || '') + ' ' + (p.created_by_email || '')).toLowerCase();
+        if (haystack.indexOf(search) === -1) return false;
+      }
+      return true;
+    });
+    filtered.sort(function(a, b) {
+      var va = a[sortCol], vb = b[sortCol];
+      if (sortCol === 'created_at') { va = va || ''; vb = vb || ''; }
+      else { va = (va || '').toString().toLowerCase(); vb = (vb || '').toString().toLowerCase(); }
+      if (va < vb) return sortDir === 'asc' ? -1 : 1;
+      if (va > vb) return sortDir === 'asc' ? 1 : -1;
+      return 0;
+    });
+    if (filtered.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="6" class="no-data">No projects match your filters.</td></tr>';
+      return;
+    }
+    tbody.innerHTML = filtered.map(function(p) {
+      var dateStr = p.created_at ? new Date(p.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '\u2014';
+      var costDisplay = (p.cost_per_user_cents || 0) > 0 ? formatCurrency(p.cost_per_user_cents / 100, p.currency || 'USD') + '/mo' : '\u2014';
+      return '<tr><td><a href="/projects/' + p.id + '" class="project-link">' + escapeHtml(p.name) + '</a></td><td>' + escapeHtml(p.product_name || '\u2014') + '</td><td>' + costDisplay + '</td><td><span class="status-badge status-' + (p.status || 'active') + '">' + (p.status || 'active') + '</span></td><td>' + escapeHtml(p.created_by_email || '\u2014') + '</td><td>' + dateStr + '</td></tr>';
+    }).join('');
+    document.querySelectorAll('.projects-table th').forEach(function(th) {
+      th.classList.remove('sort-active');
+      var icon = th.querySelector('.sort-icon');
+      if (icon) icon.innerHTML = '&#x25B2;&#x25BC;';
+      if (th.dataset.col === sortCol) {
+        th.classList.add('sort-active');
+        if (icon) icon.innerHTML = sortDir === 'asc' ? '&#x25B2;' : '&#x25BC;';
+      }
+    });
+  }
+  async function loadProjects() {
+    var res = await api('/api/projects');
+    if (!res || !res.ok) {
+      tbody.innerHTML = '<tr><td colspan="6" class="no-data">Could not load projects.</td></tr>';
+      return;
+    }
+    allProjects = await res.json();
+    updateKpis();
+    if (allProjects.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="6" class="no-data">No projects yet. Create one above to get started.</td></tr>';
+      return;
+    }
+    renderTable();
+  }
+  document.querySelectorAll('.projects-table th[data-col]').forEach(function(th) {
+    th.addEventListener('click', function() {
+      var col = th.dataset.col;
+      if (sortCol === col) { sortDir = sortDir === 'asc' ? 'desc' : 'asc'; }
+      else { sortCol = col; sortDir = 'asc'; }
+      renderTable();
+    });
+  });
+  document.getElementById('searchInput').addEventListener('input', renderTable);
+  document.getElementById('statusFilter').addEventListener('change', renderTable);
+  form.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    var name = document.getElementById('projectName').value;
+    var description = document.getElementById('projectDesc').value;
+    var product_name = document.getElementById('productName').value;
+    var email_template = document.getElementById('emailTemplate').value;
+    var res = await api('/api/projects', { method: 'POST', body: JSON.stringify({ name: name, description: description, product_name: product_name, email_template: email_template, cost_per_user: document.getElementById('costPerUser').value, currency: document.getElementById('currency').value }) });
+    if (res && res.ok) {
+      var project = await res.json();
+      window.location.href = '/projects/' + project.id;
+    } else {
+      var err = await res.json();
+      toast(err.error || 'Failed to create project.', 'error');
+    }
+  });
+      // User dropdown
+    (function initUserMenu() {
+      const btn = document.getElementById('userMenuBtn');
+      const dd  = document.getElementById('userDropdown');
+      if (!btn || !dd) return;
+      btn.addEventListener('click', e => { e.stopPropagation(); dd.classList.toggle('open'); });
+      document.addEventListener('click', () => dd.classList.remove('open'));
+      dd.addEventListener('click', e => e.stopPropagation());
+      fetch('/api/auth/me').then(r => r.ok ? r.json() : null).then(me => {
+        if (!me) return;
+        const initial = (me.email || '?')[0].toUpperCase();
+        const av = document.getElementById('userAvatar');
+        const ml = document.getElementById('userMenuLabel');
+        if (av) av.textContent = initial;
+        if (ml) ml.textContent = me.email;
+      }).catch(() => {});
+    })();
+    document.getElementById('logoutBtn').addEventListener('click', async function() { await fetch('/api/auth/logout', { method: 'POST' }); window.location.href = '/login'; });
+  loadProjects();
+  try {
+    var r = await fetch('/api/auth/me');
+    if (!r.ok) return;
+    var me = await r.json();
+    if (me.isAdmin) {
+      var nav = document.querySelector('.nav-links');
+      var a = document.createElement('a');
+      a.href = '/admin';
+      a.textContent = 'Admin';
+      nav.appendChild(a);
+    }
+  } catch(e) {}
+})();
+</script>
+</body>
+</html>

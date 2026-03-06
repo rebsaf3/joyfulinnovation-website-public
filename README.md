@@ -17,7 +17,7 @@ It is a content-forward website with hand-edited pages:
 
 1. `index.html` for homepage messaging
 2. `products.html` plus product detail pages
-3. `faq.html` and `contact.html`
+3. `support.html` and `contact.html`
 4. `privacy-policy.html` and `terms.html`
 5. Shared styles and visual assets in `assets/`
 
@@ -36,12 +36,15 @@ No build step is required for normal content updates.
 3. `product-assetpilot.html` - NyLi Assets detail page
 4. `product-flowpilot.html` - NyLi Agent detail page
 5. `product-insightpilot.html` - NyLi Insights detail page
-6. `faq.html` - frequently asked questions
-7. `contact.html` - contact form page
-8. `privacy-policy.html` - privacy policy
-9. `terms.html` - terms of service
-10. `assets/styles.css` - shared site styles
-11. `assets/` - favicon and decorative graphics
+6. `services.html` - services overview
+7. `insights.html` - resources landing page
+8. `support.html` - support center and knowledge base
+9. `contact.html` - contact form page
+10. `privacy-policy.html` - privacy policy
+11. `terms.html` - terms of service
+12. `blog/` - blog article pages
+13. `assets/styles.css` - shared site styles
+14. `assets/` - JavaScript, favicon, and decorative graphics
 
 ## How We Work In This Repo
 
@@ -74,6 +77,7 @@ No build step is required for normal content updates.
 ## Deployment
 
 Site is deployed to HostGator via GitHub Actions workflow (`.github/workflows/deploy.yml`) on every push to `main` branch.
+Set `assets/site-config.js` with the live form submission endpoint before enabling contact and support submissions in production.
 
 See [CHANGELOG.md](CHANGELOG.md) for recent updates and fixes.
 

@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clients — Owner Portal — NyLi Assets</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #0f172a; color: #e2e8f0; }
+
+    /* ── Sidebar ───────────────────────────────────────────────────── */
+    .sidebar {
+      position: fixed; top: 0; left: 0; width: 240px; height: 100vh;
+      background: #1e293b; border-right: 1px solid #334155;
+      display: flex; flex-direction: column; z-index: 100;
+    }
+    .sidebar .brand { padding: 20px 24px; border-bottom: 1px solid #334155; }
+    .sidebar .brand .logo { font-size: 1.1rem; font-weight: 700; color: #818cf8; }
+    .sidebar .brand .sub { font-size: 0.7rem; color: #64748b; text-transform: uppercase; letter-spacing: 2px; margin-top: 2px; }
+    .sidebar nav { flex: 1; padding: 16px 12px; display: flex; flex-direction: column; gap: 4px; }
+    .sidebar nav a {
+      display: flex; align-items: center; gap: 10px; padding: 10px 14px;
+      border-radius: 8px; color: #94a3b8; text-decoration: none;
+      font-size: 0.9rem; font-weight: 500; transition: all 0.15s;
+    }
+    .sidebar nav a:hover { background: rgba(129, 140, 248, 0.08); color: #c7d2fe; }
+    .sidebar nav a.active { background: rgba(129, 140, 248, 0.15); color: #818cf8; font-weight: 600; }
+    .sidebar nav a .icon { font-size: 1.1rem; width: 22px; text-align: center; }
+    .sidebar .sidebar-footer { padding: 16px 12px; border-top: 1px solid #334155; }
+    .sidebar .sidebar-footer .owner-info { padding: 8px 14px; font-size: 0.82rem; color: #64748b; }
+    .sidebar .sidebar-footer .owner-name { color: #e2e8f0; font-weight: 600; font-size: 0.88rem; }
+    .sidebar .sidebar-footer button {
+      display: flex; align-items: center; gap: 10px; width: 100%; padding: 10px 14px;
+      border: none; background: none; border-radius: 8px; color: #ef4444;
+      font-size: 0.9rem; font-weight: 500; cursor: pointer; transition: background 0.15s;
+    }
+    .sidebar .sidebar-footer button:hover { background: rgba(239, 68, 68, 0.08); }
+
+    /* ── Main ───────────────────────────────────────────────────────── */
+    .main { margin-left: 240px; min-height: 100vh; padding: 32px; }
+    .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+    .page-header h1 { font-size: 1.6rem; font-weight: 700; color: #f1f5f9; }
+
+    /* ── Toolbar ────────────────────────────────────────────────────── */
+    .toolbar { display: flex; gap: 12px; align-items: center; margin-bottom: 20px; flex-wrap: wrap; }
+    .toolbar input, .toolbar select {
+      padding: 9px 14px; border: 1px solid #475569; border-radius: 8px;
+      background: #1e293b; color: #e2e8f0; font-size: 0.88rem; outline: none; transition: border 0.2s;
+    }
+    .toolbar input:focus, .toolbar select:focus { border-color: #818cf8; }
+    .toolbar input { flex: 1; min-width: 200px; }
+    .toolbar .page-info { color: #64748b; font-size: 0.82rem; margin-left: auto; }
+    .toolbar button {
+      padding: 9px 16px; border: 1px solid #475569; border-radius: 8px;
+      background: #1e293b; color: #94a3b8; font-size: 0.88rem; cursor: pointer; transition: all 0.15s;
+    }
+    .toolbar button:hover { border-color: #818cf8; color: #818cf8; }
+
+    /* ── Table ──────────────────────────────────────────────────────── */
+    .section-card { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 24px; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 12px 14px; text-align: left; border-bottom: 1px solid #334155; font-size: 0.88rem; }
+    th { color: #64748b; font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.5px; }
+    td { color: #cbd5e1; }
+    tr.clickable-row { cursor: pointer; transition: background 0.1s; }
+    tr.clickable-row:hover td { background: rgba(129, 140, 248, 0.06); }
+    .link { color: #818cf8; text-decoration: none; font-weight: 600; cursor: pointer; }
+    .link:hover { text-decoration: underline; }
+    .badge { display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: 0.75rem; font-weight: 600; }
+    .badge-active { background: rgba(34, 197, 94, 0.12); color: #4ade80; }
+    .badge-free { background: rgba(148, 163, 184, 0.12); color: #94a3b8; }
+    .badge-starter { background: rgba(56, 189, 248, 0.12); color: #38bdf8; }
+    .badge-pro { background: rgba(129, 140, 248, 0.12); color: #818cf8; }
+    .badge-enterprise { background: rgba(167, 139, 250, 0.12); color: #a78bfa; }
+    .badge-past-due, .badge-past_due { background: rgba(239, 68, 68, 0.12); color: #f87171; }
+    .badge-canceled { background: rgba(239, 68, 68, 0.1); color: #ef4444; }
+    .badge-trialing { background: rgba(250, 204, 21, 0.12); color: #facc15; }
+    .badge-member { background: rgba(148, 163, 184, 0.12); color: #94a3b8; }
+    .badge-admin { background: rgba(129, 140, 248, 0.12); color: #818cf8; }
+    .badge-superadmin { background: rgba(167, 139, 250, 0.12); color: #a78bfa; }
+    .badge-completed { background: rgba(56, 189, 248, 0.12); color: #38bdf8; }
+    .badge-archived { background: rgba(100, 116, 139, 0.15); color: #64748b; }
+    .empty-row { text-align: center; color: #475569; padding: 32px; }
+
+    /* ── Slide-out Detail Panel ────────────────────────────────────── */
+    .detail-overlay {
+      display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+      z-index: 200; transition: opacity 0.2s;
+    }
+    .detail-overlay.open { display: block; }
+    .detail-panel {
+      position: fixed; top: 0; right: -720px; width: 700px; max-width: 100vw;
+      height: 100vh; background: #0f172a; border-left: 1px solid #334155;
+      z-index: 210; overflow-y: auto; transition: right 0.3s ease;
+    }
+    .detail-panel.open { right: 0; }
+
+    .panel-header {
+      display: flex; align-items: center; gap: 16px; padding: 24px 28px;
+      border-bottom: 1px solid #334155; position: sticky; top: 0;
+      background: #0f172a; z-index: 5;
+    }
+    .panel-header .close-btn {
+      background: none; border: 1px solid #475569; border-radius: 8px;
+      color: #94a3b8; width: 36px; height: 36px; font-size: 1.1rem;
+      cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.15s;
+    }
+    .panel-header .close-btn:hover { border-color: #818cf8; color: #818cf8; }
+    .panel-header .company-title { flex: 1; }
+    .panel-header .company-title h2 { font-size: 1.3rem; font-weight: 700; color: #f1f5f9; }
+    .panel-header .company-title .company-id { font-size: 0.75rem; color: #475569; font-family: "Fira Code", Consolas, monospace; margin-top: 2px; }
+
+    .panel-body { padding: 24px 28px; }
+
+    /* ── Stats Row ─────────────────────────────────────────────────── */
+    .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
+    .stat-card {
+      background: #1e293b; border: 1px solid #334155; border-radius: 10px; padding: 16px;
+      text-align: center;
+    }
+    .stat-value { font-size: 1.5rem; font-weight: 700; color: #f1f5f9; }
+    .stat-label { font-size: 0.72rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; margin-top: 2px; }
+
+    /* ── Account Info Grid ─────────────────────────────────────────── */
+    .info-section { margin-bottom: 24px; }
+    .info-section-title {
+      font-size: 0.78rem; font-weight: 700; color: #64748b; text-transform: uppercase;
+      letter-spacing: 0.8px; margin-bottom: 12px; padding-bottom: 8px;
+      border-bottom: 1px solid #334155;
+    }
+    .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .info-grid.three { grid-template-columns: 1fr 1fr 1fr; }
+    .info-item .il { font-size: 0.72rem; color: #64748b; text-transform: uppercase; font-weight: 600; letter-spacing: 0.4px; margin-bottom: 3px; }
+    .info-item .iv { font-size: 0.9rem; color: #e2e8f0; word-break: break-all; }
+    .info-item .iv.mono { font-family: "Fira Code", Consolas, monospace; font-size: 0.82rem; color: #94a3b8; }
+
+    /* ── Tabs ──────────────────────────────────────────────────────── */
+    .tabs {
+      display: flex; gap: 2px; margin-bottom: 20px; background: #1e293b;
+      border-radius: 10px; padding: 4px; border: 1px solid #334155;
+    }
+    .tab {
+      flex: 1; padding: 9px 14px; border: none; background: transparent;
+      color: #64748b; font-size: 0.82rem; font-weight: 600; cursor: pointer;
+      border-radius: 7px; transition: all 0.15s; text-align: center;
+    }
+    .tab:hover { color: #94a3b8; background: rgba(129, 140, 248, 0.06); }
+    .tab.active { background: rgba(129, 140, 248, 0.15); color: #818cf8; }
+    .tab .tab-count { font-size: 0.7rem; opacity: 0.7; margin-left: 4px; }
+
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    /* ── Detail tables ────────────────────────────────────────────── */
+    .detail-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+    .detail-table th {
+      text-align: left; padding: 8px 12px; font-size: 0.72rem; color: #64748b;
+      text-transform: uppercase; letter-spacing: 0.4px; font-weight: 600;
+      border-bottom: 1px solid #334155; background: #1e293b;
+    }
+    .detail-table td { padding: 10px 12px; border-bottom: 1px solid rgba(51,65,85,0.5); color: #cbd5e1; }
+    .detail-table tr:hover td { background: rgba(129, 140, 248, 0.04); }
+    .detail-empty { text-align: center; padding: 32px 16px; color: #475569; font-size: 0.88rem; }
+
+    /* ── Activity timeline ────────────────────────────────────────── */
+    .timeline { display: flex; flex-direction: column; gap: 0; }
+    .timeline-item {
+      display: flex; gap: 12px; padding: 12px 0;
+      border-bottom: 1px solid rgba(51,65,85,0.4);
+    }
+    .timeline-dot {
+      width: 8px; height: 8px; border-radius: 50%; background: #475569;
+      margin-top: 6px; flex-shrink: 0;
+    }
+    .timeline-dot.info { background: #38bdf8; }
+    .timeline-dot.warn { background: #fbbf24; }
+    .timeline-dot.error { background: #f87171; }
+    .timeline-body { flex: 1; min-width: 0; }
+    .timeline-action { font-size: 0.85rem; color: #e2e8f0; font-weight: 500; }
+    .timeline-detail { font-size: 0.8rem; color: #64748b; margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .timeline-meta { font-size: 0.72rem; color: #475569; margin-top: 3px; }
+
+    /* ── Run cards ────────────────────────────────────────────────── */
+    .run-card {
+      background: #1e293b; border: 1px solid #334155; border-radius: 10px;
+      padding: 14px 16px; margin-bottom: 10px;
+    }
+    .run-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+    .run-card-title { font-size: 0.88rem; font-weight: 600; color: #e2e8f0; }
+    .run-card-date { font-size: 0.75rem; color: #475569; }
+    .run-stats { display: flex; gap: 16px; flex-wrap: wrap; }
+    .run-stat { font-size: 0.8rem; }
+    .run-stat .rs-label { color: #64748b; }
+    .run-stat .rs-value { color: #e2e8f0; font-weight: 600; }
+    .run-stat .rs-value.green { color: #4ade80; }
+    .run-stat .rs-value.amber { color: #fbbf24; }
+    .run-stat .rs-value.red { color: #f87171; }
+
+    @media (max-width: 768px) {
+      .sidebar { width: 60px; }
+      .sidebar .brand .logo, .sidebar .brand .sub, .sidebar nav a span, .sidebar .sidebar-footer .owner-info { display: none; }
+      .sidebar nav a { justify-content: center; padding: 12px; }
+      .main { margin-left: 60px; padding: 20px; }
+      .detail-panel { width: 100vw; }
+      .stats-row { grid-template-columns: 1fr 1fr; }
+      .info-grid, .info-grid.three { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <!-- ── Sidebar ──────────────────────────────────────────────────── -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="logo">NyLi Assets</div>
+      <div class="sub">Owner Portal</div>
+    </div>
+    <nav>
+      <a href="/owner/dashboard"><span class="icon">📊</span><span>Dashboard</span></a>
+      <a href="/owner/clients" class="active"><span class="icon">🏢</span><span>Clients</span></a>
+      <a href="/owner/users"><span class="icon">👥</span><span>Users</span></a>
+      <a href="/owner/activity"><span class="icon">📋</span><span>Activity</span></a>
+      <a href="/owner/billing"><span class="icon">💰</span><span>Billing</span></a>
+      <a href="/owner/integrations"><span class="icon">🔌</span><span>Integrations</span></a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="owner-info">
+        <div class="owner-name" id="ownerName">—</div>
+        <div id="ownerEmail">—</div>
+      </div>
+      <button id="logoutBtn"><span class="icon">🚪</span><span>Sign Out</span></button>
+    </div>
+  </aside>
+
+  <!-- ── Main Content ──────────────────────────────────────────────── -->
+  <div class="main">
+    <div class="page-header"><h1>Client Management</h1></div>
+
+    <div class="toolbar">
+      <input id="searchInput" placeholder="Search by company name…" />
+      <select id="planFilter">
+        <option value="">All Plans</option>
+        <option value="free">Free</option>
+        <option value="starter">Starter</option>
+        <option value="pro">Pro</option>
+        <option value="enterprise">Enterprise</option>
+      </select>
+      <button id="prevBtn">← Prev</button>
+      <button id="nextBtn">Next →</button>
+      <span class="page-info" id="pageInfo"></span>
+    </div>
+
+    <div class="section-card">
+      <table>
+        <thead>
+          <tr><th>Company</th><th>Account</th><th>Plan</th><th>Status</th><th>Trial</th><th>Users</th><th>Projects</th><th>Runs</th><th>Billing</th><th>Joined</th></tr>
+        </thead>
+        <tbody id="clientsBody"><tr><td colspan="10" class="empty-row">Loading…</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── Detail Overlay ────────────────────────────────────────────── -->
+  <div class="detail-overlay" id="detailOverlay"></div>
+
+  <!-- ── Slide-out Detail Panel ────────────────────────────────────── -->
+  <div class="detail-panel" id="detailPanel">
+    <div class="panel-header">
+      <button class="close-btn" id="closePanel">✕</button>
+      <div class="company-title">
+        <h2 id="panelTitle">—</h2>
+        <div class="company-id" id="panelCompanyId"></div>
+      </div>
+      <span id="panelPlanBadge"></span>
+      <span id="panelStatusBadge"></span>
+      <span id="panelAccountStatus"></span>
+      <button id="toggleAccountBtn" style="padding:8px 16px;border:1px solid #475569;border-radius:8px;background:#1e293b;font-size:0.85rem;font-weight:600;cursor:pointer;transition:all 0.15s;margin-left:auto;">—</button>
+    </div>
+
+    <div class="panel-body">
+      <!-- Stats -->
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-value" id="pUsers">0</div>
+          <div class="stat-label">Users</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="pProjects">0</div>
+          <div class="stat-label">Projects</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="pRuns">0</div>
+          <div class="stat-label">Runs</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="pMRR">—</div>
+          <div class="stat-label">Monthly Rate</div>
+        </div>
+      </div>
+
+      <!-- Account Info -->
+      <div class="info-section">
+        <div class="info-section-title">Account Information</div>
+        <div class="info-grid" id="accountInfoGrid"></div>
+      </div>
+
+      <div class="info-section" id="billingInfoSection" style="display:none">
+        <div class="info-section-title">Billing Details</div>
+        <div class="info-grid three" id="billingInfoGrid"></div>
+      </div>
+
+      <!-- Trial Management -->
+      <div class="info-section" id="trialSection">
+        <div class="info-section-title">Trial Status</div>
+        <div id="trialInfo" style="margin-bottom:12px;font-size:0.88rem;color:#94a3b8;"></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button id="extendTrialBtn" style="padding:8px 16px;border:1px solid #475569;border-radius:8px;background:#1e293b;color:#818cf8;font-size:0.85rem;font-weight:600;cursor:pointer;transition:all 0.15s;">Extend 7 Days</button>
+          <button id="extend30Btn" style="padding:8px 16px;border:1px solid #475569;border-radius:8px;background:#1e293b;color:#818cf8;font-size:0.85rem;font-weight:600;cursor:pointer;transition:all 0.15s;">Extend 30 Days</button>
+          <button id="removeTrialBtn" style="padding:8px 16px;border:1px solid #475569;border-radius:8px;background:#1e293b;color:#4ade80;font-size:0.85rem;font-weight:600;cursor:pointer;transition:all 0.15s;">Remove Trial Limit</button>
+        </div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="tabs">
+        <button class="tab active" data-tab="users">Users <span class="tab-count" id="tabUsersCount"></span></button>
+        <button class="tab" data-tab="projects">Projects <span class="tab-count" id="tabProjectsCount"></span></button>
+        <button class="tab" data-tab="runs">Recent Runs</button>
+        <button class="tab" data-tab="invoices">Invoices</button>
+        <button class="tab" data-tab="activity">Activity</button>
+      </div>
+
+      <!-- Tab: Users -->
+      <div class="tab-content active" id="tabUsers">
+        <table class="detail-table">
+          <thead><tr><th>Email</th><th>Name</th><th>Role</th><th>Status</th><th>Joined</th></tr></thead>
+          <tbody id="panelUsersBody"><tr><td colspan="5" class="detail-empty">—</td></tr></tbody>
+        </table>
+      </div>
+
+      <!-- Tab: Projects -->
+      <div class="tab-content" id="tabProjects">
+        <table class="detail-table">
+          <thead><tr><th>Name</th><th>Product</th><th>Status</th><th>Runs</th><th>Created</th></tr></thead>
+          <tbody id="panelProjectsBody"><tr><td colspan="5" class="detail-empty">—</td></tr></tbody>
+        </table>
+      </div>
+
+      <!-- Tab: Recent Runs -->
+      <div class="tab-content" id="tabRuns">
+        <div id="panelRunsList"><div class="detail-empty">No comparison runs yet</div></div>
+      </div>
+
+      <!-- Tab: Invoices -->
+      <div class="tab-content" id="tabInvoices">
+        <table class="detail-table">
+          <thead><tr><th>Date</th><th>Amount</th><th>Status</th><th>Invoice ID</th></tr></thead>
+          <tbody id="panelInvoicesBody"><tr><td colspan="4" class="detail-empty">No invoices</td></tr></tbody>
+        </table>
+      </div>
+
+      <!-- Tab: Activity -->
+      <div class="tab-content" id="tabActivity">
+        <div class="timeline" id="panelTimeline"><div class="detail-empty">No activity recorded</div></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* ── Helpers ──────────────────────────────────────────────────── */
+    async function api(url, opts) {
+      const r = await fetch(url, opts);
+      if (r.status === 401) { window.location.href = '/owner/login'; return null; }
+      if (!r.ok) {
+        let msg = `Error ${r.status}`;
+        try { const d = await r.json(); msg = d.error || msg; } catch (_) {}
+        throw new Error(msg);
+      }
+      return r.json();
+    }
+    function esc(s) { const d = document.createElement('div'); d.textContent = s || ''; return d.innerHTML; }
+    function fmt$(cents) { return cents ? '$' + (cents / 100).toFixed(2) : '—'; }
+    function fmtDate(d) { return d ? new Date(d).toLocaleDateString() : '—'; }
+    function fmtDateTime(d) { return d ? new Date(d).toLocaleString() : '—'; }
+    function ucFirst(s) { return s ? s.charAt(0).toUpperCase() + s.slice(1) : ''; }
+
+    function badge(type, text) {
+      return `<span class="badge badge-${(type||'').toLowerCase().replace(/ /g,'-')}">${esc(ucFirst(text || type))}</span>`;
+    }
+
+    /* ── Client list ─────────────────────────────────────────────── */
+    let offset = 0, limit = 25, totalClients = 0;
+
+    async function loadClients() {
+      const q = document.getElementById('searchInput').value.trim();
+      const plan = document.getElementById('planFilter').value;
+      let url = `/api/owner/clients?limit=${limit}&offset=${offset}`;
+      if (q) url += `&q=${encodeURIComponent(q)}`;
+      if (plan) url += `&plan=${encodeURIComponent(plan)}`;
+      const data = await api(url);
+      if (!data) return;
+      totalClients = data.total || 0;
+      renderClients(data.clients || []);
+      const page = Math.floor(offset / limit) + 1;
+      const pages = Math.max(1, Math.ceil(totalClients / limit));
+      document.getElementById('pageInfo').textContent = `Page ${page} / ${pages} — ${totalClients} clients`;
+    }
+
+    function trialBadge(trialEndsAt) {
+      if (!trialEndsAt) return '<span style="color:#4ade80;font-size:0.8rem">Full</span>';
+      const end = new Date(String(trialEndsAt).replace(' ', 'T') + 'Z');
+      const now = new Date();
+      const days = Math.max(0, Math.ceil((end - now) / (1000*60*60*24)));
+      if (now > end) return '<span style="color:#f87171;font-weight:600;font-size:0.8rem">Expired</span>';
+      if (days <= 2) return `<span style="color:#facc15;font-weight:600;font-size:0.8rem">${days}d left</span>`;
+      return `<span style="color:#94a3b8;font-size:0.8rem">${days}d left</span>`;
+    }
+
+    function renderClients(clients) {
+      const body = document.getElementById('clientsBody');
+      if (!clients.length) { body.innerHTML = '<tr><td colspan="10" class="empty-row">No clients found</td></tr>'; return; }
+      body.innerHTML = clients.map(c => {
+        const plan = c.plan || 'free';
+        const status = c.plan_status || 'active';
+        const rev = c.monthly_rate_cents ? fmt$(c.monthly_rate_cents) + '/mo' : '—';
+        const acctStatus = c.disabled
+          ? '<span style="color:#f87171;font-weight:600;font-size:0.8rem">Suspended</span>'
+          : '<span style="color:#4ade80;font-size:0.8rem">Active</span>';
+        return `<tr class="clickable-row" onclick="openDetail('${esc(c.id)}')">
+          <td><span class="link">${esc(c.name)}</span></td>
+          <td>${acctStatus}</td>
+          <td>${badge(plan, plan)}</td>
+          <td>${badge(status, status)}</td>
+          <td>${trialBadge(c.trial_ends_at)}</td>
+          <td>${c.userCount}</td>
+          <td>${c.projectCount}</td>
+          <td>${c.runCount}</td>
+          <td>${rev}</td>
+          <td>${fmtDate(c.created_at)}</td>
+        </tr>`;
+      }).join('');
+    }
+
+    // Pagination
+    document.getElementById('prevBtn').addEventListener('click', () => { if (offset - limit >= 0) { offset -= limit; loadClients(); } });
+    document.getElementById('nextBtn').addEventListener('click', () => { if (offset + limit < totalClients) { offset += limit; loadClients(); } });
+    document.getElementById('searchInput').addEventListener('keydown', e => { if (e.key === 'Enter') { offset = 0; loadClients(); } });
+    document.getElementById('planFilter').addEventListener('change', () => { offset = 0; loadClients(); });
+
+    /* ── Tabs ────────────────────────────────────────────────────── */
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById('tab' + ucFirst(tab.dataset.tab)).classList.add('active');
+      });
+    });
+
+    /* ── Detail Panel ────────────────────────────────────────────── */
+    function openPanel() {
+      document.getElementById('detailOverlay').classList.add('open');
+      document.getElementById('detailPanel').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closePanel() {
+      document.getElementById('detailOverlay').classList.remove('open');
+      document.getElementById('detailPanel').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    document.getElementById('closePanel').addEventListener('click', closePanel);
+    document.getElementById('detailOverlay').addEventListener('click', closePanel);
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closePanel(); });
+
+    async function openDetail(companyId) {
+      openPanel();
+      // Reset tabs to first
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
+      document.querySelector('.tab[data-tab="users"]').classList.add('active');
+      document.getElementById('tabUsers').classList.add('active');
+
+      const data = await api(`/api/owner/clients/${companyId}`);
+      if (!data) { closePanel(); return; }
+
+      // Header
+      document.getElementById('panelTitle').textContent = data.name || '—';
+      document.getElementById('panelCompanyId').textContent = data.id;
+      document.getElementById('panelPlanBadge').innerHTML = badge(data.plan || 'free', data.plan || 'free');
+      document.getElementById('panelStatusBadge').innerHTML = badge(data.plan_status || 'active', data.plan_status || 'active');
+
+      // Account status badge & toggle button
+      const isDisabled = !!data.disabled;
+      document.getElementById('panelAccountStatus').innerHTML = isDisabled
+        ? '<span class="badge" style="background:rgba(239,68,68,0.12);color:#f87171">Suspended</span>'
+        : '<span class="badge" style="background:rgba(34,197,94,0.12);color:#4ade80">Active</span>';
+      const toggleBtn = document.getElementById('toggleAccountBtn');
+      toggleBtn.textContent = isDisabled ? 'Enable Account' : 'Suspend Account';
+      toggleBtn.style.color = isDisabled ? '#4ade80' : '#f87171';
+      toggleBtn.style.borderColor = isDisabled ? '#4ade80' : '#f87171';
+      toggleBtn.onclick = () => toggleAccount(companyId, !isDisabled);
+
+      // Stats
+      document.getElementById('pUsers').textContent = data.userCount;
+      document.getElementById('pProjects').textContent = data.projectCount;
+      document.getElementById('pRuns').textContent = data.runCount;
+      document.getElementById('pMRR').textContent = fmt$(data.monthly_rate_cents);
+
+      // Tab counts
+      document.getElementById('tabUsersCount').textContent = `(${data.userCount})`;
+      document.getElementById('tabProjectsCount').textContent = `(${data.projectCount})`;
+
+      // Account info
+      document.getElementById('accountInfoGrid').innerHTML = [
+        mkInfo('Company Name', data.name),
+        mkInfo('Created', fmtDateTime(data.created_at)),
+        mkInfo('Currency', (data.currency || 'USD').toUpperCase()),
+        mkInfo('Billing Enabled', data.billing_enabled ? 'Yes' : 'No'),
+        mkInfo('Monthly Rate', fmt$(data.monthly_rate_cents)),
+        mkInfo('Annual Rate', fmt$(data.annual_rate_cents)),
+      ].join('');
+
+      // Trial info
+      renderTrialInfo(data);
+      setupTrialActions(companyId);
+
+      // Billing info
+      const hasBilling = data.billing_email || data.card_brand || data.billing_address_line1;
+      const bs = document.getElementById('billingInfoSection');
+      if (hasBilling) {
+        bs.style.display = '';
+        const addr = [data.billing_address_line1, data.billing_address_line2, data.billing_city, data.billing_state, data.billing_zip, data.billing_country].filter(Boolean).join(', ');
+        const card = data.card_brand ? `${data.card_brand} ••••${data.card_last4}` + (data.card_exp_month ? ` (${data.card_exp_month}/${data.card_exp_year})` : '') : '—';
+        const period = data.current_period_start ? `${fmtDate(data.current_period_start)} → ${fmtDate(data.current_period_end)}` : '—';
+        document.getElementById('billingInfoGrid').innerHTML = [
+          mkInfo('Billing Email', data.billing_email || '—'),
+          mkInfo('Card', card),
+          mkInfo('Current Period', period),
+          mkInfo('Billing Address', addr || '—'),
+        ].join('');
+      } else {
+        bs.style.display = 'none';
+      }
+
+      // Users tab
+      renderUsers(data.users || []);
+
+      // Projects tab
+      renderProjects(data.projects || []);
+
+      // Runs tab
+      renderRuns(data.recentRuns || []);
+
+      // Invoices tab
+      renderInvoices(data.invoices || []);
+
+      // Activity tab
+      renderActivity(data.activity || []);
+    }
+
+    function renderTrialInfo(data) {
+      const el = document.getElementById('trialInfo');
+      if (!data.trial_ends_at) {
+        el.innerHTML = '<span style="color:#4ade80">No trial restriction — full access</span>';
+        return;
+      }
+      const end = new Date(String(data.trial_ends_at).replace(' ', 'T') + 'Z');
+      const now = new Date();
+      const days = Math.max(0, Math.ceil((end - now) / (1000 * 60 * 60 * 24)));
+      const expired = now > end;
+      const dateStr = end.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+      if (expired) {
+        el.innerHTML = `<span style="color:#f87171;font-weight:600">⏱️ Trial expired on ${dateStr}</span>`;
+      } else if (days <= 2) {
+        el.innerHTML = `<span style="color:#facc15;font-weight:600">⏱️ Trial ends ${dateStr} — ${days} day${days !== 1 ? 's' : ''} left</span>`;
+      } else {
+        el.innerHTML = `<span style="color:#94a3b8">⏱️ Trial ends ${dateStr} — ${days} day${days !== 1 ? 's' : ''} remaining</span>`;
+      }
+    }
+
+    async function toggleAccount(companyId, disable) {
+      const action = disable ? 'suspend' : 'enable';
+      if (!confirm(`Are you sure you want to ${action} this account?${disable ? ' All active sessions will be terminated.' : ''}`)) return;
+      const r = await api(`/api/owner/clients/${companyId}/status`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ disabled: disable }) });
+      if (r?.success) { openDetail(companyId); loadClients(); }
+    }
+
+    let _currentTrialCompanyId = null;
+    function setupTrialActions(companyId) {
+      _currentTrialCompanyId = companyId;
+    }
+    document.getElementById('extendTrialBtn').addEventListener('click', async () => {
+      if (!_currentTrialCompanyId) return;
+      const r = await api(`/api/owner/clients/${_currentTrialCompanyId}/trial`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'extend', days: 7 }) });
+      if (r?.success) { openDetail(_currentTrialCompanyId); }
+    });
+    document.getElementById('extend30Btn').addEventListener('click', async () => {
+      if (!_currentTrialCompanyId) return;
+      const r = await api(`/api/owner/clients/${_currentTrialCompanyId}/trial`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'extend', days: 30 }) });
+      if (r?.success) { openDetail(_currentTrialCompanyId); }
+    });
+    document.getElementById('removeTrialBtn').addEventListener('click', async () => {
+      if (!_currentTrialCompanyId) return;
+      if (!confirm('Remove trial restriction? This gives the client unlimited access.')) return;
+      const r = await api(`/api/owner/clients/${_currentTrialCompanyId}/trial`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'remove' }) });
+      if (r?.success) { openDetail(_currentTrialCompanyId); }
+    });
+
+    function mkInfo(label, value) {
+      return `<div class="info-item"><div class="il">${esc(label)}</div><div class="iv">${esc(String(value ?? '—'))}</div></div>`;
+    }
+
+    function renderUsers(users) {
+      const body = document.getElementById('panelUsersBody');
+      if (!users.length) { body.innerHTML = '<tr><td colspan="5" class="detail-empty">No users</td></tr>'; return; }
+      body.innerHTML = users.map(u => {
+        const name = [u.first_name, u.last_name].filter(Boolean).join(' ') || '—';
+        const status = u.disabled
+          ? '<span style="color:#f87171;font-weight:600">Disabled</span>'
+          : '<span style="color:#4ade80;font-weight:600">Active</span>';
+        return `<tr>
+          <td>${esc(u.email)}</td>
+          <td>${esc(name)}</td>
+          <td>${badge(u.role, u.role)}</td>
+          <td>${status}</td>
+          <td>${fmtDate(u.created_at)}</td>
+        </tr>`;
+      }).join('');
+    }
+
+    function renderProjects(projects) {
+      const body = document.getElementById('panelProjectsBody');
+      if (!projects.length) { body.innerHTML = '<tr><td colspan="5" class="detail-empty">No projects</td></tr>'; return; }
+      body.innerHTML = projects.map(p => `<tr>
+        <td><strong>${esc(p.name)}</strong></td>
+        <td>${esc(p.product_name || '—')}</td>
+        <td>${badge(p.status || 'active', p.status || 'active')}</td>
+        <td>${p.runCount}</td>
+        <td>${fmtDate(p.created_at)}</td>
+      </tr>`).join('');
+    }
+
+    function renderRuns(runs) {
+      const el = document.getElementById('panelRunsList');
+      if (!runs.length) { el.innerHTML = '<div class="detail-empty">No comparison runs yet</div>'; return; }
+      el.innerHTML = runs.map(r => `<div class="run-card">
+        <div class="run-card-header">
+          <div class="run-card-title">${esc(r.project_name || 'Untitled Project')}</div>
+          <div class="run-card-date">${fmtDateTime(r.created_at)}</div>
+        </div>
+        <div class="run-stats">
+          <div class="run-stat"><span class="rs-label">File A: </span><span class="rs-value">${r.total_file_a}</span></div>
+          <div class="run-stat"><span class="rs-label">File B: </span><span class="rs-value">${r.total_file_b}</span></div>
+          <div class="run-stat"><span class="rs-label">Matched: </span><span class="rs-value green">${r.matched}</span></div>
+          <div class="run-stat"><span class="rs-label">Only A: </span><span class="rs-value amber">${r.only_in_a}</span></div>
+          <div class="run-stat"><span class="rs-label">Only B: </span><span class="rs-value amber">${r.only_in_b}</span></div>
+          <div class="run-stat"><span class="rs-label">Diffs: </span><span class="rs-value red">${r.field_diffs}</span></div>
+        </div>
+      </div>`).join('');
+    }
+
+    function renderInvoices(invoices) {
+      const body = document.getElementById('panelInvoicesBody');
+      if (!invoices.length) { body.innerHTML = '<tr><td colspan="4" class="detail-empty">No invoices</td></tr>'; return; }
+      body.innerHTML = invoices.map(inv => `<tr>
+        <td>${fmtDate(inv.created_at)}</td>
+        <td>${fmt$(inv.amount_paid_cents)}</td>
+        <td>${badge(inv.status || 'paid', inv.status || 'paid')}</td>
+        <td style="font-family:monospace;font-size:0.78rem;color:#475569">${esc(inv.stripe_invoice_id || '—')}</td>
+      </tr>`).join('');
+    }
+
+    function renderActivity(activity) {
+      const el = document.getElementById('panelTimeline');
+      if (!activity.length) { el.innerHTML = '<div class="detail-empty">No activity recorded</div>'; return; }
+      el.innerHTML = activity.map(a => {
+        const sev = (a.severity || 'info').toLowerCase();
+        const dotCls = sev === 'error' ? 'error' : sev === 'warn' || sev === 'warning' ? 'warn' : 'info';
+        return `<div class="timeline-item">
+          <div class="timeline-dot ${dotCls}"></div>
+          <div class="timeline-body">
+            <div class="timeline-action">${esc(a.action)}</div>
+            <div class="timeline-detail">${esc(a.details || '')}</div>
+            <div class="timeline-meta">${fmtDateTime(a.timestamp)}${a.actor_email ? ' · ' + esc(a.actor_email) : ''}</div>
+          </div>
+        </div>`;
+      }).join('');
+    }
+
+    /* ── Owner info & logout ─────────────────────────────────────── */
+    (async () => {
+      const me = await api('/api/owner/me');
+      if (!me) return;
+      document.getElementById('ownerName').textContent = me.name || 'Owner';
+      document.getElementById('ownerEmail').textContent = me.email;
+    })();
+    document.getElementById('logoutBtn').addEventListener('click', async () => {
+      await fetch('/api/owner/logout', { method: 'POST' });
+      window.location.href = '/owner/login';
+    });
+
+    // Deep link support: /owner/clients?id=xxx
+    const urlId = new URLSearchParams(window.location.search).get('id');
+    if (urlId) openDetail(urlId);
+
+    loadClients();
+  </script>
+</body>
+</html>

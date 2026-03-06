@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NyLi Assets – Confirm Access</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: linear-gradient(170deg, #fdf8f4 0%, #faf5f0 50%, #fff 100%);
+      color: #1a1a2e;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 16px;
+    }
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.08);
+      padding: 40px 32px;
+      max-width: 480px;
+      width: 100%;
+      text-align: center;
+    }
+    .icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      margin-bottom: 16px;
+    }
+    .icon.success { background: #dcfce7; }
+    .icon.error   { background: #fef2f2; }
+    .icon.pending { background: #f0ebe4; }
+    h1 { font-size: 1.3rem; margin-bottom: 8px; }
+    p  { color: #555; font-size: 0.95rem; line-height: 1.5; }
+    .status { margin-top: 16px; font-size: 0.85rem; color: #888; }
+  </style>
+</head>
+<body>
+
+<div class="card" id="card">
+  <div class="icon pending" id="icon">...</div>
+  <h1 id="heading">Processing your response...</h1>
+  <p id="message">Please wait a moment.</p>
+  <p class="status" id="status"></p>
+</div>
+
+<script>
+(function () {
+  // Prefer fragments (#token=...&response=...) so sensitive tokens don't hit server logs.
+  var params = new URLSearchParams((window.location.hash || "").replace(/^#/, ""));
+  var token = params.get("token");
+  var response = params.get("response");
+
+  if (!token || !response) {
+    // Backward-compat: old links used query params
+    params = new URLSearchParams(window.location.search);
+    token = token || params.get("token");
+    response = response || params.get("response");
+  }
+
+  var icon    = document.getElementById("icon");
+  var heading = document.getElementById("heading");
+  var message = document.getElementById("message");
+  var status  = document.getElementById("status");
+
+  if (!token || !response) {
+    showError("Invalid link", "This confirmation link is missing required parameters.");
+    return;
+  }
+
+  fetch("/api/confirm", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ token: token, response: response }),
+  })
+    .then(function (res) { return res.json().then(function (b) { return { ok: res.ok, body: b }; }); })
+    .then(function (res) {
+      if (!res.ok) {
+        showError("Something went wrong", res.body.error || "Unable to record your response.");
+        return;
+      }
+      if (res.body.alreadyResponded) {
+        showSuccess("Already recorded", "You have already responded to this request. No further action is needed.");
+        return;
+      }
+      if (response === "yes") {
+        showSuccess("Access retained", "Thank you! Your access will remain active.");
+      } else {
+        showSuccess("Access removal requested", "Thank you for letting us know. Your access will be removed.");
+      }
+      status.textContent = "Responded at: " + new Date().toLocaleString();
+    })
+    .catch(function () {
+      showError("Network error", "Unable to reach the server. Please try again later.");
+    });
+
+  function showSuccess(h, m) {
+    icon.textContent = "\u2713";
+    icon.className = "icon success";
+    heading.textContent = h;
+    message.textContent = m;
+  }
+  function showError(h, m) {
+    icon.textContent = "!";
+    icon.className = "icon error";
+    heading.textContent = h;
+    message.textContent = m;
+  }
+})();
+</script>
+</body>
+</html>

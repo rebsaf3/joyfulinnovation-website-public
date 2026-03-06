@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Activity — Owner Portal — NyLi Assets</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #0f172a; color: #e2e8f0; }
+
+    .sidebar {
+      position: fixed; top: 0; left: 0; width: 240px; height: 100vh;
+      background: #1e293b; border-right: 1px solid #334155;
+      display: flex; flex-direction: column; z-index: 100;
+    }
+    .sidebar .brand { padding: 20px 24px; border-bottom: 1px solid #334155; }
+    .sidebar .brand .logo { font-size: 1.1rem; font-weight: 700; color: #818cf8; }
+    .sidebar .brand .sub { font-size: 0.7rem; color: #64748b; text-transform: uppercase; letter-spacing: 2px; margin-top: 2px; }
+    .sidebar nav { flex: 1; padding: 16px 12px; display: flex; flex-direction: column; gap: 4px; }
+    .sidebar nav a {
+      display: flex; align-items: center; gap: 10px; padding: 10px 14px;
+      border-radius: 8px; color: #94a3b8; text-decoration: none;
+      font-size: 0.9rem; font-weight: 500; transition: all 0.15s;
+    }
+    .sidebar nav a:hover { background: rgba(129, 140, 248, 0.08); color: #c7d2fe; }
+    .sidebar nav a.active { background: rgba(129, 140, 248, 0.15); color: #818cf8; font-weight: 600; }
+    .sidebar nav a .icon { font-size: 1.1rem; width: 22px; text-align: center; }
+    .sidebar .sidebar-footer { padding: 16px 12px; border-top: 1px solid #334155; }
+    .sidebar .sidebar-footer .owner-info { padding: 8px 14px; font-size: 0.82rem; color: #64748b; }
+    .sidebar .sidebar-footer .owner-name { color: #e2e8f0; font-weight: 600; font-size: 0.88rem; }
+    .sidebar .sidebar-footer button {
+      display: flex; align-items: center; gap: 10px; width: 100%; padding: 10px 14px;
+      border: none; background: none; border-radius: 8px; color: #ef4444;
+      font-size: 0.9rem; font-weight: 500; cursor: pointer; transition: background 0.15s;
+    }
+    .sidebar .sidebar-footer button:hover { background: rgba(239, 68, 68, 0.08); }
+
+    .main { margin-left: 240px; min-height: 100vh; padding: 32px; }
+    .page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; flex-wrap: wrap; gap: 12px; }
+    .page-header div h1 { font-size: 1.6rem; font-weight: 700; color: #f1f5f9; }
+    .page-header div p { color: #64748b; font-size: 0.9rem; margin-top: 4px; }
+
+    .export-btn {
+      display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px;
+      background: rgba(129, 140, 248, 0.12); border: 1px solid #818cf8; border-radius: 8px;
+      color: #818cf8; font-size: 0.88rem; font-weight: 600; cursor: pointer; transition: all 0.15s; text-decoration: none;
+    }
+    .export-btn:hover { background: rgba(129, 140, 248, 0.2); }
+
+    .toolbar { display: flex; gap: 10px; align-items: center; margin-bottom: 20px; flex-wrap: wrap; }
+    .toolbar input, .toolbar select {
+      padding: 9px 14px; border: 1px solid #475569; border-radius: 8px;
+      background: #1e293b; color: #e2e8f0; font-size: 0.88rem; outline: none; transition: border 0.2s;
+    }
+    .toolbar input:focus, .toolbar select:focus { border-color: #818cf8; }
+    .toolbar input[type="text"] { width: 220px; }
+    .toolbar input[type="date"] { width: 150px; }
+    .toolbar .spacer { flex: 1; }
+    .toolbar .page-info { color: #64748b; font-size: 0.82rem; }
+    .toolbar button {
+      padding: 9px 16px; border: 1px solid #475569; border-radius: 8px;
+      background: #1e293b; color: #94a3b8; font-size: 0.88rem; cursor: pointer; transition: all 0.15s;
+    }
+    .toolbar button:hover:not(:disabled) { border-color: #818cf8; color: #818cf8; }
+    .toolbar button:disabled { opacity: 0.4; cursor: default; }
+
+    .section-card { background: #1e293b; border: 1px solid #334155; border-radius: 12px; overflow: hidden; }
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; min-width: 900px; }
+    th, td { padding: 11px 14px; text-align: left; border-bottom: 1px solid #334155; font-size: 0.85rem; }
+    th { color: #64748b; font-weight: 600; text-transform: uppercase; font-size: 0.72rem; letter-spacing: 0.5px; background: #1e293b; position: sticky; top: 0; }
+    td { color: #cbd5e1; }
+    tr:hover td { background: rgba(129, 140, 248, 0.04); }
+    .badge { display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: 0.72rem; font-weight: 600; white-space: nowrap; }
+    .empty-row { text-align: center; color: #475569; padding: 48px 14px !important; }
+    .details-cell { max-width: 260px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .details-cell:hover { white-space: normal; word-break: break-word; }
+    .mono { font-family: "JetBrains Mono", "Fira Code", monospace; font-size: 0.78rem; }
+
+    .pagination { display: flex; gap: 8px; align-items: center; padding: 14px 20px; border-top: 1px solid #334155; justify-content: space-between; }
+    .pagination .pg-info { color: #64748b; font-size: 0.82rem; }
+    .pagination .pg-btns { display: flex; gap: 8px; }
+    .pagination button {
+      padding: 7px 14px; border: 1px solid #475569; border-radius: 6px;
+      background: #1e293b; color: #94a3b8; font-size: 0.82rem; cursor: pointer; transition: all 0.15s;
+    }
+    .pagination button:hover:not(:disabled) { border-color: #818cf8; color: #818cf8; }
+    .pagination button:disabled { opacity: 0.35; cursor: default; }
+
+    @media (max-width: 768px) {
+      .sidebar { width: 60px; }
+      .sidebar .brand .logo, .sidebar .brand .sub, .sidebar nav a span, .sidebar .sidebar-footer .owner-info { display: none; }
+      .sidebar nav a { justify-content: center; padding: 12px; }
+      .main { margin-left: 60px; padding: 20px; }
+      .toolbar input[type="text"] { width: 140px; }
+    }
+  </style>
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="logo">NyLi Assets</div>
+      <div class="sub">Owner Portal</div>
+    </div>
+    <nav>
+      <a href="/owner/dashboard"><span class="icon">📊</span><span>Dashboard</span></a>
+      <a href="/owner/clients"><span class="icon">🏢</span><span>Clients</span></a>
+      <a href="/owner/users"><span class="icon">👥</span><span>Users</span></a>
+      <a href="/owner/activity" class="active"><span class="icon">📋</span><span>Activity</span></a>
+      <a href="/owner/billing"><span class="icon">💰</span><span>Billing</span></a>
+      <a href="/owner/integrations"><span class="icon">🔌</span><span>Integrations</span></a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="owner-info">
+        <div class="owner-name" id="ownerName">—</div>
+        <div id="ownerEmail">—</div>
+      </div>
+      <button id="logoutBtn"><span class="icon">🚪</span><span>Sign Out</span></button>
+    </div>
+  </aside>
+
+  <div class="main">
+    <div class="page-header">
+      <div>
+        <h1>Platform Activity</h1>
+        <p>System log entries across all clients</p>
+      </div>
+      <button class="export-btn" id="exportBtn">⬇ Export CSV</button>
+    </div>
+
+    <div class="toolbar">
+      <input type="text" id="searchInput" placeholder="Search actions, emails, details…">
+      <select id="categoryFilter"><option value="">All Categories</option></select>
+      <select id="severityFilter"><option value="">All Severities</option></select>
+      <input type="date" id="dateFrom" title="From date">
+      <input type="date" id="dateTo" title="To date">
+      <select id="limitSelect">
+        <option value="50">50 rows</option>
+        <option value="100" selected>100 rows</option>
+        <option value="250">250 rows</option>
+        <option value="500">500 rows</option>
+      </select>
+      <button id="refreshBtn">Refresh</button>
+      <span class="spacer"></span>
+      <span class="page-info" id="rowInfo"></span>
+    </div>
+
+    <div class="section-card">
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Time</th>
+              <th>Category</th>
+              <th>Action</th>
+              <th>Severity</th>
+              <th>Actor</th>
+              <th>Company</th>
+              <th>Details</th>
+              <th>IP</th>
+            </tr>
+          </thead>
+          <tbody id="activityBody"><tr><td colspan="8" class="empty-row">Loading…</td></tr></tbody>
+        </table>
+      </div>
+      <div class="pagination">
+        <span class="pg-info" id="pgInfo">—</span>
+        <div class="pg-btns">
+          <button id="prevBtn" disabled>← Prev</button>
+          <button id="nextBtn" disabled>Next →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    async function api(url) {
+      const r = await fetch(url);
+      if (r.status === 401) { window.location.href = '/owner/login'; return null; }
+      if (!r.ok) {
+        let msg = `Error ${r.status}`;
+        try { const d = await r.json(); msg = d.error || msg; } catch (_) {}
+        throw new Error(msg);
+      }
+      return r.json();
+    }
+    function esc(s) { const d = document.createElement('div'); d.textContent = s || ''; return d.innerHTML; }
+
+    const severityColors = {
+      info:     { bg: 'rgba(56,189,248,0.12)',  fg: '#38bdf8' },
+      warning:  { bg: 'rgba(250,204,21,0.12)',  fg: '#facc15' },
+      error:    { bg: 'rgba(239,68,68,0.12)',    fg: '#f87171' },
+      critical: { bg: 'rgba(239,68,68,0.18)',    fg: '#ef4444' },
+      debug:    { bg: 'rgba(148,163,184,0.10)',  fg: '#94a3b8' },
+    };
+    const categoryColors = {
+      auth:           { bg: 'rgba(129,140,248,0.12)', fg: '#818cf8' },
+      user:           { bg: 'rgba(56,189,248,0.12)',   fg: '#38bdf8' },
+      company:        { bg: 'rgba(251,146,60,0.12)',   fg: '#fb923c' },
+      project:        { bg: 'rgba(52,211,153,0.12)',   fg: '#34d399' },
+      run:            { bg: 'rgba(167,139,250,0.12)',  fg: '#a78bfa' },
+      billing:        { bg: 'rgba(250,204,21,0.12)',   fg: '#facc15' },
+      verification:   { bg: 'rgba(45,212,191,0.12)',   fg: '#2dd4bf' },
+      system:         { bg: 'rgba(148,163,184,0.10)',  fg: '#94a3b8' },
+      admin:          { bg: 'rgba(244,114,182,0.12)',  fg: '#f472b6' },
+    };
+
+    function badgeHtml(text, colorMap) {
+      const c = colorMap[text] || { bg: 'rgba(148,163,184,0.10)', fg: '#94a3b8' };
+      return `<span class="badge" style="background:${c.bg};color:${c.fg}">${esc(text)}</span>`;
+    }
+
+    let _offset = 0;
+    let _total = 0;
+    let _filtersPopulated = false;
+
+    // Load owner identity
+    (async () => {
+      const me = await api('/api/owner/me');
+      if (!me) return;
+      document.getElementById('ownerName').textContent = me.name || 'Owner';
+      document.getElementById('ownerEmail').textContent = me.email;
+    })();
+
+    function getFilters() {
+      return {
+        q: document.getElementById('searchInput').value.trim(),
+        category: document.getElementById('categoryFilter').value,
+        severity: document.getElementById('severityFilter').value,
+        dateFrom: document.getElementById('dateFrom').value,
+        dateTo: document.getElementById('dateTo').value,
+        limit: document.getElementById('limitSelect').value,
+      };
+    }
+
+    function buildUrl(base, filters, offset) {
+      const p = new URLSearchParams();
+      if (filters.q) p.set('q', filters.q);
+      if (filters.category) p.set('category', filters.category);
+      if (filters.severity) p.set('severity', filters.severity);
+      if (filters.dateFrom) p.set('dateFrom', filters.dateFrom);
+      if (filters.dateTo) p.set('dateTo', filters.dateTo);
+      p.set('limit', filters.limit);
+      if (offset) p.set('offset', offset);
+      return `${base}?${p.toString()}`;
+    }
+
+    async function loadActivity(resetOffset) {
+      if (resetOffset) _offset = 0;
+      const filters = getFilters();
+      const url = buildUrl('/api/owner/activity', filters, _offset);
+
+      const data = await api(url);
+      if (!data) return;
+
+      _total = data.total;
+      const limit = parseInt(filters.limit, 10);
+      const entries = data.entries || [];
+
+      // Populate filters once
+      if (!_filtersPopulated && data.filters) {
+        populateFilter('categoryFilter', data.filters.categories || []);
+        populateFilter('severityFilter', data.filters.severities || []);
+        _filtersPopulated = true;
+      }
+
+      // Row info
+      const from = entries.length ? _offset + 1 : 0;
+      const to = _offset + entries.length;
+      document.getElementById('rowInfo').textContent = `${from}–${to} of ${_total}`;
+      document.getElementById('pgInfo').textContent = `Page ${Math.floor(_offset / limit) + 1} of ${Math.max(1, Math.ceil(_total / limit))}`;
+
+      // Pagination buttons
+      document.getElementById('prevBtn').disabled = _offset === 0;
+      document.getElementById('nextBtn').disabled = (_offset + limit) >= _total;
+
+      // Render table
+      const body = document.getElementById('activityBody');
+      if (!entries.length) {
+        body.innerHTML = '<tr><td colspan="8" class="empty-row">No activity found</td></tr>';
+        return;
+      }
+      body.innerHTML = entries.map(e => `
+        <tr>
+          <td style="white-space:nowrap;font-size:0.8rem">${e.timestamp ? new Date((String(e.timestamp).includes('T') ? e.timestamp : String(e.timestamp).replace(' ', 'T') + 'Z')).toLocaleString() : '—'}</td>
+          <td>${badgeHtml(e.category || '—', categoryColors)}</td>
+          <td style="font-size:0.82rem">${esc(e.action || '—')}</td>
+          <td>${badgeHtml(e.severity || 'info', severityColors)}</td>
+          <td>${esc(e.actor_email || '—')}</td>
+          <td>${esc(e.company_name || '—')}</td>
+          <td class="details-cell" title="${esc(e.details || '')}">${esc(e.details || '—')}</td>
+          <td class="mono">${esc(e.ip_address || '—')}</td>
+        </tr>`).join('');
+    }
+
+    function populateFilter(id, values) {
+      const sel = document.getElementById(id);
+      const current = sel.value;
+      while (sel.options.length > 1) sel.remove(1);
+      values.forEach(v => {
+        if (!v) return;
+        const opt = document.createElement('option');
+        opt.value = v; opt.textContent = v;
+        sel.appendChild(opt);
+      });
+      sel.value = current;
+    }
+
+    // Event listeners
+    let _searchTimer;
+    document.getElementById('searchInput').addEventListener('input', () => {
+      clearTimeout(_searchTimer);
+      _searchTimer = setTimeout(() => loadActivity(true), 350);
+    });
+    document.getElementById('categoryFilter').addEventListener('change', () => loadActivity(true));
+    document.getElementById('severityFilter').addEventListener('change', () => loadActivity(true));
+    document.getElementById('dateFrom').addEventListener('change', () => loadActivity(true));
+    document.getElementById('dateTo').addEventListener('change', () => loadActivity(true));
+    document.getElementById('limitSelect').addEventListener('change', () => loadActivity(true));
+    document.getElementById('refreshBtn').addEventListener('click', () => loadActivity(false));
+
+    document.getElementById('prevBtn').addEventListener('click', () => {
+      const limit = parseInt(document.getElementById('limitSelect').value, 10);
+      _offset = Math.max(0, _offset - limit);
+      loadActivity(false);
+    });
+    document.getElementById('nextBtn').addEventListener('click', () => {
+      const limit = parseInt(document.getElementById('limitSelect').value, 10);
+      _offset += limit;
+      loadActivity(false);
+    });
+
+    // Export
+    document.getElementById('exportBtn').addEventListener('click', () => {
+      const filters = getFilters();
+      const url = buildUrl('/api/owner/activity/export', filters, 0);
+      window.location.href = url;
+    });
+
+    // Logout
+    document.getElementById('logoutBtn').addEventListener('click', async () => {
+      await fetch('/api/owner/logout', { method: 'POST' });
+      window.location.href = '/owner/login';
+    });
+
+    // Initial load
+    loadActivity(true);
+  </script>
+</body>
+</html>

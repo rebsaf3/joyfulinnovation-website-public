@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Admin — NyLi Assets</title>
+  <style>
+    body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial;background:#f7fafc;color:#111;margin:0}
+    nav{display:flex;justify-content:space-between;align-items:center;padding:12px 20px;background:#fff;border-bottom:1px solid #e6eef8}
+    .logo{color:#0d9488;font-weight:700}
+    .container{max-width:1200px;margin:24px auto;padding:16px}
+    .tabs{display:flex;gap:12px;margin-bottom:16px}
+    .tab{padding:8px 12px;border-radius:8px;background:#fff;border:1px solid #e6eef8;cursor:pointer}
+    .tab.active{background:#0d9488;color:#fff;border-color:#0f766e}
+    table{width:100%;border-collapse:collapse;background:#fff;border:1px solid #e6eef8}
+    th,td{padding:10px;border-bottom:1px solid #eef4fb;text-align:left}
+    th{background:#f8fbff;font-weight:700}
+    .btn{padding:6px 10px;border-radius:6px;border:none;cursor:pointer}
+    .btn.primary{background:#0d9488;color:#fff}
+    .btn.danger{background:#ef4444;color:#fff}
+    .muted{color:#666;font-size:0.95rem}
+    .panel{background:#fff;padding:12px;border:1px solid #e6eef8}
+    pre{white-space:pre-wrap;word-break:break-word}
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="logo">NyLi<span style="color:#0d9488">Assets</span> — Admin</div>
+    <div>
+      <button id="logoutBtn" class="btn">Logout</button>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="tabs">
+      <div id="tab-users" class="tab active">Users</div>
+      <div id="tab-logs" class="tab">Logs</div>
+      <div id="tab-billing" class="tab">Billing</div>
+    </div>
+
+    <div id="panel-users" class="panel">
+      <h3>All Users</h3>
+
+      <div style="display:flex;gap:8px;align-items:center;margin-bottom:12px">
+        <input id="userSearch" placeholder="Search by email or company" style="flex:1;padding:8px;border:1px solid #e6eef8;border-radius:8px" />
+        <select id="userLimit" style="padding:8px;border:1px solid #e6eef8;border-radius:8px">
+          <option value="10">10</option>
+          <option value="25" selected>25</option>
+          <option value="50">50</option>
+        </select>
+        <button id="prevPage" class="btn">Prev</button>
+        <button id="nextPage" class="btn">Next</button>
+        <div id="pageInfo" class="muted" style="margin-left:8px"></div>
+      </div>
+
+      <div id="usersTable"></div>
+    </div>
+
+    <div id="panel-logs" class="panel" style="display:none">
+      <h3>Recent Audit Log (latest 100)</h3>
+      <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px">
+        <button id="downloadLogs" class="btn primary">Export CSV</button>
+        <div class="muted">You can export up to 10,000 rows (use query params)</div>
+      </div>
+      <div id="logsArea"><p class="muted">Loading...</p></div>
+    </div>
+
+    <div id="panel-billing" class="panel" style="display:none">
+      <h3>Billing Overview</h3>
+      <div style="display:flex;gap:12px;align-items:center;margin-bottom:12px">
+        <div>
+          <label>Default monthly ($):</label>
+          <input id="defaultMonthly" style="padding:6px;border:1px solid #e6eef8;border-radius:6px;width:120px" />
+        </div>
+        <div>
+          <label>Default annual ($):</label>
+          <input id="defaultAnnual" style="padding:6px;border:1px solid #e6eef8;border-radius:6px;width:120px" />
+        </div>
+        <button id="saveDefaults" class="btn primary">Save Defaults</button>
+      </div>
+      <div id="billingArea"><p class="muted">Loading...</p></div>
+    </div>
+  </div>
+
+  <script>
+    async function fetchJSON(url, opts){
+      const r = await fetch(url, opts);
+      if(!r.ok) throw new Error((await r.json()).error || r.statusText);
+      return r.json();
+    }
+
+    // Tabs
+    document.getElementById('tab-users').onclick = () => { showTab('users'); };
+    document.getElementById('tab-logs').onclick = () => { showTab('logs'); loadLogs(); };
+    document.getElementById('tab-billing').onclick = () => { showTab('billing'); loadBilling(); };
+    function showTab(name){
+      document.querySelectorAll('.tab').forEach(el=>el.classList.remove('active'));
+      document.getElementById('tab-'+name).classList.add('active');
+      document.getElementById('panel-users').style.display = name==='users'? 'block':'none';
+      document.getElementById('panel-logs').style.display = name==='logs'? 'block':'none';
+      document.getElementById('panel-billing').style.display = name==='billing'? 'block':'none';
+    }
+
+    let pageOffset = 0;
+    let pageLimit = 25;
+    let currentQuery = '';
+    let totalResults = 0;
+
+    document.getElementById('userSearch').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') { pageOffset = 0; currentQuery = e.target.value.trim(); loadUsers(); }
+    });
+    document.getElementById('userLimit').addEventListener('change', (e) => { pageLimit = parseInt(e.target.value,10); pageOffset = 0; loadUsers(); });
+    document.getElementById('prevPage').addEventListener('click', () => { if (pageOffset - pageLimit >= 0) { pageOffset -= pageLimit; loadUsers(); } });
+    document.getElementById('nextPage').addEventListener('click', () => { if (pageOffset + pageLimit < totalResults) { pageOffset += pageLimit; loadUsers(); } });
+
+    async function loadUsers(){
+      try{
+        const url = '/api/admin/users?q='+encodeURIComponent(currentQuery)+'&limit='+pageLimit+'&offset='+pageOffset;
+        const res = await fetchJSON(url);
+        totalResults = res.total || 0;
+        renderUsers(res.data || []);
+        const page = Math.floor(pageOffset / pageLimit) + 1;
+        const totalPages = Math.max(1, Math.ceil(totalResults / pageLimit));
+        document.getElementById('pageInfo').textContent = `Page ${page} / ${totalPages} — ${totalResults} results`;
+      }catch(e){
+        document.getElementById('usersTable').innerHTML = '<p class="muted">Failed to load users: '+e.message+'</p>';
+      }
+    }
+
+    function renderUsers(users){
+      if(!users || users.length===0){ document.getElementById('usersTable').innerHTML = '<p class="muted">No users found.</p>'; return; }
+      const table = document.createElement('table');
+      const thead = document.createElement('thead');
+      thead.innerHTML = '<tr><th>Email</th><th>Company</th><th>Role</th><th>Disabled</th><th>Created</th><th>Actions</th></tr>';
+      table.appendChild(thead);
+      const tbody = document.createElement('tbody');
+      for(const u of users){
+        const tr = document.createElement('tr');
+        tr.innerHTML = '<td>'+escapeHtml(u.email)+'</td><td>'+escapeHtml(u.company_id || '')+'</td><td>'+ escapeHtml(u.role || 'member') +'</td><td>'+ (u.disabled? 'Yes':'No') +'</td><td>'+ escapeHtml(u.created_at||'') +'</td>';
+        const actionsTd = document.createElement('td');
+        const enableBtn = document.createElement('button');
+        enableBtn.className = 'btn primary';
+        enableBtn.textContent = 'Enable';
+        enableBtn.style.display = u.disabled ? 'inline-block' : 'none';
+        enableBtn.onclick = () => toggleUser(u.id, true);
+        const disableBtn = document.createElement('button');
+        disableBtn.className = 'btn danger';
+        disableBtn.textContent = 'Disable';
+        disableBtn.style.marginLeft = '8px';
+        disableBtn.style.display = u.disabled ? 'none' : 'inline-block';
+        disableBtn.onclick = () => toggleUser(u.id, false);
+        const editBillingBtn = document.createElement('button');
+        editBillingBtn.className = 'btn';
+        editBillingBtn.textContent = 'Edit Billing';
+        editBillingBtn.style.marginLeft = '8px';
+        editBillingBtn.onclick = () => editCompanyBilling(u.company_id);
+        actionsTd.appendChild(enableBtn);
+        actionsTd.appendChild(disableBtn);
+        actionsTd.appendChild(editBillingBtn);
+        tr.appendChild(actionsTd);
+        tbody.appendChild(tr);
+      }
+      table.appendChild(tbody);
+      document.getElementById('usersTable').innerHTML = '';
+      document.getElementById('usersTable').appendChild(table);
+    }
+
+    async function toggleUser(id, enable){
+      try{
+        const url = '/api/admin/users/'+id+'/' + (enable? 'enable':'disable');
+        await fetchJSON(url, { method: 'POST' });
+        await loadUsers();
+      }catch(e){ alert('Action failed: '+e.message); }
+    }
+
+    async function loadLogs(){
+      try{
+        const logs = await fetchJSON('/api/admin/logs');
+        if(!logs || logs.length===0){ document.getElementById('logsArea').innerHTML = '<p class="muted">No logs yet.</p>'; return; }
+        const pre = document.createElement('pre');
+        pre.textContent = logs.map(l=> JSON.stringify(l) ).join('\n\n');
+        document.getElementById('logsArea').innerHTML = '';
+        document.getElementById('logsArea').appendChild(pre);
+      }catch(e){ document.getElementById('logsArea').innerHTML = '<p class="muted">Failed to load logs: '+e.message+'</p>'; }
+    }
+
+    document.getElementById('downloadLogs').addEventListener('click', async () => {
+      try {
+        // Request CSV blob
+        const resp = await fetch('/api/admin/logs/export?limit=1000');
+        if (!resp.ok) throw new Error('Export failed');
+        const blob = await resp.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = '';
+        // try to parse filename from headers
+        const cd = resp.headers.get('Content-Disposition') || '';
+        const m = cd.match(/filename="?([^";]+)"?/);
+        if (m) a.download = m[1];
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        window.URL.revokeObjectURL(url);
+      } catch (err) {
+        alert('Export failed: ' + err.message);
+      }
+    });
+
+    async function loadBilling(){
+      try{
+        const b = await fetchJSON('/api/admin/billing');
+        const html = '<p>Total clients: '+b.totalClients+'</p><p>Total users: '+b.totalUsers+'</p><p>Monthly revenue: $'+b.monthlyRevenue+'</p>';
+        document.getElementById('billingArea').innerHTML = html;
+      }catch(e){ document.getElementById('billingArea').innerHTML = '<p class="muted">Failed to load billing: '+e.message+'</p>'; }
+    }
+
+    // Defaults management
+    async function loadBillingDefaults(){
+      try{
+        const d = await fetchJSON('/api/admin/billing/defaults');
+        document.getElementById('defaultMonthly').value = d.defaultMonthlyCents != null ? (d.defaultMonthlyCents / 100).toFixed(2) : '';
+        document.getElementById('defaultAnnual').value = d.defaultAnnualCents != null ? (d.defaultAnnualCents / 100).toFixed(2) : '';
+      }catch(e){ /* ignore */ }
+    }
+
+    document.getElementById('saveDefaults').addEventListener('click', async () => {
+      try{
+        const m = parseFloat(document.getElementById('defaultMonthly').value || '0') || 0;
+        const a = parseFloat(document.getElementById('defaultAnnual').value || '0') || 0;
+        await fetchJSON('/api/admin/billing/defaults', { method: 'PUT', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ defaultMonthlyCents: Math.round(m*100), defaultAnnualCents: Math.round(a*100) }) });
+        alert('Defaults saved');
+      }catch(e){ alert('Save failed: '+e.message); }
+    });
+
+    // expose helper to edit company billing from user rows
+    async function editCompanyBilling(companyId){
+      const monthly = prompt('Monthly rate in dollars (e.g. 9.99):');
+      if (monthly === null) return;
+      const annual = prompt('Annual rate in dollars (e.g. 99.00):');
+      if (annual === null) return;
+      const enabled = confirm('Enable billing for this company? OK = enabled');
+      try{
+        await fetchJSON('/api/admin/companies/'+encodeURIComponent(companyId)+'/billing', { method: 'PUT', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ monthlyRateCents: Math.round(parseFloat(monthly)*100)||0, annualRateCents: Math.round(parseFloat(annual)*100)||0, billingEnabled: enabled, currency: 'USD' }) });
+        alert('Company billing updated');
+        // Offer to create a checkout session for the company
+        if (confirm('Open checkout to create a subscription for this company now?')) {
+          const interval = confirm('Create annual subscription? (OK = annual, Cancel = monthly)') ? 'year' : 'month';
+          const resp = await fetchJSON('/api/billing/checkout', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ companyId: companyId, interval }) });
+          if (resp.url) {
+            window.open(resp.url, '_blank');
+          } else {
+            alert('Failed to create checkout session');
+          }
+        }
+        loadUsers();
+      }catch(e){ alert('Update failed: '+e.message); }
+    }
+
+    // Logout
+    document.getElementById('logoutBtn').addEventListener('click', async ()=>{ await fetch('/api/auth/logout',{method:'POST'}); window.location.href='/login'; });
+
+    function escapeHtml(s){ const d=document.createElement('div'); d.textContent = s||''; return d.innerHTML; }
+
+    // initial load
+    loadUsers();
+  </script>
+</body>
+</html>

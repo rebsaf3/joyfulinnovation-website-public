@@ -1,0 +1,9 @@
+node_modules
+app/node_modules
+app/nyli-agent-swarm/nyli-agent-swarm/client/node_modules
+app/nyli-agent-swarm/nyli-agent-swarm/server/node_modules
+app/nyli-agent-swarm/nyli-agent-swarm/client/dist
+app/nyli-agent-swarm/nyli-agent-swarm/logs/*.log
+app/nyli-agent-swarm/nyli-agent-swarm/server/logs/*.log
+*.log
+.git

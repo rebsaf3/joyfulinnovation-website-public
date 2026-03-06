@@ -1,0 +1,13 @@
+{
+  "ts": "2026-03-06T03:58:06.479Z",
+  "status": "starting",
+  "runtimeMode": "minimal",
+  "meshShouldStart": true,
+  "paths": {
+    "stateRoot": "/data",
+    "db": "\\data\\leo.db",
+    "swarmLogs": "c:/Users/rebsa/OneDrive/Documents/LTS_OneDrive/OneDrive - Lebertech/GitHub/joyful-innovations/deploy/reploy-stack/app/nyli-agent-swarm/nyli-agent-swarm/logs",
+    "swarmServerLogs": "c:/Users/rebsa/OneDrive/Documents/LTS_OneDrive/OneDrive - Lebertech/GitHub/joyful-innovations/deploy/reploy-stack/app/nyli-agent-swarm/nyli-agent-swarm/server/logs",
+    "dashboardDist": "c:\\Users\\rebsa\\OneDrive\\Documents\\LTS_OneDrive\\OneDrive - Lebertech\\GitHub\\joyful-innovations\\deploy\\reploy-stack\\app\\nyli-agent-swarm\\nyli-agent-swarm\\client\\dist"
+  }
+}

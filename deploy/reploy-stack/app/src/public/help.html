@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Help — NyLi Assets</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: linear-gradient(170deg, #fdf8f4 0%, #faf5f0 50%, #fff 100%);
+      color: #1a1a2e;
+    }
+
+    /* Navigation */
+    nav {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 16px 28px; background: white; border-bottom: 1px solid #e8e2db;
+      position: sticky; top: 0; z-index: 1000; overflow: visible;
+    }
+    nav .logo { font-weight: 700; color: #1a1a2e; font-size: 1.1rem; text-decoration: none; }
+    nav .nav-links { display: flex; gap: 24px; align-items: center; }
+    nav a { color: #555; text-decoration: none; font-size: 0.9rem; font-weight: 600; transition: color 0.2s; }
+    nav a:hover, nav a.active { color: #0d9488; }
+
+    /* User dropdown */
+    .user-menu { position: relative; }
+    .user-menu-btn {
+      display: flex; align-items: center; gap: 6px; padding: 7px 14px;
+      background: #fdf8f4; border: 1px solid #d6cfc7; border-radius: 8px;
+      cursor: pointer; font-size: 0.85rem; font-weight: 600; color: #0d9488;
+      transition: all 0.2s;
+    }
+    .user-menu-btn:hover { background: #f0ebe4; }
+    .user-menu-btn .avatar {
+      width: 26px; height: 26px; border-radius: 50%; background: #0d9488;
+      color: white; display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem; font-weight: 700;
+    }
+    .user-dropdown {
+      display: none; position: absolute; right: 0; top: calc(100% + 6px);
+      background: white; border: 1px solid #e8e2db; border-radius: 10px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12); min-width: 200px; z-index: 100;
+      overflow: visible;
+    }
+    .user-dropdown.open { display: block; }
+    .user-dropdown a, .user-dropdown button {
+      display: flex; align-items: center; gap: 10px; width: 100%;
+      padding: 11px 16px; font-size: 0.88rem; font-weight: 500; color: #333;
+      text-decoration: none; border: none; background: none; cursor: pointer;
+      transition: background 0.15s;
+    }
+    .user-dropdown a:hover, .user-dropdown button:hover { background: #fdf8f4; color: #0d9488; }
+    .user-dropdown .sep { height: 1px; background: #e8e2db; margin: 4px 0; }
+    .user-dropdown button.logout { color: #dc2626; }
+    .user-dropdown button.logout:hover { background: #fef2f2; color: #dc2626; }
+
+    /* Container */
+    .container { max-width: 900px; margin: 0 auto; padding: 48px 20px; }
+
+    h1 { font-size: 1.8rem; font-weight: 700; color: #1a1a2e; margin-bottom: 8px; }
+    .subtitle { color: #666; font-size: 1rem; margin-bottom: 40px; }
+
+    /* Search */
+    .search-box {
+      margin-bottom: 32px;
+    }
+    .search-box input {
+      width: 100%; padding: 14px 18px; font-size: 1rem; border: 1px solid #d6cfc7;
+      border-radius: 10px; background: white; outline: none; transition: border 0.2s;
+    }
+    .search-box input:focus { border-color: #0d9488; box-shadow: 0 0 0 3px rgba(13,148,136,0.08); }
+
+    /* Sections */
+    .help-section {
+      background: white; border: 1px solid #e8e2db; border-radius: 12px;
+      padding: 28px; margin-bottom: 20px;
+    }
+    .help-section h2 {
+      font-size: 1.15rem; font-weight: 700; color: #0d9488; margin-bottom: 16px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .help-section h2 .icon { font-size: 1.3rem; }
+
+    /* Accordion */
+    .faq-item { border-bottom: 1px solid #f0f2f5; }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-q {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 14px 0; cursor: pointer; font-weight: 600; font-size: 0.95rem;
+      color: #1a1a2e; user-select: none; transition: color 0.2s;
+    }
+    .faq-q:hover { color: #0d9488; }
+    .faq-q .arrow { transition: transform 0.2s; font-size: 0.8rem; color: #999; }
+    .faq-q.open .arrow { transform: rotate(180deg); }
+    .faq-a {
+      max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s;
+      font-size: 0.9rem; color: #555; line-height: 1.7;
+    }
+    .faq-a.open { max-height: 600px; padding-bottom: 14px; }
+    .faq-a p { margin-bottom: 8px; }
+    .faq-a ul { margin: 8px 0 8px 20px; }
+    .faq-a li { margin-bottom: 4px; }
+    .faq-a code {
+      background: #fdf8f4; padding: 2px 6px; border-radius: 4px; font-size: 0.85rem;
+    }
+
+    /* Quick links */
+    .quick-links {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 14px; margin-top: 16px;
+    }
+    .quick-link {
+      display: flex; align-items: center; gap: 10px; padding: 14px 16px;
+      background: #f8f9fc; border: 1px solid #e8e2db; border-radius: 10px;
+      text-decoration: none; color: #333; font-weight: 600; font-size: 0.9rem;
+      transition: all 0.2s;
+    }
+    .quick-link:hover { background: #fdf8f4; border-color: #0d9488; color: #0d9488; }
+    .quick-link .ql-icon { font-size: 1.2rem; }
+
+    /* Contact */
+    .contact-card {
+      display: flex; align-items: center; gap: 16px; padding: 20px;
+      background: #f8f9fc; border-radius: 10px; margin-top: 16px;
+    }
+    .contact-card .contact-icon { font-size: 2rem; }
+    .contact-card .contact-body { flex: 1; }
+    .contact-card .contact-body strong { display: block; margin-bottom: 4px; }
+    .contact-card .contact-body span { font-size: 0.9rem; color: #666; }
+
+    /* Version info */
+    .version-info {
+      text-align: center; margin-top: 40px; padding: 16px;
+      font-size: 0.8rem; color: #999;
+    }
+
+    @media (max-width: 600px) {
+      .quick-links { grid-template-columns: 1fr; }
+      .container { padding: 28px 14px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav>
+    <a href="/home" class="logo">NyLi<span style="color:#0d9488">Assets</span></a>
+    <div class="nav-links">
+      <a href="/home">Home</a>
+      <a href="/projects">Projects</a>
+      <a href="/dashboard">Dashboard</a>
+      <a href="/communications">Communications</a>
+      <a href="/calendar">Calendar</a>
+      <div class="user-menu">
+        <button class="user-menu-btn" id="userMenuBtn">
+          <span class="avatar" id="userAvatar">?</span>
+          <span id="userMenuLabel">Menu</span>
+          <span style="font-size:0.6rem;">&#9660;</span>
+        </button>
+        <div class="user-dropdown" id="userDropdown">
+          <a href="/settings">&#9881; Account Settings</a>
+          <a href="/settings#preferences">&#9776; Preferences</a>
+          <a href="/help">&#10067; Help</a>
+          <div class="sep"></div>
+          <button class="logout" id="logoutBtn">&#10140; Log Out</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <h1>Help Center</h1>
+    <p class="subtitle">Find answers, learn features, and get support for NyLi Assets</p>
+
+    <!-- Search -->
+    <div class="search-box">
+      <input type="text" id="helpSearch" placeholder="Search help topics..." oninput="filterHelp(this.value)">
+    </div>
+
+    <!-- Quick Links -->
+    <div class="help-section" data-section>
+      <h2><span class="icon">&#128640;</span> Quick Links</h2>
+      <div class="quick-links">
+        <a href="/projects" class="quick-link"><span class="ql-icon">&#128194;</span> My Projects</a>
+        <a href="/dashboard" class="quick-link"><span class="ql-icon">&#128202;</span> Dashboard</a>
+        <a href="/communications" class="quick-link"><span class="ql-icon">&#128231;</span> Communications</a>
+        <a href="/calendar" class="quick-link"><span class="ql-icon">&#128197;</span> Calendar</a>
+        <a href="/settings" class="quick-link"><span class="ql-icon">&#9881;</span> Account Settings</a>
+        <a href="/settings#preferences" class="quick-link"><span class="ql-icon">&#9776;</span> Preferences</a>
+      </div>
+    </div>
+
+    <!-- Getting Started -->
+    <div class="help-section" data-section>
+      <h2><span class="icon">&#128218;</span> Getting Started</h2>
+
+      <div class="faq-item" data-faq>
+        <div class="faq-q" onclick="toggleFaq(this)">What is NyLi Assets? <span class="arrow">&#9660;</span></div>
+        <div class="faq-a">
+          <p>NyLi Assets is a software license auditing platform that helps organizations track software usage, compare user lists, identify compliance issues, and communicate with users about their software access.</p>
+        </div>
+      </div>
+
+      <div class="faq-item" data-faq>
+        <div class="faq-q" onclick="toggleFaq(this)">How do I create my first project? <span class="arrow">&#9660;</span></div>
+        <div class="faq-a">
+          <p>Navigate to <strong>Projects</strong> from the top navigation bar. Click the <strong>New Project</strong> button and fill in:</p>
+          <ul>
+            <li><strong>Project Name</strong> — a descriptive name for this audit</li>
+            <li><strong>Client</strong> — the organization being audited</li>
+            <li><strong>Product Name</strong> — the software product under review</li>
+          </ul>
+          <p>Once created, you can upload user lists and run comparisons from the project detail page.</p>
+        </div>
+      </div>
+
+      <div class="faq-item" data-faq>
+        <div class="faq-q" onclick="toggleFaq(this)">How do I upload user data? <span class="arrow">&#9660;</span></div>
+        <div class="faq-a">
+          <p>From a project detail page, use the <strong>Upload</strong> section to import CSV or Excel files containing your user lists. You'll typically need two lists:</p>
+          <ul>
+            <li><strong>Entitled Users</strong> — users who should have access</li>
+            <li><strong>Active Users</strong> — users who actually have access</li>
+          </ul>
+          <p>NyLi Assets will compare these lists and flag discrepancies.</p>
+        </div>
+      </div>
+
+      <div class="faq-item" data-faq>
+        <div class="faq-q" onclick="toggleFaq(this)">What file formats are supported? <span class="arrow">&#9660;</span></div>
+        <div class="faq-a">
+          <p>NyLi Assets accepts <strong>CSV</strong> (.csv) and <strong>Excel</strong> (.xlsx, .xls) files. Ensure your files have a header row with column names so the system can identify the data fields.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Projects & Comparisons -->
+    <div class="help-section" data-section>
+      <h2><span class="icon">&#128194;</span> Projects &amp; Comparisons</h2>
+
+      <div class="faq-item" data-faq>
+        <div class="faq-q" onclick="toggleFaq(this)">How does the comparison work? <span class="arrow">&#9660;</span></div>
+        <div class="faq-a">
+          <p>When you run a comparison, NyLi Assets matches users from your entitled list against your active list. It identifies:</p>
+          <ul>
+            <li><strong>Flagged users</strong> — active but not entitled (potential compliance issues)</li>
+            <li><strong>Missing users</strong> — entitled but not active</li>
+            <li><strong>Matched users</strong> — present in both lists</li>
+          </ul>
+          <p>Results are displayed on the project detail page and tracked in the dashboard.</p>
+        </div>
+      </div>
+
+      <div class="faq-item" data-faq>
+        <div class="faq-q" onclick="toggleFaq(this)">Can I run AI-powered analysis? <span class="arrow">&#9660;</span></div>
+        <div class="faq-a">
+          <p>Yes! If your organization has the AI analysis feature enabled, you can run an automated analysis on comparison results. The AI reviews flagged users and provides insights and recommendations to help prioritize your audit actions.</p>
+          <p>AI analysis results appear in the <strong>Analysis</strong> section of the project detail page.</p>
+        </div>
+      </div>
+
+      <div class="faq-item" data-faq>
+        <div class="faq-q" onclick="toggleFaq(this)">How do I archive or delete a project? <span class="arrow">&#9660;</span></div>
+        <div class="faq-a">
+          <p>From the <strong>Projects</strong> page, locate the project you want to manage. Use the project actions menu to change the status to <strong>Archived</strong> or to delete it. Archived projects can be restored later; deleted projects are permanently removed.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Communications -->
+    <div class="help-section" data-section>
+      <h2><span class="icon">&#128231;</span> Communications</h2>
+
+      <div class="faq-item" data-faq>
+        <div class="faq-q" onclick="toggleFaq(this)">How do I send emails to flagged users? <span class="arrow">&#9660;</span></div>
+        <div class="faq-a">
+          <p>Navigate to <strong>Communications</strong> from the top menu. Select the project and choose the users you want to contact. You can use email templates or compose a custom message. NyLi Assets tracks all sent communications and user responses.</p>
+        </div>
+      </div>
+
+      <div class="faq-item" data-faq>
+        <div class="faq-q" onclick="toggleFaq(this)">How do I track email responses? <span class="arrow">&#9660;</span></div>
+        <div class="faq-a">
+          <p>The <strong>Communications</strong> page shows the status of all sent emails. Users who receive audit emails can confirm or revoke their software access through a secure link. Their responses are tracked automatically and reflected in your project data.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dashboard & History -->
+    <div class="help-section" data-section>
+      <h2><span class="icon">&#128202;</span> Dashboard &amp; History</h2>
+
+      <div class="faq-item" data-faq>
+        <div class="faq-q" onclick="toggleFaq(this)">What does the dashboard show? <span class="arrow">&#9660;</span></div>
+        <div class="faq-a">
+          <p>The <strong>Dashboard</strong> provides an at-a-glance overview of your audit activity, including:</p>
+          <ul>
+            <li>Total projects, flagged users, and response rates</li>
+            <li>Charts showing trends over time</li>
+            <li>Recent comparison results</li>
+            <li>Cost-per-user financial insights</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="faq-item" data-faq>
+        <div class="faq-q" onclick="toggleFaq(this)">Where can I view past audit runs? <span class="arrow">&#9660;</span></div>
+        <div class="faq-a">
+          <p>The <strong>History</strong> page (accessible from the dashboard) displays all past comparison runs with timestamps, flagged counts, and trend charts. You can filter by project and date range.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Account & Settings -->
+    <div class="help-section" data-section>
+      <h2><span class="icon">&#9881;</span> Account &amp; Settings</h2>
+
+      <div class="faq-item" data-faq>
+        <div class="faq-q" onclick="toggleFaq(this)">How do I change my password? <span class="arrow">&#9660;</span></div>
+        <div class="faq-a">
+          <p>Go to <strong>Account Settings</strong> from the user menu dropdown. In the Security section, enter your current password and your new password, then click <strong>Update Password</strong>.</p>
+        </div>
+      </div>
+
+      <div class="faq-item" data-faq>
+        <div class="faq-q" onclick="toggleFaq(this)">How do I set my preferences? <span class="arrow">&#9660;</span></div>
+        <div class="faq-a">
+          <p>Go to <strong>Preferences</strong> from the user menu or navigate to <strong>Settings &gt; Preferences</strong>. You can configure:</p>
+          <ul>
+            <li><strong>Theme</strong> — Light or Dark mode</li>
+            <li><strong>Language</strong> — Interface language</li>
+            <li><strong>Notifications</strong> — Email notification preferences</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="faq-item" data-faq>
+        <div class="faq-q" onclick="toggleFaq(this)">What user roles are available? <span class="arrow">&#9660;</span></div>
+        <div class="faq-a">
+          <p>NyLi Assets has several roles:</p>
+          <ul>
+            <li><strong>Admin</strong> — Full access to all features and user management</li>
+            <li><strong>Manager</strong> — Can manage projects, run comparisons, and send communications</li>
+            <li><strong>Viewer</strong> — Read-only access to dashboards and reports</li>
+          </ul>
+          <p>Your role is assigned by your organization's administrator.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Calendar -->
+    <div class="help-section" data-section>
+      <h2><span class="icon">&#128197;</span> Calendar</h2>
+
+      <div class="faq-item" data-faq>
+        <div class="faq-q" onclick="toggleFaq(this)">What is the Calendar for? <span class="arrow">&#9660;</span></div>
+        <div class="faq-a">
+          <p>The <strong>Calendar</strong> helps you schedule and track audit deadlines, review dates, and follow-up reminders. Events are color-coded by type and can be filtered by project.</p>
+        </div>
+      </div>
+
+      <div class="faq-item" data-faq>
+        <div class="faq-q" onclick="toggleFaq(this)">How do I add a calendar event? <span class="arrow">&#9660;</span></div>
+        <div class="faq-a">
+          <p>Click on any date in the calendar to create a new event. Fill in the event title, description, and optionally link it to a project. Events can be edited or deleted at any time.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contact -->
+    <div class="help-section" data-section>
+      <h2><span class="icon">&#128172;</span> Need More Help?</h2>
+      <div class="contact-card">
+        <div class="contact-icon">&#128236;</div>
+        <div class="contact-body">
+          <strong>Contact Support</strong>
+          <span>Reach out to your organization's NyLi Assets administrator, or email support for further assistance.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="version-info">
+      NyLi Assets &mdash; Software License Audit Platform
+    </div>
+  </div>
+
+  <script>
+    // User dropdown
+    (function initUserMenu() {
+      const btn = document.getElementById('userMenuBtn');
+      const dd  = document.getElementById('userDropdown');
+      btn.addEventListener('click', e => { e.stopPropagation(); dd.classList.toggle('open'); });
+      document.addEventListener('click', () => dd.classList.remove('open'));
+      dd.addEventListener('click', e => e.stopPropagation());
+      fetch('/api/auth/me').then(r => r.ok ? r.json() : null).then(me => {
+        if (!me) return;
+        const initial = (me.email || '?')[0].toUpperCase();
+        document.getElementById('userAvatar').textContent = initial;
+        document.getElementById('userMenuLabel').textContent = me.email;
+      }).catch(() => {});
+    })();
+
+    // Logout
+    document.getElementById('logoutBtn').addEventListener('click', async () => {
+      await fetch('/api/auth/logout', { method: 'POST' });
+      window.location.href = '/login';
+    });
+
+    // FAQ toggle
+    function toggleFaq(el) {
+      const answer = el.nextElementSibling;
+      const isOpen = el.classList.contains('open');
+      // Close all
+      document.querySelectorAll('.faq-q.open').forEach(q => {
+        q.classList.remove('open');
+        q.nextElementSibling.classList.remove('open');
+      });
+      if (!isOpen) {
+        el.classList.add('open');
+        answer.classList.add('open');
+      }
+    }
+
+    // Search / filter
+    function filterHelp(query) {
+      const q = query.toLowerCase().trim();
+      document.querySelectorAll('.faq-item[data-faq]').forEach(item => {
+        const text = item.textContent.toLowerCase();
+        item.style.display = (!q || text.includes(q)) ? '' : 'none';
+      });
+      // Also show/hide sections
+      document.querySelectorAll('.help-section[data-section]').forEach(section => {
+        const visibleItems = section.querySelectorAll('.faq-item[data-faq]:not([style*="display: none"])');
+        const hasQuickLinks = section.querySelector('.quick-links');
+        section.style.display = (visibleItems.length > 0 || hasQuickLinks || !q) ? '' : 'none';
+      });
+    }
+  </script>
+  <script src="/adminNav.js"></script>
+</body>
+</html>

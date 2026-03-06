@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Billing — Owner Portal — NyLi Assets</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #0f172a; color: #e2e8f0; }
+
+    .sidebar {
+      position: fixed; top: 0; left: 0; width: 240px; height: 100vh;
+      background: #1e293b; border-right: 1px solid #334155;
+      display: flex; flex-direction: column; z-index: 100;
+    }
+    .sidebar .brand { padding: 20px 24px; border-bottom: 1px solid #334155; }
+    .sidebar .brand .logo { font-size: 1.1rem; font-weight: 700; color: #818cf8; }
+    .sidebar .brand .sub { font-size: 0.7rem; color: #64748b; text-transform: uppercase; letter-spacing: 2px; margin-top: 2px; }
+    .sidebar nav { flex: 1; padding: 16px 12px; display: flex; flex-direction: column; gap: 4px; }
+    .sidebar nav a {
+      display: flex; align-items: center; gap: 10px; padding: 10px 14px;
+      border-radius: 8px; color: #94a3b8; text-decoration: none;
+      font-size: 0.9rem; font-weight: 500; transition: all 0.15s;
+    }
+    .sidebar nav a:hover { background: rgba(129, 140, 248, 0.08); color: #c7d2fe; }
+    .sidebar nav a.active { background: rgba(129, 140, 248, 0.15); color: #818cf8; font-weight: 600; }
+    .sidebar nav a .icon { font-size: 1.1rem; width: 22px; text-align: center; }
+    .sidebar .sidebar-footer { padding: 16px 12px; border-top: 1px solid #334155; }
+    .sidebar .sidebar-footer .owner-info { padding: 8px 14px; font-size: 0.82rem; color: #64748b; }
+    .sidebar .sidebar-footer .owner-name { color: #e2e8f0; font-weight: 600; font-size: 0.88rem; }
+    .sidebar .sidebar-footer button {
+      display: flex; align-items: center; gap: 10px; width: 100%; padding: 10px 14px;
+      border: none; background: none; border-radius: 8px; color: #ef4444;
+      font-size: 0.9rem; font-weight: 500; cursor: pointer; transition: background 0.15s;
+    }
+    .sidebar .sidebar-footer button:hover { background: rgba(239, 68, 68, 0.08); }
+
+    .main { margin-left: 240px; min-height: 100vh; padding: 32px; }
+    .page-header { margin-bottom: 32px; }
+    .page-header h1 { font-size: 1.6rem; font-weight: 700; color: #f1f5f9; }
+    .page-header p { color: #64748b; font-size: 0.9rem; margin-top: 4px; }
+
+    /* ── KPI row ────────────────────────────────────────────────── */
+    .kpi-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 28px; }
+    .kpi-card {
+      background: #1e293b; border: 1px solid #334155; border-radius: 12px;
+      padding: 20px 22px;
+    }
+    .kpi-label { font-size: 0.75rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+    .kpi-value { font-size: 1.6rem; font-weight: 700; color: #f1f5f9; margin-top: 4px; }
+    .kpi-sub { font-size: 0.78rem; color: #475569; margin-top: 2px; }
+
+    /* ── Cards ──────────────────────────────────────────────────── */
+    .billing-grid { display: flex; flex-direction: column; gap: 24px; max-width: 900px; }
+
+    .billing-card {
+      background: #1e293b; border: 1px solid #334155; border-radius: 14px;
+      padding: 0; overflow: hidden;
+    }
+    .card-header {
+      display: flex; align-items: center; gap: 14px; padding: 24px 28px 0;
+    }
+    .card-icon {
+      width: 48px; height: 48px; border-radius: 12px; display: flex;
+      align-items: center; justify-content: center; font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+    .card-icon.stripe { background: rgba(99, 102, 241, 0.12); }
+    .card-icon.pricing { background: rgba(34, 197, 94, 0.12); }
+    .card-icon.clients { background: rgba(251, 191, 36, 0.12); }
+    .card-icon.invoices { background: rgba(56, 189, 248, 0.12); }
+    .card-title { font-size: 1.15rem; font-weight: 700; color: #f1f5f9; }
+    .card-desc { font-size: 0.82rem; color: #64748b; margin-top: 2px; }
+    .card-status {
+      margin-left: auto; display: flex; align-items: center; gap: 6px;
+      padding: 5px 12px; border-radius: 20px; font-size: 0.78rem; font-weight: 600;
+    }
+    .status-connected { background: rgba(34, 197, 94, 0.12); color: #4ade80; }
+    .status-disconnected { background: rgba(239, 68, 68, 0.12); color: #f87171; }
+    .status-dot { width: 7px; height: 7px; border-radius: 50%; }
+    .status-connected .status-dot { background: #4ade80; }
+    .status-disconnected .status-dot { background: #f87171; }
+
+    .card-body { padding: 20px 28px 28px; }
+
+    .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+    .field-row.full { grid-template-columns: 1fr; }
+    .field-row.three { grid-template-columns: 1fr 1fr 1fr; }
+    .field-group { display: flex; flex-direction: column; gap: 5px; }
+    .field-group label {
+      font-size: 0.78rem; font-weight: 600; color: #94a3b8;
+      text-transform: uppercase; letter-spacing: 0.5px;
+    }
+    .field-group input, .field-group select {
+      padding: 10px 14px; border: 1px solid #475569; border-radius: 8px;
+      background: #0f172a; color: #e2e8f0; font-size: 0.9rem;
+      transition: border-color 0.2s, box-shadow 0.2s; outline: none;
+    }
+    .field-group input:focus, .field-group select:focus {
+      border-color: #818cf8; box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.12);
+    }
+    .field-group input::placeholder { color: #475569; }
+    .field-group .field-hint { font-size: 0.75rem; color: #475569; margin-top: 2px; }
+
+    .api-key-wrap { position: relative; display: flex; align-items: center; }
+    .api-key-wrap input { flex: 1; padding-right: 80px; font-family: "Fira Code", Consolas, monospace; font-size: 0.85rem; }
+    .api-key-wrap .toggle-btn {
+      position: absolute; right: 8px; padding: 4px 10px; border: 1px solid #475569;
+      border-radius: 4px; background: #1e293b; color: #94a3b8; font-size: 0.75rem;
+      font-weight: 600; cursor: pointer; transition: all 0.15s;
+    }
+    .api-key-wrap .toggle-btn:hover { border-color: #818cf8; color: #818cf8; }
+
+    .card-actions {
+      display: flex; gap: 10px; align-items: center; padding-top: 16px;
+      border-top: 1px solid #334155; margin-top: 8px;
+    }
+    .btn { padding: 10px 20px; border-radius: 8px; border: none; font-size: 0.88rem; font-weight: 600; cursor: pointer; transition: all 0.15s; }
+    .btn-primary { background: #818cf8; color: #0f172a; }
+    .btn-primary:hover { background: #6366f1; }
+    .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+    .btn-outline { background: transparent; border: 1px solid #475569; color: #94a3b8; }
+    .btn-outline:hover { border-color: #818cf8; color: #818cf8; }
+    .btn-danger { background: transparent; border: 1px solid rgba(239,68,68,0.4); color: #f87171; }
+    .btn-danger:hover { background: rgba(239,68,68,0.08); border-color: #ef4444; }
+    .btn-sm { padding: 6px 14px; font-size: 0.8rem; }
+    .save-status { font-size: 0.82rem; color: #4ade80; margin-left: auto; opacity: 0; transition: opacity 0.3s; }
+    .save-status.visible { opacity: 1; }
+
+    .test-result {
+      margin-top: 12px; padding: 12px 16px; border-radius: 8px;
+      font-size: 0.85rem; display: none;
+    }
+    .test-result.success { display: block; background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.3); color: #4ade80; }
+    .test-result.error { display: block; background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); color: #fca5a5; }
+
+    .info-box {
+      display: flex; align-items: flex-start; gap: 10px; padding: 14px 16px;
+      background: rgba(129, 140, 248, 0.06); border: 1px solid rgba(129, 140, 248, 0.15);
+      border-radius: 8px; margin-bottom: 20px; font-size: 0.85rem; color: #94a3b8; line-height: 1.5;
+    }
+    .info-box .info-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+    .info-box a { color: #818cf8; text-decoration: none; }
+    .info-box a:hover { text-decoration: underline; }
+
+    /* ── Invoice table ──────────────────────────────────────────── */
+    .inv-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+    .inv-table th {
+      text-align: left; padding: 10px 14px; font-size: 0.75rem;
+      color: #64748b; text-transform: uppercase; letter-spacing: 0.5px;
+      font-weight: 600; border-bottom: 1px solid #334155;
+    }
+    .inv-table td { padding: 10px 14px; border-bottom: 1px solid rgba(51,65,85,0.5); color: #cbd5e1; }
+    .inv-table tr:hover td { background: rgba(129,140,248,0.04); }
+    .inv-empty { padding: 40px 20px; text-align: center; color: #475569; font-size: 0.88rem; }
+
+    /* ── Badges ─────────────────────────────────────────────────── */
+    .badge {
+      display: inline-block; padding: 3px 10px; border-radius: 10px;
+      font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px;
+    }
+    .badge-active { background: rgba(34,197,94,0.12); color: #4ade80; }
+    .badge-past-due { background: rgba(251,191,36,0.12); color: #fbbf24; }
+    .badge-canceled { background: rgba(239,68,68,0.12); color: #f87171; }
+    .badge-trialing { background: rgba(56,189,248,0.12); color: #38bdf8; }
+    .badge-paid { background: rgba(34,197,94,0.12); color: #4ade80; }
+    .badge-free { background: rgba(100,116,139,0.2); color: #94a3b8; }
+    .badge-starter { background: rgba(56,189,248,0.12); color: #38bdf8; }
+    .badge-pro { background: rgba(129,140,248,0.12); color: #818cf8; }
+    .badge-enterprise { background: rgba(167,139,250,0.12); color: #a78bfa; }
+
+    /* ── Client billing table ──────────────────────────────────── */
+    .client-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+    .client-table th {
+      text-align: left; padding: 10px 14px; font-size: 0.75rem;
+      color: #64748b; text-transform: uppercase; letter-spacing: 0.5px;
+      font-weight: 600; border-bottom: 1px solid #334155;
+    }
+    .client-table td { padding: 10px 14px; border-bottom: 1px solid rgba(51,65,85,0.5); color: #cbd5e1; vertical-align: middle; }
+    .client-table tr:hover td { background: rgba(129,140,248,0.04); }
+    .client-table .rate-input {
+      width: 100px; padding: 6px 10px; border: 1px solid #475569; border-radius: 6px;
+      background: #0f172a; color: #e2e8f0; font-size: 0.85rem;
+    }
+    .client-table .rate-input:focus { border-color: #818cf8; outline: none; }
+
+    /* ── Modal ──────────────────────────────────────────────────── */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+      z-index: 200; align-items: center; justify-content: center;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: #1e293b; border: 1px solid #334155; border-radius: 14px;
+      padding: 32px; width: 560px; max-width: 95vw; max-height: 90vh; overflow-y: auto;
+    }
+    .modal h2 { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 4px; }
+    .modal .modal-sub { font-size: 0.85rem; color: #64748b; margin-bottom: 20px; }
+    .modal-actions { display: flex; gap: 10px; margin-top: 24px; justify-content: flex-end; }
+
+    /* ── Revenue chart ─────────────────────────────────────────── */
+    .chart-wrap { padding: 16px 0; }
+    .bar-chart { display: flex; align-items: flex-end; gap: 6px; height: 120px; }
+    .bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+    .bar {
+      width: 100%; border-radius: 4px 4px 0 0; background: #818cf8; min-height: 2px;
+      transition: height 0.4s ease;
+    }
+    .bar-label { font-size: 0.65rem; color: #475569; white-space: nowrap; }
+    .bar-value { font-size: 0.7rem; color: #94a3b8; font-weight: 600; }
+
+    @media (max-width: 768px) {
+      .sidebar { width: 60px; }
+      .sidebar .brand .logo, .sidebar .brand .sub, .sidebar nav a span, .sidebar .sidebar-footer .owner-info { display: none; }
+      .sidebar nav a { justify-content: center; padding: 12px; }
+      .main { margin-left: 60px; padding: 20px; }
+      .field-row, .field-row.three { grid-template-columns: 1fr; }
+      .kpi-row { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="logo">NyLi Assets</div>
+      <div class="sub">Owner Portal</div>
+    </div>
+    <nav>
+      <a href="/owner/dashboard"><span class="icon">📊</span><span>Dashboard</span></a>
+      <a href="/owner/clients"><span class="icon">🏢</span><span>Clients</span></a>
+      <a href="/owner/users"><span class="icon">👥</span><span>Users</span></a>
+      <a href="/owner/activity"><span class="icon">📋</span><span>Activity</span></a>
+      <a href="/owner/billing" class="active"><span class="icon">💰</span><span>Billing</span></a>
+      <a href="/owner/integrations"><span class="icon">🔌</span><span>Integrations</span></a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="owner-info">
+        <div class="owner-name" id="ownerName">—</div>
+        <div id="ownerEmail">—</div>
+      </div>
+      <button id="logoutBtn"><span class="icon">🚪</span><span>Sign Out</span></button>
+    </div>
+  </aside>
+
+  <div class="main">
+    <div class="page-header">
+      <h1>Billing &amp; Subscriptions</h1>
+      <p>Configure Stripe, manage client pricing, and track revenue.</p>
+    </div>
+
+    <!-- ── KPI Cards ───────────────────────────────────────────── -->
+    <div class="kpi-row">
+      <div class="kpi-card">
+        <div class="kpi-label">Monthly Recurring Revenue</div>
+        <div class="kpi-value" id="kpiMRR">$0</div>
+        <div class="kpi-sub" id="kpiARR">ARR: $0</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Paid Clients</div>
+        <div class="kpi-value" id="kpiPaid">0</div>
+        <div class="kpi-sub" id="kpiFree">0 free</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Past Due</div>
+        <div class="kpi-value" id="kpiPastDue" style="color:#fbbf24">0</div>
+        <div class="kpi-sub">require attention</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Canceled</div>
+        <div class="kpi-value" id="kpiCanceled" style="color:#f87171">0</div>
+        <div class="kpi-sub">churned</div>
+      </div>
+    </div>
+
+    <div class="billing-grid">
+
+      <!-- ── Revenue Trend ─────────────────────────────────────── -->
+      <div class="billing-card">
+        <div class="card-header">
+          <div class="card-icon invoices">📈</div>
+          <div>
+            <div class="card-title">Revenue Trend</div>
+            <div class="card-desc">Monthly invoice revenue (last 12 months)</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="chart-wrap">
+            <div class="bar-chart" id="revenueChart">
+              <div class="inv-empty" style="width:100%">No invoice data yet</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Stripe Configuration ──────────────────────────────── -->
+      <div class="billing-card" id="stripeCard">
+        <div class="card-header">
+          <div class="card-icon stripe">💳</div>
+          <div>
+            <div class="card-title">Stripe Configuration</div>
+            <div class="card-desc">Connect your Stripe account for subscription billing</div>
+          </div>
+          <div class="card-status status-disconnected" id="stripeStatus">
+            <span class="status-dot"></span><span id="stripeStatusText">Not configured</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="info-box">
+            <span class="info-icon">ℹ️</span>
+            <span>Stripe handles subscription billing, invoicing and payment collection.
+              Get your API keys from
+              <a href="https://dashboard.stripe.com/apikeys" target="_blank" rel="noopener">Stripe Dashboard → Developers → API Keys</a>.
+              Use your <strong>Secret key</strong> (starts with <code style="color:#818cf8">sk_</code>).
+            </span>
+          </div>
+
+          <div class="field-row full">
+            <div class="field-group">
+              <label for="stripeApiKey">Stripe Secret Key</label>
+              <div class="api-key-wrap">
+                <input type="password" id="stripeApiKey" placeholder="sk_live_xxxxxxxxxxxxxxxxxxxxxxxx" autocomplete="off">
+                <button class="toggle-btn" onclick="toggleVis('stripeApiKey',this)">Show</button>
+              </div>
+              <div class="field-hint">Use sk_test_ keys for testing, sk_live_ for production</div>
+            </div>
+          </div>
+
+          <div class="field-row full">
+            <div class="field-group">
+              <label for="stripeWebhookSecret">Webhook Signing Secret (optional)</label>
+              <div class="api-key-wrap">
+                <input type="password" id="stripeWebhookSecret" placeholder="whsec_xxxxxxxxxxxxxxxxxxxxxxxx" autocomplete="off">
+                <button class="toggle-btn" onclick="toggleVis('stripeWebhookSecret',this)">Show</button>
+              </div>
+              <div class="field-hint">Used to verify Stripe webhook events — starts with whsec_</div>
+            </div>
+          </div>
+
+          <div class="card-actions">
+            <button class="btn btn-primary" onclick="saveStripeConfig()">Save Configuration</button>
+            <button class="btn btn-outline" onclick="testStripe()">Test Connection</button>
+            <button class="btn btn-danger" onclick="clearStripe()">Disconnect</button>
+            <span class="save-status" id="stripeSaveStatus">✓ Saved</span>
+          </div>
+          <div class="test-result" id="stripeTestResult"></div>
+        </div>
+      </div>
+
+      <!-- ── Default Pricing ───────────────────────────────────── -->
+      <div class="billing-card">
+        <div class="card-header">
+          <div class="card-icon pricing">💲</div>
+          <div>
+            <div class="card-title">Default Pricing</div>
+            <div class="card-desc">Default rates applied to new clients</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="field-row three">
+            <div class="field-group">
+              <label for="defMonthly">Monthly Rate ($)</label>
+              <input type="number" id="defMonthly" min="0" step="0.01" placeholder="49.00">
+              <div class="field-hint">Stored as cents internally</div>
+            </div>
+            <div class="field-group">
+              <label for="defAnnual">Annual Rate ($)</label>
+              <input type="number" id="defAnnual" min="0" step="0.01" placeholder="490.00">
+              <div class="field-hint">Annual billing discount</div>
+            </div>
+            <div class="field-group">
+              <label for="defCurrency">Currency</label>
+              <select id="defCurrency">
+                <option value="usd">USD ($)</option>
+                <option value="eur">EUR (€)</option>
+                <option value="gbp">GBP (£)</option>
+              </select>
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field-group">
+              <label for="defTrialDays">Trial Period (days)</label>
+              <input type="number" id="defTrialDays" min="0" max="90" placeholder="14">
+              <div class="field-hint">0 = no trial</div>
+            </div>
+          </div>
+          <div class="card-actions">
+            <button class="btn btn-primary" onclick="saveDefaults()">Save Defaults</button>
+            <span class="save-status" id="defSaveStatus">✓ Saved</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Client Billing ────────────────────────────────────── -->
+      <div class="billing-card">
+        <div class="card-header">
+          <div class="card-icon clients">🏢</div>
+          <div>
+            <div class="card-title">Client Billing</div>
+            <div class="card-desc">Per-client plan assignments and rates</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <table class="client-table" id="clientTable">
+            <thead>
+              <tr>
+                <th>Client</th>
+                <th>Plan</th>
+                <th>Status</th>
+                <th>Monthly Rate</th>
+                <th>Billing</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="clientTableBody">
+              <tr><td colspan="6" class="inv-empty">Loading…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ── Recent Invoices ───────────────────────────────────── -->
+      <div class="billing-card">
+        <div class="card-header">
+          <div class="card-icon invoices">🧾</div>
+          <div>
+            <div class="card-title">Recent Invoices</div>
+            <div class="card-desc">Latest Stripe invoices across all clients</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <table class="inv-table" id="invTable">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Client</th>
+                <th>Amount</th>
+                <th>Status</th>
+                <th>Invoice ID</th>
+              </tr>
+            </thead>
+            <tbody id="invTableBody">
+              <tr><td colspan="5" class="inv-empty">No invoices yet</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div><!-- /billing-grid -->
+  </div><!-- /main -->
+
+  <!-- ── Edit Client Billing Modal ─────────────────────────────── -->
+  <div class="modal-overlay" id="editModal">
+    <div class="modal">
+      <h2 id="editModalTitle">Edit Billing</h2>
+      <div class="modal-sub" id="editModalSub"></div>
+      <input type="hidden" id="editCompanyId">
+      <div class="field-row">
+        <div class="field-group">
+          <label for="editPlan">Plan</label>
+          <select id="editPlan">
+            <option value="free">Free</option>
+            <option value="starter">Starter</option>
+            <option value="pro">Pro</option>
+            <option value="enterprise">Enterprise</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <label for="editStatus">Status</label>
+          <select id="editStatus">
+            <option value="active">Active</option>
+            <option value="trialing">Trialing</option>
+            <option value="past_due">Past Due</option>
+            <option value="canceled">Canceled</option>
+          </select>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field-group">
+          <label for="editMonthly">Monthly Rate ($)</label>
+          <input type="number" id="editMonthly" min="0" step="0.01" placeholder="49.00">
+        </div>
+        <div class="field-group">
+          <label for="editAnnual">Annual Rate ($)</label>
+          <input type="number" id="editAnnual" min="0" step="0.01" placeholder="490.00">
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field-group">
+          <label for="editCurrency">Currency</label>
+          <select id="editCurrency">
+            <option value="usd">USD</option>
+            <option value="eur">EUR</option>
+            <option value="gbp">GBP</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <label for="editBillingEnabled">Billing Enabled</label>
+          <select id="editBillingEnabled">
+            <option value="1">Yes</option>
+            <option value="0">No</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-outline" onclick="closeEditModal()">Cancel</button>
+        <button class="btn btn-primary" onclick="saveClientBilling()">Save Changes</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* ── Helpers ──────────────────────────────────────────────── */
+    async function api(url, opts) {
+      const r = await fetch(url, opts);
+      if (r.status === 401) { window.location.href = '/owner/login'; return null; }
+      return r;
+    }
+
+    function toggleVis(id, btn) {
+      const el = document.getElementById(id);
+      if (el.type === 'password') { el.type = 'text'; btn.textContent = 'Hide'; }
+      else { el.type = 'password'; btn.textContent = 'Show'; }
+    }
+
+    function flash(elId) {
+      const el = document.getElementById(elId);
+      el.classList.add('visible');
+      setTimeout(() => el.classList.remove('visible'), 2500);
+    }
+
+    function showTest(elId, ok, msg) {
+      const el = document.getElementById(elId);
+      el.className = 'test-result ' + (ok ? 'success' : 'error');
+      el.textContent = msg;
+      el.style.display = 'block';
+      setTimeout(() => { el.style.display = 'none'; }, 6000);
+    }
+
+    function fmt$(cents) {
+      return '$' + (cents / 100).toFixed(2);
+    }
+
+    function planBadge(plan) {
+      const p = (plan || 'free').toLowerCase();
+      return `<span class="badge badge-${p}">${p}</span>`;
+    }
+    function statusBadge(st) {
+      const s = (st || 'active').toLowerCase().replace(/ /g, '_');
+      const cls = { active: 'active', trialing: 'trialing', past_due: 'past-due', canceled: 'canceled' }[s] || 'active';
+      return `<span class="badge badge-${cls}">${s.replace(/_/g, ' ')}</span>`;
+    }
+
+    /* ── Load summary ────────────────────────────────────────── */
+    async function loadSummary() {
+      const r = await api('/api/owner/billing/summary');
+      if (!r || !r.ok) return;
+      const d = await r.json();
+
+      document.getElementById('kpiMRR').textContent = fmt$(d.mrr);
+      document.getElementById('kpiARR').textContent = 'ARR: ' + fmt$(d.arr);
+      document.getElementById('kpiPaid').textContent = d.paidClients;
+      document.getElementById('kpiFree').textContent = d.freeClients + ' free';
+      document.getElementById('kpiPastDue').textContent = d.pastDue;
+      document.getElementById('kpiCanceled').textContent = d.canceled;
+
+      // Revenue chart
+      if (d.revenueTrend && d.revenueTrend.length > 0) {
+        const maxRev = Math.max(...d.revenueTrend.map(r => r.revenue_cents), 1);
+        const chart = document.getElementById('revenueChart');
+        chart.innerHTML = d.revenueTrend.map(r => {
+          const pct = Math.max((r.revenue_cents / maxRev) * 100, 3);
+          const label = r.month.slice(5); // MM
+          return `<div class="bar-col">
+            <div class="bar-value">${fmt$(r.revenue_cents)}</div>
+            <div class="bar" style="height:${pct}%"></div>
+            <div class="bar-label">${label}</div>
+          </div>`;
+        }).join('');
+      }
+
+      // Invoices
+      if (d.recentInvoices && d.recentInvoices.length > 0) {
+        const tbody = document.getElementById('invTableBody');
+        tbody.innerHTML = d.recentInvoices.map(inv => `<tr>
+          <td>${new Date(inv.created_at).toLocaleDateString()}</td>
+          <td>${esc(inv.company_name || '—')}</td>
+          <td>${fmt$(inv.amount_paid_cents || 0)}</td>
+          <td>${statusBadge(inv.status || 'paid')}</td>
+          <td style="font-family:monospace;font-size:0.8rem;color:#475569">${esc(inv.stripe_invoice_id || '—')}</td>
+        </tr>`).join('');
+      }
+    }
+
+    function esc(s) {
+      const d = document.createElement('div');
+      d.textContent = s;
+      return d.innerHTML;
+    }
+
+    /* ── Stripe config ───────────────────────────────────────── */
+    async function loadStripeConfig() {
+      const r = await api('/api/owner/billing/config');
+      if (!r || !r.ok) return;
+      const d = await r.json();
+      if (d.stripe_api_key) document.getElementById('stripeApiKey').value = d.stripe_api_key;
+      if (d.stripe_webhook_secret) document.getElementById('stripeWebhookSecret').value = d.stripe_webhook_secret;
+      const st = document.getElementById('stripeStatus');
+      const stText = document.getElementById('stripeStatusText');
+      if (d.configured) {
+        st.className = 'card-status status-connected';
+        stText.textContent = 'Connected';
+      } else {
+        st.className = 'card-status status-disconnected';
+        stText.textContent = 'Not configured';
+      }
+    }
+
+    async function saveStripeConfig() {
+      const body = {
+        stripe_api_key: document.getElementById('stripeApiKey').value.trim(),
+        stripe_webhook_secret: document.getElementById('stripeWebhookSecret').value.trim(),
+      };
+      const r = await api('/api/owner/billing/config', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
+      if (r && r.ok) {
+        flash('stripeSaveStatus');
+        loadStripeConfig();
+      }
+    }
+
+    async function testStripe() {
+      const r = await api('/api/owner/billing/test-stripe', { method: 'POST' });
+      if (!r) return;
+      const d = await r.json();
+      showTest('stripeTestResult', d.success, d.message);
+      if (d.success) loadStripeConfig();
+    }
+
+    async function clearStripe() {
+      if (!confirm('Remove Stripe configuration? Subscription billing will stop working.')) return;
+      await api('/api/owner/billing/config', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ stripe_api_key: '', stripe_webhook_secret: '' }),
+      });
+      document.getElementById('stripeApiKey').value = '';
+      document.getElementById('stripeWebhookSecret').value = '';
+      loadStripeConfig();
+    }
+
+    /* ── Default pricing ─────────────────────────────────────── */
+    async function loadDefaults() {
+      const r = await api('/api/owner/billing/defaults');
+      if (!r || !r.ok) return;
+      const d = await r.json();
+      document.getElementById('defMonthly').value = d.default_monthly_rate_cents ? (d.default_monthly_rate_cents / 100).toFixed(2) : '';
+      document.getElementById('defAnnual').value = d.default_annual_rate_cents ? (d.default_annual_rate_cents / 100).toFixed(2) : '';
+      document.getElementById('defCurrency').value = d.default_currency || 'usd';
+      document.getElementById('defTrialDays').value = d.default_trial_days || '';
+    }
+
+    async function saveDefaults() {
+      const monthly = Math.round(parseFloat(document.getElementById('defMonthly').value || '0') * 100);
+      const annual = Math.round(parseFloat(document.getElementById('defAnnual').value || '0') * 100);
+      const r = await api('/api/owner/billing/defaults', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          default_monthly_rate_cents: monthly,
+          default_annual_rate_cents: annual,
+          default_currency: document.getElementById('defCurrency').value,
+          default_trial_days: parseInt(document.getElementById('defTrialDays').value || '0', 10),
+        }),
+      });
+      if (r && r.ok) flash('defSaveStatus');
+    }
+
+    /* ── Client billing table ────────────────────────────────── */
+    let allClients = [];
+
+    async function loadClients() {
+      const r = await api('/api/owner/clients');
+      if (!r || !r.ok) return;
+      const d = await r.json();
+      allClients = d.clients || d;
+
+      const tbody = document.getElementById('clientTableBody');
+      if (!allClients.length) {
+        tbody.innerHTML = '<tr><td colspan="6" class="inv-empty">No clients found</td></tr>';
+        return;
+      }
+      tbody.innerHTML = allClients.map(c => {
+        const plan = c.plan || 'free';
+        const status = c.plan_status || 'active';
+        const rate = c.monthly_rate_cents || 0;
+        const enabled = c.billing_enabled ? '✅' : '—';
+        return `<tr>
+          <td><strong>${esc(c.name)}</strong></td>
+          <td>${planBadge(plan)}</td>
+          <td>${statusBadge(status)}</td>
+          <td>${fmt$(rate)}/mo</td>
+          <td>${enabled}</td>
+          <td><button class="btn btn-outline btn-sm" onclick="openEditModal('${c.id}')">Edit</button></td>
+        </tr>`;
+      }).join('');
+    }
+
+    /* ── Edit modal ──────────────────────────────────────────── */
+    function openEditModal(companyId) {
+      const c = allClients.find(x => x.id === companyId);
+      if (!c) return;
+      document.getElementById('editCompanyId').value = companyId;
+      document.getElementById('editModalTitle').textContent = 'Edit Billing — ' + c.name;
+      document.getElementById('editModalSub').textContent = 'Update plan, status, and rates for this client.';
+      document.getElementById('editPlan').value = c.plan || 'free';
+      document.getElementById('editStatus').value = c.plan_status || 'active';
+      document.getElementById('editMonthly').value = c.monthly_rate_cents ? (c.monthly_rate_cents / 100).toFixed(2) : '';
+      document.getElementById('editAnnual').value = c.annual_rate_cents ? (c.annual_rate_cents / 100).toFixed(2) : '';
+      document.getElementById('editCurrency').value = c.currency || 'usd';
+      document.getElementById('editBillingEnabled').value = c.billing_enabled ? '1' : '0';
+      document.getElementById('editModal').classList.add('open');
+    }
+
+    function closeEditModal() {
+      document.getElementById('editModal').classList.remove('open');
+    }
+
+    async function saveClientBilling() {
+      const id = document.getElementById('editCompanyId').value;
+      const monthly = Math.round(parseFloat(document.getElementById('editMonthly').value || '0') * 100);
+      const annual = Math.round(parseFloat(document.getElementById('editAnnual').value || '0') * 100);
+      const r = await api(`/api/owner/clients/${id}/billing`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          plan: document.getElementById('editPlan').value,
+          planStatus: document.getElementById('editStatus').value,
+          monthlyRateCents: monthly,
+          annualRateCents: annual,
+          currency: document.getElementById('editCurrency').value,
+          billingEnabled: document.getElementById('editBillingEnabled').value === '1',
+        }),
+      });
+      if (r && r.ok) {
+        closeEditModal();
+        loadClients();
+        loadSummary();
+      }
+    }
+
+    // Close modal on overlay click
+    document.getElementById('editModal').addEventListener('click', (e) => {
+      if (e.target === document.getElementById('editModal')) closeEditModal();
+    });
+
+    /* ── Owner info & logout ─────────────────────────────────── */
+    (async () => {
+      const me = await api('/api/owner/me');
+      if (!me || !me.ok) return;
+      const d = await me.json();
+      document.getElementById('ownerName').textContent = d.name || 'Owner';
+      document.getElementById('ownerEmail').textContent = d.email;
+    })();
+
+    document.getElementById('logoutBtn').addEventListener('click', async () => {
+      await fetch('/api/owner/logout', { method: 'POST' });
+      window.location.href = '/owner/login';
+    });
+
+    /* ── Init ────────────────────────────────────────────────── */
+    loadStripeConfig();
+    loadDefaults();
+    loadSummary();
+    loadClients();
+  </script>
+</body>
+</html>

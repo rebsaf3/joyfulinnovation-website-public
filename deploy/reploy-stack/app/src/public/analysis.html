@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Analysis — NyLi Assets</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: linear-gradient(170deg, #fdf8f4 0%, #faf5f0 50%, #fff 100%);
+      color: #1a1a2e;
+    }
+
+    /* Navigation */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 28px;
+      background: white;
+      border-bottom: 1px solid #e8e2db;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      overflow: visible;
+    }
+
+    nav .logo {
+      font-weight: 700;
+      color: #0d9488;
+      font-size: 1.1rem;
+      text-decoration: none;
+    }
+
+    nav .nav-links {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+    }
+
+    nav a {
+      color: #555;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: color 0.2s;
+    }
+
+    nav a:hover,
+    nav a.active {
+      color: #0d9488;
+    }
+    /* Main content */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 12px;
+      color: #1a1a2e;
+    }
+
+    .subtitle {
+      color: #888;
+      margin-bottom: 32px;
+      font-size: 0.95rem;
+    }
+
+    .analysis-section {
+      background: white;
+      border-radius: 12px;
+      border: 1px solid #e8e2db;
+      padding: 28px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 24px rgba(13, 148, 136, 0.07);
+    }
+
+    .analysis-section h2 {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: #1a1a2e;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .analysis-icon {
+      font-size: 1.5rem;
+    }
+
+    .loading {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid #e8e2db;
+      border-top-color: #0d9488;
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .error {
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      color: #991b1b;
+      padding: 16px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+
+    .success {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      color: #166534;
+      padding: 16px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+
+    /* Summary */
+    .summary-text {
+      font-size: 1rem;
+      line-height: 1.6;
+      color: #333;
+      margin-bottom: 16px;
+    }
+
+    /* Anomalies */
+    .anomaly-alert {
+      background: #fef3c7;
+      border-left: 4px solid #f59e0b;
+      padding: 16px;
+      margin-bottom: 12px;
+      border-radius: 4px;
+    }
+
+    .anomaly-alert .severity-high {
+      color: #991b1b;
+      font-weight: 600;
+    }
+
+    .anomaly-alert .severity-medium {
+      color: #92400e;
+      font-weight: 600;
+    }
+
+    .anomaly-alert .severity-low {
+      color: #166534;
+      font-weight: 600;
+    }
+
+    .anomaly-issue {
+      margin-top: 8px;
+      font-size: 0.95rem;
+    }
+
+    .risk-badge {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-bottom: 16px;
+    }
+
+    .risk-high {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .risk-medium {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .risk-low {
+      background: #f0fdf4;
+      color: #166534;
+    }
+
+    /* Categorization */
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .category-card {
+      background: #f8f9fb;
+      border: 1px solid #e8e2db;
+      border-radius: 8px;
+      padding: 16px;
+    }
+
+    .category-card h3 {
+      font-size: 1rem;
+      margin-bottom: 12px;
+      color: #1a1a2e;
+    }
+
+    .category-card .count {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #0d9488;
+      margin-bottom: 8px;
+    }
+
+    .category-card .description {
+      font-size: 0.85rem;
+      color: #888;
+      line-height: 1.5;
+    }
+
+    /* Recommendations */
+    .recommendation-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .recommendation-list li {
+      display: flex;
+      gap: 12px;
+      padding: 12px;
+      background: #f8f9fb;
+      border-radius: 6px;
+      margin-bottom: 8px;
+      font-size: 0.95rem;
+    }
+
+    .recommendation-list li:before {
+      content: "✓";
+      color: #16a34a;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 12px;
+      border-bottom: 2px solid #e8e2db;
+      margin-bottom: 20px;
+    }
+
+    .tab {
+      padding: 12px 16px;
+      background: none;
+      border: none;
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: #888;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      transition: all 0.2s;
+      margin-bottom: -2px;
+    }
+
+    .tab.active {
+      color: #0d9488;
+      border-bottom-color: #0d9488;
+    }
+
+    .tab:hover {
+      color: #0d9488;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .no-data {
+      text-align: center;
+      padding: 40px 20px;
+      color: #888;
+    }
+
+    @media (max-width: 768px) {
+      .analysis-section {
+        padding: 16px;
+      }
+
+      .category-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  
+    /* User dropdown */
+    .user-menu { position: relative; }
+    .user-menu-btn {
+      display: flex; align-items: center; gap: 6px; padding: 7px 14px;
+      background: #fdf8f4; border: 1px solid #d6cfc7; border-radius: 8px;
+      cursor: pointer; font-size: 0.85rem; font-weight: 600; color: #0d9488;
+      transition: all 0.2s;
+    }
+    .user-menu-btn:hover { background: #f0ebe4; }
+    .user-menu-btn .avatar {
+      width: 26px; height: 26px; border-radius: 50%; background: #0d9488;
+      color: white; display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem; font-weight: 700;
+    }
+    .user-dropdown {
+      display: none; position: absolute; right: 0; top: calc(100% + 6px);
+      background: white; border: 1px solid #e8e2db; border-radius: 10px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12); min-width: 200px; z-index: 100;
+      overflow: visible;
+    }
+    .user-dropdown.open { display: block; }
+    .user-dropdown a, .user-dropdown button {
+      display: flex; align-items: center; gap: 10px; width: 100%;
+      padding: 11px 16px; font-size: 0.88rem; font-weight: 500; color: #333;
+      text-decoration: none; border: none; background: none; cursor: pointer;
+      transition: background 0.15s;
+    }
+    .user-dropdown a:hover, .user-dropdown button:hover { background: #fdf8f4; color: #0d9488; }
+    .user-dropdown .sep { height: 1px; background: #e8e2db; margin: 4px 0; }
+    .user-dropdown button.logout { color: #dc2626; }
+    .user-dropdown button.logout:hover { background: #fef2f2; color: #dc2626; }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav>
+    <a href="/home" class="logo">NyLi<span style="color:#0d9488">Assets</span></a>
+    <div class="nav-links">
+      <a href="/home">Home</a>
+      <a href="/projects">Projects</a>
+      <a href="/dashboard">Dashboard</a>
+      <a href="/communications">Communications</a>
+      <a href="/calendar">Calendar</a>
+      <div class="user-menu">
+        <button class="user-menu-btn" id="userMenuBtn">
+          <span class="avatar" id="userAvatar">?</span>
+          <span id="userMenuLabel">Menu</span>
+          <span style="font-size:0.6rem;">&#9660;</span>
+        </button>
+        <div class="user-dropdown" id="userDropdown">
+          <a href="/settings">&#9881; Account Settings</a>
+          <a href="/settings#preferences">&#9776; Preferences</a>
+          <a href="/help">&#10067; Help</a>
+          <div class="sep"></div>
+          <button class="logout" id="logoutBtn">&#10140; Log Out</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main content -->
+  <div class="container">
+    <h1>✨ AI-Powered Insights</h1>
+    <p class="subtitle">Claude analyzes your audit data for actionable recommendations</p>
+
+    <!-- Comprehensive Analysis -->
+    <div class="analysis-section">
+      <h2><span class="analysis-icon">🧠</span>Executive Summary & Recommendations</h2>
+      <div id="analysisContent">
+        <div class="loading"></div> Generating analysis...
+      </div>
+    </div>
+
+    <!-- Anomaly Detection -->
+    <div class="analysis-section">
+      <h2><span class="analysis-icon">⚠️</span>Risk & Anomaly Detection</h2>
+      <div id="anomaliesContent">
+        <div class="loading"></div> Scanning for anomalies...
+      </div>
+    </div>
+
+    <!-- User Categorization -->
+    <div class="analysis-section">
+      <h2><span class="analysis-icon">👥</span>Inactive User Categorization</h2>
+      <div id="categorizationContent">
+        <div class="loading"></div> Categorizing users...
+      </div>
+    </div>
+  </div>
+
+  <script>
+    async function loadAnalysis() {
+      const params = new URLSearchParams(window.location.search);
+      let runId = params.get('runId');
+
+      if (!runId) {
+        // Try to get latest run
+        try {
+          const runsRes = await fetch('/api/runs?limit=1');
+          const runsData = await runsRes.json();
+          if (runsData.data.length > 0) runId = runsData.data[0].id;
+        } catch (err) {
+          console.error('Error getting latest run:', err);
+        }
+      }
+
+      if (!runId) {
+        document.getElementById('analysisContent').innerHTML = 
+          '<div class="error">No run selected. <a href="/dashboard">Go to dashboard</a></div>';
+        document.getElementById('anomaliesContent').innerHTML = '';
+        document.getElementById('categorizationContent').innerHTML = '';
+        return;
+      }
+
+      // Load all three analyses in parallel
+      await Promise.all([
+        loadComprehensiveAnalysis(runId),
+        loadAnomalies(runId),
+        loadCategorization(runId),
+      ]);
+    }
+
+    async function loadComprehensiveAnalysis(runId) {
+      try {
+        const res = await fetch(`/api/runs/${runId}/analyze`, { method: 'POST' });
+        if (!res.ok) {
+          const error = await res.json();
+          throw new Error(error.error || 'Failed to load analysis');
+        }
+
+        const data = await res.json();
+        if (data.success === false) {
+          throw new Error(data.error || 'Analysis failed');
+        }
+
+        let html = '';
+        const analysis = data.analysis || {};
+
+        // Summary
+        if (analysis.summary) {
+          html += `<p class="summary-text"><strong>Summary:</strong> ${analysis.summary}</p>`;
+        }
+
+        // Anomalies
+        if (analysis.anomalies && Array.isArray(analysis.anomalies)) {
+          html += '<div style="margin-top: 20px;"><strong style="display: block; margin-bottom: 12px;">Key Anomalies:</strong>';
+          analysis.anomalies.forEach(anom => {
+            html += `<div class="anomaly-alert"><div class="severity-${(anom.severity || 'medium').toLowerCase()}">${anom.severity || 'Medium'}: ${anom.issue || anom}</div></div>`;
+          });
+          html += '</div>';
+        }
+
+        // Recommendations
+        if (analysis.recommendations && Array.isArray(analysis.recommendations)) {
+          html += '<div style="margin-top: 20px;"><strong style="display: block; margin-bottom: 12px;">Recommendations:</strong><ul class="recommendation-list">';
+          analysis.recommendations.forEach(rec => {
+            html += `<li>${rec}</li>`;
+          });
+          html += '</ul></div>';
+        }
+
+        if (!html) {
+          html = '<p class="summary-text">' + JSON.stringify(analysis, null, 2) + '</p>';
+        }
+
+        document.getElementById('analysisContent').innerHTML = html;
+      } catch (err) {
+        console.error('Analysis error:', err);
+        document.getElementById('analysisContent').innerHTML = 
+          `<div class="error">Error loading analysis: ${err.message}</div>`;
+      }
+    }
+
+    async function loadAnomalies(runId) {
+      try {
+        const res = await fetch(`/api/runs/${runId}/anomalies`);
+        if (!res.ok) {
+          const error = await res.json();
+          throw new Error(error.error || 'Failed to load anomalies');
+        }
+
+        const data = await res.json();
+        if (data.success === false) {
+          throw new Error(data.error || 'Anomaly detection failed');
+        }
+
+        let html = '';
+        const anom = data.anomalies || {};
+
+        // Risk level badge
+        if (anom.riskLevel) {
+          const riskClass = `risk-${anom.riskLevel}`;
+          html += `<span class="risk-badge ${riskClass}">Risk Level: ${anom.riskLevel.toUpperCase()}</span>`;
+        }
+
+        // Alerts
+        if (anom.alerts && Array.isArray(anom.alerts)) {
+          anom.alerts.forEach(alert => {
+            const severity = (alert.severity || 'medium').toLowerCase();
+            html += `<div class="anomaly-alert">
+              <div class="severity-${severity}">${alert.severity || 'Alert'}: ${alert.issue || 'Unknown'}</div>
+              ${alert.impact ? `<div class="anomaly-issue">Impact: ${alert.impact}</div>` : ''}
+            </div>`;
+          });
+        }
+
+        // Recommendations
+        if (anom.recommendations && Array.isArray(anom.recommendations)) {
+          html += '<div style="margin-top: 16px;"><strong>Actions:</strong><ul class="recommendation-list">';
+          anom.recommendations.forEach(rec => {
+            html += `<li>${rec}</li>`;
+          });
+          html += '</ul></div>';
+        }
+
+        if (!html) {
+          html = '<p class="summary-text">' + JSON.stringify(anom, null, 2) + '</p>';
+        }
+
+        document.getElementById('anomaliesContent').innerHTML = html;
+      } catch (err) {
+        console.error('Anomaly error:', err);
+        document.getElementById('anomaliesContent').innerHTML = 
+          `<div class="error">Error loading anomalies: ${err.message}</div>`;
+      }
+    }
+
+    async function loadCategorization(runId) {
+      try {
+        const res = await fetch(`/api/runs/${runId}/categorize`);
+        if (!res.ok) {
+          const error = await res.json();
+          throw new Error(error.error || 'Failed to load categorization');
+        }
+
+        const data = await res.json();
+        if (data.success === false) {
+          throw new Error(data.error || 'Categorization failed');
+        }
+
+        let html = '';
+        const cat = data.categorization || {};
+
+        // Show total
+        if (data.totalUsers) {
+          html += `<p class="summary-text"><strong>Total Inactive Users Analyzed:</strong> ${data.totalUsers}</p>`;
+        }
+
+        // Categories grid
+        if (cat.categories && typeof cat.categories === 'object') {
+          html += '<div class="category-grid">';
+          Object.entries(cat.categories).forEach(([name, items]) => {
+            const count = Array.isArray(items) ? items.length : 0;
+            html += `<div class="category-card">
+              <h3>${name}</h3>
+              <div class="count">${count}</div>
+              <div class="description">Users requiring attention in this category</div>
+            </div>`;
+          });
+          html += '</div>';
+        }
+
+        // Actions
+        if (cat.actions && typeof cat.actions === 'object') {
+          html += '<div style="margin-top: 20px;"><strong style="display: block; margin-bottom: 12px;">Recommended Actions:</strong><ul class="recommendation-list">';
+          Object.entries(cat.actions).forEach(([category, action]) => {
+            html += `<li><strong>${category}:</strong> ${action}</li>`;
+          });
+          html += '</ul></div>';
+        }
+
+        if (!html) {
+          html = '<p class="summary-text">' + JSON.stringify(cat, null, 2) + '</p>';
+        }
+
+        document.getElementById('categorizationContent').innerHTML = html;
+      } catch (err) {
+        console.error('Categorization error:', err);
+        document.getElementById('categorizationContent').innerHTML = 
+          `<div class="error">Error loading categorization: ${err.message}</div>`;
+      }
+    }
+
+    // User dropdown
+    (function initUserMenu() {
+      const btn = document.getElementById('userMenuBtn');
+      const dd  = document.getElementById('userDropdown');
+      if (!btn || !dd) return;
+      btn.addEventListener('click', e => { e.stopPropagation(); dd.classList.toggle('open'); });
+      document.addEventListener('click', () => dd.classList.remove('open'));
+      dd.addEventListener('click', e => e.stopPropagation());
+      fetch('/api/auth/me').then(r => r.ok ? r.json() : null).then(me => {
+        if (!me) return;
+        const initial = (me.email || '?')[0].toUpperCase();
+        const av = document.getElementById('userAvatar');
+        const ml = document.getElementById('userMenuLabel');
+        if (av) av.textContent = initial;
+        if (ml) ml.textContent = me.email;
+      }).catch(() => {});
+    })();
+    document.getElementById('logoutBtn').addEventListener('click', async () => {
+      await fetch('/api/auth/logout', { method: 'POST' });
+      window.location.href = '/login';
+    });
+
+    // Load on page load
+    document.addEventListener('DOMContentLoaded', loadAnalysis);
+  </script>
+</body>
+</html>

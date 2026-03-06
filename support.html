@@ -184,11 +184,16 @@
             <label for="support-contact-message">Message</label>
             <textarea id="support-contact-message" name="message" rows="5" required></textarea>
           </div>
+          <div class="honeypot" aria-hidden="true">
+            <label for="support-company-website">Company website</label>
+            <input id="support-company-website" name="company_website" type="text" tabindex="-1" autocomplete="off" />
+          </div>
           <div class="actions">
-            <button class="btn btn-primary" type="submit">Submit support request</button>
+            <button class="btn btn-primary" id="support-form-submit" type="submit">Submit support request</button>
             <a class="btn btn-secondary" href="/contact?interest=Other">Open full contact page</a>
           </div>
           <p class="small support-form-note">Share enough context for triage. Response timing depends on queue and scope.</p>
+          <p class="form-status" id="support-form-status" role="status" aria-live="polite"></p>
           <p class="small" id="support-form-success" role="status" aria-live="polite" hidden>
             Support request received. We will follow up through the contact details you provided.
           </p>

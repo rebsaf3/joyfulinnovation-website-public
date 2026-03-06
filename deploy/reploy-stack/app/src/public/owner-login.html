@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Owner Portal — NyLi Assets</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body {
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: linear-gradient(170deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+      color: #e2e8f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .login-wrapper {
+      width: 100%;
+      max-width: 420px;
+    }
+
+    .brand {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .brand .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #818cf8;
+      letter-spacing: -0.5px;
+    }
+
+    .brand .sub {
+      font-size: 0.85rem;
+      color: #64748b;
+      margin-top: 4px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-weight: 600;
+    }
+
+    .form-card {
+      background: #1e293b;
+      border-radius: 12px;
+      border: 1px solid #334155;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .form-card h2 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #f1f5f9;
+      text-align: center;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-group label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #94a3b8;
+    }
+
+    .form-group input {
+      padding: 11px 14px;
+      border: 1px solid #475569;
+      border-radius: 6px;
+      background: #0f172a;
+      font-size: 0.95rem;
+      color: #f1f5f9;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .form-group input::placeholder { color: #64748b; }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: #818cf8;
+      box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.15);
+    }
+
+    .btn {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, opacity 0.2s;
+      width: 100%;
+    }
+
+    .btn-primary {
+      background: #818cf8;
+      color: #0f172a;
+    }
+
+    .btn-primary:hover { background: #6366f1; }
+    .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .error {
+      padding: 10px 12px;
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      border-radius: 6px;
+      color: #fca5a5;
+      font-size: 0.85rem;
+      display: none;
+    }
+
+    .error.visible { display: block; }
+
+    .footer-note {
+      text-align: center;
+      font-size: 0.8rem;
+      color: #475569;
+      margin-top: 16px;
+    }
+
+    @media (max-width: 480px) {
+      .form-card { padding: 28px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="login-wrapper">
+    <div class="brand">
+      <div class="logo">NyLi Assets</div>
+      <div class="sub">Platform Owner</div>
+    </div>
+
+    <div class="form-card">
+      <h2>Owner Sign In</h2>
+      <div class="error" id="errorMsg"></div>
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" placeholder="owner@nyliassets.io" required>
+        </div>
+        <div class="form-group" style="margin-top:16px">
+          <label for="password">Password</label>
+          <input type="password" id="password" placeholder="••••••••" required>
+        </div>
+        <button type="submit" class="btn btn-primary" id="loginBtn" style="margin-top:24px">
+          <span id="btnText">Sign In</span>
+        </button>
+      </form>
+    </div>
+    <div class="footer-note">Restricted access — authorised personnel only</div>
+  </div>
+
+  <script>
+    const form = document.getElementById('loginForm');
+    const loginBtn = document.getElementById('loginBtn');
+    const btnText = document.getElementById('btnText');
+    const errorMsg = document.getElementById('errorMsg');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      if (!email || !password) { showError('Email and password are required.'); return; }
+
+      loginBtn.disabled = true;
+      btnText.textContent = 'Signing in…';
+      errorMsg.classList.remove('visible');
+
+      try {
+        const res = await fetch('/api/owner/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password }),
+        });
+        if (res.ok) {
+          window.location.href = '/owner/dashboard';
+        } else {
+          const data = await res.json();
+          showError(data.error || 'Login failed.');
+        }
+      } catch {
+        showError('Network error. Please try again.');
+      } finally {
+        loginBtn.disabled = false;
+        btnText.textContent = 'Sign In';
+      }
+    });
+
+    function showError(msg) {
+      errorMsg.textContent = msg;
+      errorMsg.classList.add('visible');
+    }
+  </script>
+</body>
+</html>

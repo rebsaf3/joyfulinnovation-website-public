@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Integrations — Owner Portal — NyLi Assets</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #0f172a; color: #e2e8f0; }
+
+    .sidebar {
+      position: fixed; top: 0; left: 0; width: 240px; height: 100vh;
+      background: #1e293b; border-right: 1px solid #334155;
+      display: flex; flex-direction: column; z-index: 100;
+    }
+    .sidebar .brand { padding: 20px 24px; border-bottom: 1px solid #334155; }
+    .sidebar .brand .logo { font-size: 1.1rem; font-weight: 700; color: #818cf8; }
+    .sidebar .brand .sub { font-size: 0.7rem; color: #64748b; text-transform: uppercase; letter-spacing: 2px; margin-top: 2px; }
+    .sidebar nav { flex: 1; padding: 16px 12px; display: flex; flex-direction: column; gap: 4px; }
+    .sidebar nav a {
+      display: flex; align-items: center; gap: 10px; padding: 10px 14px;
+      border-radius: 8px; color: #94a3b8; text-decoration: none;
+      font-size: 0.9rem; font-weight: 500; transition: all 0.15s;
+    }
+    .sidebar nav a:hover { background: rgba(129, 140, 248, 0.08); color: #c7d2fe; }
+    .sidebar nav a.active { background: rgba(129, 140, 248, 0.15); color: #818cf8; font-weight: 600; }
+    .sidebar nav a .icon { font-size: 1.1rem; width: 22px; text-align: center; }
+    .sidebar .sidebar-footer { padding: 16px 12px; border-top: 1px solid #334155; }
+    .sidebar .sidebar-footer .owner-info { padding: 8px 14px; font-size: 0.82rem; color: #64748b; }
+    .sidebar .sidebar-footer .owner-name { color: #e2e8f0; font-weight: 600; font-size: 0.88rem; }
+    .sidebar .sidebar-footer button {
+      display: flex; align-items: center; gap: 10px; width: 100%; padding: 10px 14px;
+      border: none; background: none; border-radius: 8px; color: #ef4444;
+      font-size: 0.9rem; font-weight: 500; cursor: pointer; transition: background 0.15s;
+    }
+    .sidebar .sidebar-footer button:hover { background: rgba(239, 68, 68, 0.08); }
+
+    .main { margin-left: 240px; min-height: 100vh; padding: 32px; }
+    .page-header { margin-bottom: 32px; }
+    .page-header h1 { font-size: 1.6rem; font-weight: 700; color: #f1f5f9; }
+    .page-header p { color: #64748b; font-size: 0.9rem; margin-top: 4px; }
+
+    /* ── Integration cards ──────────────────────────────────────────── */
+    .integrations-grid { display: flex; flex-direction: column; gap: 24px; max-width: 820px; }
+
+    .integration-card {
+      background: #1e293b; border: 1px solid #334155; border-radius: 14px;
+      padding: 0; overflow: hidden;
+    }
+    .card-header {
+      display: flex; align-items: center; gap: 14px; padding: 24px 28px 0;
+    }
+    .card-icon {
+      width: 48px; height: 48px; border-radius: 12px; display: flex;
+      align-items: center; justify-content: center; font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+    .card-icon.sendgrid { background: rgba(56, 189, 248, 0.12); }
+    .card-icon.llm { background: rgba(167, 139, 250, 0.12); }
+    .card-title { font-size: 1.15rem; font-weight: 700; color: #f1f5f9; }
+    .card-desc { font-size: 0.82rem; color: #64748b; margin-top: 2px; }
+    .card-status {
+      margin-left: auto; display: flex; align-items: center; gap: 6px;
+      padding: 5px 12px; border-radius: 20px; font-size: 0.78rem; font-weight: 600;
+    }
+    .status-connected { background: rgba(34, 197, 94, 0.12); color: #4ade80; }
+    .status-disconnected { background: rgba(239, 68, 68, 0.12); color: #f87171; }
+    .status-dot { width: 7px; height: 7px; border-radius: 50%; }
+    .status-connected .status-dot { background: #4ade80; }
+    .status-disconnected .status-dot { background: #f87171; }
+
+    .card-body { padding: 20px 28px 28px; }
+
+    .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+    .field-row.full { grid-template-columns: 1fr; }
+    .field-group { display: flex; flex-direction: column; gap: 5px; }
+    .field-group label {
+      font-size: 0.78rem; font-weight: 600; color: #94a3b8;
+      text-transform: uppercase; letter-spacing: 0.5px;
+    }
+    .field-group input, .field-group select {
+      padding: 10px 14px; border: 1px solid #475569; border-radius: 8px;
+      background: #0f172a; color: #e2e8f0; font-size: 0.9rem;
+      transition: border-color 0.2s, box-shadow 0.2s; outline: none;
+    }
+    .field-group input:focus, .field-group select:focus {
+      border-color: #818cf8; box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.12);
+    }
+    .field-group input::placeholder { color: #475569; }
+    .field-group .field-hint { font-size: 0.75rem; color: #475569; margin-top: 2px; }
+
+    .api-key-wrap {
+      position: relative; display: flex; align-items: center;
+    }
+    .api-key-wrap input { flex: 1; padding-right: 80px; font-family: "Fira Code", Consolas, monospace; font-size: 0.85rem; }
+    .api-key-wrap .toggle-btn {
+      position: absolute; right: 8px; padding: 4px 10px; border: 1px solid #475569;
+      border-radius: 4px; background: #1e293b; color: #94a3b8; font-size: 0.75rem;
+      font-weight: 600; cursor: pointer; transition: all 0.15s;
+    }
+    .api-key-wrap .toggle-btn:hover { border-color: #818cf8; color: #818cf8; }
+
+    .card-actions {
+      display: flex; gap: 10px; align-items: center; padding-top: 16px;
+      border-top: 1px solid #334155; margin-top: 8px;
+    }
+    .btn { padding: 10px 20px; border-radius: 8px; border: none; font-size: 0.88rem; font-weight: 600; cursor: pointer; transition: all 0.15s; }
+    .btn-primary { background: #818cf8; color: #0f172a; }
+    .btn-primary:hover { background: #6366f1; }
+    .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+    .btn-outline { background: transparent; border: 1px solid #475569; color: #94a3b8; }
+    .btn-outline:hover { border-color: #818cf8; color: #818cf8; }
+    .btn-danger { background: transparent; border: 1px solid rgba(239,68,68,0.4); color: #f87171; }
+    .btn-danger:hover { background: rgba(239,68,68,0.08); border-color: #ef4444; }
+    .save-status { font-size: 0.82rem; color: #4ade80; margin-left: auto; opacity: 0; transition: opacity 0.3s; }
+    .save-status.visible { opacity: 1; }
+
+    /* ── Test result ────────────────────────────────────────────────── */
+    .test-result {
+      margin-top: 12px; padding: 12px 16px; border-radius: 8px;
+      font-size: 0.85rem; display: none;
+    }
+    .test-result.success { display: block; background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.3); color: #4ade80; }
+    .test-result.error { display: block; background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); color: #fca5a5; }
+
+    /* ── Info box ───────────────────────────────────────────────────── */
+    .info-box {
+      display: flex; align-items: flex-start; gap: 10px; padding: 14px 16px;
+      background: rgba(129, 140, 248, 0.06); border: 1px solid rgba(129, 140, 248, 0.15);
+      border-radius: 8px; margin-bottom: 20px; font-size: 0.85rem; color: #94a3b8; line-height: 1.5;
+    }
+    .info-box .info-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+    .info-box a { color: #818cf8; text-decoration: none; }
+    .info-box a:hover { text-decoration: underline; }
+
+    @media (max-width: 768px) {
+      .sidebar { width: 60px; }
+      .sidebar .brand .logo, .sidebar .brand .sub, .sidebar nav a span, .sidebar .sidebar-footer .owner-info { display: none; }
+      .sidebar nav a { justify-content: center; padding: 12px; }
+      .main { margin-left: 60px; padding: 20px; }
+      .field-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="logo">NyLi Assets</div>
+      <div class="sub">Owner Portal</div>
+    </div>
+    <nav>
+      <a href="/owner/dashboard"><span class="icon">📊</span><span>Dashboard</span></a>
+      <a href="/owner/clients"><span class="icon">🏢</span><span>Clients</span></a>
+      <a href="/owner/users"><span class="icon">👥</span><span>Users</span></a>
+      <a href="/owner/activity"><span class="icon">📋</span><span>Activity</span></a>
+      <a href="/owner/billing"><span class="icon">💰</span><span>Billing</span></a>
+      <a href="/owner/integrations" class="active"><span class="icon">🔌</span><span>Integrations</span></a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="owner-info">
+        <div class="owner-name" id="ownerName">—</div>
+        <div id="ownerEmail">—</div>
+      </div>
+      <button id="logoutBtn"><span class="icon">🚪</span><span>Sign Out</span></button>
+    </div>
+  </aside>
+
+  <div class="main">
+    <div class="page-header">
+      <h1>Integrations</h1>
+      <p>Configure external service connections for email delivery and AI analysis.</p>
+    </div>
+
+    <div class="integrations-grid">
+
+      <!-- ── SendGrid ──────────────────────────────────────────────── -->
+      <div class="integration-card" id="sendgridCard">
+        <div class="card-header">
+          <div class="card-icon sendgrid">📧</div>
+          <div>
+            <div class="card-title">SendGrid</div>
+            <div class="card-desc">Transactional email delivery for verification &amp; notifications</div>
+          </div>
+          <div class="card-status status-disconnected" id="sendgridStatus">
+            <span class="status-dot"></span><span id="sendgridStatusText">Not configured</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="info-box">
+            <span class="info-icon">ℹ️</span>
+            <span>SendGrid is used to send verification emails to flagged users. Get your API key from
+              <a href="https://app.sendgrid.com/settings/api_keys" target="_blank" rel="noopener">SendGrid Settings → API Keys</a>.
+            </span>
+          </div>
+
+          <div class="field-row full">
+            <div class="field-group">
+              <label for="sgApiKey">API Key</label>
+              <div class="api-key-wrap">
+                <input type="password" id="sgApiKey" placeholder="SG.xxxxxxxxxxxxxxxxxxxx" autocomplete="off">
+                <button class="toggle-btn" onclick="toggleVisibility('sgApiKey', this)">Show</button>
+              </div>
+              <div class="field-hint">Starts with SG. — Use a key with Mail Send permissions</div>
+            </div>
+          </div>
+
+          <div class="field-row">
+            <div class="field-group">
+              <label for="sgFromEmail">From Email</label>
+              <input type="email" id="sgFromEmail" placeholder="noreply@yourdomain.com">
+              <div class="field-hint">Must be a verified sender in SendGrid</div>
+            </div>
+            <div class="field-group">
+              <label for="sgFromName">From Name</label>
+              <input type="text" id="sgFromName" placeholder="NyLi Assets">
+            </div>
+          </div>
+
+          <div class="field-row">
+            <div class="field-group">
+              <label for="sgReplyTo">Reply-To Email (optional)</label>
+              <input type="email" id="sgReplyTo" placeholder="support@yourdomain.com">
+            </div>
+            <div class="field-group">
+              <label for="sgRateLimit">Rate Limit (emails/sec)</label>
+              <input type="number" id="sgRateLimit" min="1" max="100" placeholder="10">
+              <div class="field-hint">SendGrid free tier: ~100/day</div>
+            </div>
+          </div>
+
+          <div class="card-actions">
+            <button class="btn btn-primary" onclick="saveSendGrid()">Save Configuration</button>
+            <button class="btn btn-outline" onclick="testSendGrid()">Test Connection</button>
+            <button class="btn btn-danger" onclick="clearSendGrid()">Disconnect</button>
+            <span class="save-status" id="sgSaveStatus">✓ Saved</span>
+          </div>
+          <div class="test-result" id="sgTestResult"></div>
+        </div>
+      </div>
+
+      <!-- ── LLM / Multi-Provider ──────────────────────────────────── -->
+      <div class="integration-card" id="llmCard">
+        <div class="card-header">
+          <div class="card-icon llm">🧠</div>
+          <div>
+            <div class="card-title">LLM — AI Analysis</div>
+            <div class="card-desc">AI-powered audit analysis, insights &amp; recommendations</div>
+          </div>
+          <div class="card-status status-disconnected" id="llmStatus">
+            <span class="status-dot"></span><span id="llmStatusText">Not configured</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="info-box" id="llmInfoBox">
+            <span class="info-icon">ℹ️</span>
+            <span id="llmInfoText">AI analysis of audit comparison reports. Get your API key from
+              <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener" id="llmKeyLink">Anthropic Console → API Keys</a>.
+            </span>
+          </div>
+
+          <div class="field-row">
+            <div class="field-group">
+              <label for="llmProvider">Provider</label>
+              <select id="llmProvider" onchange="onProviderChange()">
+                <option value="anthropic">Anthropic (Claude)</option>
+                <option value="openai">OpenAI (GPT)</option>
+              </select>
+            </div>
+            <div class="field-group">
+              <label for="llmApiKey" id="llmApiKeyLabel">Anthropic API Key</label>
+              <div class="api-key-wrap">
+                <input type="password" id="llmApiKey" placeholder="sk-ant-xxxxxxxxxxxxxxxxxxxx" autocomplete="off">
+                <button class="toggle-btn" onclick="toggleVisibility('llmApiKey', this)">Show</button>
+              </div>
+              <div class="field-hint" id="llmApiKeyHint">Starts with sk-ant-</div>
+            </div>
+          </div>
+
+          <div class="field-row">
+            <div class="field-group">
+              <label for="llmModel">Model</label>
+              <select id="llmModel">
+                <optgroup label="Anthropic" id="anthropicModels">
+                  <option value="claude-3-haiku-20240307">Claude 3 Haiku (fast &amp; cheap)</option>
+                  <option value="claude-3-5-sonnet-20241022">Claude 3.5 Sonnet</option>
+                  <option value="claude-sonnet-4-20250514">Claude Sonnet 4</option>
+                  <option value="claude-opus-4-20250514">Claude Opus 4</option>
+                </optgroup>
+                <optgroup label="OpenAI" id="openaiModels">
+                  <option value="gpt-4o-mini">GPT-4o Mini (fast &amp; cheap)</option>
+                  <option value="gpt-3.5-turbo">GPT-3.5 Turbo</option>
+                  <option value="gpt-4o">GPT-4o</option>
+                </optgroup>
+              </select>
+            </div>
+            <div class="field-group">
+              <label for="llmMaxTokens">Max Tokens</label>
+              <input type="number" id="llmMaxTokens" min="256" max="8192" placeholder="4096">
+              <div class="field-hint">Max output length for AI analysis (256–8192)</div>
+            </div>
+          </div>
+
+          <div class="field-row">
+            <div class="field-group">
+              <label for="llmTemperature">Temperature</label>
+              <input type="number" id="llmTemperature" min="0" max="1" step="0.1" placeholder="0.3">
+              <div class="field-hint">0 = deterministic, 1 = creative (default: 0.3)</div>
+            </div>
+            <div class="field-group">
+              <label for="llmEnabled">Analysis Enabled</label>
+              <select id="llmEnabled">
+                <option value="true">Yes — Run AI analysis on comparisons</option>
+                <option value="false">No — Skip AI analysis</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="card-actions">
+            <button class="btn btn-primary" onclick="saveLLM()">Save Configuration</button>
+            <button class="btn btn-outline" onclick="testLLM()">Test Connection</button>
+            <button class="btn btn-danger" onclick="clearLLM()">Disconnect</button>
+            <span class="save-status" id="llmSaveStatus">✓ Saved</span>
+          </div>
+          <div class="test-result" id="llmTestResult"></div>
+        </div>
+      </div>
+
+    </div><!-- /integrations-grid -->
+  </div><!-- /main -->
+
+  <script>
+    /* ── Helpers ──────────────────────────────────────────────────── */
+    async function api(url, opts) {
+      const r = await fetch(url, opts);
+      if (r.status === 401) { window.location.href = '/owner/login'; return null; }
+      return r;
+    }
+
+    function toggleVisibility(inputId, btn) {
+      const inp = document.getElementById(inputId);
+      if (inp.type === 'password') { inp.type = 'text'; btn.textContent = 'Hide'; }
+      else { inp.type = 'password'; btn.textContent = 'Show'; }
+    }
+
+    function flash(elId, cls) {
+      const el = document.getElementById(elId);
+      el.classList.add('visible');
+      setTimeout(() => el.classList.remove('visible'), 2500);
+    }
+
+    function showTest(elId, success, msg) {
+      const el = document.getElementById(elId);
+      el.className = 'test-result ' + (success ? 'success' : 'error');
+      el.textContent = msg;
+      el.style.display = 'block';
+      setTimeout(() => { el.style.display = 'none'; }, 6000);
+    }
+
+    function setStatus(statusElId, textElId, connected) {
+      const wrap = document.getElementById(statusElId);
+      const txt = document.getElementById(textElId);
+      wrap.className = 'card-status ' + (connected ? 'status-connected' : 'status-disconnected');
+      txt.textContent = connected ? 'Connected' : 'Not configured';
+    }
+
+    /* ── Load current settings ───────────────────────────────────── */
+    async function loadSettings() {
+      const r = await api('/api/owner/integrations');
+      if (!r || !r.ok) return;
+      const data = await r.json();
+
+      // SendGrid
+      if (data.sendgrid_api_key) document.getElementById('sgApiKey').value = data.sendgrid_api_key;
+      if (data.sendgrid_from_email) document.getElementById('sgFromEmail').value = data.sendgrid_from_email;
+      if (data.sendgrid_from_name) document.getElementById('sgFromName').value = data.sendgrid_from_name;
+      if (data.sendgrid_reply_to) document.getElementById('sgReplyTo').value = data.sendgrid_reply_to;
+      if (data.sendgrid_rate_limit) document.getElementById('sgRateLimit').value = data.sendgrid_rate_limit;
+      setStatus('sendgridStatus', 'sendgridStatusText', !!data.sendgrid_api_key);
+
+      // LLM
+      if (data.llm_provider) document.getElementById('llmProvider').value = data.llm_provider;
+      onProviderChange();  // update UI labels/models for loaded provider
+      if (data.llm_api_key) document.getElementById('llmApiKey').value = data.llm_api_key;
+      if (data.llm_model) document.getElementById('llmModel').value = data.llm_model;
+      if (data.llm_max_tokens) document.getElementById('llmMaxTokens').value = data.llm_max_tokens;
+      if (data.llm_temperature) document.getElementById('llmTemperature').value = data.llm_temperature;
+      if (data.llm_enabled !== undefined) document.getElementById('llmEnabled').value = data.llm_enabled;
+      setStatus('llmStatus', 'llmStatusText', !!data.llm_api_key);
+    }
+
+    /* ── SendGrid actions ────────────────────────────────────────── */
+    async function saveSendGrid() {
+      const body = {
+        sendgrid_api_key: document.getElementById('sgApiKey').value.trim(),
+        sendgrid_from_email: document.getElementById('sgFromEmail').value.trim(),
+        sendgrid_from_name: document.getElementById('sgFromName').value.trim(),
+        sendgrid_reply_to: document.getElementById('sgReplyTo').value.trim(),
+        sendgrid_rate_limit: document.getElementById('sgRateLimit').value || '10',
+      };
+      const r = await api('/api/owner/integrations', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
+      if (r && r.ok) {
+        flash('sgSaveStatus');
+        setStatus('sendgridStatus', 'sendgridStatusText', !!body.sendgrid_api_key);
+      }
+    }
+
+    async function testSendGrid() {
+      const r = await api('/api/owner/integrations/test-sendgrid', { method: 'POST' });
+      if (!r) return;
+      const data = await r.json();
+      showTest('sgTestResult', data.success, data.message);
+    }
+
+    async function clearSendGrid() {
+      if (!confirm('Remove SendGrid configuration? Email delivery will revert to log-only mode.')) return;
+      const r = await api('/api/owner/integrations', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          sendgrid_api_key: '', sendgrid_from_email: '', sendgrid_from_name: '',
+          sendgrid_reply_to: '', sendgrid_rate_limit: '',
+        }),
+      });
+      if (r && r.ok) {
+        document.getElementById('sgApiKey').value = '';
+        document.getElementById('sgFromEmail').value = '';
+        document.getElementById('sgFromName').value = '';
+        document.getElementById('sgReplyTo').value = '';
+        document.getElementById('sgRateLimit').value = '';
+        setStatus('sendgridStatus', 'sendgridStatusText', false);
+      }
+    }
+
+    /* ── LLM actions ─────────────────────────────────────────────── */
+    function onProviderChange() {
+      const p = document.getElementById('llmProvider').value;
+      const isOAI = p === 'openai';
+      document.getElementById('llmApiKeyLabel').textContent = isOAI ? 'OpenAI API Key' : 'Anthropic API Key';
+      document.getElementById('llmApiKey').placeholder = isOAI ? 'sk-xxxxxxxxxxxxxxxxxxxxxxxx' : 'sk-ant-xxxxxxxxxxxxxxxxxxxx';
+      document.getElementById('llmApiKeyHint').textContent = isOAI ? 'Starts with sk-' : 'Starts with sk-ant-';
+      document.getElementById('llmKeyLink').href = isOAI ? 'https://platform.openai.com/api-keys' : 'https://console.anthropic.com/settings/keys';
+      document.getElementById('llmKeyLink').textContent = isOAI ? 'OpenAI Platform → API Keys' : 'Anthropic Console → API Keys';
+      // Show/hide model optgroups
+      document.getElementById('anthropicModels').style.display = isOAI ? 'none' : '';
+      document.getElementById('openaiModels').style.display = isOAI ? '' : 'none';
+      // Default model selection for provider
+      const cur = document.getElementById('llmModel').value;
+      const anthModels = ['claude-3-haiku-20240307','claude-3-5-sonnet-20241022','claude-sonnet-4-20250514','claude-opus-4-20250514'];
+      const oaiModels = ['gpt-4o-mini','gpt-3.5-turbo','gpt-4o'];
+      if (isOAI && anthModels.includes(cur)) document.getElementById('llmModel').value = 'gpt-4o-mini';
+      if (!isOAI && oaiModels.includes(cur)) document.getElementById('llmModel').value = 'claude-3-haiku-20240307';
+    }
+
+    async function saveLLM() {
+      const body = {
+        llm_provider: document.getElementById('llmProvider').value,
+        llm_api_key: document.getElementById('llmApiKey').value.trim(),
+        llm_model: document.getElementById('llmModel').value,
+        llm_max_tokens: document.getElementById('llmMaxTokens').value || '512',
+        llm_temperature: document.getElementById('llmTemperature').value || '0.2',
+        llm_enabled: document.getElementById('llmEnabled').value,
+      };
+      const r = await api('/api/owner/integrations', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
+      if (r && r.ok) {
+        flash('llmSaveStatus');
+        setStatus('llmStatus', 'llmStatusText', !!body.llm_api_key);
+      }
+    }
+
+    async function testLLM() {
+      const r = await api('/api/owner/integrations/test-llm', { method: 'POST' });
+      if (!r) return;
+      const data = await r.json();
+      showTest('llmTestResult', data.success, data.message);
+    }
+
+    async function clearLLM() {
+      if (!confirm('Remove LLM configuration? AI analysis will be disabled.')) return;
+      const r = await api('/api/owner/integrations', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          llm_provider: '', llm_api_key: '', llm_model: '', llm_max_tokens: '',
+          llm_temperature: '', llm_enabled: 'false',
+        }),
+      });
+      if (r && r.ok) {
+        document.getElementById('llmProvider').value = 'anthropic';
+        document.getElementById('llmApiKey').value = '';
+        document.getElementById('llmModel').value = 'claude-3-haiku-20240307';
+        document.getElementById('llmMaxTokens').value = '';
+        document.getElementById('llmTemperature').value = '';
+        document.getElementById('llmEnabled').value = 'false';
+        onProviderChange();
+        setStatus('llmStatus', 'llmStatusText', false);
+      }
+    }
+
+    /* ── Owner info & logout ─────────────────────────────────────── */
+    (async () => {
+      const me = await api('/api/owner/me');
+      if (!me || !me.ok) return;
+      const data = await me.json();
+      document.getElementById('ownerName').textContent = data.name || 'Owner';
+      document.getElementById('ownerEmail').textContent = data.email;
+    })();
+
+    document.getElementById('logoutBtn').addEventListener('click', async () => {
+      await fetch('/api/owner/logout', { method: 'POST' });
+      window.location.href = '/owner/login';
+    });
+
+    /* ── Init ────────────────────────────────────────────────────── */
+    loadSettings();
+  </script>
+</body>
+</html>

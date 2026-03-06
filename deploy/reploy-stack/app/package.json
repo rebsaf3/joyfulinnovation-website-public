@@ -1,0 +1,39 @@
+{
+  "name": "leo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "jest",
+    "bridge:restart": "npx kill-port 3099 && node nyli-agent-swarm/nyli-agent-swarm/server/src/agent/start_mesh.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://local_proxy@127.0.0.1:34179/git/rebsaf3/Leo"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.24.3",
+    "bcrypt": "^6.0.0",
+    "better-sqlite3": "^12.6.2",
+    "csv-parse": "^6.1.0",
+    "express": "^5.2.1",
+    "express-session": "^1.19.0",
+    "multer": "^2.1.1",
+    "nodemailer": "^8.0.1",
+    "stripe": "^12.18.0"
+  },
+  "devDependencies": {
+    "jest": "^30.2.0",
+    "supertest": "^7.2.2"
+  },
+  "jest": {
+    "testTimeout": 20000
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

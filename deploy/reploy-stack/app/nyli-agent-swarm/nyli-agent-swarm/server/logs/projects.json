@@ -1,0 +1,1721 @@
+{
+  "projects": [
+    {
+      "id": "project-a-bridge-stabilization",
+      "projectKey": "A",
+      "name": "Project A: Bridge Stabilization & Connectivity",
+      "description": "Stabilize bridge lifecycle, control APIs, and connectivity telemetry before swarm execution.",
+      "status": "active",
+      "phase": "A",
+      "createdAt": 1772761863605,
+      "updatedAt": "2026-03-06T04:37:53.251Z",
+      "milestones": [
+        {
+          "id": "A-M1",
+          "name": "A1 Baseline Diagnostics Captured",
+          "outcome": "Bridge/runtime baseline documented",
+          "successCriteria": "All startup paths, endpoints, and failure signatures captured",
+          "status": "complete"
+        },
+        {
+          "id": "A-M2",
+          "name": "A2 Reliability Hardening Complete",
+          "outcome": "Bridge resiliency improved",
+          "successCriteria": "Reconnect and fallback behaviors validated",
+          "status": "pending"
+        },
+        {
+          "id": "A-M3",
+          "name": "A3 Control Plane Verified",
+          "outcome": "Control endpoints reliable",
+          "successCriteria": "Bridge control API tests pass across expected/edge cases",
+          "status": "active"
+        },
+        {
+          "id": "A-M4",
+          "name": "A4 Operations Ready",
+          "outcome": "Runbook and KPIs complete",
+          "successCriteria": "Operators can detect and recover bridge issues deterministically",
+          "status": "pending"
+        }
+      ],
+      "tasks": [
+        {
+          "id": 1,
+          "description": "Capture bridge startup configuration baseline versus deploy README required values.",
+          "milestone": "A1 Baseline Diagnostics Captured",
+          "assignedAgent": "ConfigAgent",
+          "category": "configuration",
+          "priority": "Immediate",
+          "status": "complete",
+          "timestamps": {
+            "created": 1772761863605,
+            "assigned": 1772764992564,
+            "started": 1772764992564,
+            "complete": 1772764992564
+          },
+          "acceptanceCriteria": "Baseline report includes env vars, ports, and mode resolution.",
+          "estimateHours": 4,
+          "result": "Captured deploy/runtime baseline and validated required env/port/path configuration from README and runtime code."
+        },
+        {
+          "id": 2,
+          "description": "Validate BridgeAgent process spawn, heartbeat, and shutdown semantics under mesh startup.",
+          "milestone": "A1 Baseline Diagnostics Captured",
+          "assignedAgent": "BridgeAgent",
+          "category": "runtime",
+          "priority": "Immediate",
+          "status": "complete",
+          "timestamps": {
+            "created": 1772761863605,
+            "assigned": 1772764992564,
+            "started": 1772764992564,
+            "complete": 1772764992564
+          },
+          "acceptanceCriteria": "Bridge lifecycle events are deterministic and repeatable.",
+          "estimateHours": 4,
+          "result": "Verified BridgeAgent lifecycle via mesh startup/health/dispatched task path; confirmed reliable spawn and controlled shutdown."
+        },
+        {
+          "id": 3,
+          "description": "Instrument bridge event taxonomy for connect, dispatch, timeout, and reconnect cases.",
+          "milestone": "A2 Reliability Hardening Complete",
+          "assignedAgent": "LoggingAgent",
+          "category": "observability",
+          "priority": "Immediate",
+          "status": "pending",
+          "timestamps": {
+            "created": 1772761863605
+          },
+          "acceptanceCriteria": "Activity logs classify bridge events without ambiguous labels.",
+          "estimateHours": 4,
+          "result": null
+        },
+        {
+          "id": 4,
+          "description": "Create bridge control endpoint tests for authorized, unauthorized, missing-agent, and already-stopped paths.",
+          "milestone": "A3 Control Plane Verified",
+          "assignedAgent": "TestAgent",
+          "category": "testing",
+          "priority": "Immediate",
+          "status": "complete",
+          "timestamps": {
+            "created": 1772761863605,
+            "assigned": 1772769896341,
+            "started": 1772769896341,
+            "complete": 1772769896341
+          },
+          "acceptanceCriteria": "Automated test matrix covers all bridge control status codes.",
+          "estimateHours": 4,
+          "result": "Added automated bridge/dashboard control tests covering unauthorized, token-authorized, and upstream-failure flows in src/__tests__/swarmDashboardRoutes.test.js."
+        },
+        {
+          "id": 5,
+          "description": "Harden bridge failure handling for unknown agent targets and invalid payload envelopes.",
+          "milestone": "A2 Reliability Hardening Complete",
+          "assignedAgent": "ErrorBoundaryAgent",
+          "category": "reliability",
+          "priority": "Immediate",
+          "status": "pending",
+          "timestamps": {
+            "created": 1772761863605
+          },
+          "acceptanceCriteria": "Malformed routing requests fail closed with structured errors.",
+          "estimateHours": 4,
+          "result": null
+        },
+        {
+          "id": 6,
+          "description": "Validate dashboard-to-mesh bridge control contract and upstream error propagation.",
+          "milestone": "A3 Control Plane Verified",
+          "assignedAgent": "IntegrationsAgent",
+          "category": "integration",
+          "priority": "Immediate",
+          "status": "complete",
+          "timestamps": {
+            "created": 1772761863605,
+            "assigned": 1772764992564,
+            "started": 1772764992564,
+            "complete": 1772764992564
+          },
+          "acceptanceCriteria": "Dashboard control actions map correctly to mesh control responses.",
+          "estimateHours": 4,
+          "result": "Validated dashboard->mesh control contract; patched control access safeguards and confirmed shutdown bridge/swarm flows."
+        },
+        {
+          "id": 7,
+          "description": "Draft bridge operations runbook with restart, verification, and rollback steps.",
+          "milestone": "A4 Operations Ready",
+          "assignedAgent": "DocumentationAgent",
+          "category": "documentation",
+          "priority": "Immediate",
+          "status": "pending",
+          "timestamps": {
+            "created": 1772761863605
+          },
+          "acceptanceCriteria": "Runbook includes deterministic commands and expected outputs.",
+          "estimateHours": 4,
+          "result": null
+        },
+        {
+          "id": 8,
+          "description": "Exercise multi-hop dispatch scenarios and record latency/jitter baseline for bridge routing.",
+          "milestone": "A2 Reliability Hardening Complete",
+          "assignedAgent": "ClaudeAgent",
+          "category": "performance",
+          "priority": "Immediate",
+          "status": "pending",
+          "timestamps": {
+            "created": 1772761863605
+          },
+          "acceptanceCriteria": "Bridge routing baseline includes median/p95 timing sample.",
+          "estimateHours": 4,
+          "result": null
+        },
+        {
+          "id": 9,
+          "description": "Validate dispatch schema constraints (bad JSON, missing task, unknown agent, oversized payload).",
+          "milestone": "A3 Control Plane Verified",
+          "assignedAgent": "CodexAgent",
+          "category": "validation",
+          "priority": "Immediate",
+          "status": "pending",
+          "timestamps": {
+            "created": 1772761863605
+          },
+          "acceptanceCriteria": "Bridge rejects invalid dispatch payloads with stable error format.",
+          "estimateHours": 4,
+          "result": null
+        },
+        {
+          "id": 10,
+          "description": "Review SWARM_CONTROL_TOKEN handling and bridge control authorization bypass risk.",
+          "milestone": "A3 Control Plane Verified",
+          "assignedAgent": "SecurityAgent",
+          "category": "security",
+          "priority": "Immediate",
+          "status": "complete",
+          "timestamps": {
+            "created": 1772761863605,
+            "assigned": 1772764992564,
+            "started": 1772764992564,
+            "complete": 1772764992564
+          },
+          "acceptanceCriteria": "Token enforcement behavior documented with no bypass path.",
+          "estimateHours": 4,
+          "result": "Implemented protection for swarm control endpoints when dashboard auth is disabled; localhost-only or control token required."
+        },
+        {
+          "id": 11,
+          "description": "Define bridge reliability KPI slice for dashboard (availability, restarts, failures, control success rate).",
+          "milestone": "A4 Operations Ready",
+          "assignedAgent": "InsightsAgent",
+          "category": "analytics",
+          "priority": "Immediate",
+          "status": "pending",
+          "timestamps": {
+            "created": 1772761863605
+          },
+          "acceptanceCriteria": "KPI definitions include formulas and source fields.",
+          "estimateHours": 4,
+          "result": null
+        },
+        {
+          "id": 12,
+          "description": "Publish bridge stabilization sign-off criteria and handoff checklist for orchestrator-only mode.",
+          "milestone": "A4 Operations Ready",
+          "assignedAgent": "OrchestratorAgent",
+          "category": "orchestration",
+          "priority": "Immediate",
+          "status": "pending",
+          "timestamps": {
+            "created": 1772761863605
+          },
+          "acceptanceCriteria": "Bridge acceptance gate clearly defines go/no-go conditions.",
+          "estimateHours": 4,
+          "result": null
+        }
+      ],
+      "history": [
+        {
+          "event": "project_created",
+          "by": "OrchestratorAgent",
+          "ts": 1772761863605
+        },
+        {
+          "event": "task_status_update",
+          "taskId": 1,
+          "status": "complete",
+          "result": "Captured deploy/runtime baseline and validated required env/port/path configuration from README and runtime code.",
+          "ts": 1772764992564,
+          "by": "OrchestratorAgent"
+        },
+        {
+          "event": "task_status_update",
+          "taskId": 2,
+          "status": "complete",
+          "result": "Verified BridgeAgent lifecycle via mesh startup/health/dispatched task path; confirmed reliable spawn and controlled shutdown.",
+          "ts": 1772764992564,
+          "by": "OrchestratorAgent"
+        },
+        {
+          "event": "task_status_update",
+          "taskId": 6,
+          "status": "complete",
+          "result": "Validated dashboard->mesh control contract; patched control access safeguards and confirmed shutdown bridge/swarm flows.",
+          "ts": 1772764992564,
+          "by": "OrchestratorAgent"
+        },
+        {
+          "event": "task_status_update",
+          "taskId": 10,
+          "status": "complete",
+          "result": "Implemented protection for swarm control endpoints when dashboard auth is disabled; localhost-only or control token required.",
+          "ts": 1772764992564,
+          "by": "OrchestratorAgent"
+        },
+        {
+          "event": "task_status_update",
+          "taskId": 4,
+          "status": "complete",
+          "result": "Added automated bridge/dashboard control tests covering unauthorized, token-authorized, and upstream-failure flows in src/__tests__/swarmDashboardRoutes.test.js.",
+          "ts": 1772769896341,
+          "by": "OrchestratorAgent"
+        }
+      ]
+    },
+    {
+      "id": "project-b-swarm-bringup",
+      "projectKey": "B",
+      "name": "Project B: Swarm Bring-up, Reliability & Orchestration",
+      "description": "Bring all 32 agents online with stable supervisor/orchestrator task routing and lifecycle controls.",
+      "status": "active",
+      "phase": "B",
+      "createdAt": 1772761863605,
+      "updatedAt": "2026-03-06T04:37:53.251Z",
+      "milestones": [
+        {
+          "id": "B-M1",
+          "name": "B1 Agent Registration Baseline",
+          "outcome": "All agents discoverable and mapped",
+          "successCriteria": "32 agents register and report healthy status",
+          "status": "active"
+        },
+        {
+          "id": "B-M2",
+          "name": "B2 Task Lifecycle Reliability",
+          "outcome": "Task states advance correctly",
+          "successCriteria": "Pending/in-progress/completed/failed transitions validated",
+          "status": "pending"
+        },
+        {
+          "id": "B-M3",
+          "name": "B3 Routing and Recovery Stable",
+          "outcome": "Dispatch/retry/stall behavior hardened",
+          "successCriteria": "Stall and retry loops resolve without deadlock",
+          "status": "pending"
+        },
+        {
+          "id": "B-M4",
+          "name": "B4 Orchestrator High-Level Mode",
+          "outcome": "Orchestrator focuses on coordination",
+          "successCriteria": "Low-level work delegated to specialist agents",
+          "status": "pending"
+        }
+      ],
+      "tasks": [
+        {
+          "id": 1,
+          "description": "Inventory all 32 specialist agents against AGENT_LIST and runtime discovery output.",
+          "milestone": "B1 Agent Registration Baseline",
+          "assignedAgent": "RegistryAgent",
+          "category": "registration",
+          "priority": "Immediate",
+          "status": "complete",
+          "timestamps": {
+            "created": 1772761863605,
+            "assigned": 1772764992564,
+            "started": 1772764992564,
+            "complete": 1772764992564
+          },
+          "acceptanceCriteria": "Agent inventory report reconciles files, env list, and runtime state.",
+          "estimateHours": 4,
+          "result": "Confirmed full 32-agent inventory and runtime discovery; validated registration through mesh health and dashboard stats."
+        },
+        {
+          "id": 2,
+          "description": "Define swarm task intake contract and enforce required task metadata fields.",
+          "milestone": "B2 Task Lifecycle Reliability",
+          "assignedAgent": "TaskManagerAgent",
+          "category": "tasking",
+          "priority": "Immediate",
+          "status": "pending",
+          "timestamps": {
+            "created": 1772761863605
+          },
+          "acceptanceCriteria": "Task schema includes owner, milestone, priority, and acceptance criteria.",
+          "estimateHours": 4,
+          "result": null
+        },
+        {
+          "id": 3,
+          "description": "Build deterministic registration smoke harness for mesh /health response validation.",
+          "milestone": "B1 Agent Registration Baseline",
+          "assignedAgent": "CodexAgent1",
+          "category": "testing",
+          "priority": "Immediate",
+          "status": "pending",
+          "timestamps": {
+            "created": 1772761863605
+          },
+          "acceptanceCriteria": "Harness flags any missing/offline agent and emits machine-readable output.",
+          "estimateHours": 4,
+          "result": null
+        },
+        {
+          "id": 4,
+          "description": "Execute supervisor tick scenario matrix for pending, stalled, failed, and requeued tasks.",
+          "milestone": "B2 Task Lifecycle Reliability",
+          "assignedAgent": "ClaudeAgent1",
+          "category": "supervisor",
+          "priority": "Immediate",
+          "status": "pending",
+          "timestamps": {
+            "created": 1772761863605
+          },
+          "acceptanceCriteria": "Scenario outcomes map to expected state transitions.",
+          "estimateHours": 4,
+          "result": null
+        },
+        {
+          "id": 5,
+          "description": "Validate stalled-task retry thresholds and guard against repeated immediate requeue loops.",
+          "milestone": "B3 Routing and Recovery Stable",
+          "assignedAgent": "CodexAgent2",
+          "category": "reliability",
+          "priority": "Immediate",
+          "status": "pending",
+          "timestamps": {
+            "created": 1772761863605
+          },
+          "acceptanceCriteria": "Retry behavior follows configured stall/attempt limits.",
+          "estimateHours": 4,
+          "result": null
+        },
+        {
+          "id": 6,
+          "description": "Analyze inter-agent collaboration routing directives for collision and duplication risks.",
+          "milestone": "B3 Routing and Recovery Stable",
+          "assignedAgent": "ClaudeAgent2",
+          "category": "routing",
+          "priority": "Immediate",
+          "status": "pending",
+          "timestamps": {
+            "created": 1772761863605
+          },
+          "acceptanceCriteria": "Routing policy prevents duplicate execution for same task id.",
+          "estimateHours": 4,
+          "result": null
+        },
+        {
+          "id": 7,
+          "description": "Harden task ID coercion and ensure missing-id updates fail with actionable diagnostics.",
+          "milestone": "B2 Task Lifecycle Reliability",
+          "assignedAgent": "CodexAgent3",
+          "category": "data-integrity",
+          "priority": "Immediate",
+          "status": "pending",
+          "timestamps": {
+            "created": 1772761863605
+          },
+          "acceptanceCriteria": "Task updates reject invalid IDs without corrupting project state.",
+          "estimateHours": 4,
+          "result": null
+        },
+        {
+          "id": 8,
+          "description": "Review orchestrator dispatch ordering for fairness across pending and stalled queues.",
+          "milestone": "B4 Orchestrator High-Level Mode",
+          "assignedAgent": "ClaudeAgent3",
+          "category": "orchestration",
+          "priority": "Immediate",
+          "status": "pending",
+          "timestamps": {
+            "created": 1772761863605
+          },
+          "acceptanceCriteria": "Dispatch policy documented with priority rules and starvation protections.",
+          "estimateHours": 4,
+          "result": null
+        },
+        {
+          "id": 9,
+          "description": "Create supervisor resilience checks for planning-timeout retrigger behavior.",
+          "milestone": "B3 Routing and Recovery Stable",
+          "assignedAgent": "CodexAgent4",
+          "category": "supervisor",
+          "priority": "Immediate",
+          "status": "pending",
+          "timestamps": {
+            "created": 1772761863605
+          },
+          "acceptanceCriteria": "Planning timeout retriggers once per policy and records audit trail.",
+          "estimateHours": 4,
+          "result": null
+        },
+        {
+          "id": 10,
+          "description": "Stress-test concurrent dispatch submissions and identify race conditions in project updates.",
+          "milestone": "B3 Routing and Recovery Stable",
+          "assignedAgent": "ClaudeAgent4",
+          "category": "concurrency",
+          "priority": "Immediate",
+          "status": "pending",
+          "timestamps": {
+            "created": 1772761863605
+          },
+          "acceptanceCriteria": "Concurrent dispatch run completes without lost or duplicated states.",
+          "estimateHours": 4,
+          "result": null
+        },
+        {
+          "id": 11,
+          "description": "Build lifecycle observability assertions for task_received/work_started/work_completed event coherence.",
+          "milestone": "B2 Task Lifecycle Reliability",
+          "assignedAgent": "CodexAgent5",
+          "category": "observability",
+          "priority": "Immediate",
+          "status": "pending",
+          "timestamps": {
+            "created": 1772761863605
+          },
+          "acceptanceCriteria": "Lifecycle events form a valid sequence per task across sampled runs.",
+          "estimateHours": 4,
+          "result": null
+        },
+        {
+          "id": 12,
+          "description": "Document orchestrator mode activation criteria and delegation policy once swarm is stable.",
+          "milestone": "B4 Orchestrator High-Level Mode",
+          "assignedAgent": "ClaudeAgent5",
+          "category": "operations",
+          "priority": "Immediate",
+          "status": "pending",
+          "timestamps": {
+            "created": 1772761863605
+          },
+          "acceptanceCriteria": "Activation checklist defines prerequisites and rollback triggers.",
+          "estimateHours": 4,
+          "result": null
+        }
+      ],
+      "history": [
+        {
+          "event": "project_created",
+          "by": "OrchestratorAgent",
+          "ts": 1772761863605
+        },
+        {
+          "event": "task_status_update",
+          "taskId": 1,
+          "status": "complete",
+          "result": "Confirmed full 32-agent inventory and runtime discovery; validated registration through mesh health and dashboard stats.",
+          "ts": 1772764992564,
+          "by": "OrchestratorAgent"
+        }
+      ]
+    },
+    {
+      "id": "project-c-dashboard-functionality",
+      "projectKey": "C",
+      "name": "Project C: Swarm Dashboard Functionality & Integration",
+      "description": "Ensure swarm dashboard is online, accurate, resilient, and fully aligned to PM data semantics.",
+      "status": "active",
+      "phase": "C",
+      "createdAt": 1772761863605,
+      "updatedAt": "2026-03-06T04:37:53.251Z",
+      "milestones": [
+        {
+          "id": "C-M1",
+          "name": "C1 Dashboard Availability Stable",
+          "outcome": "Core dashboard routes and APIs healthy",
+          "successCriteria": "No 5xx on dashboard pages and key APIs",
+          "status": "active"
+        },
+        {
+          "id": "C-M2",
+          "name": "C2 Data Fidelity Complete",
+          "outcome": "Task/milestone/agent metrics accurate",
+          "successCriteria": "Dashboard metrics match PM source data",
+          "status": "active"
+        },
+        {
+          "id": "C-M3",
+          "name": "C3 UX Resilience Delivered",
+          "outcome": "Loading/error/filter interactions robust",
+          "successCriteria": "Critical UX flows handle edge states gracefully",
+          "status": "active"
+        },
+        {
+          "id": "C-M4",
+          "name": "C4 Analytics and Exports Verified",
+          "outcome": "Insights/export paths reliable",
+          "successCriteria": "JSON/CSV/PDF exports and KPI views validated",
+          "status": "pending"
+        }
+      ],
+      "tasks": [
+        {
+          "id": 1,
+          "description": "Review swarm dashboard route coverage and missing UI states for online/offline/degraded statuses.",
+          "milestone": "C1 Dashboard Availability Stable",
+          "assignedAgent": "UIDesignerAgent",
+          "category": "ui-ux",
+          "priority": "Immediate",
+          "status": "pending",
+          "timestamps": {
+            "created": 1772761863605
+          },
+          "acceptanceCriteria": "Dashboard status presentation is explicit across all runtime modes.",
+          "estimateHours": 4,
+          "result": null
+        },
+        {
+          "id": 2,
+          "description": "Validate swarm stats derivation logic for onlineAgents, uptimePct, and stale agent counts.",
+          "milestone": "C2 Data Fidelity Complete",
+          "assignedAgent": "InsightsAgent",
+          "category": "analytics",
+          "priority": "Immediate",
+          "status": "complete",
+          "timestamps": {
+            "created": 1772761863605,
+            "assigned": 1772764992564,
+            "started": 1772764992564,
+            "complete": 1772764992564
+          },
+          "acceptanceCriteria": "Computed metrics match raw event and health data.",
+          "estimateHours": 4,
+          "result": "Improved and validated swarm stats accuracy by adding live /health fallback when periodic mesh health log events are not yet present."
+        },
+        {
+          "id": 3,
+          "description": "Create API contract tests for /api/swarm-status, /api/swarm-stats, /api/project-dashboard, /api/token-usage.",
+          "milestone": "C1 Dashboard Availability Stable",
+          "assignedAgent": "TestAgent",
+          "category": "testing",
+          "priority": "Immediate",
+          "status": "complete",
+          "timestamps": {
+            "created": 1772761863605,
+            "assigned": 1772764992564,
+            "started": 1772764992564,
+            "complete": 1772764992564
+          },
+          "acceptanceCriteria": "Contract tests verify status code and response schema guarantees.",
+          "estimateHours": 4,
+          "result": "Added automated tests for control access policy and swarm-stats fallback in src/__tests__/swarmDashboardRoutes.test.js."
+        },
+        {
+          "id": 4,
+          "description": "Assess model-usage telemetry classification and token usage aggregation fidelity.",
+          "milestone": "C4 Analytics and Exports Verified",
+          "assignedAgent": "LLMMLAgent",
+          "category": "llm-analytics",
+          "priority": "Immediate",
+          "status": "pending",
+          "timestamps": {
+            "created": 1772761863605
+          },
+          "acceptanceCriteria": "Token usage metrics remain stable under filter combinations.",
+          "estimateHours": 4,
+          "result": null
+        },
+        {
+          "id": 5,
+          "description": "Validate dashboard export endpoints for json/csv/pdf compatibility with PM task schema.",
+          "milestone": "C4 Analytics and Exports Verified",
+          "assignedAgent": "IntegrationsAgent",
+          "category": "integration",
+          "priority": "Immediate",
+          "status": "pending",
+          "timestamps": {
+            "created": 1772761863605
+          },
+          "acceptanceCriteria": "Exports include all required PM fields with correct type mapping.",
+          "estimateHours": 4,
+          "result": null
+        },
+        {
+          "id": 6,
+          "description": "Harden dashboard error-state propagation when mesh control calls return non-2xx upstream responses.",
+          "milestone": "C3 UX Resilience Delivered",
+          "assignedAgent": "ErrorBoundaryAgent",
+          "category": "resilience",
+          "priority": "Immediate",
+          "status": "complete",
+          "timestamps": {
+            "created": 1772761863605,
+            "assigned": 1772769896341,
+            "started": 1772769896341,
+            "complete": 1772769896341
+          },
+          "acceptanceCriteria": "UI receives actionable error payloads without uncaught failures.",
+          "estimateHours": 4,
+          "result": "Dashboard control endpoints now preserve structured upstream 401/403/502 error payloads so the UI can represent mesh failures without uncaught 5xx behavior."
+        },
+        {
+          "id": 7,
+          "description": "Update dashboard operator guidance for filters, exports, and degraded-mode interpretation.",
+          "milestone": "C3 UX Resilience Delivered",
+          "assignedAgent": "DocumentationAgent",
+          "category": "documentation",
+          "priority": "Immediate",
+          "status": "pending",
+          "timestamps": {
+            "created": 1772761863605
+          },
+          "acceptanceCriteria": "Guidance aligns with current API behavior and runtime modes.",
+          "estimateHours": 4,
+          "result": null
+        },
+        {
+          "id": 8,
+          "description": "Produce dashboard acceptance evidence pack linking API payloads to visible UI sections.",
+          "milestone": "C2 Data Fidelity Complete",
+          "assignedAgent": "AuditDocumentationAgent",
+          "category": "audit",
+          "priority": "Immediate",
+          "status": "pending",
+          "timestamps": {
+            "created": 1772761863605
+          },
+          "acceptanceCriteria": "Evidence maps source fields to displayed metrics and task lists.",
+          "estimateHours": 4,
+          "result": null
+        },
+        {
+          "id": 9,
+          "description": "Review server-side dashboard data normalization for schema variants and missing fields.",
+          "milestone": "C2 Data Fidelity Complete",
+          "assignedAgent": "CodexAgent",
+          "category": "backend",
+          "priority": "Immediate",
+          "status": "pending",
+          "timestamps": {
+            "created": 1772761863605
+          },
+          "acceptanceCriteria": "Normalization handles array/object-map/canonical project schemas consistently.",
+          "estimateHours": 4,
+          "result": null
+        },
+        {
+          "id": 10,
+          "description": "Run exploratory UX pass on filter/sort combinations and identify confusing interactions.",
+          "milestone": "C3 UX Resilience Delivered",
+          "assignedAgent": "ClaudeAgent",
+          "category": "ux-review",
+          "priority": "Immediate",
+          "status": "pending",
+          "timestamps": {
+            "created": 1772761863605
+          },
+          "acceptanceCriteria": "Usability issues prioritized with clear reproduction steps.",
+          "estimateHours": 4,
+          "result": null
+        },
+        {
+          "id": 11,
+          "description": "Add dashboard telemetry events for filter usage, export actions, and control operations.",
+          "milestone": "C4 Analytics and Exports Verified",
+          "assignedAgent": "LoggingAgent",
+          "category": "observability",
+          "priority": "Immediate",
+          "status": "pending",
+          "timestamps": {
+            "created": 1772761863605
+          },
+          "acceptanceCriteria": "Telemetry captures operator actions without sensitive payload leakage.",
+          "estimateHours": 4,
+          "result": null
+        },
+        {
+          "id": 12,
+          "description": "Define dashboard backlog triage flow so PM tasks stay synchronized with discovered UI/API defects.",
+          "milestone": "C2 Data Fidelity Complete",
+          "assignedAgent": "TaskManagerAgent",
+          "category": "process",
+          "priority": "Immediate",
+          "status": "pending",
+          "timestamps": {
+            "created": 1772761863605
+          },
+          "acceptanceCriteria": "New dashboard defects are automatically linked to milestones and owners.",
+          "estimateHours": 4,
+          "result": null
+        }
+      ],
+      "history": [
+        {
+          "event": "project_created",
+          "by": "OrchestratorAgent",
+          "ts": 1772761863605
+        },
+        {
+          "event": "task_status_update",
+          "taskId": 2,
+          "status": "complete",
+          "result": "Improved and validated swarm stats accuracy by adding live /health fallback when periodic mesh health log events are not yet present.",
+          "ts": 1772764992564,
+          "by": "OrchestratorAgent"
+        },
+        {
+          "event": "task_status_update",
+          "taskId": 3,
+          "status": "complete",
+          "result": "Added automated tests for control access policy and swarm-stats fallback in src/__tests__/swarmDashboardRoutes.test.js.",
+          "ts": 1772764992564,
+          "by": "OrchestratorAgent"
+        },
+        {
+          "event": "task_status_update",
+          "taskId": 6,
+          "status": "complete",
+          "result": "Dashboard control endpoints now preserve structured upstream 401/403/502 error payloads so the UI can represent mesh failures without uncaught 5xx behavior.",
+          "ts": 1772769896341,
+          "by": "OrchestratorAgent"
+        }
+      ]
+    },
+    {
+      "id": "project-d-pm-tool-enhancement",
+      "projectKey": "D",
+      "name": "Project D: PM Tool Enhancement for Dashboard Reporting",
+      "description": "Enhance project/task data model and sync flow so dashboard reporting fields are complete and reliable.",
+      "status": "active",
+      "phase": "D",
+      "createdAt": 1772761863605,
+      "updatedAt": "2026-03-06T04:37:53.251Z",
+      "milestones": [
+        {
+          "id": "D-M1",
+          "name": "D1 Schema Coverage Expanded",
+          "outcome": "PM fields satisfy dashboard requirements",
+          "successCriteria": "Milestone, priority, owner, and KPI fields consistently populated",
+          "status": "pending"
+        },
+        {
+          "id": "D-M2",
+          "name": "D2 Integration Contract Stable",
+          "outcome": "PM-to-dashboard APIs align",
+          "successCriteria": "Dashboard consumes PM data without compatibility gaps",
+          "status": "active"
+        },
+        {
+          "id": "D-M3",
+          "name": "D3 Data Integrity Restored",
+          "outcome": "Backfill/normalization scripts in place",
+          "successCriteria": "Legacy projects normalize to canonical schema",
+          "status": "pending"
+        },
+        {
+          "id": "D-M4",
+          "name": "D4 Sync Automation Established",
+          "outcome": "Continuous PM/dashboard alignment",
+          "successCriteria": "Sync and validation checks run automatically",
+          "status": "pending"
+        }
+      ],
+      "tasks": [
+        {
+          "id": 1,
+          "description": "Design migration plan from legacy object-map project schema to canonical {projects,metadata} format.",
+          "milestone": "D1 Schema Coverage Expanded",
+          "assignedAgent": "MigrationAgent",
+          "category": "migration",
+          "priority": "Immediate",
+          "status": "pending",
+          "timestamps": {
+            "created": 1772761863605
+          },
+          "acceptanceCriteria": "Migration plan preserves task history and status semantics.",
+          "estimateHours": 4,
+          "result": null
+        },
+        {
+          "id": 2,
+          "description": "Define required PM fields for dashboard parity (milestone, owner, priority, timestamps, KPIs).",
+          "milestone": "D1 Schema Coverage Expanded",
+          "assignedAgent": "ConfigAgent",
+          "category": "schema",
+          "priority": "Immediate",
+          "status": "pending",
+          "timestamps": {
+            "created": 1772761863605
+          },
+          "acceptanceCriteria": "Field contract documented with required/optional flags.",
+          "estimateHours": 4,
+          "result": null
+        },
+        {
+          "id": 3,
+          "description": "Validate PM data accessibility from dashboard runtimePaths candidate resolution logic.",
+          "milestone": "D2 Integration Contract Stable",
+          "assignedAgent": "IntegrationsAgent",
+          "category": "integration",
+          "priority": "Immediate",
+          "status": "complete",
+          "timestamps": {
+            "created": 1772761863605,
+            "assigned": 1772764992564,
+            "started": 1772764992564,
+            "complete": 1772764992564
+          },
+          "acceptanceCriteria": "Dashboard always resolves freshest valid projects file.",
+          "estimateHours": 4,
+          "result": "Validated PM/dashboard path resolution and ensured planned projects/tasks are surfaced correctly by dashboard APIs."
+        },
+        {
+          "id": 4,
+          "description": "Create PM task state transition guardrails and blocked/deferred semantics for dashboard display.",
+          "milestone": "D1 Schema Coverage Expanded",
+          "assignedAgent": "TaskManagerAgent",
+          "category": "workflow",
+          "priority": "Immediate",
+          "status": "pending",
+          "timestamps": {
+            "created": 1772761863605
+          },
+          "acceptanceCriteria": "Status mapping prevents ambiguous state transitions.",
+          "estimateHours": 4,
+          "result": null
+        },
+        {
+          "id": 5,
+          "description": "Audit agent ownership registry to enforce valid agent assignment values in PM tasks.",
+          "milestone": "D1 Schema Coverage Expanded",
+          "assignedAgent": "RegistryAgent",
+          "category": "data-integrity",
+          "priority": "Immediate",
+          "status": "pending",
+          "timestamps": {
+            "created": 1772761863605
+          },
+          "acceptanceCriteria": "Assignments reject unknown agent identifiers.",
+          "estimateHours": 4,
+          "result": null
+        },
+        {
+          "id": 6,
+          "description": "Prototype PM schema validation utility and sample invalid-record detection output.",
+          "milestone": "D3 Data Integrity Restored",
+          "assignedAgent": "CodexAgent1",
+          "category": "tooling",
+          "priority": "Immediate",
+          "status": "pending",
+          "timestamps": {
+            "created": 1772761863605
+          },
+          "acceptanceCriteria": "Validator detects missing required fields and type mismatches.",
+          "estimateHours": 4,
+          "result": null
+        },
+        {
+          "id": 7,
+          "description": "Review milestone semantics for measurable outcomes and completion criteria quality.",
+          "milestone": "D1 Schema Coverage Expanded",
+          "assignedAgent": "ClaudeAgent1",
+          "category": "planning-quality",
+          "priority": "Immediate",
+          "status": "pending",
+          "timestamps": {
+            "created": 1772761863605
+          },
+          "acceptanceCriteria": "Milestones have objective completion gates.",
+          "estimateHours": 4,
+          "result": null
+        },
+        {
+          "id": 8,
+          "description": "Create regression tests for PM read/write paths and dashboard summary derivation.",
+          "milestone": "D2 Integration Contract Stable",
+          "assignedAgent": "TestAgent",
+          "category": "testing",
+          "priority": "Immediate",
+          "status": "pending",
+          "timestamps": {
+            "created": 1772761863605
+          },
+          "acceptanceCriteria": "Tests cover canonical, array, and legacy PM schema formats.",
+          "estimateHours": 4,
+          "result": null
+        },
+        {
+          "id": 9,
+          "description": "Review PM storage for injection/path traversal risks when reading dynamic file candidates.",
+          "milestone": "D2 Integration Contract Stable",
+          "assignedAgent": "SecurityAgent",
+          "category": "security",
+          "priority": "Immediate",
+          "status": "pending",
+          "timestamps": {
+            "created": 1772761863605
+          },
+          "acceptanceCriteria": "File handling is constrained to intended paths and validated input.",
+          "estimateHours": 4,
+          "result": null
+        },
+        {
+          "id": 10,
+          "description": "Document PM schema reference and operator update procedure for manual edits.",
+          "milestone": "D4 Sync Automation Established",
+          "assignedAgent": "DocumentationAgent",
+          "category": "documentation",
+          "priority": "Immediate",
+          "status": "pending",
+          "timestamps": {
+            "created": 1772761863605
+          },
+          "acceptanceCriteria": "Schema guide includes examples and safe-update workflow.",
+          "estimateHours": 4,
+          "result": null
+        },
+        {
+          "id": 11,
+          "description": "Produce audit trail template linking PM field changes to dashboard metric impacts.",
+          "milestone": "D4 Sync Automation Established",
+          "assignedAgent": "AuditDocumentationAgent",
+          "category": "audit",
+          "priority": "Immediate",
+          "status": "pending",
+          "timestamps": {
+            "created": 1772761863605
+          },
+          "acceptanceCriteria": "Change log format enables traceability of metric shifts.",
+          "estimateHours": 4,
+          "result": null
+        },
+        {
+          "id": 12,
+          "description": "Define PM synchronization governance and cadence across orchestrator, supervisor, and dashboard.",
+          "milestone": "D4 Sync Automation Established",
+          "assignedAgent": "OrchestratorAgent",
+          "category": "governance",
+          "priority": "Immediate",
+          "status": "pending",
+          "timestamps": {
+            "created": 1772761863605
+          },
+          "acceptanceCriteria": "Sync cadence and ownership are explicit and enforceable.",
+          "estimateHours": 4,
+          "result": null
+        }
+      ],
+      "history": [
+        {
+          "event": "project_created",
+          "by": "OrchestratorAgent",
+          "ts": 1772761863605
+        },
+        {
+          "event": "task_status_update",
+          "taskId": 3,
+          "status": "complete",
+          "result": "Validated PM/dashboard path resolution and ensured planned projects/tasks are surfaced correctly by dashboard APIs.",
+          "ts": 1772764992564,
+          "by": "OrchestratorAgent"
+        }
+      ]
+    },
+    {
+      "id": "project-e-deep-audit-main-application",
+      "projectKey": "E",
+      "name": "Project E: Deep Audit & Improvement of Main Application Above deploy",
+      "description": "Perform full-spectrum audit of the application/repository above deploy and convert findings into prioritized fixes.",
+      "status": "active",
+      "phase": "E",
+      "createdAt": 1772761863605,
+      "updatedAt": "2026-03-06T04:37:53.251Z",
+      "milestones": [
+        {
+          "id": "E-M1",
+          "name": "E1 Critical and High-Risk Audit Complete",
+          "outcome": "Security/bug/perf criticals identified",
+          "successCriteria": "Critical and high findings have owner, impact, and fix recommendation",
+          "status": "active"
+        },
+        {
+          "id": "E-M2",
+          "name": "E2 Broad Quality Audit Complete",
+          "outcome": "Architecture, UX, DB, testing, docs reviewed",
+          "successCriteria": "All 10 review categories covered with severity tagging",
+          "status": "active"
+        },
+        {
+          "id": "E-M3",
+          "name": "E3 Remediation Backlog Ready",
+          "outcome": "Actionable implementation tasks created",
+          "successCriteria": "Findings translated into granular fix tasks with priorities",
+          "status": "pending"
+        },
+        {
+          "id": "E-M4",
+          "name": "E4 Residual Risk and Debt Registered",
+          "outcome": "Deferred items tracked clearly",
+          "successCriteria": "Blocked/deferred work includes rationale and follow-up owner",
+          "status": "pending"
+        }
+      ],
+      "tasks": [
+        {
+          "id": 1,
+          "description": "Run security-focused code sweep for authentication, session, CSRF, and sensitive-data exposure risks.",
+          "milestone": "E1 Critical and High-Risk Audit Complete",
+          "assignedAgent": "SecurityAgent",
+          "category": "security",
+          "priority": "Immediate",
+          "status": "complete",
+          "timestamps": {
+            "created": 1772761863605,
+            "assigned": 1772769896341,
+            "started": 1772769896341,
+            "complete": 1772769896341
+          },
+          "acceptanceCriteria": "All exploitable auth/session issues are severity-ranked and reproducible.",
+          "estimateHours": 4,
+          "result": "Reviewed and fixed auth/session/CSRF risks by hardening swarm control authorization, replacing the broken global csurf flow with same-origin mutation protection, and preserving a safe test-mode session-secret fallback."
+        },
+        {
+          "id": 2,
+          "description": "Audit dependency versions for known vulnerabilities, unused packages, and license concerns.",
+          "milestone": "E1 Critical and High-Risk Audit Complete",
+          "assignedAgent": "DependencyAgent",
+          "category": "dependencies",
+          "priority": "Immediate",
+          "status": "complete",
+          "timestamps": {
+            "created": 1772761863605,
+            "assigned": 1772771873251,
+            "started": 1772771873251,
+            "complete": 1772771873251
+          },
+          "acceptanceCriteria": "Dependency risk list includes upgrade path and compatibility notes.",
+          "estimateHours": 4,
+          "result": "Removed the unused csurf dependency, upgraded multer to 2.1.1, and re-ran npm audit with zero remaining production vulnerabilities in deploy/reploy-stack/app."
+        },
+        {
+          "id": 3,
+          "description": "Identify runtime crash paths, null/undefined hazards, and malformed-input handling gaps.",
+          "milestone": "E1 Critical and High-Risk Audit Complete",
+          "assignedAgent": "CodexAgent2",
+          "category": "bugs",
+          "priority": "Immediate",
+          "status": "complete",
+          "timestamps": {
+            "created": 1772761863605,
+            "assigned": 1772769896341,
+            "started": 1772769896341,
+            "complete": 1772769896341
+          },
+          "acceptanceCriteria": "Critical runtime failures include exact file/line and deterministic trigger.",
+          "estimateHours": 4,
+          "result": "Eliminated runtime failures by adding a test-mode session-secret fallback, migrating confirmation_requests.token_hash with backfill-safe schema logic, and fixing duplicate response lookup behavior."
+        },
+        {
+          "id": 4,
+          "description": "Review edge-case behavior for workflows spanning trial checks, auth bypasses, and static route guards.",
+          "milestone": "E1 Critical and High-Risk Audit Complete",
+          "assignedAgent": "ClaudeAgent2",
+          "category": "logic",
+          "priority": "Immediate",
+          "status": "pending",
+          "timestamps": {
+            "created": 1772761863605
+          },
+          "acceptanceCriteria": "Edge-case map includes regressions and expected behavior definition.",
+          "estimateHours": 4,
+          "result": null
+        },
+        {
+          "id": 5,
+          "description": "Analyze performance bottlenecks in API handlers, large payload paths, and expensive loops.",
+          "milestone": "E2 Broad Quality Audit Complete",
+          "assignedAgent": "CodexAgent3",
+          "category": "performance",
+          "priority": "Immediate",
+          "status": "pending",
+          "timestamps": {
+            "created": 1772761863605
+          },
+          "acceptanceCriteria": "Performance findings quantify hotspots and suggest measurable optimizations.",
+          "estimateHours": 4,
+          "result": null
+        },
+        {
+          "id": 6,
+          "description": "Evaluate database schema usage, indexing opportunities, transaction safety, and query patterns.",
+          "milestone": "E2 Broad Quality Audit Complete",
+          "assignedAgent": "ClaudeAgent3",
+          "category": "database",
+          "priority": "Immediate",
+          "status": "complete",
+          "timestamps": {
+            "created": 1772761863605,
+            "assigned": 1772769896341,
+            "started": 1772769896341,
+            "complete": 1772769896341
+          },
+          "acceptanceCriteria": "DB findings include index/query recommendations tied to workload impact.",
+          "estimateHours": 4,
+          "result": "Extended confirmation_requests with token_hash plus migration/index support so verification and response-tracking queries remain consistent on existing databases."
+        },
+        {
+          "id": 7,
+          "description": "Perform UI/UX and accessibility review for dashboard/projects flows on desktop and mobile.",
+          "milestone": "E2 Broad Quality Audit Complete",
+          "assignedAgent": "UIDesignerAgent",
+          "category": "ui-ux",
+          "priority": "Immediate",
+          "status": "complete",
+          "timestamps": {
+            "created": 1772761863605,
+            "assigned": 1772771873251,
+            "started": 1772771873251,
+            "complete": 1772771873251
+          },
+          "acceptanceCriteria": "Accessibility findings include WCAG-oriented remediation guidance.",
+          "estimateHours": 4,
+          "result": "Fixed the support-center contact flow to submit against the shared form endpoint, added truthful error/success states plus honeypot protection, and clarified the contact-page fallback when no endpoint is configured."
+        },
+        {
+          "id": 8,
+          "description": "Assess architecture scalability, coupling boundaries, and API surface design consistency.",
+          "milestone": "E2 Broad Quality Audit Complete",
+          "assignedAgent": "LLMMLAgent",
+          "category": "architecture",
+          "priority": "Immediate",
+          "status": "pending",
+          "timestamps": {
+            "created": 1772761863605
+          },
+          "acceptanceCriteria": "Architecture findings include concrete decoupling or layering improvements.",
+          "estimateHours": 4,
+          "result": null
+        },
+        {
+          "id": 9,
+          "description": "Evaluate test coverage gaps and define required unit/integration/e2e additions.",
+          "milestone": "E2 Broad Quality Audit Complete",
+          "assignedAgent": "TestAgent",
+          "category": "testing",
+          "priority": "Immediate",
+          "status": "complete",
+          "timestamps": {
+            "created": 1772761863605,
+            "assigned": 1772769896341,
+            "started": 1772769896341,
+            "complete": 1772769896341
+          },
+          "acceptanceCriteria": "Coverage plan maps missing tests to high-risk code paths.",
+          "estimateHours": 4,
+          "result": "Added regression coverage for swarm control access, live swarm-stats fallback, missing-credentials mesh startup, and stabilized full-suite execution with a realistic Jest timeout budget."
+        },
+        {
+          "id": 10,
+          "description": "Review documentation freshness for setup, deployment, APIs, and operational runbooks.",
+          "milestone": "E2 Broad Quality Audit Complete",
+          "assignedAgent": "DocumentationAgent",
+          "category": "documentation",
+          "priority": "Immediate",
+          "status": "complete",
+          "timestamps": {
+            "created": 1772761863605,
+            "assigned": 1772769896341,
+            "started": 1772769896341,
+            "complete": 1772769896341
+          },
+          "acceptanceCriteria": "Documentation gap list includes stale sections and update owners.",
+          "estimateHours": 4,
+          "result": "Updated deploy documentation and environment examples to describe swarm control security, runtime modes, and deploy expectations."
+        },
+        {
+          "id": 11,
+          "description": "Produce consolidated findings matrix with severity, impact, and recommended fix details.",
+          "milestone": "E3 Remediation Backlog Ready",
+          "assignedAgent": "AuditDocumentationAgent",
+          "category": "audit",
+          "priority": "Immediate",
+          "status": "pending",
+          "timestamps": {
+            "created": 1772761863605
+          },
+          "acceptanceCriteria": "Matrix includes file path, line refs, severity, priority, and fix summary.",
+          "estimateHours": 4,
+          "result": null
+        },
+        {
+          "id": 12,
+          "description": "Audit CI/CD workflow robustness, secret handling, and deployment pipeline guardrails.",
+          "milestone": "E2 Broad Quality Audit Complete",
+          "assignedAgent": "CIAgent",
+          "category": "devops",
+          "priority": "Immediate",
+          "status": "complete",
+          "timestamps": {
+            "created": 1772761863605,
+            "assigned": 1772771873251,
+            "started": 1772771873251,
+            "complete": 1772771873251
+          },
+          "acceptanceCriteria": "CI/CD findings include failing-path diagnostics and hardening actions.",
+          "estimateHours": 4,
+          "result": "Audited and hardened the HostGator deploy workflow with static-site validation, serialized deploy concurrency, least-privilege permissions, and excludes that prevent publishing deploy/internal files."
+        },
+        {
+          "id": 13,
+          "description": "Review logging/monitoring quality, missing alerts, and observability blind spots.",
+          "milestone": "E2 Broad Quality Audit Complete",
+          "assignedAgent": "LoggingAgent",
+          "category": "observability",
+          "priority": "Immediate",
+          "status": "pending",
+          "timestamps": {
+            "created": 1772761863605
+          },
+          "acceptanceCriteria": "Observability report covers detection gaps and alert priority tiers.",
+          "estimateHours": 4,
+          "result": null
+        },
+        {
+          "id": 14,
+          "description": "Identify weak error-handling patterns and exception flows lacking user-safe fallbacks.",
+          "milestone": "E1 Critical and High-Risk Audit Complete",
+          "assignedAgent": "ErrorBoundaryAgent",
+          "category": "reliability",
+          "priority": "Immediate",
+          "status": "pending",
+          "timestamps": {
+            "created": 1772761863605
+          },
+          "acceptanceCriteria": "Error-handling findings include required guardrails and fallback behavior.",
+          "estimateHours": 4,
+          "result": null
+        },
+        {
+          "id": 15,
+          "description": "Review API contracts and integration points for validation, authz, and compatibility risks.",
+          "milestone": "E1 Critical and High-Risk Audit Complete",
+          "assignedAgent": "IntegrationsAgent",
+          "category": "api-security",
+          "priority": "Immediate",
+          "status": "pending",
+          "timestamps": {
+            "created": 1772761863605
+          },
+          "acceptanceCriteria": "API findings include contract violations and remediation priority.",
+          "estimateHours": 4,
+          "result": null
+        },
+        {
+          "id": 16,
+          "description": "Transform audited findings into prioritized fix-ready PM tasks with owner and milestone mapping.",
+          "milestone": "E3 Remediation Backlog Ready",
+          "assignedAgent": "TaskManagerAgent",
+          "category": "planning",
+          "priority": "Immediate",
+          "status": "pending",
+          "timestamps": {
+            "created": 1772761863605
+          },
+          "acceptanceCriteria": "Every accepted finding is represented as a granular, owner-assigned task.",
+          "estimateHours": 4,
+          "result": null
+        },
+        {
+          "id": 17,
+          "description": "Create residual risk register and classify deferred findings as blocked or long-term debt with owner assignment.",
+          "milestone": "E4 Residual Risk and Debt Registered",
+          "assignedAgent": "AuditDocumentationAgent",
+          "category": "risk-management",
+          "priority": "Short-term",
+          "status": "pending",
+          "timestamps": {
+            "created": 1772763908926
+          },
+          "acceptanceCriteria": "All deferred findings include rationale, owner, and review date.",
+          "estimateHours": 3,
+          "result": null
+        }
+      ],
+      "history": [
+        {
+          "event": "project_created",
+          "by": "OrchestratorAgent",
+          "ts": 1772761863605
+        },
+        {
+          "event": "task_status_update",
+          "taskId": 1,
+          "status": "complete",
+          "result": "Reviewed and fixed auth/session/CSRF risks by hardening swarm control authorization, replacing the broken global csurf flow with same-origin mutation protection, and preserving a safe test-mode session-secret fallback.",
+          "ts": 1772769896341,
+          "by": "OrchestratorAgent"
+        },
+        {
+          "event": "task_status_update",
+          "taskId": 3,
+          "status": "complete",
+          "result": "Eliminated runtime failures by adding a test-mode session-secret fallback, migrating confirmation_requests.token_hash with backfill-safe schema logic, and fixing duplicate response lookup behavior.",
+          "ts": 1772769896341,
+          "by": "OrchestratorAgent"
+        },
+        {
+          "event": "task_status_update",
+          "taskId": 6,
+          "status": "complete",
+          "result": "Extended confirmation_requests with token_hash plus migration/index support so verification and response-tracking queries remain consistent on existing databases.",
+          "ts": 1772769896341,
+          "by": "OrchestratorAgent"
+        },
+        {
+          "event": "task_status_update",
+          "taskId": 9,
+          "status": "complete",
+          "result": "Added regression coverage for swarm control access, live swarm-stats fallback, missing-credentials mesh startup, and stabilized full-suite execution with a realistic Jest timeout budget.",
+          "ts": 1772769896341,
+          "by": "OrchestratorAgent"
+        },
+        {
+          "event": "task_status_update",
+          "taskId": 10,
+          "status": "complete",
+          "result": "Updated deploy documentation and environment examples to describe swarm control security, runtime modes, and deploy expectations.",
+          "ts": 1772769896341,
+          "by": "OrchestratorAgent"
+        },
+        {
+          "event": "task_status_update",
+          "taskId": 2,
+          "status": "complete",
+          "result": "Removed the unused csurf dependency, upgraded multer to 2.1.1, and re-ran npm audit with zero remaining production vulnerabilities in deploy/reploy-stack/app.",
+          "ts": 1772771873251,
+          "by": "OrchestratorAgent"
+        },
+        {
+          "event": "task_status_update",
+          "taskId": 7,
+          "status": "complete",
+          "result": "Fixed the support-center contact flow to submit against the shared form endpoint, added truthful error/success states plus honeypot protection, and clarified the contact-page fallback when no endpoint is configured.",
+          "ts": 1772771873251,
+          "by": "OrchestratorAgent"
+        },
+        {
+          "event": "task_status_update",
+          "taskId": 12,
+          "status": "complete",
+          "result": "Audited and hardened the HostGator deploy workflow with static-site validation, serialized deploy concurrency, least-privilege permissions, and excludes that prevent publishing deploy/internal files.",
+          "ts": 1772771873251,
+          "by": "OrchestratorAgent"
+        }
+      ]
+    },
+    {
+      "id": "project-f-devops-ci-observability",
+      "projectKey": "F",
+      "name": "Project F: DevOps, CI/CD, Observability & Ongoing Maintenance",
+      "description": "Improve operational reliability, release discipline, monitoring, and long-term maintenance workflows.",
+      "status": "active",
+      "phase": "F",
+      "createdAt": 1772761863605,
+      "updatedAt": "2026-03-06T04:37:53.251Z",
+      "milestones": [
+        {
+          "id": "F-M1",
+          "name": "F1 CI/CD Hardening",
+          "outcome": "Pipelines stable and gated",
+          "successCriteria": "Build/test/deploy pipeline blocks regressions reliably",
+          "status": "complete"
+        },
+        {
+          "id": "F-M2",
+          "name": "F2 Runtime Observability",
+          "outcome": "Logs/metrics/alerts actionable",
+          "successCriteria": "Core reliability signals observable with low noise",
+          "status": "pending"
+        },
+        {
+          "id": "F-M3",
+          "name": "F3 Release and Packaging Reliability",
+          "outcome": "Deploy artifacts predictable",
+          "successCriteria": "Release process reproducible with rollback guidance",
+          "status": "pending"
+        },
+        {
+          "id": "F-M4",
+          "name": "F4 Maintenance Cadence Active",
+          "outcome": "Sustainable upkeep process",
+          "successCriteria": "Ongoing debt, dependency, and documentation cycles scheduled",
+          "status": "pending"
+        }
+      ],
+      "tasks": [
+        {
+          "id": 1,
+          "description": "Harden CI workflow with deterministic checks for integrity, bootstrap, smoke, and regression suites.",
+          "milestone": "F1 CI/CD Hardening",
+          "assignedAgent": "CIAgent",
+          "category": "ci",
+          "priority": "Immediate",
+          "status": "complete",
+          "timestamps": {
+            "created": 1772761863605,
+            "assigned": 1772771873251,
+            "started": 1772771873251,
+            "complete": 1772771873251
+          },
+          "acceptanceCriteria": "CI gates prevent merges when critical checks fail.",
+          "estimateHours": 4,
+          "result": "Added a reusable static-site validation script, enforced it in GitHub Actions before deploy, serialized HostGator publishes, and limited deployment scope to production site assets only."
+        },
+        {
+          "id": 2,
+          "description": "Validate packaging/deploy context consistency for Docker, Railway, and Reploy targets.",
+          "milestone": "F3 Release and Packaging Reliability",
+          "assignedAgent": "PackagingAgent",
+          "category": "packaging",
+          "priority": "Immediate",
+          "status": "pending",
+          "timestamps": {
+            "created": 1772761863605
+          },
+          "acceptanceCriteria": "Deployment artifacts are reproducible across supported platforms.",
+          "estimateHours": 4,
+          "result": null
+        },
+        {
+          "id": 3,
+          "description": "Define release promotion and rollback checklist with explicit go/no-go criteria.",
+          "milestone": "F3 Release and Packaging Reliability",
+          "assignedAgent": "ReleaseAgent",
+          "category": "release",
+          "priority": "Immediate",
+          "status": "pending",
+          "timestamps": {
+            "created": 1772761863605
+          },
+          "acceptanceCriteria": "Release checklist ties validation evidence to deployment decisions.",
+          "estimateHours": 4,
+          "result": null
+        },
+        {
+          "id": 4,
+          "description": "Implement structured operational logging coverage map for startup, health, and control events.",
+          "milestone": "F2 Runtime Observability",
+          "assignedAgent": "LoggingAgent",
+          "category": "observability",
+          "priority": "Immediate",
+          "status": "pending",
+          "timestamps": {
+            "created": 1772761863605
+          },
+          "acceptanceCriteria": "Operational logs provide complete lifecycle visibility.",
+          "estimateHours": 4,
+          "result": null
+        },
+        {
+          "id": 5,
+          "description": "Establish reliability analytics baseline for uptime, task throughput, and error budget tracking.",
+          "milestone": "F2 Runtime Observability",
+          "assignedAgent": "InsightsAgent",
+          "category": "analytics",
+          "priority": "Immediate",
+          "status": "pending",
+          "timestamps": {
+            "created": 1772761863605
+          },
+          "acceptanceCriteria": "Reliability dashboard metrics have defined sources and thresholds.",
+          "estimateHours": 4,
+          "result": null
+        },
+        {
+          "id": 6,
+          "description": "Review state persistence and migration safety for DB and swarm project/log directories.",
+          "milestone": "F3 Release and Packaging Reliability",
+          "assignedAgent": "MigrationAgent",
+          "category": "data-persistence",
+          "priority": "Immediate",
+          "status": "pending",
+          "timestamps": {
+            "created": 1772761863605
+          },
+          "acceptanceCriteria": "Persistence plan protects state across restarts and redeploys.",
+          "estimateHours": 4,
+          "result": null
+        },
+        {
+          "id": 7,
+          "description": "Schedule dependency maintenance cadence with vulnerability SLA and upgrade windows.",
+          "milestone": "F4 Maintenance Cadence Active",
+          "assignedAgent": "DependencyAgent",
+          "category": "maintenance",
+          "priority": "Immediate",
+          "status": "pending",
+          "timestamps": {
+            "created": 1772761863605
+          },
+          "acceptanceCriteria": "Dependency policy defines cadence, ownership, and severity SLA.",
+          "estimateHours": 4,
+          "result": null
+        },
+        {
+          "id": 8,
+          "description": "Add bridge runtime maintenance checks to operational readiness and incident playbook.",
+          "milestone": "F2 Runtime Observability",
+          "assignedAgent": "BridgeAgent",
+          "category": "operations",
+          "priority": "Immediate",
+          "status": "pending",
+          "timestamps": {
+            "created": 1772761863605
+          },
+          "acceptanceCriteria": "Bridge health checks are part of standard maintenance routine.",
+          "estimateHours": 4,
+          "result": null
+        },
+        {
+          "id": 9,
+          "description": "Maintain authoritative agent registry snapshot and drift detection between code and runtime.",
+          "milestone": "F4 Maintenance Cadence Active",
+          "assignedAgent": "RegistryAgent",
+          "category": "governance",
+          "priority": "Immediate",
+          "status": "pending",
+          "timestamps": {
+            "created": 1772761863605
+          },
+          "acceptanceCriteria": "Agent roster drift is detected and surfaced to operators.",
+          "estimateHours": 4,
+          "result": null
+        },
+        {
+          "id": 10,
+          "description": "Coordinate ongoing orchestration backlog triage and cross-project dependency resolution.",
+          "milestone": "F4 Maintenance Cadence Active",
+          "assignedAgent": "OrchestratorAgent",
+          "category": "orchestration",
+          "priority": "Immediate",
+          "status": "pending",
+          "timestamps": {
+            "created": 1772761863605
+          },
+          "acceptanceCriteria": "Cross-project blockers are identified and re-prioritized promptly.",
+          "estimateHours": 4,
+          "result": null
+        },
+        {
+          "id": 11,
+          "description": "Create recurring health regression suite for bridge/swarm/dashboard/PM-tool critical paths.",
+          "milestone": "F1 CI/CD Hardening",
+          "assignedAgent": "TestAgent",
+          "category": "testing",
+          "priority": "Immediate",
+          "status": "complete",
+          "timestamps": {
+            "created": 1772761863605,
+            "assigned": 1772769896341,
+            "started": 1772769896341,
+            "complete": 1772769896341
+          },
+          "acceptanceCriteria": "Health regression suite executes on schedule and after major changes.",
+          "estimateHours": 4,
+          "result": "Validated deploy health regression paths with the README smoke checks and added src/__tests__/meshRuntime.test.js to cover missing-credentials swarm startup without agent crashes."
+        },
+        {
+          "id": 12,
+          "description": "Update operations handbook with maintenance cadence, incident response, and ownership model.",
+          "milestone": "F4 Maintenance Cadence Active",
+          "assignedAgent": "DocumentationAgent",
+          "category": "documentation",
+          "priority": "Immediate",
+          "status": "pending",
+          "timestamps": {
+            "created": 1772761863605
+          },
+          "acceptanceCriteria": "Handbook reflects current operating model and escalation path.",
+          "estimateHours": 4,
+          "result": null
+        }
+      ],
+      "history": [
+        {
+          "event": "project_created",
+          "by": "OrchestratorAgent",
+          "ts": 1772761863605
+        },
+        {
+          "event": "task_status_update",
+          "taskId": 11,
+          "status": "complete",
+          "result": "Validated deploy health regression paths with the README smoke checks and added src/__tests__/meshRuntime.test.js to cover missing-credentials swarm startup without agent crashes.",
+          "ts": 1772769896341,
+          "by": "OrchestratorAgent"
+        },
+        {
+          "event": "task_status_update",
+          "taskId": 1,
+          "status": "complete",
+          "result": "Added a reusable static-site validation script, enforced it in GitHub Actions before deploy, serialized HostGator publishes, and limited deployment scope to production site assets only.",
+          "ts": 1772771873251,
+          "by": "OrchestratorAgent"
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "source": "orchestrator_phase1_planning",
+    "generatedAt": "2026-03-06T01:51:03.605Z",
+    "totalProjects": 6,
+    "totalMilestones": 24,
+    "totalTasks": 77,
+    "completedCount": 20,
+    "activeCount": 6,
+    "blockedCount": 0,
+    "assignedAgents": 32,
+    "taskCountsByAgent": {
+      "AuditDocumentationAgent": 4,
+      "BridgeAgent": 2,
+      "CIAgent": 2,
+      "ClaudeAgent": 2,
+      "ClaudeAgent1": 2,
+      "ClaudeAgent2": 2,
+      "ClaudeAgent3": 2,
+      "ClaudeAgent4": 1,
+      "ClaudeAgent5": 1,
+      "CodexAgent": 2,
+      "CodexAgent1": 2,
+      "CodexAgent2": 2,
+      "CodexAgent3": 2,
+      "CodexAgent4": 1,
+      "CodexAgent5": 1,
+      "ConfigAgent": 2,
+      "DependencyAgent": 2,
+      "DocumentationAgent": 5,
+      "ErrorBoundaryAgent": 3,
+      "InsightsAgent": 3,
+      "IntegrationsAgent": 4,
+      "LLMMLAgent": 2,
+      "LoggingAgent": 4,
+      "MigrationAgent": 2,
+      "OrchestratorAgent": 3,
+      "PackagingAgent": 1,
+      "RegistryAgent": 3,
+      "ReleaseAgent": 1,
+      "SecurityAgent": 3,
+      "TaskManagerAgent": 4,
+      "TestAgent": 5,
+      "UIDesignerAgent": 2
+    },
+    "lastUpdated": "2026-03-06T04:37:53.251Z",
+    "completedTaskCount": 20,
+    "completedProjectCount": 0
+  }
+}

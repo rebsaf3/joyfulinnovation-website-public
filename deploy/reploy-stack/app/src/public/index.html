@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Upload — NyLi Assets</title>
+  <style>
+    /* ── Reset & base ──────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: linear-gradient(170deg, #fdf8f4 0%, #faf5f0 50%, #fff 100%);
+      color: #1a1a2e;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Navigation ────────────────────────────────────────────────── */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 28px;
+      background: white;
+      border-bottom: 1px solid #e8e2db;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      overflow: visible;
+    }
+
+    nav .logo {
+      font-weight: 700;
+      color: #0d9488;
+      font-size: 1.1rem;
+      text-decoration: none;
+    }
+
+    nav .nav-links {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+    }
+
+    nav a {
+      color: #555;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+
+    nav a:hover {
+      color: #0d9488;
+    }
+
+    .logout-btn {
+      background: #0d9488;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      border: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: background 0.2s;
+    }
+
+    .logout-btn:hover {
+      background: #0f766e;
+    }
+
+    /* User dropdown */
+    .user-menu { position: relative; }
+    .user-menu-btn {
+      display: flex; align-items: center; gap: 6px; padding: 7px 14px;
+      background: #fdf8f4; border: 1px solid #d6cfc7; border-radius: 8px;
+      cursor: pointer; font-size: 0.85rem; font-weight: 600; color: #0d9488;
+      transition: all 0.2s;
+    }
+    .user-menu-btn:hover { background: #f0ebe4; }
+    .user-menu-btn .avatar {
+      width: 26px; height: 26px; border-radius: 50%; background: #0d9488;
+      color: white; display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem; font-weight: 700;
+    }
+    .user-dropdown {
+      display: none; position: absolute; right: 0; top: calc(100% + 6px);
+      background: white; border: 1px solid #e8e2db; border-radius: 10px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12); min-width: 200px; z-index: 100;
+      overflow: visible;
+    }
+    .user-dropdown.open { display: block; }
+    .user-dropdown a, .user-dropdown button {
+      display: flex; align-items: center; gap: 10px; width: 100%;
+      padding: 11px 16px; font-size: 0.88rem; font-weight: 500; color: #333;
+      text-decoration: none; border: none; background: none; cursor: pointer;
+      transition: background 0.15s;
+    }
+    .user-dropdown a:hover, .user-dropdown button:hover { background: #fdf8f4; color: #0d9488; }
+    .user-dropdown .sep { height: 1px; background: #e8e2db; margin: 4px 0; }
+    .user-dropdown button.logout { color: #dc2626; }
+    .user-dropdown button.logout:hover { background: #fef2f2; color: #dc2626; }
+
+    /* ── Main content ──────────────────────────────────────────────── */
+    main {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 48px 16px;
+      flex: 1;
+    }
+    h1 { font-size: 1.6rem; margin-bottom: 4px; }
+    .subtitle { color: #666; margin-bottom: 32px; font-size: 0.95rem; }
+
+    /* ── Card ───────────────────────────────────────────────────────── */
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      border: 1px solid #e8e2db;
+      box-shadow: 0 4px 24px rgba(13, 148, 136, 0.07);
+      padding: 32px;
+      width: 100%;
+      max-width: 680px;
+    }
+
+    /* ── Drop zones ────────────────────────────────────────────────── */
+    .drop-zones { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+    .drop-zone {
+      border: 2px dashed #c4c9d4;
+      border-radius: 10px;
+      padding: 28px 16px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color .2s, background .2s;
+      position: relative;
+    }
+    .drop-zone:hover,
+    .drop-zone.dragover { border-color: #0d9488; background: #fdf8f4; }
+    .drop-zone.has-file  { border-color: #16a34a; background: #f0fdf4; }
+    .drop-zone.has-error { border-color: #dc2626; background: #fef2f2; }
+    .drop-zone label { font-weight: 600; display: block; margin-bottom: 6px; cursor: pointer; }
+    .drop-zone p { font-size: 0.82rem; color: #888; }
+    .drop-zone .file-name {
+      margin-top: 8px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: #16a34a;
+      word-break: break-all;
+    }
+    .drop-zone .error-msg {
+      margin-top: 8px;
+      font-size: 0.82rem;
+      color: #dc2626;
+    }
+    .drop-zone input[type="file"] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    /* ── Button ────────────────────────────────────────────────────── */
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #fff;
+      background: #0d9488;
+      cursor: pointer;
+      transition: background .2s, opacity .2s;
+    }
+    .btn:hover:not(:disabled) { background: #0f766e; }
+    .btn:disabled { opacity: .45; cursor: not-allowed; }
+
+    /* ── Progress bar ──────────────────────────────────────────────── */
+    .progress-container { display: none; margin-bottom: 20px; }
+    .progress-container.visible { display: block; }
+    .progress-label { font-size: 0.82rem; color: #555; margin-bottom: 6px; }
+    .progress-bar-track {
+      height: 8px;
+      background: #e5e7eb;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: #0d9488;
+      border-radius: 4px;
+      transition: width .3s ease;
+    }
+
+    /* ── Results panel ─────────────────────────────────────────────── */
+    .results { display: none; margin-top: 28px; }
+    .results.visible { display: block; }
+    .results h2 { font-size: 1.15rem; margin-bottom: 16px; }
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .stat-card {
+      background: #f8f9fb;
+      border-radius: 8px;
+      padding: 14px;
+      text-align: center;
+    }
+    .stat-card .num { font-size: 1.6rem; font-weight: 700; color: #0d9488; }
+    .stat-card .label { font-size: 0.78rem; color: #666; margin-top: 2px; }
+    .stat-card.green .num { color: #16a34a; }
+    .stat-card.amber .num { color: #d97706; }
+    .stat-card.red   .num { color: #dc2626; }
+
+    .detail-section { margin-bottom: 18px; }
+    .detail-section summary {
+      font-weight: 600;
+      cursor: pointer;
+      padding: 6px 0;
+      font-size: 0.92rem;
+    }
+    .detail-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+      margin-top: 8px;
+    }
+    .detail-table th, .detail-table td {
+      text-align: left;
+      padding: 6px 10px;
+      border-bottom: 1px solid #eee;
+    }
+    .detail-table th { background: #f8f9fb; font-weight: 600; }
+
+    .error-banner {
+      display: none;
+      background: #fef2f2;
+      color: #dc2626;
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin-bottom: 20px;
+      font-size: 0.9rem;
+    }
+    .error-banner.visible { display: block; }
+  </style>
+</head>
+<body>
+
+<!-- Navigation bar -->
+<nav>
+  <a href="/home" class="logo">NyLi<span style="color:#0d9488">Assets</span></a>
+  <div class="nav-links">
+    <a href="/home">Home</a>
+    <a href="/projects" class="active">Projects</a>
+    <a href="/dashboard">Dashboard</a>
+    <a href="/communications">Communications</a>
+    <a href="/calendar">Calendar</a>
+    <div class="user-menu">
+      <button class="user-menu-btn" id="userMenuBtn">
+        <span class="avatar" id="userAvatar">?</span>
+        <span id="userMenuLabel">Menu</span>
+        <span style="font-size:0.6rem;">&#9660;</span>
+      </button>
+      <div class="user-dropdown" id="userDropdown">
+        <a href="/settings">&#9881; Account Settings</a>
+        <a href="/settings#preferences">&#9776; Preferences</a>
+        <a href="/help">&#10067; Help</a>
+        <div class="sep"></div>
+        <button class="logout" id="logoutBtn">&#10140; Log Out</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- Main content -->
+<main>
+<script src="/adminNav.js"></script>
+<h1>Compare Licenses & Active Directory</h1>
+<p class="subtitle">Upload two CSV files to identify inactive users and unused licenses</p>
+
+<div class="card">
+  <form id="uploadForm" enctype="multipart/form-data">
+    <div class="drop-zones">
+      <!-- Software licenses CSV -->
+      <div class="drop-zone" id="zoneA">
+        <label for="fileA">Software Licenses</label>
+        <p>Drag &amp; drop or click to select a .csv file</p>
+        <input type="file" id="fileA" name="licenses" accept=".csv,text/csv">
+        <div class="file-name" id="fileAName"></div>
+        <div class="error-msg" id="fileAError"></div>
+      </div>
+
+      <!-- Active Directory users CSV -->
+      <div class="drop-zone" id="zoneB">
+        <label for="fileB">Active Directory Users</label>
+        <p>Drag &amp; drop or click to select a .csv file</p>
+        <input type="file" id="fileB" name="adUsers" accept=".csv,text/csv">
+        <div class="file-name" id="fileBName"></div>
+        <div class="error-msg" id="fileBError"></div>
+      </div>
+    </div>
+
+    <div class="progress-container" id="progress">
+      <div class="progress-label" id="progressLabel">Uploading...</div>
+      <div class="progress-bar-track">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+    </div>
+
+    <div class="error-banner" id="errorBanner"></div>
+
+    <button class="btn" type="submit" id="submitBtn" disabled>Compare Files</button>
+  </form>
+
+  <div class="results" id="results">
+    <h2>Comparison Results</h2>
+    <div class="summary-grid" id="summaryGrid"></div>
+    <div id="detailSections"></div>
+  </div>
+</div>
+
+<script>
+(function () {
+  const form      = document.getElementById("uploadForm");
+  const submitBtn = document.getElementById("submitBtn");
+  const zoneA     = document.getElementById("zoneA");
+  const zoneB     = document.getElementById("zoneB");
+  const fileA     = document.getElementById("fileA");
+  const fileB     = document.getElementById("fileB");
+  const progress  = document.getElementById("progress");
+  const progBar   = document.getElementById("progressBar");
+  const progLabel = document.getElementById("progressLabel");
+  const errorBanner = document.getElementById("errorBanner");
+  const results   = document.getElementById("results");
+
+  /* ── Validation helper ───────────────────────────────────────── */
+  function validateFile(file, zone, nameEl, errorEl) {
+    nameEl.textContent = "";
+    errorEl.textContent = "";
+    zone.classList.remove("has-file", "has-error");
+
+    if (!file) return false;
+
+    const isCSV = file.name.toLowerCase().endsWith(".csv") ||
+                  file.type === "text/csv" ||
+                  file.type === "application/vnd.ms-excel";
+
+    if (!isCSV) {
+      zone.classList.add("has-error");
+      errorEl.textContent = "Please select a valid .csv file.";
+      return false;
+    }
+
+    zone.classList.add("has-file");
+    nameEl.textContent = file.name;
+    return true;
+  }
+
+  function refreshButton() {
+    submitBtn.disabled = !(zoneA.classList.contains("has-file") && zoneB.classList.contains("has-file"));
+  }
+
+  /* ── File-input change handlers ──────────────────────────────── */
+  fileA.addEventListener("change", () => {
+    validateFile(fileA.files[0], zoneA, document.getElementById("fileAName"), document.getElementById("fileAError"));
+    refreshButton();
+  });
+  fileB.addEventListener("change", () => {
+    validateFile(fileB.files[0], zoneB, document.getElementById("fileBName"), document.getElementById("fileBError"));
+    refreshButton();
+  });
+
+  /* ── Drag-and-drop ───────────────────────────────────────────── */
+  function setupDrop(zone, fileInput, nameEl, errorEl) {
+    zone.addEventListener("dragover", (e) => { e.preventDefault(); zone.classList.add("dragover"); });
+    zone.addEventListener("dragleave", ()  => { zone.classList.remove("dragover"); });
+    zone.addEventListener("drop", (e) => {
+      e.preventDefault();
+      zone.classList.remove("dragover");
+      const file = e.dataTransfer.files[0];
+      if (!file) return;
+
+      // Programmatically assign the dropped file via DataTransfer
+      const dt = new DataTransfer();
+      dt.items.add(file);
+      fileInput.files = dt.files;
+
+      validateFile(file, zone, nameEl, errorEl);
+      refreshButton();
+    });
+  }
+
+  setupDrop(zoneA, fileA, document.getElementById("fileAName"), document.getElementById("fileAError"));
+  setupDrop(zoneB, fileB, document.getElementById("fileBName"), document.getElementById("fileBError"));
+
+  /* ── Form submit with XHR for progress tracking ──────────────── */
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    errorBanner.classList.remove("visible");
+    errorBanner.textContent = "";
+    results.classList.remove("visible");
+
+    const formData = new FormData();
+    formData.append("licenses", fileA.files[0]);
+    formData.append("adUsers", fileB.files[0]);
+
+    const xhr = new XMLHttpRequest();
+
+    // -- Progress tracking --
+    progress.classList.add("visible");
+    progBar.style.width = "0%";
+    progLabel.textContent = "Uploading...";
+    submitBtn.disabled = true;
+
+    xhr.upload.addEventListener("progress", (evt) => {
+      if (evt.lengthComputable) {
+        const pct = Math.round((evt.loaded / evt.total) * 100);
+        progBar.style.width = pct + "%";
+        progLabel.textContent = pct < 100 ? "Uploading... " + pct + "%" : "Processing...";
+      }
+    });
+
+    xhr.addEventListener("load", () => {
+      progBar.style.width = "100%";
+      progress.classList.remove("visible");
+      submitBtn.disabled = false;
+
+      let body;
+      try { body = JSON.parse(xhr.responseText); } catch (_) { body = null; }
+
+      if (xhr.status >= 200 && xhr.status < 300 && body) {
+        renderResults(body);
+      } else {
+        showError(body?.error || "An unexpected error occurred (HTTP " + xhr.status + ").");
+      }
+    });
+
+    xhr.addEventListener("error", () => {
+      progress.classList.remove("visible");
+      submitBtn.disabled = false;
+      showError("Network error – please check your connection and try again.");
+    });
+
+    xhr.open("POST", "/api/compare");
+    xhr.send(formData);
+  });
+
+  /* ── Error display ───────────────────────────────────────────── */
+  function showError(msg) {
+    errorBanner.textContent = msg;
+    errorBanner.classList.add("visible");
+  }
+
+  /* ── Render results ──────────────────────────────────────────── */
+  function renderResults(data) {
+    const r = data.report;
+    if (!r) return;
+
+    results.classList.add("visible");
+
+    // Summary cards
+    const grid = document.getElementById("summaryGrid");
+    grid.innerHTML = "";
+    const stats = [
+      { label: "Licenses CSV",        num: r.summary.totalFileA, cls: "" },
+      { label: "AD Users CSV",        num: r.summary.totalFileB, cls: "" },
+      { label: "Matched Users",       num: r.summary.matchedUsers, cls: "green" },
+      { label: "Only in Licenses",    num: r.summary.onlyInFileA, cls: r.summary.onlyInFileA > 0 ? "amber" : "" },
+      { label: "Only in AD",          num: r.summary.onlyInFileB, cls: r.summary.onlyInFileB > 0 ? "amber" : "" },
+      { label: "Field Differences",   num: r.summary.usersWithFieldDifferences || 0, cls: (r.summary.usersWithFieldDifferences || 0) > 0 ? "red" : "" },
+    ];
+
+    for (const s of stats) {
+      const card = document.createElement("div");
+      card.className = "stat-card " + s.cls;
+      card.innerHTML = '<div class="num">' + s.num + '</div><div class="label">' + escapeHtml(s.label) + '</div>';
+      grid.appendChild(card);
+    }
+
+    // Detail sections
+    const details = document.getElementById("detailSections");
+    details.innerHTML = "";
+
+    if (r.onlyInFileA.length > 0)  details.appendChild(buildTable("Users only in Licenses CSV (" + r.onlyInFileA.length + ")", r.onlyInFileA));
+    if (r.onlyInFileB.length > 0)  details.appendChild(buildTable("Users only in AD CSV (" + r.onlyInFileB.length + ")", r.onlyInFileB));
+    if (r.matches.length > 0)      details.appendChild(buildMatchList("Matched Users (" + r.matches.length + ")", r.matches));
+    if (r.fieldDifferences.length > 0) details.appendChild(buildDiffTable("Field Differences (" + r.fieldDifferences.length + ")", r.fieldDifferences));
+  }
+
+  function buildTable(title, rows) {
+    const section = document.createElement("details");
+    section.className = "detail-section";
+    section.open = true;
+    const summary = document.createElement("summary");
+    summary.textContent = title;
+    section.appendChild(summary);
+
+    if (rows.length === 0) return section;
+
+    const keys = Object.keys(rows[0].data || {});
+    const table = document.createElement("table");
+    table.className = "detail-table";
+
+    const thead = document.createElement("thead");
+    const headRow = document.createElement("tr");
+    for (const k of keys) {
+      const th = document.createElement("th");
+      th.textContent = k;
+      headRow.appendChild(th);
+    }
+    thead.appendChild(headRow);
+    table.appendChild(thead);
+
+    const tbody = document.createElement("tbody");
+    for (const row of rows) {
+      const tr = document.createElement("tr");
+      for (const k of keys) {
+        const td = document.createElement("td");
+        td.textContent = row.data[k] ?? "";
+        tr.appendChild(td);
+      }
+      tbody.appendChild(tr);
+    }
+    table.appendChild(tbody);
+    section.appendChild(table);
+    return section;
+  }
+
+  function buildMatchList(title, matchKeys) {
+    const section = document.createElement("details");
+    section.className = "detail-section";
+    const summary = document.createElement("summary");
+    summary.textContent = title;
+    section.appendChild(summary);
+
+    const table = document.createElement("table");
+    table.className = "detail-table";
+    const thead = document.createElement("thead");
+    const headRow = document.createElement("tr");
+    const th = document.createElement("th");
+    th.textContent = "User Key";
+    headRow.appendChild(th);
+    thead.appendChild(headRow);
+    table.appendChild(thead);
+
+    const tbody = document.createElement("tbody");
+    for (const key of matchKeys) {
+      const tr = document.createElement("tr");
+      const td = document.createElement("td");
+      td.textContent = key;
+      tr.appendChild(td);
+      tbody.appendChild(tr);
+    }
+    table.appendChild(tbody);
+    section.appendChild(table);
+    return section;
+  }
+
+  function buildDiffTable(title, diffs) {
+    const section = document.createElement("details");
+    section.className = "detail-section";
+    section.open = true;
+    const summary = document.createElement("summary");
+    summary.textContent = title;
+    section.appendChild(summary);
+
+    const table = document.createElement("table");
+    table.className = "detail-table";
+    const thead = document.createElement("thead");
+    const headRow = document.createElement("tr");
+    ["User", "Field", "Licenses CSV", "AD CSV"].forEach((h) => {
+      const th = document.createElement("th");
+      th.textContent = h;
+      headRow.appendChild(th);
+    });
+    thead.appendChild(headRow);
+    table.appendChild(thead);
+
+    const tbody = document.createElement("tbody");
+    for (const d of diffs) {
+      for (const [field, vals] of Object.entries(d.differences)) {
+        const tr = document.createElement("tr");
+        [d.key, field, vals.fileA, vals.fileB].forEach((v) => {
+          const td = document.createElement("td");
+          td.textContent = v;
+          tr.appendChild(td);
+        });
+        tbody.appendChild(tr);
+      }
+    }
+    table.appendChild(tbody);
+    section.appendChild(table);
+    return section;
+  }
+
+  function escapeHtml(str) {
+    const el = document.createElement("span");
+    el.textContent = str;
+    return el.innerHTML;
+  }
+
+    // User dropdown
+  (function initUserMenu() {
+    const btn = document.getElementById('userMenuBtn');
+    const dd = document.getElementById('userDropdown');
+    btn.addEventListener('click', e => { e.stopPropagation(); dd.classList.toggle('open'); });
+    document.addEventListener('click', () => dd.classList.remove('open'));
+    dd.addEventListener('click', e => e.stopPropagation());
+    fetch('/api/auth/me').then(r => r.ok ? r.json() : null).then(me => {
+      if (!me) return;
+      const initial = (me.email || '?')[0].toUpperCase();
+      document.getElementById('userAvatar').textContent = initial;
+      document.getElementById('userMenuLabel').textContent = me.email;
+    }).catch(() => {});
+  })();
+  // Logout handler
+  document.getElementById('logoutBtn').addEventListener('click', async () => {
+    await fetch('/api/auth/logout', { method: 'POST' });
+    window.location.href = '/login';
+  });
+})();
+</script>
+
+</main>
+</body>
+</html>

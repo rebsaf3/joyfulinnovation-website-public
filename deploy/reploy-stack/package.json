@@ -1,0 +1,16 @@
+{
+  "name": "nyli-reploy-stack",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Canonical deploy package for NyLi app + swarm + dashboard",
+  "scripts": {
+    "bootstrap": "node scripts/bootstrap-and-run.js --prepare-only",
+    "start": "node scripts/stack-supervisor.js",
+    "deploy:start": "node scripts/bootstrap-and-run.js",
+    "integrity:check": "node scripts/check-package-integrity.js",
+    "smoke": "node scripts/smoke-check.js"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

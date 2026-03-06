@@ -19,7 +19,13 @@
   const consultPrimaryCta = consultSection?.querySelector('a.btn.btn-primary') || null;
 
   const contactForm = document.getElementById('support-contact-form');
+  const formStatus = document.getElementById('support-form-status');
   const formSuccess = document.getElementById('support-form-success');
+  const submitButton = document.getElementById('support-form-submit');
+  const formEndpoint = (window.JOYFUL_SITE_CONFIG && window.JOYFUL_SITE_CONFIG.contactForm && window.JOYFUL_SITE_CONFIG.contactForm.endpoint) || '';
+  const submitLabel = submitButton ? submitButton.textContent : 'Submit support request';
+  const formReadyAt = Date.now();
+  const minSubmitDelayMs = 1200;
 
   const data = window.JOYFUL_SUPPORT_ARTICLES || [];
 
@@ -128,6 +134,22 @@
       },
       prefersReducedMotion ? 60 : 360,
     );
+  };
+
+  const showFormStatus = (message, type) => {
+    if (!formStatus) return;
+    formStatus.textContent = message;
+    formStatus.className = 'form-status';
+    if (type) {
+      formStatus.classList.add(type);
+    }
+  };
+
+  const setFormSubmitting = (isSubmitting) => {
+    if (!submitButton) return;
+    submitButton.disabled = isSubmitting;
+    submitButton.setAttribute('aria-busy', String(isSubmitting));
+    submitButton.textContent = isSubmitting ? 'Submitting...' : submitLabel;
   };
 
   const parseCsv = (value) =>
@@ -642,18 +664,71 @@
   });
 
   if (contactForm) {
-    contactForm.addEventListener('submit', (event) => {
+    contactForm.addEventListener('submit', async (event) => {
       event.preventDefault();
-      if (!contactForm.reportValidity()) return;
-
+      showFormStatus('', '');
       if (formSuccess) {
-        formSuccess.hidden = false;
-        if (!formSuccess.hasAttribute('tabindex')) {
-          formSuccess.setAttribute('tabindex', '-1');
-        }
-        focusWithDelay(formSuccess);
+        formSuccess.hidden = true;
       }
-      contactForm.reset();
+
+      if (!contactForm.reportValidity()) {
+        showFormStatus('Please fix the highlighted fields and resubmit.', 'error');
+        return;
+      }
+
+      const honeypot = contactForm.querySelector('input[name="company_website"]');
+      if (honeypot && honeypot.value.trim() !== '') {
+        showFormStatus('Thanks. Your support request has been received.', 'success');
+        contactForm.reset();
+        return;
+      }
+
+      if (Date.now() - formReadyAt < minSubmitDelayMs) {
+        showFormStatus('Please wait a moment, then submit your request.', 'error');
+        return;
+      }
+
+      if (!formEndpoint) {
+        showFormStatus('Support submission is not configured here yet. Use the full contact page instead.', 'error');
+        return;
+      }
+
+      setFormSubmitting(true);
+
+      try {
+        const payload = new FormData(contactForm);
+        payload.set('source', 'support-center');
+
+        const response = await fetch(formEndpoint, {
+          method: 'POST',
+          body: payload,
+          headers: {
+            Accept: 'application/json',
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error('Support submission failed');
+        }
+
+        showFormStatus('Thanks. Your support request was submitted successfully.', 'success');
+        if (formSuccess) {
+          formSuccess.hidden = false;
+          if (!formSuccess.hasAttribute('tabindex')) {
+            formSuccess.setAttribute('tabindex', '-1');
+          }
+          focusWithDelay(formSuccess);
+        }
+
+        contactForm.reset();
+      } catch (error) {
+        showFormStatus(
+          'We could not submit the form right now. Your entries are still in place. Use the full contact page if needed.',
+          'error',
+        );
+      } finally {
+        setFormSubmitting(false);
+      }
     });
   }
 })();

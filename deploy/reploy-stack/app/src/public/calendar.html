@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calendar — NyLi Assets</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: linear-gradient(170deg, #fdf8f4 0%, #faf5f0 50%, #fff 100%);
+      color: #1a1a2e;
+    }
+
+    /* Navigation */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 28px;
+      background: white;
+      border-bottom: 1px solid #e8e2db;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      overflow: visible;
+    }
+    nav .logo {
+      font-weight: 700;
+      color: #0d9488;
+      font-size: 1.1rem;
+      text-decoration: none;
+    }
+    nav .nav-links {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+    }
+    nav a {
+      color: #555;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: color 0.2s;
+    }
+    nav a:hover { color: #0d9488; }
+
+    /* User dropdown */
+    .user-menu { position: relative; }
+    .user-menu-btn {
+      display: flex; align-items: center; gap: 6px; padding: 7px 14px;
+      background: #fdf8f4; border: 1px solid #d6cfc7; border-radius: 8px;
+      cursor: pointer; font-size: 0.85rem; font-weight: 600; color: #0d9488;
+      transition: all 0.2s;
+    }
+    .user-menu-btn:hover { background: #f0ebe4; }
+    .user-menu-btn .avatar {
+      width: 26px; height: 26px; border-radius: 50%; background: #0d9488;
+      color: white; display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem; font-weight: 700;
+    }
+    .user-dropdown {
+      display: none; position: absolute; right: 0; top: calc(100% + 6px);
+      background: white; border: 1px solid #e8e2db; border-radius: 10px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12); min-width: 200px; z-index: 100;
+      overflow: visible;
+    }
+    .user-dropdown.open { display: block; }
+    .user-dropdown a, .user-dropdown button {
+      display: flex; align-items: center; gap: 10px; width: 100%;
+      padding: 11px 16px; font-size: 0.88rem; font-weight: 500; color: #333;
+      text-decoration: none; border: none; background: none; cursor: pointer;
+      transition: background 0.15s;
+    }
+    .user-dropdown a:hover, .user-dropdown button:hover { background: #fdf8f4; color: #0d9488; }
+    .user-dropdown .sep { height: 1px; background: #e8e2db; margin: 4px 0; }
+    .user-dropdown button.logout { color: #dc2626; }
+    .user-dropdown button.logout:hover { background: #fef2f2; color: #dc2626; }
+
+    /* Main container */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 8px;
+      color: #1a1a2e;
+    }
+    .subtitle {
+      color: #888;
+      margin-bottom: 32px;
+      font-size: 0.95rem;
+    }
+
+    /* Calendar header */
+    .cal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+    .cal-nav {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .cal-nav button {
+      padding: 8px 16px;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      background: white;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #555;
+      transition: all 0.2s;
+    }
+    .cal-nav button:hover {
+      background: #fdf8f4;
+      color: #0d9488;
+      border-color: #0d9488;
+    }
+    .cal-month-label {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #1a1a2e;
+      min-width: 200px;
+      text-align: center;
+    }
+    .cal-today-btn {
+      padding: 8px 16px;
+      border: 1px solid #0d9488;
+      border-radius: 6px;
+      background: #fdf8f4;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #0d9488;
+      transition: all 0.2s;
+    }
+    .cal-today-btn:hover {
+      background: #0d9488;
+      color: white;
+    }
+
+    /* Calendar grid */
+    .cal-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      border: 1px solid #e8e2db;
+      border-radius: 12px;
+      overflow: hidden;
+      background: white;
+    }
+    .cal-day-header {
+      padding: 12px 8px;
+      text-align: center;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #888;
+      background: #f8f9fc;
+      border-bottom: 1px solid #e8e2db;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .cal-cell {
+      min-height: 110px;
+      padding: 8px;
+      border-right: 1px solid #e8e2db;
+      border-bottom: 1px solid #e8e2db;
+      position: relative;
+      transition: background 0.15s;
+    }
+    .cal-cell:nth-child(7n) { border-right: none; }
+    .cal-cell:hover { background: #f8f9fc; }
+    .cal-cell.other-month { background: #fafbfc; }
+    .cal-cell.other-month .cal-date { color: #ccc; }
+    .cal-cell.today { background: #fdf8f4; }
+    .cal-cell.today .cal-date {
+      background: #0d9488;
+      color: white;
+      border-radius: 50%;
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .cal-date {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #555;
+      margin-bottom: 6px;
+    }
+
+    /* Event chips */
+    .cal-event {
+      display: block;
+      padding: 3px 8px;
+      margin-bottom: 3px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      cursor: pointer;
+      text-decoration: none;
+      transition: opacity 0.15s;
+    }
+    .cal-event:hover { opacity: 0.8; }
+    .cal-event.status-active {
+      background: #dbeafe;
+      color: #1d4ed8;
+    }
+    .cal-event.status-completed {
+      background: #dcfce7;
+      color: #16a34a;
+    }
+    .cal-event.status-archived {
+      background: #f3f4f6;
+      color: #6b7280;
+    }
+    .cal-more {
+      font-size: 0.72rem;
+      color: #0d9488;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 2px 0;
+    }
+
+    /* Legend */
+    .cal-legend {
+      display: flex;
+      gap: 20px;
+      margin-top: 16px;
+      justify-content: flex-end;
+    }
+    .cal-legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8rem;
+      color: #555;
+    }
+    .cal-legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 3px;
+    }
+
+    /* Event detail popover */
+    .event-popover {
+      display: none;
+      position: fixed;
+      background: white;
+      border: 1px solid #e8e2db;
+      border-radius: 10px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+      padding: 20px;
+      min-width: 280px;
+      z-index: 2000;
+    }
+    .event-popover.open { display: block; }
+    .event-popover h3 {
+      font-size: 1rem;
+      margin-bottom: 8px;
+      color: #1a1a2e;
+    }
+    .event-popover .ep-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 0;
+      font-size: 0.85rem;
+    }
+    .event-popover .ep-label { color: #888; }
+    .event-popover .ep-value { font-weight: 600; color: #1a1a2e; }
+    .event-popover .ep-link {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 8px 16px;
+      background: #0d9488;
+      color: white;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-decoration: none;
+    }
+    .event-popover .ep-link:hover { background: #0f766e; }
+    .ep-close {
+      position: absolute;
+      top: 8px;
+      right: 12px;
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+      color: #888;
+    }
+
+    @media (max-width: 768px) {
+      .cal-cell { min-height: 70px; padding: 4px; }
+      .cal-event { font-size: 0.65rem; padding: 2px 4px; }
+      .cal-month-label { font-size: 1rem; min-width: auto; }
+      .cal-header { flex-wrap: wrap; gap: 12px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav>
+    <a href="/home" class="logo">NyLi<span style="color:#0d9488">Assets</span></a>
+    <div class="nav-links">
+      <a href="/home">Home</a>
+      <a href="/projects">Projects</a>
+      <a href="/dashboard">Dashboard</a>
+      <a href="/communications">Communications</a>
+      <a href="/calendar" class="active">Calendar</a>
+      <div class="user-menu">
+        <button class="user-menu-btn" id="userMenuBtn">
+          <span class="avatar" id="userAvatar">?</span>
+          <span id="userMenuLabel">Menu</span>
+          <span style="font-size:0.6rem;">&#9660;</span>
+        </button>
+        <div class="user-dropdown" id="userDropdown">
+          <a href="/settings">&#9881; Account Settings</a>
+          <a href="/settings#preferences">&#9776; Preferences</a>
+          <a href="/help">&#10067; Help</a>
+          <div class="sep"></div>
+          <button class="logout" id="logoutBtn">&#10140; Log Out</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Event Popover -->
+  <div class="event-popover" id="eventPopover">
+    <button class="ep-close" id="epClose">&times;</button>
+    <h3 id="epName"></h3>
+    <div class="ep-row">
+      <span class="ep-label">Send Date</span>
+      <span class="ep-value" id="epDate"></span>
+    </div>
+    <div class="ep-row">
+      <span class="ep-label">Status</span>
+      <span class="ep-value" id="epStatus"></span>
+    </div>
+    <div class="ep-row">
+      <span class="ep-label">Product</span>
+      <span class="ep-value" id="epProduct"></span>
+    </div>
+    <div class="ep-row">
+      <span class="ep-label">Created By</span>
+      <span class="ep-value" id="epCreatedBy"></span>
+    </div>
+    <a class="ep-link" id="epLink" href="#">View Project &rarr;</a>
+  </div>
+
+  <!-- Main content -->
+  <div class="container">
+    <h1>Project Calendar</h1>
+    <p class="subtitle">View your projects by their scheduled send date</p>
+
+    <div class="cal-header">
+      <div class="cal-nav">
+        <button id="prevMonth">&larr; Prev</button>
+        <span class="cal-month-label" id="monthLabel"></span>
+        <button id="nextMonth">Next &rarr;</button>
+      </div>
+      <button class="cal-today-btn" id="todayBtn">Today</button>
+    </div>
+
+    <div class="cal-grid" id="calGrid">
+      <div class="cal-day-header">Sun</div>
+      <div class="cal-day-header">Mon</div>
+      <div class="cal-day-header">Tue</div>
+      <div class="cal-day-header">Wed</div>
+      <div class="cal-day-header">Thu</div>
+      <div class="cal-day-header">Fri</div>
+      <div class="cal-day-header">Sat</div>
+    </div>
+
+    <div class="cal-legend">
+      <div class="cal-legend-item">
+        <div class="cal-legend-dot" style="background:#dbeafe;"></div> Active
+      </div>
+      <div class="cal-legend-item">
+        <div class="cal-legend-dot" style="background:#dcfce7;"></div> Completed
+      </div>
+      <div class="cal-legend-item">
+        <div class="cal-legend-dot" style="background:#f3f4f6;"></div> Archived
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ── State ─────────────────────────────────────────────────────────────
+    const now = new Date();
+    let currentYear = now.getFullYear();
+    let currentMonth = now.getMonth(); // 0-based
+    let events = [];
+
+    const monthNames = [
+      'January','February','March','April','May','June',
+      'July','August','September','October','November','December'
+    ];
+
+    // ── Fetch events ─────────────────────────────────────────────────────
+    async function fetchEvents() {
+      try {
+        const res = await fetch(`/api/calendar/events?month=${currentMonth + 1}&year=${currentYear}`);
+        if (!res.ok) throw new Error('Failed to load events');
+        events = await res.json();
+      } catch (err) {
+        console.error('Error fetching calendar events:', err);
+        events = [];
+      }
+      renderCalendar();
+    }
+
+    // ── Render calendar ──────────────────────────────────────────────────
+    function renderCalendar() {
+      const grid = document.getElementById('calGrid');
+      // Remove old day cells, keep headers
+      const headers = grid.querySelectorAll('.cal-day-header');
+      grid.innerHTML = '';
+      headers.forEach(h => grid.appendChild(h));
+
+      document.getElementById('monthLabel').textContent =
+        `${monthNames[currentMonth]} ${currentYear}`;
+
+      const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+      const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+      const daysInPrevMonth = new Date(currentYear, currentMonth, 0).getDate();
+
+      const today = new Date();
+      const todayStr = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
+
+      // Build event lookup by date
+      const eventsByDate = {};
+      events.forEach(ev => {
+        const d = ev.send_date.split('T')[0]; // handle ISO or date-only
+        if (!eventsByDate[d]) eventsByDate[d] = [];
+        eventsByDate[d].push(ev);
+      });
+
+      // Previous month trailing days
+      for (let i = firstDay - 1; i >= 0; i--) {
+        const day = daysInPrevMonth - i;
+        const cell = createCell(day, true);
+        grid.appendChild(cell);
+      }
+
+      // Current month days
+      for (let d = 1; d <= daysInMonth; d++) {
+        const dateStr = `${currentYear}-${String(currentMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+        const isToday = dateStr === todayStr;
+        const cell = createCell(d, false, isToday, eventsByDate[dateStr] || []);
+        grid.appendChild(cell);
+      }
+
+      // Next month leading days to fill grid to 42 cells (6 rows)
+      const totalCells = grid.querySelectorAll('.cal-cell').length;
+      const remaining = (totalCells % 7 === 0) ? 0 : 7 - (totalCells % 7);
+      for (let d = 1; d <= remaining; d++) {
+        const cell = createCell(d, true);
+        grid.appendChild(cell);
+      }
+    }
+
+    function createCell(day, otherMonth, isToday, dayEvents) {
+      const cell = document.createElement('div');
+      cell.className = 'cal-cell';
+      if (otherMonth) cell.classList.add('other-month');
+      if (isToday) cell.classList.add('today');
+
+      const dateEl = document.createElement('div');
+      dateEl.className = 'cal-date';
+      dateEl.textContent = day;
+      cell.appendChild(dateEl);
+
+      if (dayEvents && dayEvents.length > 0) {
+        const maxShow = 3;
+        dayEvents.slice(0, maxShow).forEach(ev => {
+          const chip = document.createElement('a');
+          chip.className = `cal-event status-${ev.status}`;
+          chip.textContent = ev.name;
+          chip.href = '#';
+          chip.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            showPopover(ev, e);
+          });
+          cell.appendChild(chip);
+        });
+        if (dayEvents.length > maxShow) {
+          const more = document.createElement('div');
+          more.className = 'cal-more';
+          more.textContent = `+${dayEvents.length - maxShow} more`;
+          cell.appendChild(more);
+        }
+      }
+
+      return cell;
+    }
+
+    // ── Event popover ────────────────────────────────────────────────────
+    function showPopover(ev, e) {
+      const pop = document.getElementById('eventPopover');
+      document.getElementById('epName').textContent = ev.name;
+      document.getElementById('epDate').textContent = new Date(ev.send_date).toLocaleDateString();
+      document.getElementById('epStatus').textContent = ev.status.charAt(0).toUpperCase() + ev.status.slice(1);
+      document.getElementById('epProduct').textContent = ev.product_name || '—';
+      document.getElementById('epCreatedBy').textContent = ev.created_by_email || '—';
+      document.getElementById('epLink').href = `/projects/${ev.id}`;
+
+      // Position near click
+      const rect = e.target.getBoundingClientRect();
+      pop.style.top = (rect.bottom + 8) + 'px';
+      pop.style.left = Math.min(rect.left, window.innerWidth - 320) + 'px';
+      pop.classList.add('open');
+    }
+
+    document.getElementById('epClose').addEventListener('click', () => {
+      document.getElementById('eventPopover').classList.remove('open');
+    });
+    document.addEventListener('click', (e) => {
+      const pop = document.getElementById('eventPopover');
+      if (!pop.contains(e.target) && !e.target.classList.contains('cal-event')) {
+        pop.classList.remove('open');
+      }
+    });
+
+    // ── Navigation ───────────────────────────────────────────────────────
+    document.getElementById('prevMonth').addEventListener('click', () => {
+      currentMonth--;
+      if (currentMonth < 0) { currentMonth = 11; currentYear--; }
+      fetchEvents();
+    });
+
+    document.getElementById('nextMonth').addEventListener('click', () => {
+      currentMonth++;
+      if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+      fetchEvents();
+    });
+
+    document.getElementById('todayBtn').addEventListener('click', () => {
+      const t = new Date();
+      currentYear = t.getFullYear();
+      currentMonth = t.getMonth();
+      fetchEvents();
+    });
+
+    // ── User dropdown ────────────────────────────────────────────────────
+    (function initUserMenu() {
+      const btn = document.getElementById('userMenuBtn');
+      const dd  = document.getElementById('userDropdown');
+      if (!btn || !dd) return;
+      btn.addEventListener('click', e => { e.stopPropagation(); dd.classList.toggle('open'); });
+      document.addEventListener('click', () => dd.classList.remove('open'));
+      dd.addEventListener('click', e => e.stopPropagation());
+      fetch('/api/auth/me').then(r => r.ok ? r.json() : null).then(me => {
+        if (!me) return;
+        const initial = (me.email || '?')[0].toUpperCase();
+        const av = document.getElementById('userAvatar');
+        const ml = document.getElementById('userMenuLabel');
+        if (av) av.textContent = initial;
+        if (ml) ml.textContent = me.email;
+      }).catch(() => {});
+    })();
+
+    // Logout
+    document.getElementById('logoutBtn').addEventListener('click', async () => {
+      await fetch('/api/auth/logout', { method: 'POST' });
+      window.location.href = '/login';
+    });
+
+    // ── Init ─────────────────────────────────────────────────────────────
+    fetchEvents();
+  </script>
+  <script src="/adminNav.js"></script>
+</body>
+</html>

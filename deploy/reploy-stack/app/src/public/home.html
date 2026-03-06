@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home — NyLi Assets</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: linear-gradient(170deg, #fdf8f4 0%, #faf5f0 50%, #fff 100%);
+      color: #1a1a2e;
+    }
+
+    /* Navigation */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 28px;
+      background: white;
+      border-bottom: 1px solid #e8e2db;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      overflow: visible;
+    }
+    nav .logo {
+      font-weight: 700; color: #1a1a2e; font-size: 1.1rem; text-decoration: none;
+    }
+    nav .nav-links {
+      display: flex; gap: 24px; align-items: center;
+    }
+    nav a {
+      color: #555; text-decoration: none; font-size: 0.9rem; font-weight: 600; transition: color 0.2s;
+    }
+    nav a:hover, nav a.active { color: #0d9488; }
+
+    /* User dropdown */
+    .user-menu { position: relative; }
+    .user-menu-btn {
+      display: flex; align-items: center; gap: 6px; padding: 7px 14px;
+      background: #fdf8f4; border: 1px solid #d6cfc7; border-radius: 8px;
+      cursor: pointer; font-size: 0.85rem; font-weight: 600; color: #0d9488;
+      transition: all 0.2s;
+    }
+    .user-menu-btn:hover { background: #f0ebe4; }
+    .user-menu-btn .avatar {
+      width: 26px; height: 26px; border-radius: 50%; background: #0d9488;
+      color: white; display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem; font-weight: 700;
+    }
+    .user-dropdown {
+      display: none; position: absolute; right: 0; top: calc(100% + 6px);
+      background: white; border: 1px solid #e8e2db; border-radius: 10px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12); min-width: 200px; z-index: 100;
+      overflow: visible;
+    }
+    .user-dropdown.open { display: block; }
+    .user-dropdown a, .user-dropdown button {
+      display: flex; align-items: center; gap: 10px; width: 100%;
+      padding: 11px 16px; font-size: 0.88rem; font-weight: 500; color: #333;
+      text-decoration: none; border: none; background: none; cursor: pointer;
+      transition: background 0.15s;
+    }
+    .user-dropdown a:hover, .user-dropdown button:hover { background: #fdf8f4; color: #0d9488; }
+    .user-dropdown .sep { height: 1px; background: #e8e2db; margin: 4px 0; }
+    .user-dropdown button.logout { color: #dc2626; }
+    .user-dropdown button.logout:hover { background: #fef2f2; color: #dc2626; }
+
+    /* Container */
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 48px 20px;
+    }
+
+    .welcome-section {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+    .welcome-section h1 {
+      font-size: 2.2rem;
+      color: #1a1a2e;
+      margin-bottom: 12px;
+    }
+    .welcome-section p {
+      font-size: 1.05rem;
+      color: #666;
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* Quick action cards */
+    .quick-actions {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin-bottom: 48px;
+    }
+    .action-card {
+      background: white;
+      border: 1px solid #e8e2db;
+      border-radius: 14px;
+      padding: 32px 28px;
+      text-align: center;
+      transition: box-shadow 0.2s, border-color 0.2s;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+    }
+    .action-card:hover {
+      box-shadow: 0 8px 24px rgba(13,148,136,0.10);
+      border-color: #0d9488;
+    }
+    .action-icon {
+      font-size: 2.4rem;
+      margin-bottom: 16px;
+    }
+    .action-card h3 {
+      font-size: 1.15rem;
+      color: #1a1a2e;
+      margin-bottom: 8px;
+    }
+    .action-card p {
+      font-size: 0.9rem;
+      color: #777;
+      line-height: 1.5;
+    }
+
+    /* Stats summary */
+    .stats-row {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+      margin-bottom: 48px;
+    }
+    .stat-item {
+      text-align: center;
+    }
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #0d9488;
+    }
+    .stat-label {
+      font-size: 0.85rem;
+      color: #888;
+      margin-top: 4px;
+    }
+
+    /* Recent activity */
+    .recent-section h2 {
+      font-size: 1.3rem;
+      margin-bottom: 16px;
+      color: #1a1a2e;
+    }
+    .recent-list {
+      background: white;
+      border: 1px solid #e8e2db;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .recent-item {
+      padding: 14px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #f5f0eb;
+      font-size: 0.9rem;
+    }
+    .recent-item:last-child { border-bottom: none; }
+    .recent-item .label { color: #333; font-weight: 500; }
+    .recent-item .meta { color: #999; font-size: 0.82rem; }
+    .empty-state {
+      padding: 32px;
+      text-align: center;
+      color: #999;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav>
+    <a href="/home" class="logo">NyLi<span style="color:#0d9488">Assets</span></a>
+    <div class="nav-links">
+      <a href="/home" class="active">Home</a>
+      <a href="/projects">Projects</a>
+      <a href="/dashboard">Dashboard</a>
+      <a href="/communications">Communications</a>
+      <a href="/calendar">Calendar</a>
+      <div class="user-menu">
+        <button class="user-menu-btn" id="userMenuBtn">
+          <span class="avatar" id="userAvatar">?</span>
+          <span id="userMenuLabel">Menu</span>
+          <span style="font-size:0.6rem;">&#9660;</span>
+        </button>
+        <div class="user-dropdown" id="userDropdown">
+          <a href="/settings">&#9881; Account Settings</a>
+          <a href="/settings#preferences">&#9776; Preferences</a>
+          <a href="/help">&#10067; Help</a>
+          <div class="sep"></div>
+          <button class="logout" id="logoutBtn">&#10140; Log Out</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <!-- Welcome -->
+    <div class="welcome-section">
+      <h1 id="welcomeHeading">Welcome to NyLi Assets</h1>
+      <p>Manage your software audit projects, track user responses, and monitor compliance — all in one place.</p>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-row" id="statsRow">
+      <div class="stat-item">
+        <div class="stat-value" id="statProjects">—</div>
+        <div class="stat-label">Projects</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value" id="statUsers">—</div>
+        <div class="stat-label">Total Users</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value" id="statResponses">—</div>
+        <div class="stat-label">Responses</div>
+      </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="quick-actions">
+      <a class="action-card" href="/projects">
+        <div class="action-icon">📁</div>
+        <h3>Projects</h3>
+        <p>Create and manage audit projects, upload user lists, and send out audit emails.</p>
+      </a>
+      <a class="action-card" href="/dashboard">
+        <div class="action-icon">📊</div>
+        <h3>Dashboard</h3>
+        <p>View response rates, compliance metrics, and detailed analytics across all your projects.</p>
+      </a>
+      <a class="action-card" href="/communications">
+        <div class="action-icon">📧</div>
+        <h3>Communications</h3>
+        <p>Browse sent communications, filter by project or date, and track delivery status.</p>
+      </a>
+    </div>
+
+    <!-- Recent Activity -->
+    <div class="recent-section">
+      <h2>Recent Activity</h2>
+      <div class="recent-list" id="recentList">
+        <div class="empty-state">Loading…</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // User dropdown
+    (function initUserMenu() {
+      const btn = document.getElementById('userMenuBtn');
+      const dd  = document.getElementById('userDropdown');
+      btn.addEventListener('click', e => { e.stopPropagation(); dd.classList.toggle('open'); });
+      document.addEventListener('click', () => dd.classList.remove('open'));
+      dd.addEventListener('click', e => e.stopPropagation());
+      fetch('/api/auth/me').then(r => r.ok ? r.json() : null).then(me => {
+        if (!me) return;
+        const initial = (me.email || '?')[0].toUpperCase();
+        document.getElementById('userAvatar').textContent = initial;
+        document.getElementById('userMenuLabel').textContent = me.email;
+        document.getElementById('welcomeHeading').textContent = `Welcome, ${me.email.split('@')[0]}`;
+      }).catch(() => {});
+    })();
+
+    // Logout
+    document.getElementById('logoutBtn').addEventListener('click', async () => {
+      await fetch('/api/auth/logout', { method: 'POST' });
+      window.location.href = '/login';
+    });
+
+    // Load stats
+    async function loadStats() {
+      try {
+        const res = await fetch('/api/dashboard/overview');
+        if (!res.ok) throw new Error('Failed');
+        const data = await res.json();
+        const kpis = data.kpis || {};
+        document.getElementById('statProjects').textContent = kpis.totalProjects || 0;
+        document.getElementById('statUsers').textContent = (kpis.totalFlagged || 0).toLocaleString();
+        document.getElementById('statResponses').textContent = ((kpis.totalConfirmed || 0) + (kpis.totalRevoked || 0)).toLocaleString();
+      } catch (e) {
+        console.error('Stats load error', e);
+      }
+    }
+
+    function escapeHtml(s) { const d = document.createElement('div'); d.textContent = s || ''; return d.innerHTML; }
+
+    // Load recent runs
+    async function loadRecent() {
+      try {
+        const res = await fetch('/api/dashboard/overview');
+        if (!res.ok) throw new Error('Failed');
+        const data = await res.json();
+        const list = document.getElementById('recentList');
+        const runs = (data.recentRuns || []).slice(0, 5);
+        if (!runs.length) {
+          list.innerHTML = '<div class="empty-state">No recent activity yet. Create a project to get started!</div>';
+          return;
+        }
+        list.innerHTML = runs.map(r => {
+          const date = new Date(r.created_at).toLocaleDateString();
+          return `<div class="recent-item">
+            <span class="label">${escapeHtml(r.project_name || 'Unknown Project')} — ${r.totalFlagged || 0} flagged users</span>
+            <span class="meta">${escapeHtml(date)}</span>
+          </div>`;
+        }).join('');
+      } catch (e) {
+        document.getElementById('recentList').innerHTML = '<div class="empty-state">Unable to load recent activity.</div>';
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadStats();
+      loadRecent();
+    });
+  </script>
+  <script src="/adminNav.js"></script>
+</body>
+</html>

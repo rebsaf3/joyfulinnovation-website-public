@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trial Expired — NyLi Assets</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: linear-gradient(170deg, #fdf8f4 0%, #faf5f0 50%, #fff 100%);
+      color: #1a1a2e;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Navigation */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 28px;
+      background: white;
+      border-bottom: 1px solid #e8e2db;
+    }
+    nav .logo {
+      font-weight: 700; color: #1a1a2e; font-size: 1.1rem; text-decoration: none;
+    }
+    nav .nav-right {
+      display: flex; align-items: center; gap: 16px;
+    }
+    nav .user-email {
+      font-size: 0.85rem; color: #666;
+    }
+    .logout-btn {
+      padding: 7px 16px; border: 1px solid #d6cfc7; border-radius: 8px;
+      background: white; color: #555; font-size: 0.85rem; font-weight: 600;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .logout-btn:hover { background: #fdf8f4; color: #dc2626; border-color: #dc2626; }
+
+    /* Main content */
+    .container {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 48px 20px;
+    }
+
+    .expired-card {
+      background: white;
+      border: 1px solid #e8e2db;
+      border-radius: 16px;
+      padding: 56px 48px;
+      max-width: 560px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+    }
+
+    .expired-icon {
+      font-size: 3.5rem;
+      margin-bottom: 20px;
+    }
+
+    .expired-card h1 {
+      font-size: 1.8rem;
+      color: #1a1a2e;
+      margin-bottom: 12px;
+    }
+
+    .expired-card .subtitle {
+      font-size: 1.05rem;
+      color: #666;
+      line-height: 1.6;
+      margin-bottom: 32px;
+    }
+
+    .trial-info {
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 32px;
+      font-size: 0.9rem;
+      color: #991b1b;
+    }
+    .trial-info strong { color: #7f1d1d; }
+
+    /* Plan cards */
+    .plans {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .plan-card {
+      border: 2px solid #e8e2db;
+      border-radius: 12px;
+      padding: 24px 16px;
+      text-align: center;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      cursor: pointer;
+    }
+    .plan-card:hover {
+      border-color: #0d9488;
+      box-shadow: 0 4px 16px rgba(13,148,136,0.12);
+    }
+    .plan-card.featured {
+      border-color: #0d9488;
+      background: #f0fdfa;
+    }
+    .plan-card h3 {
+      font-size: 1.1rem;
+      color: #1a1a2e;
+      margin-bottom: 4px;
+    }
+    .plan-card .price {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #0d9488;
+      margin-bottom: 8px;
+    }
+    .plan-card .price span {
+      font-size: 0.8rem;
+      font-weight: 400;
+      color: #888;
+    }
+    .plan-card ul {
+      list-style: none;
+      font-size: 0.82rem;
+      color: #555;
+      line-height: 1.8;
+    }
+    .plan-card ul li::before {
+      content: "✓ ";
+      color: #0d9488;
+      font-weight: 700;
+    }
+
+    .upgrade-btn {
+      display: inline-block;
+      padding: 14px 40px;
+      background: #0d9488;
+      color: white;
+      font-size: 1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s;
+      margin-bottom: 16px;
+    }
+    .upgrade-btn:hover { background: #0f766e; }
+
+    .contact-link {
+      font-size: 0.88rem;
+      color: #888;
+    }
+    .contact-link a {
+      color: #0d9488;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .contact-link a:hover { text-decoration: underline; }
+
+    @media (max-width: 500px) {
+      .plans { grid-template-columns: 1fr; }
+      .expired-card { padding: 36px 24px; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="/" class="logo">NyLi<span style="color:#0d9488">Assets</span></a>
+    <div class="nav-right">
+      <span class="user-email" id="userEmail"></span>
+      <button class="logout-btn" id="logoutBtn">Log Out</button>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="expired-card">
+      <div class="expired-icon">⏱️</div>
+      <h1>Your Free Trial Has Ended</h1>
+      <p class="subtitle">
+        Your 7-day NyLi Assets trial expired on <strong id="trialEndDate">—</strong>.
+        Upgrade to continue managing your software audits.
+      </p>
+
+      <div class="trial-info">
+        <strong>Don't worry</strong> — all your data is safe and will be available when you upgrade.
+      </div>
+
+      <div class="plans">
+        <div class="plan-card">
+          <h3>Starter</h3>
+          <div class="price">$49<span>/mo</span></div>
+          <ul>
+            <li>Up to 3 projects</li>
+            <li>500 audit users</li>
+            <li>Email support</li>
+          </ul>
+        </div>
+        <div class="plan-card featured">
+          <h3>Pro</h3>
+          <div class="price">$149<span>/mo</span></div>
+          <ul>
+            <li>Unlimited projects</li>
+            <li>Unlimited users</li>
+            <li>AI analysis</li>
+            <li>Priority support</li>
+          </ul>
+        </div>
+      </div>
+
+      <a href="/settings#billing" class="upgrade-btn">Upgrade Now</a>
+      <div class="contact-link">
+        Need help? <a href="mailto:support@nyliassets.io">Contact our team</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Load trial info
+    fetch('/api/auth/me')
+      .then(r => r.ok ? r.json() : null)
+      .then(me => {
+        if (!me) return;
+        document.getElementById('userEmail').textContent = me.email;
+        if (me.trial?.endsAt) {
+          document.getElementById('trialEndDate').textContent =
+            new Date(String(me.trial.endsAt).replace(' ', 'T') + 'Z').toLocaleDateString('en-US', {
+              month: 'long', day: 'numeric', year: 'numeric'
+            });
+        }
+        // If trial is actually still active, redirect to home
+        if (me.trial?.active) {
+          window.location.href = '/home';
+        }
+      })
+      .catch(() => {});
+
+    // Logout
+    document.getElementById('logoutBtn').addEventListener('click', async () => {
+      await fetch('/api/auth/logout', { method: 'POST' });
+      window.location.href = '/login';
+    });
+  </script>
+</body>
+</html>

@@ -244,7 +244,7 @@
     }
 
     if (!endpoint) {
-      showStatus('We could not submit the form right now. Please try again shortly.', 'error');
+      showStatus('Contact submission is not configured here yet. Please use the live form endpoint before enabling this page.', 'error');
       return;
     }
 

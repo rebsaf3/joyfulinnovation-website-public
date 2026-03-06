@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Communications — NyLi Assets</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: linear-gradient(170deg, #fdf8f4 0%, #faf5f0 50%, #fff 100%);
+      color: #1a1a2e;
+      min-height: 100vh;
+    }
+    nav {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 16px 28px; background: white; border-bottom: 1px solid #e8e2db;
+      position: sticky; top: 0; z-index: 1000;
+      overflow: visible;
+    }
+    nav .logo { font-weight: 700; color: #1a1a2e; font-size: 1.1rem; text-decoration: none; }
+    nav .nav-links { display: flex; gap: 24px; align-items: center; }
+    nav a { color: #555; text-decoration: none; font-size: 0.9rem; font-weight: 600; transition: color 0.2s; }
+    nav a:hover, nav a.active { color: #0d9488; }
+    /* User dropdown */
+    .user-menu { position: relative; }
+    .user-menu-btn {
+      display: flex; align-items: center; gap: 6px; padding: 7px 14px;
+      background: #fdf8f4; border: 1px solid #d6cfc7; border-radius: 8px;
+      cursor: pointer; font-size: 0.85rem; font-weight: 600; color: #0d9488;
+      transition: all 0.2s;
+    }
+    .user-menu-btn:hover { background: #f0ebe4; }
+    .user-menu-btn .avatar {
+      width: 26px; height: 26px; border-radius: 50%; background: #0d9488;
+      color: white; display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem; font-weight: 700;
+    }
+    .user-dropdown {
+      display: none; position: absolute; right: 0; top: calc(100% + 6px);
+      background: white; border: 1px solid #e8e2db; border-radius: 10px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12); min-width: 200px; z-index: 100;
+      overflow: visible;
+    }
+    .user-dropdown.open { display: block; }
+    .user-dropdown a, .user-dropdown button {
+      display: flex; align-items: center; gap: 10px; width: 100%;
+      padding: 11px 16px; font-size: 0.88rem; font-weight: 500; color: #333;
+      text-decoration: none; border: none; background: none; cursor: pointer;
+      transition: background 0.15s;
+    }
+    .user-dropdown a:hover, .user-dropdown button:hover { background: #fdf8f4; color: #0d9488; }
+    .user-dropdown .sep { height: 1px; background: #e8e2db; margin: 4px 0; }
+    .user-dropdown button.logout { color: #dc2626; }
+    .user-dropdown button.logout:hover { background: #fef2f2; color: #dc2626; }
+    .container {
+      max-width: 1200px; margin: 0 auto; padding: 40px 20px;
+    }
+    h1 { font-size: 2rem; margin-bottom: 8px; color: #1a1a2e; }
+    .subtitle { color: #888; margin-bottom: 32px; font-size: 0.95rem; }
+    .search-section {
+      background: white; border-radius: 12px; border: 1px solid #e8e2db;
+      padding: 24px; margin-bottom: 24px;
+      box-shadow: 0 4px 24px rgba(13,148,136,0.07);
+    }
+    .search-section h2 { font-size: 1.1rem; font-weight: 600; margin-bottom: 16px; color: #1a1a2e; }
+    .search-row {
+      display: flex; gap: 12px; align-items: flex-end; flex-wrap: wrap;
+    }
+    .search-row input {
+      flex: 1; min-width: 280px; padding: 10px 14px; border: 1px solid #d1d5db;
+      border-radius: 6px; font-size: 0.9rem; outline: none; transition: border 0.2s;
+    }
+    .search-row input:focus { border-color: #0d9488; }
+    .btn {
+      padding: 10px 20px; border-radius: 6px; border: none; cursor: pointer;
+      font-size: 0.9rem; font-weight: 600; transition: all 0.2s;
+    }
+    .btn-primary { background: #0d9488; color: white; }
+    .btn-primary:hover { background: #0f766e; }
+    .btn-secondary { background: #f0f0f0; color: #555; }
+    .btn-secondary:hover { background: #e0e0e0; }
+    .results-section {
+      background: white; border-radius: 12px; border: 1px solid #e8e2db;
+      padding: 28px; box-shadow: 0 4px 24px rgba(13,148,136,0.07);
+    }
+    .results-header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 20px;
+    }
+    .results-header h2 { font-size: 1.2rem; font-weight: 600; color: #1a1a2e; margin: 0; }
+    .results-count { font-size: 0.85rem; color: #888; }
+    .user-card {
+      border: 1px solid #e8e2db; border-radius: 10px;
+      margin-bottom: 16px; overflow: hidden;
+    }
+    .user-card-header {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 16px 20px; background: #f8f9fb; cursor: pointer;
+      transition: background 0.2s;
+    }
+    .user-card-header:hover { background: #eef1f8; }
+    .user-email { font-weight: 700; color: #0d9488; font-size: 0.95rem; }
+    .user-key { font-size: 0.82rem; color: #888; margin-left: 12px; }
+    .user-meta { font-size: 0.82rem; color: #888; white-space: nowrap; }
+    .toggle-icon { font-size: 0.8rem; color: #aaa; transition: transform 0.2s; }
+    .user-card.open .toggle-icon { transform: rotate(180deg); }
+    .user-card-body { display: none; padding: 0; }
+    .user-card.open .user-card-body { display: block; }
+    .project-row {
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 120px;
+      gap: 12px; padding: 12px 20px; border-top: 1px solid #e8e2db;
+      align-items: center; font-size: 0.88rem;
+    }
+    .project-row:hover { background: #fafbfe; }
+    .project-row .project-name a {
+      color: #0d9488; font-weight: 600; text-decoration: none;
+    }
+    .project-row .project-name a:hover { text-decoration: underline; }
+    .project-row .project-name .product-label {
+      font-size: 0.78rem; color: #888; display: block; margin-top: 2px;
+    }
+    .status-badge {
+      display: inline-block; padding: 3px 10px; border-radius: 12px;
+      font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;
+    }
+    .status-confirmed { background: #f0fdf4; color: #16a34a; }
+    .status-revoked { background: #fef2f2; color: #dc2626; }
+    .status-pending { background: #fefce8; color: #ca8a04; }
+    .status-active { background: #f0fdf4; color: #16a34a; }
+    .status-completed { background: #eff6ff; color: #2563eb; }
+    .status-archived { background: #f5f5f5; color: #888; }
+    .project-row-header {
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 120px;
+      gap: 12px; padding: 10px 20px; background: #f0f2f7;
+      font-size: 0.78rem; font-weight: 700; color: #888;
+      text-transform: uppercase; letter-spacing: 0.5px;
+      border-top: 1px solid #e8e2db;
+    }
+    .no-data {
+      text-align: center; padding: 60px 20px; color: #888;
+    }
+    .no-data .icon { font-size: 2.5rem; margin-bottom: 12px; }
+    .no-data p { margin-bottom: 6px; }
+    .loading { text-align: center; padding: 40px; color: #888; }
+
+    /* KPI grid */
+    .kpi-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 16px; margin-bottom: 28px;
+    }
+    .kpi-card {
+      background: white; border-radius: 12px; border: 1px solid #e8e2db;
+      padding: 20px; text-align: center;
+      box-shadow: 0 4px 24px rgba(13, 148, 136, 0.07);
+    }
+    .kpi-icon { font-size: 1.4rem; margin-bottom: 6px; }
+    .kpi-value { font-size: 2rem; font-weight: 700; color: #0d9488; margin-bottom: 2px; }
+    .kpi-label {
+      font-size: 0.78rem; color: #888; text-transform: uppercase;
+      letter-spacing: 0.5px; font-weight: 600;
+    }
+    /* Tooltips */
+    .tooltip-trigger { position: relative; display: inline-flex; align-items: center; gap: 5px; }
+    .tooltip-icon {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 16px; height: 16px; border-radius: 50%; background: #e8e2db; color: #888;
+      font-size: 0.65rem; font-weight: 700; cursor: help; flex-shrink: 0;
+      transition: background 0.2s, color 0.2s; font-style: normal;
+    }
+    .tooltip-icon:hover { background: #0d9488; color: white; }
+    .tooltip-icon::after {
+      content: attr(data-tooltip); position: absolute; left: 50%; transform: translateX(-50%);
+      bottom: calc(100% + 8px); background: #1a1a2e; color: #fff; padding: 8px 12px;
+      border-radius: 8px; font-size: 0.78rem; font-weight: 400; line-height: 1.4;
+      white-space: normal; width: max-content; max-width: 260px;
+      pointer-events: none; opacity: 0; transition: opacity 0.2s;
+      z-index: 1000; box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+      text-transform: none; letter-spacing: normal;
+    }
+    .tooltip-icon::before {
+      content: ''; position: absolute; left: 50%; transform: translateX(-50%);
+      bottom: calc(100% + 2px); border: 5px solid transparent;
+      border-top-color: #1a1a2e; pointer-events: none; opacity: 0; transition: opacity 0.2s;
+      z-index: 1000;
+    }
+    .tooltip-icon:hover::after, .tooltip-icon:hover::before { opacity: 1; }
+
+    @media (max-width: 768px) { .kpi-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 480px) { .kpi-grid { grid-template-columns: 1fr; } }
+
+    /* Filter bar */
+    .filter-bar {
+      display: flex; gap: 16px; align-items: flex-end; flex-wrap: wrap;
+      margin-top: 16px;
+    }
+    .filter-group {
+      display: flex; flex-direction: column; gap: 4px; min-width: 160px;
+    }
+    .filter-group label {
+      font-size: 0.78rem; font-weight: 600; color: #888;
+      text-transform: uppercase; letter-spacing: 0.5px;
+    }
+    .filter-group select,
+    .filter-group input[type="date"] {
+      padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 6px;
+      font-size: 0.9rem; outline: none; background: white; transition: border 0.2s;
+    }
+    .filter-group select:focus,
+    .filter-group input[type="date"]:focus { border-color: #0d9488; }
+
+        @media (max-width: 768px) {
+      .project-row, .project-row-header {
+        grid-template-columns: 1fr 1fr;
+        gap: 6px;
+      }
+    }
+  </style>
+</head>
+<body>
+<nav>
+    <a href="/home" class="logo">NyLi<span style="color:#0d9488">Assets</span></a>
+    <div class="nav-links">
+      <a href="/home">Home</a>
+      <a href="/projects">Projects</a>
+      <a href="/dashboard">Dashboard</a>
+      <a href="/communications" class="active">Communications</a>
+      <a href="/calendar">Calendar</a>
+      <div class="user-menu">
+        <button class="user-menu-btn" id="userMenuBtn">
+          <span class="avatar" id="userAvatar">?</span>
+          <span id="userMenuLabel">Menu</span>
+          <span style="font-size:0.6rem;">&#9660;</span>
+        </button>
+        <div class="user-dropdown" id="userDropdown">
+          <a href="/settings">&#9881; Account Settings</a>
+          <a href="/settings#preferences">&#9776; Preferences</a>
+          <a href="/help">&#10067; Help</a>
+          <div class="sep"></div>
+          <button class="logout" id="logoutBtn">&#10140; Log Out</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+<div class="container">
+  <h1>Communications</h1>
+  <p class="subtitle">Search and review every user processed through your audits.</p>
+
+  <div class="kpi-grid" id="kpiGrid">
+    <div class="kpi-card"><div class="kpi-icon">&#x1F465;</div><div class="kpi-value" id="kpiUsers">0</div><div class="kpi-label tooltip-trigger">Unique Users <span class="tooltip-icon" data-tooltip="Total unique users (by email or key) processed across all audits">i</span></div></div>
+    <div class="kpi-card"><div class="kpi-icon">&#x1F4C1;</div><div class="kpi-value" id="kpiProjects">0</div><div class="kpi-label tooltip-trigger">Projects <span class="tooltip-icon" data-tooltip="Number of distinct projects containing audit records">i</span></div></div>
+    <div class="kpi-card"><div class="kpi-icon">&#x1F4CA;</div><div class="kpi-value" style="color:#8b5cf6;" id="kpiResponse">0%</div><div class="kpi-label tooltip-trigger">Response Rate <span class="tooltip-icon" data-tooltip="Percentage of flagged user records that have been confirmed or revoked">i</span></div></div>
+    <div class="kpi-card"><div class="kpi-icon">&#x2705;</div><div class="kpi-value" style="color:#16a34a;" id="kpiConfirmed">0</div><div class="kpi-label tooltip-trigger">Confirmed <span class="tooltip-icon" data-tooltip="Users who confirmed they still need their software license">i</span></div></div>
+    <div class="kpi-card"><div class="kpi-icon">&#x1F6AB;</div><div class="kpi-value" style="color:#dc2626;" id="kpiRevoked">0</div><div class="kpi-label tooltip-trigger">Revoked <span class="tooltip-icon" data-tooltip="Users whose licenses were reclaimed after audit verification">i</span></div></div>
+    <div class="kpi-card"><div class="kpi-icon">&#x23F3;</div><div class="kpi-value" style="color:#ca8a04;" id="kpiPending">0</div><div class="kpi-label tooltip-trigger">Pending <span class="tooltip-icon" data-tooltip="Users who haven't yet responded to their verification email">i</span></div></div>
+  </div>
+
+  <div class="search-section">
+    <h2>User Lookup</h2>
+    <div class="search-row">
+      <input type="text" id="searchInput" placeholder="Search by email address or user key..." autocomplete="off">
+      <button class="btn btn-primary" id="searchBtn">Search</button>
+      <button class="btn btn-secondary" id="clearBtn">Clear</button>
+    </div>
+    <div class="filter-bar">
+      <div class="filter-group">
+        <label for="filterProject">Project Name</label>
+        <select id="filterProject">
+          <option value="">All Projects</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label for="filterDateFrom">Send Date From</label>
+        <input type="date" id="filterDateFrom">
+      </div>
+      <div class="filter-group">
+        <label for="filterDateTo">Send Date To</label>
+        <input type="date" id="filterDateTo">
+      </div>
+    </div>
+  </div>
+  <div class="results-section">
+    <div class="results-header">
+      <h2>User Directory</h2>
+      <span class="results-count" id="resultsCount"></span>
+    </div>
+    <div id="resultsContainer">
+      <div class="no-data">
+        <div class="icon">&#x1F465;</div>
+        <p>Enter a search term above to find users across all projects.</p>
+        <p style="font-size:0.85rem;">You can search by email address or user key.</p>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+(async function() {
+  const searchInput = document.getElementById('searchInput');
+  const searchBtn = document.getElementById('searchBtn');
+  const clearBtn = document.getElementById('clearBtn');
+  const resultsContainer = document.getElementById('resultsContainer');
+  const resultsCount = document.getElementById('resultsCount');
+  const filterProject = document.getElementById('filterProject');
+  const filterDateFrom = document.getElementById('filterDateFrom');
+  const filterDateTo = document.getElementById('filterDateTo');
+
+  async function loadStats() {
+    try {
+      var params = new URLSearchParams();
+      var q = searchInput.value.trim();
+      if (q) params.set('q', q);
+      if (filterProject.value) params.set('projectId', filterProject.value);
+      if (filterDateFrom.value) params.set('dateFrom', filterDateFrom.value);
+      if (filterDateTo.value) params.set('dateTo', filterDateTo.value);
+      var res = await fetch('/api/communications/stats?' + params.toString(), { credentials: 'same-origin' });
+      if (!res.ok) return;
+      var s = await res.json();
+      document.getElementById('kpiUsers').textContent = (s.totalUsers || 0).toLocaleString();
+      document.getElementById('kpiProjects').textContent = (s.totalProjects || 0).toLocaleString();
+      document.getElementById('kpiResponse').textContent = (s.responseRate || '0.0') + '%';
+      document.getElementById('kpiConfirmed').textContent = (s.totalConfirmed || 0).toLocaleString();
+      document.getElementById('kpiRevoked').textContent = (s.totalRevoked || 0).toLocaleString();
+      document.getElementById('kpiPending').textContent = (s.totalPending || 0).toLocaleString();
+    } catch (e) { console.error('Failed to load stats', e); }
+  }
+
+  // Load initial stats (no filters)
+  loadStats();
+
+  // Load project list for filter dropdown
+  try {
+    const projRes = await fetch('/api/projects', { credentials: 'same-origin' });
+    if (projRes.ok) {
+      const projects = await projRes.json();
+      projects.forEach(p => {
+        const opt = document.createElement('option');
+        opt.value = p.id;
+        opt.textContent = p.name + (p.status !== 'active' ? ' (' + p.status + ')' : '');
+        filterProject.appendChild(opt);
+      });
+    }
+  } catch (e) { console.error('Failed to load projects', e); }
+
+  function escapeHtml(str) {
+    if (!str) return '';
+    const el = document.createElement('span');
+    el.textContent = str;
+    return el.innerHTML;
+  }
+
+  async function doSearch() {
+    const q = searchInput.value.trim();
+    if (!q) return;
+    resultsContainer.innerHTML = '<div class="loading">Searching...</div>';
+    resultsCount.textContent = '';
+    try {
+      var params = new URLSearchParams();
+      params.set('q', q);
+      if (filterProject.value) params.set('projectId', filterProject.value);
+      if (filterDateFrom.value) params.set('dateFrom', filterDateFrom.value);
+      if (filterDateTo.value) params.set('dateTo', filterDateTo.value);
+      const res = await fetch('/api/communications/users?' + params.toString(), { credentials: 'same-origin' });
+      if (res.status === 401) { window.location.href = '/login'; return; }
+      if (!res.ok) {
+        resultsContainer.innerHTML = '<div class="no-data"><p>Failed to search. Please try again.</p></div>';
+        return;
+      }
+      const data = await res.json();
+      renderResults(data);
+      loadStats();
+    } catch (err) {
+      console.error(err);
+      resultsContainer.innerHTML = '<div class="no-data"><p>An error occurred.</p></div>';
+    }
+  }
+
+  function renderResults(data) {
+    if (!data.users || data.users.length === 0) {
+      resultsCount.textContent = '0 users found';
+      resultsContainer.innerHTML = '<div class="no-data"><div class="icon">&#x1F50D;</div><p>No users found matching your search.</p><p style="font-size:0.85rem;">Try a different email address or user key.</p></div>';
+      return;
+    }
+    resultsCount.textContent = data.users.length + ' user' + (data.users.length !== 1 ? 's' : '') + ' found';
+    resultsContainer.innerHTML = data.users.map(function(user, idx) {
+      var projectCount = user.projects.length;
+      var statusSummary = {};
+      user.projects.forEach(function(p) {
+        var s = p.audit_status || 'pending';
+        statusSummary[s] = (statusSummary[s] || 0) + 1;
+      });
+      var summaryParts = Object.entries(statusSummary).map(function(entry) {
+        return '<span class="status-badge status-' + entry[0] + '">' + entry[1] + ' ' + entry[0] + '</span>';
+      }).join(' ');
+      var projectRows = user.projects.map(function(p) {
+        var nameHtml = p.project_id ? '<a href="/projects/' + p.project_id + '">' + escapeHtml(p.project_name || 'Unnamed Project') + '</a>' : '<span style="color:#aaa;">No Project</span>';
+        var productHtml = p.product_name ? '<span class="product-label">' + escapeHtml(p.product_name) + '</span>' : '';
+        var sourceLabel = p.source === 'onlyInFileA' ? 'Only in File A' : p.source === 'onlyInFileB' ? 'Only in File B' : escapeHtml(p.source || '\u2014');
+        var dateLabel = p.run_date ? new Date(p.run_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '\u2014';
+        return '<div class="project-row"><div class="project-name">' + nameHtml + productHtml + '</div><div><span class="status-badge status-' + (p.audit_status || 'pending') + '">' + (p.audit_status || 'pending') + '</span></div><div><span class="status-badge status-' + (p.project_status || 'active') + '">' + (p.project_status || '\u2014') + '</span></div><div style="color:#888;font-size:0.82rem;">' + sourceLabel + '</div><div style="color:#888;font-size:0.82rem;">' + dateLabel + '</div></div>';
+      }).join('');
+      return '<div class="user-card" id="user-' + idx + '"><div class="user-card-header" onclick="document.getElementById(\'user-' + idx + '\').classList.toggle(\'open\')"><div><span class="user-email">' + escapeHtml(user.email || user.user_key) + '</span>' + (user.email && user.user_key && user.email !== user.user_key ? '<span class="user-key">(' + escapeHtml(user.user_key) + ')</span>' : '') + '</div><div style="display:flex;align-items:center;gap:12px;"><span class="user-meta">' + projectCount + ' project' + (projectCount !== 1 ? 's' : '') + ' \u00B7 ' + summaryParts + '</span><span class="toggle-icon">\u25BC</span></div></div><div class="user-card-body"><div class="project-row-header"><div>Project</div><div>Audit Status</div><div>Project Status</div><div>Source</div><div>Run Date</div></div>' + projectRows + '</div></div>';
+    }).join('');
+  }
+
+  searchBtn.addEventListener('click', doSearch);
+  searchInput.addEventListener('keydown', function(e) { if (e.key === 'Enter') doSearch(); });
+  clearBtn.addEventListener('click', function() {
+    searchInput.value = '';
+    filterProject.value = '';
+    filterDateFrom.value = '';
+    filterDateTo.value = '';
+    resultsCount.textContent = '';
+    resultsContainer.innerHTML = '<div class="no-data"><div class="icon">&#x1F465;</div><p>Enter a search term above to find users across all projects.</p><p style="font-size:0.85rem;">You can search by email address or user key.</p></div>';
+    loadStats();
+  });
+
+  // User dropdown
+  (function initUserMenu() {
+    const btn = document.getElementById('userMenuBtn');
+    const dd  = document.getElementById('userDropdown');
+    if (!btn || !dd) return;
+    btn.addEventListener('click', e => { e.stopPropagation(); dd.classList.toggle('open'); });
+    document.addEventListener('click', () => dd.classList.remove('open'));
+    dd.addEventListener('click', e => e.stopPropagation());
+    fetch('/api/auth/me').then(r => r.ok ? r.json() : null).then(me => {
+      if (!me) return;
+      const initial = (me.email || '?')[0].toUpperCase();
+      const av = document.getElementById('userAvatar');
+      const ml = document.getElementById('userMenuLabel');
+      if (av) av.textContent = initial;
+      if (ml) ml.textContent = me.email;
+    }).catch(() => {});
+  })();
+  document.getElementById('logoutBtn').addEventListener('click', async function() { await fetch('/api/auth/logout', { method: 'POST' }); window.location.href = '/login'; });
+
+  // Admin nav link
+  try {
+    var r = await fetch('/api/auth/me');
+    if (r.ok) {
+      var me = await r.json();
+      if (me.isAdmin) {
+        var nav = document.querySelector('.nav-links');
+        var a = document.createElement('a');
+        a.href = '/admin';
+        a.textContent = 'Admin';
+        nav.appendChild(a);
+      }
+    }
+  } catch(e) {}
+})();
+</script>
+</body>
+</html>

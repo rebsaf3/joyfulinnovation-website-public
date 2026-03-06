@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NyLi Assets — Reclaim Wasted SaaS Spend | NyLi</title>
+  <style>
+    /* ── Reset & base ──────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: linear-gradient(180deg, #fdf8f4 0%, #faf5f0 40%, #fff 100%);
+      color: #1a1a2e;
+      line-height: 1.6;
+    }
+
+    /* ── Navigation ─────────────────────────────────────────────────── */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 40px;
+      border-bottom: 1px solid #e8e2db;
+      position: sticky;
+      top: 0;
+      background: white;
+      z-index: 50;
+    }
+
+    nav .logo {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #1a1a2e;
+      text-decoration: none;
+    }
+    nav .logo span { color: #0d9488; }
+
+    nav .nav-links {
+      display: flex;
+      gap: 32px;
+      align-items: center;
+    }
+
+    nav .nav-links a {
+      color: #555;
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: color 0.2s;
+    }
+
+    nav .nav-links a:hover {
+      color: #0d9488;
+    }
+
+    .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: white;
+      color: #1a1a2e;
+      padding: 10px 20px;
+      border-radius: 6px;
+      border: 1.5px solid #1a1a2e;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+    }
+
+    .nav-cta:hover {
+      background: #0d9488;
+      color: white;
+      border-color: #0d9488;
+    }
+
+    /* ── Hero section ──────────────────────────────────────────────── */
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      padding: 80px 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+      align-items: center;
+    }
+
+    .hero-text h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 20px;
+      color: #1a1a2e;
+    }
+
+    .hero-text p {
+      font-size: 1.1rem;
+      color: #555;
+      margin-bottom: 32px;
+      line-height: 1.7;
+    }
+
+    .hero-cta {
+      display: inline-flex;
+      gap: 12px;
+    }
+
+    .btn {
+      padding: 14px 32px;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .btn-primary {
+      background: #0d9488;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #0f766e;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(13, 148, 136, 0.2);
+    }
+
+    .btn-secondary {
+      background: white;
+      color: #0d9488;
+      border: 2px solid #0d9488;
+    }
+
+    .btn-secondary:hover {
+      background: #fdf8f4;
+    }
+
+    .hero-visual {
+      background: white;
+      border-radius: 16px;
+      border: 1px solid #e8e2db;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+    }
+    .hero-visual .suite-label {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #1a1a2e;
+    }
+    .hero-visual .suite-desc {
+      font-size: 0.9rem;
+      color: #666;
+      margin-bottom: 8px;
+    }
+    .suite-circles {
+      display: flex;
+      gap: 32px;
+      align-items: center;
+      padding: 32px;
+      background: linear-gradient(135deg, #f0f8ff 0%, #f0fdf4 50%, #ecfdf5 100%);
+      border-radius: 16px;
+      width: 100%;
+      justify-content: center;
+    }
+    .suite-circle {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      text-align: center;
+    }
+    .suite-circle.blue { background: linear-gradient(135deg, #4361ee, #3B5998); }
+    .suite-circle.green { background: linear-gradient(135deg, #22c55e, #059669); }
+    .suite-circle.cyan { background: linear-gradient(135deg, #06b6d4, #0891b2); }
+    .suite-circle .circle-name { font-weight: 700; font-size: 0.85rem; }
+    .suite-circle .circle-sub { font-size: 0.72rem; opacity: 0.9; margin-top: 2px; }
+    .suite-tagline {
+      font-size: 0.9rem;
+      font-style: italic;
+      color: #555;
+      text-align: center;
+    }
+
+    /* ── Problem section ───────────────────────────────────────────── */
+    .problems {
+      background: linear-gradient(170deg, #fdf8f4 0%, #faf5f0 50%, #fff 100%);
+      padding: 80px 40px;
+    }
+
+    .problems-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      font-size: 2.2rem;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 48px;
+      color: #1a1a2e;
+    }
+
+    .problems-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+      margin-bottom: 40px;
+    }
+
+    .problem-card {
+      background: white;
+      border-radius: 16px;
+      border: 1px solid #e8e2db;
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .problem-card h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #1a1a2e;
+    }
+
+    .problem-card p {
+      color: #555;
+      font-size: 0.95rem;
+    }
+
+    /* ── Features section ──────────────────────────────────────────── */
+    .features {
+      padding: 80px 40px;
+    }
+
+    .features-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 40px;
+    }
+
+    .feature-item {
+      display: flex;
+      gap: 20px;
+    }
+
+    .feature-icon {
+      font-size: 2rem;
+      flex-shrink: 0;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #fdf8f4;
+      border-radius: 8px;
+      color: #0d9488;
+    }
+
+    .feature-content h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #1a1a2e;
+    }
+
+    .feature-content p {
+      color: #555;
+      font-size: 0.95rem;
+    }
+
+    /* ── Pricing section ───────────────────────────────────────────── */
+    .pricing {
+      background: linear-gradient(170deg, #fdf8f4 0%, #faf5f0 50%, #fff 100%);
+      padding: 80px 40px;
+    }
+
+    .pricing-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+      margin-top: 48px;
+    }
+
+    .pricing-card {
+      background: white;
+      border-radius: 16px;
+      border: 1px solid #e8e2db;
+      padding: 40px 28px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .pricing-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 32px rgba(13, 148, 136, 0.1);
+    }
+
+    .pricing-card.featured {
+      border: 2px solid #0d9488;
+      transform: scale(1.05);
+    }
+
+    .pricing-name {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: #1a1a2e;
+    }
+
+    .pricing-price {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #0d9488;
+      margin-bottom: 4px;
+    }
+
+    .pricing-period {
+      color: #888;
+      font-size: 0.9rem;
+      margin-bottom: 24px;
+    }
+
+    .pricing-features {
+      list-style: none;
+      margin-bottom: 32px;
+      flex-grow: 1;
+      text-align: left;
+    }
+
+    .pricing-features li {
+      padding: 8px 0;
+      color: #555;
+      font-size: 0.9rem;
+      border-bottom: 1px solid #e8e2db;
+    }
+
+    .pricing-features li:last-child {
+      border-bottom: none;
+    }
+
+    .pricing-features li::before {
+      content: "✓ ";
+      color: #16a34a;
+      font-weight: bold;
+      margin-right: 4px;
+    }
+
+    /* ── CTA section ───────────────────────────────────────────────── */
+    .cta-section {
+      padding: 80px 40px;
+      text-align: center;
+      background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%);
+      color: white;
+    }
+
+    .cta-content {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .cta-section h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .cta-section p {
+      font-size: 1.05rem;
+      margin-bottom: 32px;
+      opacity: 0.95;
+    }
+
+    .btn-white {
+      background: white;
+      color: #0d9488;
+      padding: 12px 28px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 600;
+      display: inline-block;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .btn-white:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    /* ── Footer ────────────────────────────────────────────────────── */
+    footer {
+      padding: 32px 40px;
+      border-top: 1px solid #e8e2db;
+      text-align: center;
+      color: #888;
+      font-size: 0.875rem;
+    }
+
+    /* ── Responsive ────────────────────────────────────────────────── */
+    @media (max-width: 768px) {
+      nav {
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      nav .nav-links {
+        flex-direction: column;
+        gap: 12px;
+        width: 100%;
+      }
+
+      .hero {
+        grid-template-columns: 1fr;
+        padding: 40px 20px;
+        gap: 40px;
+      }
+
+      .hero-text h1 {
+        font-size: 2rem;
+      }
+
+      .problems-grid,
+      .pricing-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .pricing-card.featured {
+        transform: scale(1);
+      }
+
+      .section-title {
+        font-size: 1.6rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- ── Navigation ────────────────────────────────────────────────── -->
+  <nav>
+    <a href="/home" class="logo">NyLi<span style="color:#0d9488">Assets</span></a>
+    <div class="nav-links">
+      <a href="/">Home</a>
+      <a href="#features">Products</a>
+      <a href="#pricing">Pricing</a>
+      <a href="/login" class="nav-cta">NyLi Assets Login</a>
+    </div>
+  </nav>
+
+  <!-- ── Hero Section ──────────────────────────────────────────────── -->
+  <section class="hero">
+    <div class="hero-text">
+      <h1>Reclaim Wasted SaaS Spend</h1>
+      <p>NyLi Assets finds wasted SaaS spend hiding in plain sight. It compares what you are paying for against who is actually active, verifies ownership automatically, and generates an evidence trail you can take to procurement, security, and audit.</p>
+      <div class="hero-cta">
+        <a href="/register" class="btn btn-primary">Start 7-Day Free Trial</a>
+        <a href="#features" class="btn btn-secondary">Learn More</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="suite-label">Product Suite</div>
+      <div class="suite-desc">NyLi Assets works as part of the NyLi suite together with FlowPilot and InsightPilot.</div>
+      <div class="suite-circles">
+        <div class="suite-circle blue">
+          <span class="circle-name">NyLi Assets</span>
+          <span class="circle-sub">Reclaim spend</span>
+        </div>
+        <div class="suite-circle green">
+          <span class="circle-name">FlowPilot</span>
+          <span class="circle-sub">Automate work</span>
+        </div>
+        <div class="suite-circle cyan">
+          <span class="circle-name">InsightPilot</span>
+          <span class="circle-sub">Guide decisions</span>
+        </div>
+      </div>
+      <div class="suite-tagline">One connected operating system for IT outcomes</div>
+    </div>
+  </section>
+
+  <!-- ── Problems Section ──────────────────────────────────────────── -->
+  <section class="problems">
+    <div class="problems-container">
+      <h2 class="section-title">The Challenge</h2>
+      <div class="problems-grid">
+        <div class="problem-card">
+          <h3>Manual Audits Are Slow</h3>
+          <p>Comparing license lists to Active Directory by hand is error-prone and time-consuming.</p>
+        </div>
+        <div class="problem-card">
+          <h3>No Verification Trail</h3>
+          <p>You don't know if a flagged user actually still needs access without asking them directly.</p>
+        </div>
+        <div class="problem-card">
+          <h3>Lost License Budget</h3>
+          <p>Unused licenses continue costing money while you struggle to identify them.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Features Section ──────────────────────────────────────────── -->
+  <section class="features" id="features">
+    <div class="features-container">
+      <h2 class="section-title">How NyLi Assets Works</h2>
+      <div class="features-grid">
+        <div class="feature-item">
+          <div class="feature-icon">📁</div>
+          <div class="feature-content">
+            <h3>Upload & Compare</h3>
+            <p>Upload your license CSV and Active Directory export. NyLi Assets instantly identifies matches and gaps.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">📧</div>
+          <div class="feature-content">
+            <h3>Send Verification Emails</h3>
+            <p>Automatically send users confirmation links asking if they still need their license or access.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">✓</div>
+          <div class="feature-content">
+            <h3>Track Responses</h3>
+            <p>Collect yes/no responses with full audit trails, timestamps, and IP logging.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">📊</div>
+          <div class="feature-content">
+            <h3>Generate Reports</h3>
+            <p>Export dashboards with KPIs, trends, confirmed licenses, and recommended reclamations.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Pricing Section ──────────────────────────────────────────── -->
+  <section class="pricing" id="pricing">
+    <div class="pricing-container">
+      <h2 class="section-title">Simple, Transparent Pricing</h2>
+      <div class="pricing-grid">
+        <div class="pricing-card">
+          <div class="pricing-name">Starter</div>
+          <div class="pricing-price">Free</div>
+          <div class="pricing-period">Forever</div>
+          <ul class="pricing-features">
+            <li>Up to 500 users</li>
+            <li>1 audit run per month</li>
+            <li>Email verification</li>
+            <li>Audit log</li>
+            <li>Community support</li>
+          </ul>
+          <a href="/register" class="btn btn-primary">Get Started</a>
+        </div>
+
+        <div class="pricing-card featured">
+          <div class="pricing-name">Professional</div>
+          <div class="pricing-price">$99</div>
+          <div class="pricing-period">per month</div>
+          <ul class="pricing-features">
+            <li>Up to 5,000 users</li>
+            <li>Unlimited audit runs</li>
+            <li>Email verification</li>
+            <li>Trend analytics</li>
+            <li>CSV export</li>
+            <li>Priority email support</li>
+            <li>Team collaboration</li>
+          </ul>
+          <a href="/register" class="btn btn-primary">Get Started</a>
+        </div>
+
+        <div class="pricing-card">
+          <div class="pricing-name">Enterprise</div>
+          <div class="pricing-price">Custom</div>
+          <div class="pricing-period">contact sales</div>
+          <ul class="pricing-features">
+            <li>Unlimited users</li>
+            <li>Custom integrations</li>
+            <li>API access</li>
+            <li>Dedicated support</li>
+            <li>Advanced analytics</li>
+            <li>SLA agreement</li>
+            <li>On-premise option</li>
+          </ul>
+          <a href="mailto:sales@nyli.com" class="btn btn-secondary" style="color: #0d9488; border-color: #0d9488;">Contact Sales</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CTA Section ──────────────────────────────────────────────── -->
+  <section class="cta-section">
+    <div class="cta-content">
+      <h2>Start Auditing Today</h2>
+      <p>Start your 7-day free trial and upload your first CSVs in minutes. No credit card required.</p>
+      <a href="/register" class="btn-white">Start Free Trial</a>
+    </div>
+  </section>
+
+  <!-- ── Footer ────────────────────────────────────────────────────── -->
+  <footer>
+    <p>&copy; 2026 NyLi. All rights reserved.</p>
+  </footer>
+</body>
+</html>

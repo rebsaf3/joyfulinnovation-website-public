@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>History — NyLi Assets</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: linear-gradient(170deg, #fdf8f4 0%, #faf5f0 50%, #fff 100%);
+      color: #1a1a2e;
+    }
+
+    /* Navigation */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 28px;
+      background: white;
+      border-bottom: 1px solid #e8e2db;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      overflow: visible;
+    }
+
+    nav .logo {
+      font-weight: 700;
+      color: #0d9488;
+      font-size: 1.1rem;
+      text-decoration: none;
+    }
+
+    nav .nav-links {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+    }
+
+    nav a {
+      color: #555;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: color 0.2s;
+    }
+
+    nav a:hover,
+    nav a.active {
+      color: #0d9488;
+    }
+    /* User dropdown */
+    .user-menu { position: relative; }
+    .user-menu-btn {
+      display: flex; align-items: center; gap: 6px; padding: 7px 14px;
+      background: #fdf8f4; border: 1px solid #d6cfc7; border-radius: 8px;
+      cursor: pointer; font-size: 0.85rem; font-weight: 600; color: #0d9488;
+      transition: all 0.2s;
+    }
+    .user-menu-btn:hover { background: #f0ebe4; }
+    .user-menu-btn .avatar {
+      width: 26px; height: 26px; border-radius: 50%; background: #0d9488;
+      color: white; display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem; font-weight: 700;
+    }
+    .user-dropdown {
+      display: none; position: absolute; right: 0; top: calc(100% + 6px);
+      background: white; border: 1px solid #e8e2db; border-radius: 10px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12); min-width: 200px; z-index: 100;
+      overflow: visible;
+    }
+    .user-dropdown.open { display: block; }
+    .user-dropdown a, .user-dropdown button {
+      display: flex; align-items: center; gap: 10px; width: 100%;
+      padding: 11px 16px; font-size: 0.88rem; font-weight: 500; color: #333;
+      text-decoration: none; border: none; background: none; cursor: pointer;
+      transition: background 0.15s;
+    }
+    .user-dropdown a:hover, .user-dropdown button:hover { background: #fdf8f4; color: #0d9488; }
+    .user-dropdown .sep { height: 1px; background: #e8e2db; margin: 4px 0; }
+    .user-dropdown button.logout { color: #dc2626; }
+    .user-dropdown button.logout:hover { background: #fef2f2; color: #dc2626; }
+
+    /* Main content */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 12px;
+      color: #1a1a2e;
+    }
+
+    .subtitle {
+      color: #888;
+      margin-bottom: 32px;
+      font-size: 0.95rem;
+    }
+
+    /* Chart section */
+    .chart-section {
+      background: white;
+      border-radius: 12px;
+      border: 1px solid #e8e2db;
+      padding: 28px;
+      margin-bottom: 32px;
+      box-shadow: 0 4px 24px rgba(13, 148, 136, 0.07);
+    }
+
+    .chart-section h2 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 24px;
+      color: #1a1a2e;
+    }
+
+    .chart-container {
+      position: relative;
+      height: 350px;
+    }
+
+    /* Runs Table */
+    .runs-section {
+      background: white;
+      border-radius: 12px;
+      border: 1px solid #e8e2db;
+      padding: 28px;
+      box-shadow: 0 4px 24px rgba(13, 148, 136, 0.07);
+    }
+
+    .runs-section h2 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: #1a1a2e;
+    }
+
+    .runs-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+
+    .runs-table th {
+      background: #f8f9fb;
+      padding: 12px;
+      text-align: left;
+      font-weight: 600;
+      color: #1a1a2e;
+      border-bottom: 2px solid #e8e2db;
+    }
+
+    .runs-table td {
+      padding: 12px;
+      border-bottom: 1px solid #e8e2db;
+      color: #555;
+    }
+
+    .runs-table tr:hover {
+      background: #f8f9fb;
+      cursor: pointer;
+    }
+
+    .run-link {
+      color: #0d9488;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .run-link:hover {
+      text-decoration: underline;
+    }
+
+    .stat-small {
+      display: flex;
+      gap: 8px;
+      font-size: 0.8rem;
+      color: #888;
+    }
+
+    .stat-badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      background: #fdf8f4;
+      color: #0d9488;
+      font-weight: 600;
+    }
+
+    .no-data {
+      text-align: center;
+      padding: 40px 20px;
+      color: #888;
+    }
+
+    @media (max-width: 768px) {
+      .chart-container {
+        height: 250px;
+      }
+
+      .runs-table {
+        font-size: 0.8rem;
+      }
+
+      .runs-table th,
+      .runs-table td {
+        padding: 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav>
+    <a href="/home" class="logo">NyLi<span style="color:#0d9488">Assets</span></a>
+    <div class="nav-links">
+      <a href="/home">Home</a>
+      <a href="/projects">Projects</a>
+      <a href="/dashboard">Dashboard</a>
+      <a href="/communications">Communications</a>
+      <a href="/calendar">Calendar</a>
+      <div class="user-menu">
+        <button class="user-menu-btn" id="userMenuBtn">
+          <span class="avatar" id="userAvatar">?</span>
+          <span id="userMenuLabel">Menu</span>
+          <span style="font-size:0.6rem;">&#9660;</span>
+        </button>
+        <div class="user-dropdown" id="userDropdown">
+          <a href="/settings">&#9881; Account Settings</a>
+          <a href="/settings#preferences">&#9776; Preferences</a>
+          <a href="/help">&#10067; Help</a>
+          <div class="sep"></div>
+          <button class="logout" id="logoutBtn">&#10140; Log Out</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main content -->
+  <div class="container">
+    <h1>Audit History & Trends</h1>
+    <p class="subtitle">Track audit trends and view past comparison runs</p>
+
+    <!-- Trend Chart -->
+    <div class="chart-section">
+      <h2>Flagged Users Trend</h2>
+      <div class="chart-container">
+        <canvas id="trendChart"></canvas>
+      </div>
+    </div>
+
+    <!-- Runs Table -->
+    <div class="runs-section">
+      <h2>Past Audit Runs</h2>
+      <div id="runsTable"></div>
+    </div>
+  </div>
+
+  <script>
+    let trendChart = null;
+
+    async function loadHistory() {
+      try {
+        // Load trends data
+        const trendsRes = await fetch('/api/trends');
+        if (trendsRes.ok) {
+          const trendsData = await trendsRes.json();
+          displayTrendChart(trendsData.trends);
+        }
+
+        // Load runs list
+        const runsRes = await fetch('/api/runs?limit=100');
+        if (runsRes.ok) {
+          const runsData = await runsRes.json();
+          displayRuns(runsData.data);
+        }
+      } catch (err) {
+        console.error('Error loading history:', err);
+        document.querySelector('.container').innerHTML = '<div class="no-data"><p>Error loading history. Please try again.</p></div>';
+      }
+    }
+
+    function displayTrendChart(trends) {
+      if (!trends || trends.length === 0) {
+        return;
+      }
+
+      // Reverse to show oldest first
+      trends = [...trends].reverse();
+
+      const ctx = document.getElementById('trendChart').getContext('2d');
+
+      if (trendChart) {
+        trendChart.destroy();
+      }
+
+      trendChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: trends.map(t => formatDate(t.date)),
+          datasets: [
+            {
+              label: 'Total Flagged',
+              data: trends.map(t => t.totalInactive),
+              borderColor: '#0d9488',
+              backgroundColor: 'rgba(13, 148, 136, 0.1)',
+              borderWidth: 2,
+              tension: 0.4,
+              fill: true,
+            },
+            {
+              label: 'Confirmed',
+              data: trends.map(t => t.confirmed),
+              borderColor: '#16a34a',
+              backgroundColor: 'transparent',
+              borderWidth: 2,
+              tension: 0.4,
+              fill: false,
+            },
+            {
+              label: 'Revoked',
+              data: trends.map(t => t.revoked),
+              borderColor: '#dc2626',
+              backgroundColor: 'transparent',
+              borderWidth: 2,
+              tension: 0.4,
+              fill: false,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: {
+                font: { size: 14 },
+                padding: 24,
+                usePointStyle: true,
+              },
+            },
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: {
+                stepSize: 10,
+              },
+            },
+          },
+        },
+      });
+    }
+
+    function displayRuns(runs) {
+      if (!runs || runs.length === 0) {
+        document.getElementById('runsTable').innerHTML = '<div class="no-data"><p>No audit runs yet. <a href="/upload">Create one now.</a></p></div>';
+        return;
+      }
+
+      const table = document.createElement('table');
+      table.className = 'runs-table';
+
+      // Header
+      const thead = document.createElement('thead');
+      const headerRow = document.createElement('tr');
+      ['Date', 'Key Column', 'Total Licenses', 'Total Users', 'Matched', 'Flagged'].forEach(label => {
+        const th = document.createElement('th');
+        th.textContent = label;
+        headerRow.appendChild(th);
+      });
+      thead.appendChild(headerRow);
+      table.appendChild(thead);
+
+      // Body
+      const tbody = document.createElement('tbody');
+      runs.forEach(run => {
+        const tr = document.createElement('tr');
+        tr.style.cursor = 'pointer';
+        tr.onclick = () => {
+          window.location.href = `/dashboard?runId=${run.id}`;
+        };
+
+        const tdDate = document.createElement('td');
+        tdDate.innerHTML = `<a href="/dashboard?runId=${run.id}" class="run-link">${formatDate(run.created_at)}</a>`;
+        tr.appendChild(tdDate);
+
+        const tdKey = document.createElement('td');
+        tdKey.textContent = run.key_column || '—';
+        tr.appendChild(tdKey);
+
+        const tdTotalA = document.createElement('td');
+        tdTotalA.textContent = run.total_file_a;
+        tr.appendChild(tdTotalA);
+
+        const tdTotalB = document.createElement('td');
+        tdTotalB.textContent = run.total_file_b;
+        tr.appendChild(tdTotalB);
+
+        const tdMatched = document.createElement('td');
+        tdMatched.textContent = run.matched;
+        tr.appendChild(tdMatched);
+
+        const tdFlagged = document.createElement('td');
+        const flagged = run.only_in_a + run.only_in_b;
+        const badge = document.createElement('span');
+        badge.className = 'stat-badge';
+        badge.textContent = flagged;
+        tdFlagged.appendChild(badge);
+        tr.appendChild(tdFlagged);
+
+        tbody.appendChild(tr);
+      });
+      table.appendChild(tbody);
+
+      document.getElementById('runsTable').innerHTML = '';
+      document.getElementById('runsTable').appendChild(table);
+    }
+
+    function formatDate(dateString) {
+      return new Date(dateString).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+      });
+    }
+
+        // User dropdown
+    (function initUserMenu() {
+      const btn = document.getElementById('userMenuBtn');
+      const dd  = document.getElementById('userDropdown');
+      if (!btn || !dd) return;
+      btn.addEventListener('click', e => { e.stopPropagation(); dd.classList.toggle('open'); });
+      document.addEventListener('click', () => dd.classList.remove('open'));
+      dd.addEventListener('click', e => e.stopPropagation());
+      fetch('/api/auth/me').then(r => r.ok ? r.json() : null).then(me => {
+        if (!me) return;
+        const initial = (me.email || '?')[0].toUpperCase();
+        const av = document.getElementById('userAvatar');
+        const ml = document.getElementById('userMenuLabel');
+        if (av) av.textContent = initial;
+        if (ml) ml.textContent = me.email;
+      }).catch(() => {});
+    })();
+    document.getElementById('logoutBtn').addEventListener('click', async function() { await fetch('/api/auth/logout', { method: 'POST' }); window.location.href = '/login'; });// Logout
+    document.getElementById('logoutBtn').addEventListener('click', async () => {
+      await fetch('/api/auth/logout', { method: 'POST' });
+      window.location.href = '/login';
+    });
+
+    // Load on page load
+    document.addEventListener('DOMContentLoaded', loadHistory);
+  </script>
+    <script src="/adminNav.js"></script>
+</body>
+</html>

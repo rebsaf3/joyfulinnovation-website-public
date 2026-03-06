@@ -1,0 +1,1296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings — NyLi Assets</title>
+  <style>
+    :root {
+      --bg-primary: #ffffff;
+      --bg-page: linear-gradient(170deg, #fdf8f4 0%, #fff 50%);
+      --bg-card: #ffffff;
+      --bg-input: #fafbfc;
+      --bg-hover: #fdf8f4;
+      --border-color: #e8e2db;
+      --text-primary: #1a1a2e;
+      --text-secondary: #555;
+      --text-muted: #888;
+      --accent: #0d9488;
+      --accent-hover: #0f766e;
+      --accent-light: #fdf8f4;
+    }
+    .dark-mode {
+      --bg-primary: #1e1e2e;
+      --bg-page: #1a1a2e;
+      --bg-card: #2a2a3e;
+      --bg-input: #333348;
+      --bg-hover: #333348;
+      --border-color: #3a3a4e;
+      --text-primary: #e0e0e0;
+      --text-secondary: #b0b0c0;
+      --text-muted: #888;
+      --accent: #5b7bf5;
+      --accent-hover: #4a6ae0;
+      --accent-light: #2a2a3e;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg-page);
+      color: var(--text-primary);
+      transition: background 0.3s, color 0.3s;
+    }
+    nav {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 16px 28px; background: var(--bg-primary); border-bottom: 1px solid var(--border-color);
+      position: sticky; top: 0; z-index: 1000; overflow: visible;
+      transition: background 0.3s, border-color 0.3s;
+    }
+    nav .logo { font-weight: 700; color: var(--accent); font-size: 1.1rem; text-decoration: none; }
+    nav .nav-links { display: flex; gap: 24px; align-items: center; }
+    nav a { color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; font-weight: 600; transition: color 0.2s; }
+    nav a:hover { color: var(--accent); }
+    .user-menu { position: relative; }
+    .user-menu-btn {
+      display: flex; align-items: center; gap: 6px; padding: 7px 14px;
+      background: var(--accent-light); border: 1px solid var(--border-color); border-radius: 8px;
+      cursor: pointer; font-size: 0.85rem; font-weight: 600; color: var(--accent); transition: all 0.2s;
+    }
+    .user-menu-btn:hover { background: var(--bg-hover); }
+    .user-menu-btn .avatar {
+      width: 26px; height: 26px; border-radius: 50%; background: var(--accent);
+      color: white; display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem; font-weight: 700;
+    }
+    .user-dropdown {
+      display: none; position: absolute; right: 0; top: calc(100% + 6px);
+      background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 10px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12); min-width: 200px; z-index: 100; overflow: visible;
+    }
+    .user-dropdown.open { display: block; }
+    .user-dropdown a, .user-dropdown button {
+      display: flex; align-items: center; gap: 10px; width: 100%;
+      padding: 11px 16px; font-size: 0.88rem; font-weight: 500; color: var(--text-primary);
+      text-decoration: none; border: none; background: none; cursor: pointer; transition: background 0.15s;
+    }
+    .user-dropdown a:hover, .user-dropdown button:hover { background: var(--bg-hover); color: var(--accent); }
+    .user-dropdown .sep { height: 1px; background: var(--border-color); margin: 4px 0; }
+    .user-dropdown button.logout { color: #dc2626; }
+    .user-dropdown button.logout:hover { background: #fef2f2; color: #dc2626; }
+    .container { max-width: 860px; margin: 0 auto; padding: 40px 20px; }
+    h1 { font-size: 2rem; margin-bottom: 12px; color: var(--text-primary); }
+    .subtitle { color: var(--text-muted); margin-bottom: 40px; font-size: 0.95rem; }
+    .settings-section {
+      background: var(--bg-card); border-radius: 12px; border: 1px solid var(--border-color);
+      padding: 28px; margin-bottom: 24px; transition: background 0.3s, border-color 0.3s;
+    }
+    .settings-section h2 {
+      font-size: 1.2rem; font-weight: 600; margin-bottom: 20px; color: var(--text-primary);
+      border-bottom: 2px solid var(--accent-light); padding-bottom: 12px;
+    }
+    .settings-tabs { display: flex; gap: 0; margin-bottom: 32px; border-bottom: 2px solid var(--border-color); }
+    .settings-tab {
+      padding: 12px 24px; font-size: 0.95rem; font-weight: 600; cursor: pointer;
+      color: var(--text-muted); border: none; background: none;
+      border-bottom: 2px solid transparent; margin-bottom: -2px; transition: color 0.2s, border-color 0.2s;
+    }
+    .settings-tab:hover { color: var(--accent); }
+    .settings-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+    .profile-info { display: grid; gap: 16px; margin-bottom: 20px; }
+    .info-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--border-color); }
+    .info-row:last-child { border-bottom: none; }
+    .info-label { font-size: 0.9rem; color: var(--text-muted); font-weight: 500; }
+    .info-value { font-size: 0.95rem; color: var(--text-primary); font-weight: 500; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+    .form-group label { font-size: 0.875rem; font-weight: 600; color: var(--text-primary); }
+    .form-group input, .form-group select {
+      padding: 10px 12px; border: 1px solid var(--border-color); border-radius: 6px;
+      background: var(--bg-input); font-size: 0.95rem; color: var(--text-primary);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .form-group input:focus, .form-group select:focus {
+      outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(13,148,136,0.1);
+    }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .form-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+    .btn {
+      padding: 10px 20px; border: none; border-radius: 6px; font-size: 0.9rem;
+      font-weight: 600; cursor: pointer; transition: background 0.2s, opacity 0.2s;
+    }
+    .btn-primary { background: var(--accent); color: white; }
+    .btn-primary:hover { background: var(--accent-hover); }
+    .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
+    .btn-secondary { background: var(--bg-input); color: var(--text-primary); border: 1px solid var(--border-color); }
+    .btn-secondary:hover { background: var(--bg-hover); }
+    .btn-danger { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
+    .btn-danger:hover { background: #fee2e2; }
+    .btn-sm { padding: 7px 14px; font-size: 0.82rem; }
+    .button-group { display: flex; gap: 12px; margin-top: 16px; }
+    .msg { padding: 10px 12px; border-radius: 6px; font-size: 0.875rem; display: none; margin-bottom: 16px; }
+    .msg.visible { display: block; }
+    .msg-error { background: #fef2f2; border: 1px solid #fecaca; color: #dc2626; }
+    .msg-success { background: #f0fdf4; border: 1px solid #86efac; color: #16a34a; }
+    .pref-row { display: flex; justify-content: space-between; align-items: center; padding: 16px 0; border-bottom: 1px solid var(--border-color); }
+    .pref-row:last-child { border-bottom: none; }
+    .pref-label-group { flex: 1; }
+    .pref-label { font-size: 0.95rem; font-weight: 600; color: var(--text-primary); margin-bottom: 2px; }
+    .pref-desc { font-size: 0.82rem; color: var(--text-muted); }
+    .pref-control { flex-shrink: 0; margin-left: 24px; }
+    .toggle { position: relative; width: 48px; height: 26px; display: inline-block; }
+    .toggle input { opacity: 0; width: 0; height: 0; }
+    .toggle .slider {
+      position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+      background: #ccc; border-radius: 26px; cursor: pointer; transition: background 0.3s;
+    }
+    .toggle .slider::before {
+      content: ""; position: absolute; left: 3px; top: 3px;
+      width: 20px; height: 20px; background: white; border-radius: 50%; transition: transform 0.3s;
+    }
+    .toggle input:checked + .slider { background: var(--accent); }
+    .toggle input:checked + .slider::before { transform: translateX(22px); }
+    .pref-select {
+      padding: 8px 12px; border: 1px solid var(--border-color); border-radius: 6px;
+      background: var(--bg-input); font-size: 0.9rem; color: var(--text-primary); min-width: 180px; cursor: pointer;
+    }
+    .pref-select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(13,148,136,0.1); }
+    .plan-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin: 20px 0; }
+    .plan-card {
+      border: 2px solid var(--border-color); border-radius: 10px; padding: 20px; text-align: center;
+      cursor: pointer; transition: all 0.2s; background: var(--bg-card);
+    }
+    .plan-card:hover { border-color: var(--accent); }
+    .plan-card.current { border-color: var(--accent); background: var(--accent-light); }
+    .plan-card .plan-name { font-size: 1rem; font-weight: 700; color: var(--text-primary); margin-bottom: 4px; }
+    .plan-card .plan-price { font-size: 1.4rem; font-weight: 700; color: var(--accent); margin-bottom: 4px; }
+    .plan-card .plan-period { font-size: 0.78rem; color: var(--text-muted); }
+    .plan-card .plan-features { margin-top: 12px; text-align: left; font-size: 0.8rem; color: var(--text-secondary); }
+    .plan-card .plan-features div { padding: 3px 0; }
+    .card-display {
+      display: flex; align-items: center; gap: 12px; padding: 14px 16px;
+      background: var(--bg-input); border: 1px solid var(--border-color); border-radius: 8px;
+    }
+    .card-brand { font-weight: 700; font-size: 0.9rem; color: var(--accent); text-transform: uppercase; }
+    .card-number { font-size: 0.9rem; color: var(--text-primary); font-weight: 500; }
+    .card-exp { font-size: 0.82rem; color: var(--text-muted); }
+    .invoice-table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+    .invoice-table th {
+      text-align: left; padding: 10px 12px; font-size: 0.8rem; font-weight: 600;
+      color: var(--text-muted); text-transform: uppercase; border-bottom: 2px solid var(--border-color);
+    }
+    .invoice-table td { padding: 10px 12px; font-size: 0.88rem; border-bottom: 1px solid var(--border-color); color: var(--text-primary); }
+    .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; }
+    .badge-paid { background: #dcfce7; color: #16a34a; }
+    .badge-pending { background: #fef9c3; color: #a16207; }
+    .badge-failed { background: #fef2f2; color: #dc2626; }
+    .modal-overlay {
+      display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.4); z-index: 2000; justify-content: center; align-items: center;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: var(--bg-card); border-radius: 12px; padding: 32px; max-width: 480px; width: 90%;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.2); position: relative;
+    }
+    .modal h3 { font-size: 1.1rem; margin-bottom: 20px; color: var(--text-primary); }
+    .modal-close {
+      position: absolute; top: 12px; right: 16px; background: none; border: none;
+      font-size: 1.4rem; cursor: pointer; color: var(--text-muted);
+    }
+    /* Users table */
+    .users-table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+    .users-table th {
+      text-align: left; padding: 10px 12px; font-size: 0.8rem; font-weight: 600;
+      color: var(--text-muted); text-transform: uppercase; border-bottom: 2px solid var(--border-color);
+    }
+    .users-table td { padding: 10px 12px; font-size: 0.88rem; border-bottom: 1px solid var(--border-color); color: var(--text-primary); }
+    .users-table tr:hover { background: var(--bg-hover); }
+    .badge-role { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; }
+    .badge-member { background: #f0ebe4; color: #3730a3; }
+    .badge-admin { background: #dbeafe; color: #1d4ed8; }
+    .badge-superadmin { background: #fce7f3; color: #be185d; }
+    .badge-disabled { background: #fef2f2; color: #dc2626; }
+    .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid var(--accent-light); padding-bottom: 12px; }
+    .section-header h2 { margin-bottom: 0; border-bottom: none; padding-bottom: 0; }
+    .user-count { font-size: 0.82rem; color: var(--text-muted); margin-left: 8px; font-weight: 400; }
+    @media (max-width: 768px) {
+      .info-row { flex-direction: column; align-items: flex-start; gap: 8px; }
+      .button-group { flex-direction: column; }
+      .btn { width: 100%; }
+      .form-row, .form-row-3 { grid-template-columns: 1fr; }
+      .plan-grid { grid-template-columns: 1fr 1fr; }
+      .users-table { font-size: 0.8rem; }
+      .users-table th, .users-table td { padding: 8px 6px; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="/home" class="logo">NyLi<span style="color:#0d9488">Assets</span></a>
+    <div class="nav-links">
+      <a href="/home">Home</a>
+      <a href="/projects">Projects</a>
+      <a href="/dashboard">Dashboard</a>
+      <a href="/communications">Communications</a>
+      <a href="/calendar">Calendar</a>
+      <div class="user-menu">
+        <button class="user-menu-btn" id="userMenuBtn">
+          <span class="avatar" id="userAvatar">?</span>
+          <span id="userMenuLabel">Menu</span>
+          <span style="font-size:0.6rem;">&#9660;</span>
+        </button>
+        <div class="user-dropdown" id="userDropdown">
+          <a href="/settings">&#9881; Account Settings</a>
+          <a href="/settings#preferences">&#9776; Preferences</a>
+          <a href="/help">&#10067; Help</a>
+          <div class="sep"></div>
+          <button class="logout" id="logoutBtn">&#10140; Log Out</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <!-- Add User Modal -->
+  <div class="modal-overlay" id="addUserModal">
+    <div class="modal">
+      <button class="modal-close" id="addUserModalClose">&times;</button>
+      <h3>Add Team Member</h3>
+      <div class="msg msg-error" id="addUserError"></div>
+      <form id="addUserForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label>First Name</label>
+            <input type="text" id="newUserFirstName" placeholder="First name">
+          </div>
+          <div class="form-group">
+            <label>Last Name</label>
+            <input type="text" id="newUserLastName" placeholder="Last name">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Email *</label>
+          <input type="email" id="newUserEmail" placeholder="user@company.com" required>
+        </div>
+        <div class="form-group">
+          <label>Title</label>
+          <input type="text" id="newUserTitle" placeholder="e.g. Analyst, Developer">
+        </div>
+        <div class="form-group">
+          <label>Temporary Password *</label>
+          <input type="password" id="newUserPassword" placeholder="Min 8 characters" required>
+          <small style="color: var(--text-muted); font-size: 0.8rem;">User can change after first login</small>
+        </div>
+        <div class="form-group">
+          <label>Role</label>
+          <select id="newUserRole">
+            <option value="member">Member</option>
+            <option value="admin">Admin</option>
+          </select>
+        </div>
+        <div class="button-group">
+          <button type="submit" class="btn btn-primary">Add User</button>
+          <button type="button" class="btn btn-secondary" id="addUserCancel">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="modal-overlay" id="cardModal">
+    <div class="modal">
+      <button class="modal-close" id="cardModalClose">&times;</button>
+      <h3 id="cardModalTitle">Add Payment Method</h3>
+      <div class="msg msg-error" id="cardError"></div>
+      <form id="cardForm">
+        <div class="form-group">
+          <label>Card Number</label>
+          <input type="text" id="cardNumber" placeholder="4242 4242 4242 4242" maxlength="19" required>
+        </div>
+        <div class="form-row-3">
+          <div class="form-group">
+            <label>Exp Month</label>
+            <select id="cardExpMonth">
+              <option value="">MM</option>
+              <option value="01">01</option><option value="02">02</option><option value="03">03</option>
+              <option value="04">04</option><option value="05">05</option><option value="06">06</option>
+              <option value="07">07</option><option value="08">08</option><option value="09">09</option>
+              <option value="10">10</option><option value="11">11</option><option value="12">12</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Exp Year</label>
+            <select id="cardExpYear">
+              <option value="">YYYY</option>
+              <option value="2025">2025</option><option value="2026">2026</option><option value="2027">2027</option>
+              <option value="2028">2028</option><option value="2029">2029</option><option value="2030">2030</option>
+              <option value="2031">2031</option><option value="2032">2032</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>CVC</label>
+            <input type="text" id="cardCvc" placeholder="123" maxlength="4" required>
+          </div>
+        </div>
+        <div class="button-group">
+          <button type="submit" class="btn btn-primary">Save Card</button>
+          <button type="button" class="btn btn-secondary" id="cardCancel">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="container">
+    <h1>Settings</h1>
+    <p class="subtitle">Manage your account, billing, and personalize your experience</p>
+    <div class="settings-tabs">
+      <button class="settings-tab active" data-tab="account">Account</button>
+      <button class="settings-tab" data-tab="billing">Billing</button>
+      <button class="settings-tab" data-tab="preferences">Preferences</button>
+    </div>
+    <div class="tab-content active" id="tab-account">
+      <div class="settings-section">
+        <h2>Profile</h2>
+        <div class="msg msg-error" id="profileError"></div>
+        <div class="msg msg-success" id="profileSuccess"></div>
+        <form id="profileForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="profileFirstName">First Name</label>
+              <input type="text" id="profileFirstName" placeholder="First name">
+            </div>
+            <div class="form-group">
+              <label for="profileLastName">Last Name</label>
+              <input type="text" id="profileLastName" placeholder="Last name">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="profileTitle">Title</label>
+            <input type="text" id="profileTitle" placeholder="e.g. IT Director, Software Manager">
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" id="profileEmail" disabled>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Company</label>
+              <input type="text" id="profileCompany" disabled>
+            </div>
+            <div class="form-group">
+              <label>Member Since</label>
+              <input type="text" id="profileCreated" disabled>
+            </div>
+          </div>
+          <div class="button-group">
+            <button type="submit" class="btn btn-primary">Save Profile</button>
+          </div>
+        </form>
+      </div>
+      <div class="settings-section">
+        <h2>Change Password</h2>
+        <div class="msg msg-error" id="passwordError"></div>
+        <div class="msg msg-success" id="passwordSuccess"></div>
+        <form id="passwordForm">
+          <div class="form-group">
+            <label for="currentPassword">Current Password</label>
+            <input type="password" id="currentPassword" placeholder="••••••••" required>
+          </div>
+          <div class="form-group">
+            <label for="newPassword">New Password</label>
+            <input type="password" id="newPassword" placeholder="••••••••" required>
+            <small style="color: var(--text-muted); font-size: 0.8rem;">At least 8 characters</small>
+          </div>
+          <div class="form-group">
+            <label for="confirmPassword">Confirm New Password</label>
+            <input type="password" id="confirmPassword" placeholder="••••••••" required>
+          </div>
+          <button type="submit" class="btn btn-primary" id="passwordBtn">
+            <span id="passwordBtnText">Change Password</span>
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Team Members section (admin/superadmin only) -->
+    <div class="tab-content" id="tab-users" style="display:none;">
+      <div class="settings-section">
+        <div class="section-header">
+          <h2>Team Members <span class="user-count" id="userCount"></span></h2>
+          <button class="btn btn-primary btn-sm" id="addUserBtn">+ Add User</button>
+        </div>
+        <div class="msg msg-error" id="usersError"></div>
+        <div class="msg msg-success" id="usersSuccess"></div>
+        <table class="users-table" id="usersTable">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Joined</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="usersTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="tab-content" id="tab-billing">
+      <div class="settings-section">
+        <h2>Current Plan</h2>
+        <div class="msg msg-error" id="planError"></div>
+        <div class="msg msg-success" id="planSuccess"></div>
+        <div class="profile-info" style="margin-bottom:24px;">
+          <div class="info-row">
+            <span class="info-label">Plan</span>
+            <span class="info-value" id="currentPlanName">Loading...</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Status</span>
+            <span class="info-value" id="currentPlanStatus">Loading...</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Monthly Cost</span>
+            <span class="info-value" id="currentPlanPrice">Loading...</span>
+          </div>
+        </div>
+        <h3 style="font-size:1rem; margin-bottom:12px; color:var(--text-primary);">Change Plan</h3>
+        <div class="plan-grid" id="planGrid">
+          <div class="plan-card" data-plan="free">
+            <div class="plan-name">Free</div>
+            <div class="plan-price">$0</div>
+            <div class="plan-period">/month</div>
+            <div class="plan-features">
+              <div>&#10003; 1 Project</div>
+              <div>&#10003; 100 Users/audit</div>
+              <div>&#10003; Basic reports</div>
+            </div>
+          </div>
+          <div class="plan-card" data-plan="starter">
+            <div class="plan-name">Starter</div>
+            <div class="plan-price">$29</div>
+            <div class="plan-period">/month</div>
+            <div class="plan-features">
+              <div>&#10003; 5 Projects</div>
+              <div>&#10003; 1,000 Users/audit</div>
+              <div>&#10003; Email notifications</div>
+            </div>
+          </div>
+          <div class="plan-card" data-plan="pro">
+            <div class="plan-name">Pro</div>
+            <div class="plan-price">$79</div>
+            <div class="plan-period">/month</div>
+            <div class="plan-features">
+              <div>&#10003; Unlimited Projects</div>
+              <div>&#10003; 10,000 Users/audit</div>
+              <div>&#10003; AI Analysis</div>
+            </div>
+          </div>
+          <div class="plan-card" data-plan="enterprise">
+            <div class="plan-name">Enterprise</div>
+            <div class="plan-price">$199</div>
+            <div class="plan-period">/month</div>
+            <div class="plan-features">
+              <div>&#10003; Everything in Pro</div>
+              <div>&#10003; Unlimited users</div>
+              <div>&#10003; Priority support</div>
+            </div>
+          </div>
+        </div>
+        <div class="button-group" id="planActions">
+          <button class="btn btn-primary" id="changePlanBtn" disabled>Upgrade / Downgrade</button>
+          <button class="btn btn-danger" id="cancelPlanBtn" style="display:none;">Cancel Plan</button>
+        </div>
+      </div>
+      <div class="settings-section">
+        <h2>Payment Method</h2>
+        <div id="cardOnFile" style="display:none;">
+          <div class="card-display">
+            <span class="card-brand" id="cardBrand"></span>
+            <span class="card-number" id="cardLast4"></span>
+            <span class="card-exp" id="cardExpiry"></span>
+          </div>
+        </div>
+        <p id="noCard" style="color:var(--text-muted); margin-bottom:16px;">No payment method on file.</p>
+        <div class="button-group">
+          <button class="btn btn-primary btn-sm" id="addCardBtn">Add Card</button>
+          <button class="btn btn-secondary btn-sm" id="updateCardBtn" style="display:none;">Update Card</button>
+        </div>
+      </div>
+      <div class="settings-section">
+        <h2>Billing Address</h2>
+        <div class="msg msg-error" id="addrError"></div>
+        <div class="msg msg-success" id="addrSuccess"></div>
+        <form id="addressForm">
+          <div class="form-group">
+            <label>Address Line 1</label>
+            <input type="text" id="addrLine1" placeholder="123 Main St">
+          </div>
+          <div class="form-group">
+            <label>Address Line 2</label>
+            <input type="text" id="addrLine2" placeholder="Suite 100 (optional)">
+          </div>
+          <div class="form-row-3">
+            <div class="form-group">
+              <label>City</label>
+              <input type="text" id="addrCity" placeholder="City">
+            </div>
+            <div class="form-group">
+              <label>State</label>
+              <input type="text" id="addrState" placeholder="State">
+            </div>
+            <div class="form-group">
+              <label>ZIP Code</label>
+              <input type="text" id="addrZip" placeholder="ZIP">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Country</label>
+            <select id="addrCountry">
+              <option value="US">United States</option>
+              <option value="CA">Canada</option>
+              <option value="GB">United Kingdom</option>
+              <option value="DE">Germany</option>
+              <option value="FR">France</option>
+              <option value="AU">Australia</option>
+              <option value="JP">Japan</option>
+            </select>
+          </div>
+          <div class="button-group">
+            <button type="submit" class="btn btn-primary">Save Address</button>
+          </div>
+        </form>
+      </div>
+      <div class="settings-section">
+        <h2>Invoices</h2>
+        <div id="invoicesEmpty" style="color:var(--text-muted);">No invoices yet.</div>
+        <table class="invoice-table" id="invoiceTable" style="display:none;">
+          <thead>
+            <tr>
+              <th>Invoice</th>
+              <th>Date</th>
+              <th>Amount</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="invoiceBody"></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="tab-content" id="tab-preferences">
+      <div class="msg msg-error" id="prefError"></div>
+      <div class="msg msg-success" id="prefSuccess"></div>
+      <div class="settings-section">
+        <h2>Appearance</h2>
+        <div class="pref-row">
+          <div class="pref-label-group">
+            <div class="pref-label">Dark Mode</div>
+            <div class="pref-desc">Switch between light and dark theme</div>
+          </div>
+          <div class="pref-control">
+            <label class="toggle">
+              <input type="checkbox" id="prefDarkMode">
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="settings-section">
+        <h2>Language &amp; Region</h2>
+        <div class="pref-row">
+          <div class="pref-label-group">
+            <div class="pref-label">Language</div>
+            <div class="pref-desc">Display language for the interface</div>
+          </div>
+          <div class="pref-control">
+            <select class="pref-select" id="prefLanguage">
+              <option value="en">English</option>
+              <option value="es">Español</option>
+              <option value="fr">Français</option>
+              <option value="de">Deutsch</option>
+              <option value="pt">Português</option>
+              <option value="ja">日本語</option>
+              <option value="zh">中文</option>
+            </select>
+          </div>
+        </div>
+        <div class="pref-row">
+          <div class="pref-label-group">
+            <div class="pref-label">Timezone</div>
+            <div class="pref-desc">Used for date/time display and scheduling</div>
+          </div>
+          <div class="pref-control">
+            <select class="pref-select" id="prefTimezone">
+              <option value="UTC">UTC</option>
+              <option value="America/New_York">Eastern Time (ET)</option>
+              <option value="America/Chicago">Central Time (CT)</option>
+              <option value="America/Denver">Mountain Time (MT)</option>
+              <option value="America/Los_Angeles">Pacific Time (PT)</option>
+              <option value="America/Anchorage">Alaska (AKT)</option>
+              <option value="Pacific/Honolulu">Hawaii (HST)</option>
+              <option value="Europe/London">London (GMT)</option>
+              <option value="Europe/Paris">Central Europe (CET)</option>
+              <option value="Europe/Berlin">Berlin (CET)</option>
+              <option value="Asia/Tokyo">Tokyo (JST)</option>
+              <option value="Asia/Shanghai">Shanghai (CST)</option>
+              <option value="Asia/Kolkata">India (IST)</option>
+              <option value="Australia/Sydney">Sydney (AEST)</option>
+            </select>
+          </div>
+        </div>
+        <div class="pref-row">
+          <div class="pref-label-group">
+            <div class="pref-label">Date Format</div>
+            <div class="pref-desc">How dates are displayed throughout the app</div>
+          </div>
+          <div class="pref-control">
+            <select class="pref-select" id="prefDateFormat">
+              <option value="MM/DD/YYYY">MM/DD/YYYY</option>
+              <option value="DD/MM/YYYY">DD/MM/YYYY</option>
+              <option value="YYYY-MM-DD">YYYY-MM-DD</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="settings-section">
+        <h2>Notifications</h2>
+        <div class="pref-row">
+          <div class="pref-label-group">
+            <div class="pref-label">Email Notifications</div>
+            <div class="pref-desc">Receive email alerts for audit results, responses, and project updates</div>
+          </div>
+          <div class="pref-control">
+            <label class="toggle">
+              <input type="checkbox" id="prefNotifications" checked>
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="button-group">
+        <button class="btn btn-primary" id="savePrefBtn">Save Preferences</button>
+      </div>
+    </div>
+  </div>
+  <script>
+    const i18n = {
+      en: { settings:'Settings', subtitle:'Manage your account, billing, and personalize your experience',
+            account:'Account', billing:'Billing', preferences:'Preferences', profile:'Profile',
+            firstName:'First Name', lastName:'Last Name', titleLabel:'Title', email:'Email',
+            company:'Company', memberSince:'Member Since', saveProfile:'Save Profile',
+            changePassword:'Change Password', currentPw:'Current Password', newPw:'New Password',
+            confirmPw:'Confirm New Password', changePwBtn:'Change Password',
+            currentPlan:'Current Plan', plan:'Plan', status:'Status', monthlyCost:'Monthly Cost',
+            changePlan:'Change Plan', upgrade:'Upgrade / Downgrade', cancelPlan:'Cancel Plan',
+            paymentMethod:'Payment Method', noPayment:'No payment method on file.',
+            addCard:'Add Card', updateCard:'Update Card',
+            billingAddress:'Billing Address', saveAddress:'Save Address',
+            invoices:'Invoices', noInvoices:'No invoices yet.',
+            invoice:'Invoice', date:'Date', amount:'Amount',
+            appearance:'Appearance', darkMode:'Dark Mode', darkModeDesc:'Switch between light and dark theme',
+            language:'Language', languageDesc:'Display language for the interface',
+            timezone:'Timezone', timezoneDesc:'Used for date/time display and scheduling',
+            dateFormat:'Date Format', dateFormatDesc:'How dates are displayed throughout the app',
+            notifications:'Notifications', emailNotif:'Email Notifications',
+            emailNotifDesc:'Receive email alerts for audit results, responses, and project updates',
+            savePref:'Save Preferences' },
+      es: { settings:'Configuración', subtitle:'Administra tu cuenta, facturación y personaliza tu experiencia',
+            account:'Cuenta', billing:'Facturación', preferences:'Preferencias', profile:'Perfil',
+            firstName:'Nombre', lastName:'Apellido', titleLabel:'Título', email:'Correo',
+            company:'Empresa', memberSince:'Miembro desde', saveProfile:'Guardar perfil',
+            changePassword:'Cambiar contraseña', currentPw:'Contraseña actual', newPw:'Nueva contraseña',
+            confirmPw:'Confirmar nueva contraseña', changePwBtn:'Cambiar contraseña',
+            currentPlan:'Plan actual', plan:'Plan', status:'Estado', monthlyCost:'Costo mensual',
+            changePlan:'Cambiar plan', upgrade:'Mejorar / Reducir', cancelPlan:'Cancelar plan',
+            paymentMethod:'Método de pago', noPayment:'No hay método de pago registrado.',
+            addCard:'Agregar tarjeta', updateCard:'Actualizar tarjeta',
+            billingAddress:'Dirección de facturación', saveAddress:'Guardar dirección',
+            invoices:'Facturas', noInvoices:'No hay facturas aún.',
+            invoice:'Factura', date:'Fecha', amount:'Monto',
+            appearance:'Apariencia', darkMode:'Modo oscuro', darkModeDesc:'Cambiar entre tema claro y oscuro',
+            language:'Idioma', languageDesc:'Idioma de la interfaz',
+            timezone:'Zona horaria', timezoneDesc:'Usado para fechas y horarios',
+            dateFormat:'Formato de fecha', dateFormatDesc:'Cómo se muestran las fechas',
+            notifications:'Notificaciones', emailNotif:'Notificaciones por correo',
+            emailNotifDesc:'Recibir alertas por correo sobre auditorías y respuestas',
+            savePref:'Guardar preferencias' },
+      fr: { settings:'Paramètres', subtitle:'Gérer votre compte, facturation et personnaliser votre expérience',
+            account:'Compte', billing:'Facturation', preferences:'Préférences', profile:'Profil',
+            firstName:'Prénom', lastName:'Nom', titleLabel:'Titre', email:'E-mail',
+            company:'Entreprise', memberSince:'Membre depuis', saveProfile:'Enregistrer le profil',
+            changePassword:'Changer le mot de passe', currentPw:'Mot de passe actuel', newPw:'Nouveau mot de passe',
+            confirmPw:'Confirmer le nouveau mot de passe', changePwBtn:'Changer le mot de passe',
+            currentPlan:'Plan actuel', plan:'Plan', status:'Statut', monthlyCost:'Coût mensuel',
+            changePlan:'Changer de plan', upgrade:'Améliorer / Réduire', cancelPlan:'Annuler le plan',
+            paymentMethod:'Moyen de paiement', noPayment:'Aucun moyen de paiement enregistré.',
+            addCard:'Ajouter une carte', updateCard:'Mettre à jour la carte',
+            billingAddress:'Adresse de facturation', saveAddress:"Enregistrer l'adresse",
+            invoices:'Factures', noInvoices:'Pas encore de factures.',
+            invoice:'Facture', date:'Date', amount:'Montant',
+            appearance:'Apparence', darkMode:'Mode sombre', darkModeDesc:'Basculer entre le thème clair et sombre',
+            language:'Langue', languageDesc:"Langue d'affichage de l'interface",
+            timezone:'Fuseau horaire', timezoneDesc:"Utilisé pour l'affichage des dates et la planification",
+            dateFormat:'Format de date', dateFormatDesc:'Comment les dates sont affichées',
+            notifications:'Notifications', emailNotif:'Notifications par e-mail',
+            emailNotifDesc:"Recevoir des alertes par e-mail pour les résultats d'audit et les réponses",
+            savePref:'Enregistrer les préférences' },
+      de: { settings:'Einstellungen', subtitle:'Verwalten Sie Ihr Konto, Abrechnung und personalisieren Sie Ihre Erfahrung',
+            account:'Konto', billing:'Abrechnung', preferences:'Einstellungen', profile:'Profil',
+            firstName:'Vorname', lastName:'Nachname', titleLabel:'Titel', email:'E-Mail',
+            company:'Unternehmen', memberSince:'Mitglied seit', saveProfile:'Profil speichern',
+            changePassword:'Passwort ändern', currentPw:'Aktuelles Passwort', newPw:'Neues Passwort',
+            confirmPw:'Neues Passwort bestätigen', changePwBtn:'Passwort ändern',
+            currentPlan:'Aktueller Plan', plan:'Plan', status:'Status', monthlyCost:'Monatliche Kosten',
+            changePlan:'Plan ändern', upgrade:'Upgrade / Downgrade', cancelPlan:'Plan kündigen',
+            paymentMethod:'Zahlungsmethode', noPayment:'Keine Zahlungsmethode hinterlegt.',
+            addCard:'Karte hinzufügen', updateCard:'Karte aktualisieren',
+            billingAddress:'Rechnungsadresse', saveAddress:'Adresse speichern',
+            invoices:'Rechnungen', noInvoices:'Noch keine Rechnungen.',
+            invoice:'Rechnung', date:'Datum', amount:'Betrag',
+            appearance:'Erscheinungsbild', darkMode:'Dunkler Modus', darkModeDesc:'Zwischen hellem und dunklem Thema wechseln',
+            language:'Sprache', languageDesc:'Anzeigesprache der Oberfläche',
+            timezone:'Zeitzone', timezoneDesc:'Für Datums- und Zeitanzeige verwendet',
+            dateFormat:'Datumsformat', dateFormatDesc:'Wie Daten in der App angezeigt werden',
+            notifications:'Benachrichtigungen', emailNotif:'E-Mail-Benachrichtigungen',
+            emailNotifDesc:'E-Mail-Benachrichtigungen für Auditergebnisse und Antworten erhalten',
+            savePref:'Einstellungen speichern' },
+      pt: { settings:'Configurações', subtitle:'Gerencie sua conta, cobrança e personalize sua experiência',
+            account:'Conta', billing:'Cobrança', preferences:'Preferências', profile:'Perfil',
+            firstName:'Nome', lastName:'Sobrenome', titleLabel:'Cargo', email:'E-mail',
+            company:'Empresa', memberSince:'Membro desde', saveProfile:'Salvar perfil',
+            changePassword:'Alterar senha', currentPw:'Senha atual', newPw:'Nova senha',
+            confirmPw:'Confirmar nova senha', changePwBtn:'Alterar senha',
+            currentPlan:'Plano atual', plan:'Plano', status:'Status', monthlyCost:'Custo mensal',
+            changePlan:'Alterar plano', upgrade:'Atualizar / Reduzir', cancelPlan:'Cancelar plano',
+            paymentMethod:'Método de pagamento', noPayment:'Nenhum método de pagamento cadastrado.',
+            addCard:'Adicionar cartão', updateCard:'Atualizar cartão',
+            billingAddress:'Endereço de cobrança', saveAddress:'Salvar endereço',
+            invoices:'Faturas', noInvoices:'Nenhuma fatura ainda.',
+            invoice:'Fatura', date:'Data', amount:'Valor',
+            appearance:'Aparência', darkMode:'Modo escuro', darkModeDesc:'Alternar entre tema claro e escuro',
+            language:'Idioma', languageDesc:'Idioma de exibição da interface',
+            timezone:'Fuso horário', timezoneDesc:'Usado para exibição de datas e agendamento',
+            dateFormat:'Formato de data', dateFormatDesc:'Como as datas são exibidas no aplicativo',
+            notifications:'Notificações', emailNotif:'Notificações por e-mail',
+            emailNotifDesc:'Receber alertas por e-mail sobre auditorias e respostas',
+            savePref:'Salvar preferências' },
+      ja: { settings:'設定', subtitle:'アカウント、請求、個人設定を管理',
+            account:'アカウント', billing:'請求', preferences:'設定', profile:'プロフィール',
+            firstName:'名', lastName:'姓', titleLabel:'役職', email:'メール',
+            company:'会社', memberSince:'登録日', saveProfile:'プロフィールを保存',
+            changePassword:'パスワード変更', currentPw:'現在のパスワード', newPw:'新しいパスワード',
+            confirmPw:'新しいパスワードの確認', changePwBtn:'パスワードを変更',
+            currentPlan:'現在のプラン', plan:'プラン', status:'ステータス', monthlyCost:'月額',
+            changePlan:'プラン変更', upgrade:'アップグレード / ダウングレード', cancelPlan:'プランをキャンセル',
+            paymentMethod:'支払い方法', noPayment:'支払い方法が登録されていません。',
+            addCard:'カードを追加', updateCard:'カードを更新',
+            billingAddress:'請求先住所', saveAddress:'住所を保存',
+            invoices:'請求書', noInvoices:'請求書はまだありません。',
+            invoice:'請求書', date:'日付', amount:'金額',
+            appearance:'外観', darkMode:'ダークモード', darkModeDesc:'ライトとダークテーマを切り替え',
+            language:'言語', languageDesc:'インターフェースの表示言語',
+            timezone:'タイムゾーン', timezoneDesc:'日付・時刻の表示に使用',
+            dateFormat:'日付形式', dateFormatDesc:'アプリ全体での日付表示形式',
+            notifications:'通知', emailNotif:'メール通知',
+            emailNotifDesc:'監査結果と応答のメールアラートを受信',
+            savePref:'設定を保存' },
+      zh: { settings:'设置', subtitle:'管理您的帐户、账单和个性化体验',
+            account:'帐户', billing:'账单', preferences:'偏好设置', profile:'个人资料',
+            firstName:'名', lastName:'姓', titleLabel:'职位', email:'邮箱',
+            company:'公司', memberSince:'注册日期', saveProfile:'保存资料',
+            changePassword:'修改密码', currentPw:'当前密码', newPw:'新密码',
+            confirmPw:'确认新密码', changePwBtn:'修改密码',
+            currentPlan:'当前计划', plan:'计划', status:'状态', monthlyCost:'月费',
+            changePlan:'更改计划', upgrade:'升级 / 降级', cancelPlan:'取消计划',
+            paymentMethod:'支付方式', noPayment:'尚未添加支付方式。',
+            addCard:'添加卡片', updateCard:'更新卡片',
+            billingAddress:'账单地址', saveAddress:'保存地址',
+            invoices:'发票', noInvoices:'暂无发票。',
+            invoice:'发票', date:'日期', amount:'金额',
+            appearance:'外观', darkMode:'深色模式', darkModeDesc:'切换浅色和深色主题',
+            language:'语言', languageDesc:'界面显示语言',
+            timezone:'时区', timezoneDesc:'用于日期和时间显示',
+            dateFormat:'日期格式', dateFormatDesc:'应用中日期的显示方式',
+            notifications:'通知', emailNotif:'邮件通知',
+            emailNotifDesc:'接收审计结果和回复的邮件提醒',
+            savePref:'保存偏好设置' },
+    };
+    function applyLanguage(lang) {
+      const t = i18n[lang] || i18n.en;
+      document.querySelector('h1').textContent = t.settings;
+      document.querySelector('.subtitle').textContent = t.subtitle;
+      document.querySelector('[data-tab="account"]').textContent = t.account;
+      document.querySelector('[data-tab="billing"]').textContent = t.billing;
+      document.querySelector('[data-tab="preferences"]').textContent = t.preferences;
+      const accSections = document.querySelectorAll('#tab-account .settings-section h2');
+      if (accSections[0]) accSections[0].textContent = t.profile;
+      if (accSections[1]) accSections[1].textContent = t.changePassword;
+      const setLabel = (id, text) => { const el = document.querySelector('label[for="' + id + '"]'); if (el) el.textContent = text; };
+      setLabel('profileFirstName', t.firstName);
+      setLabel('profileLastName', t.lastName);
+      setLabel('profileTitle', t.titleLabel);
+      const billSections = document.querySelectorAll('#tab-billing .settings-section h2');
+      if (billSections[0]) billSections[0].textContent = t.currentPlan;
+      if (billSections[1]) billSections[1].textContent = t.paymentMethod;
+      if (billSections[2]) billSections[2].textContent = t.billingAddress;
+      if (billSections[3]) billSections[3].textContent = t.invoices;
+      const prefSections = document.querySelectorAll('#tab-preferences .settings-section h2');
+      if (prefSections[0]) prefSections[0].textContent = t.appearance;
+      if (prefSections[1]) prefSections[1].textContent = t.language + ' & Region';
+      if (prefSections[2]) prefSections[2].textContent = t.notifications;
+      const prefLabels = document.querySelectorAll('#tab-preferences .pref-label');
+      const prefDescs = document.querySelectorAll('#tab-preferences .pref-desc');
+      if (prefLabels[0]) prefLabels[0].textContent = t.darkMode;
+      if (prefDescs[0]) prefDescs[0].textContent = t.darkModeDesc;
+      if (prefLabels[1]) prefLabels[1].textContent = t.language;
+      if (prefDescs[1]) prefDescs[1].textContent = t.languageDesc;
+      if (prefLabels[2]) prefLabels[2].textContent = t.timezone;
+      if (prefDescs[2]) prefDescs[2].textContent = t.timezoneDesc;
+      if (prefLabels[3]) prefLabels[3].textContent = t.dateFormat;
+      if (prefDescs[3]) prefDescs[3].textContent = t.dateFormatDesc;
+      if (prefLabels[4]) prefLabels[4].textContent = t.emailNotif;
+      if (prefDescs[4]) prefDescs[4].textContent = t.emailNotifDesc;
+      const sb = document.getElementById('savePrefBtn'); if (sb) sb.textContent = t.savePref;
+      const cb = document.getElementById('changePlanBtn'); if (cb) cb.textContent = t.upgrade;
+      const cpb = document.getElementById('cancelPlanBtn'); if (cpb) cpb.textContent = t.cancelPlan;
+      document.documentElement.lang = lang;
+    }
+    // Tab switching
+    document.querySelectorAll('.settings-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.settings-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => { c.classList.remove('active'); });
+        tab.classList.add('active');
+        const content = document.getElementById('tab-' + tab.dataset.tab);
+        content.classList.add('active');
+        content.style.display = '';
+      });
+    });
+    function handleHash() {
+      const hash = window.location.hash.replace('#','');
+      if (['account','billing','preferences','users'].includes(hash)) {
+        const tabBtn = document.querySelector('[data-tab="' + hash + '"]');
+        if (!tabBtn) return;
+        document.querySelectorAll('.settings-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => { c.classList.remove('active'); c.style.display = ''; });
+        tabBtn.classList.add('active');
+        const tabContent = document.getElementById('tab-' + hash);
+        tabContent.classList.add('active');
+        tabContent.style.display = '';
+      }
+    }
+    handleHash();
+    window.addEventListener('hashchange', handleHash);
+
+    // Dark mode
+    function applyTheme(theme) {
+      if (theme === 'dark') { document.body.classList.add('dark-mode'); }
+      else { document.body.classList.remove('dark-mode'); }
+    }
+    document.getElementById('prefDarkMode').addEventListener('change', (e) => {
+      applyTheme(e.target.checked ? 'dark' : 'light');
+    });
+
+    // Profile
+    let currentUserRole = 'member';
+    let currentUserId = null;
+    async function loadProfile() {
+      try {
+        const res = await fetch('/api/users/profile');
+        if (!res.ok) throw new Error('Failed');
+        const user = await res.json();
+        document.getElementById('profileEmail').value = user.email;
+        document.getElementById('profileCompany').value = user.companyId;
+        document.getElementById('profileFirstName').value = user.firstName || '';
+        document.getElementById('profileLastName').value = user.lastName || '';
+        document.getElementById('profileTitle').value = user.title || '';
+        document.getElementById('profileCreated').value = new Date(user.memberSince).toLocaleDateString();
+        currentUserRole = user.role;
+        currentUserId = user.id;
+        // Show Team Members tab for admin/superadmin
+        if (user.role === 'admin' || user.role === 'superadmin') {
+          showUsersTab();
+          loadAccountUsers();
+        }
+      } catch (err) { console.error('Error loading profile:', err); }
+    }
+    document.getElementById('profileForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const errEl = document.getElementById('profileError');
+      const sucEl = document.getElementById('profileSuccess');
+      errEl.classList.remove('visible'); sucEl.classList.remove('visible');
+      try {
+        const res = await fetch('/api/users/profile', {
+          method: 'PUT', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            firstName: document.getElementById('profileFirstName').value,
+            lastName: document.getElementById('profileLastName').value,
+            title: document.getElementById('profileTitle').value,
+          }),
+        });
+        if (!res.ok) throw new Error((await res.json()).error || 'Save failed');
+        sucEl.textContent = 'Profile saved successfully!'; sucEl.classList.add('visible');
+        setTimeout(() => sucEl.classList.remove('visible'), 3000);
+      } catch (err) { errEl.textContent = err.message; errEl.classList.add('visible'); }
+    });
+
+    // Change password
+    document.getElementById('passwordForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const errEl = document.getElementById('passwordError');
+      const sucEl = document.getElementById('passwordSuccess');
+      const btn = document.getElementById('passwordBtn');
+      const btnText = document.getElementById('passwordBtnText');
+      errEl.classList.remove('visible'); sucEl.classList.remove('visible');
+      const currentPassword = document.getElementById('currentPassword').value;
+      const newPassword = document.getElementById('newPassword').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
+      if (!currentPassword || !newPassword || !confirmPassword) { errEl.textContent = 'All fields are required.'; errEl.classList.add('visible'); return; }
+      if (newPassword.length < 8) { errEl.textContent = 'New password must be at least 8 characters.'; errEl.classList.add('visible'); return; }
+      if (newPassword !== confirmPassword) { errEl.textContent = 'New passwords do not match.'; errEl.classList.add('visible'); return; }
+      btn.disabled = true; btnText.textContent = 'Changing...';
+      try {
+        const res = await fetch('/api/users/password', {
+          method: 'PUT', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ currentPassword, newPassword }),
+        });
+        if (res.ok) {
+          sucEl.textContent = 'Password changed successfully!'; sucEl.classList.add('visible');
+          document.getElementById('passwordForm').reset();
+          setTimeout(() => sucEl.classList.remove('visible'), 3000);
+        } else {
+          const data = await res.json();
+          errEl.textContent = data.error || 'Failed to change password.'; errEl.classList.add('visible');
+        }
+      } catch (err) { errEl.textContent = 'Network error.'; errEl.classList.add('visible'); }
+      finally { btn.disabled = false; btnText.textContent = 'Change Password'; }
+    });
+    // Billing
+    let currentPlan = 'free';
+    let selectedPlan = null;
+    async function loadBilling() {
+      try {
+        const res = await fetch('/api/billing');
+        if (!res.ok) throw new Error('Failed');
+        const b = await res.json();
+        currentPlan = b.plan;
+        const planNames = { free: 'Free', starter: 'Starter', pro: 'Pro', enterprise: 'Enterprise' };
+        document.getElementById('currentPlanName').textContent = planNames[b.plan] || b.plan;
+        document.getElementById('currentPlanStatus').textContent = b.planStatus.charAt(0).toUpperCase() + b.planStatus.slice(1);
+        document.getElementById('currentPlanPrice').textContent = b.planPrice > 0 ? '$' + (b.planPrice / 100).toFixed(2) + '/mo' : 'Free';
+        document.querySelectorAll('.plan-card').forEach(c => { c.classList.toggle('current', c.dataset.plan === b.plan); });
+        selectedPlan = null;
+        document.getElementById('changePlanBtn').disabled = true;
+        document.getElementById('cancelPlanBtn').style.display = b.plan !== 'free' ? '' : 'none';
+        if (b.card) {
+          document.getElementById('cardOnFile').style.display = '';
+          document.getElementById('noCard').style.display = 'none';
+          document.getElementById('cardBrand').textContent = b.card.brand;
+          document.getElementById('cardLast4').textContent = '\u2022\u2022\u2022\u2022 \u2022\u2022\u2022\u2022 \u2022\u2022\u2022\u2022 ' + b.card.last4;
+          document.getElementById('cardExpiry').textContent = 'Exp ' + String(b.card.expMonth).padStart(2,'0') + '/' + b.card.expYear;
+          document.getElementById('addCardBtn').style.display = 'none';
+          document.getElementById('updateCardBtn').style.display = '';
+        } else {
+          document.getElementById('cardOnFile').style.display = 'none';
+          document.getElementById('noCard').style.display = '';
+          document.getElementById('addCardBtn').style.display = '';
+          document.getElementById('updateCardBtn').style.display = 'none';
+        }
+        document.getElementById('addrLine1').value = b.billingAddress.line1;
+        document.getElementById('addrLine2').value = b.billingAddress.line2;
+        document.getElementById('addrCity').value = b.billingAddress.city;
+        document.getElementById('addrState').value = b.billingAddress.state;
+        document.getElementById('addrZip').value = b.billingAddress.zip;
+        document.getElementById('addrCountry').value = b.billingAddress.country;
+      } catch (err) { console.error('Error loading billing:', err); }
+    }
+    document.querySelectorAll('.plan-card').forEach(card => {
+      card.addEventListener('click', () => {
+        const plan = card.dataset.plan;
+        if (plan === currentPlan) { selectedPlan = null; document.getElementById('changePlanBtn').disabled = true; return; }
+        selectedPlan = plan;
+        document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('current'));
+        card.classList.add('current');
+        document.getElementById('changePlanBtn').disabled = false;
+      });
+    });
+    document.getElementById('changePlanBtn').addEventListener('click', async () => {
+      if (!selectedPlan) return;
+      const errEl = document.getElementById('planError');
+      const sucEl = document.getElementById('planSuccess');
+      errEl.classList.remove('visible'); sucEl.classList.remove('visible');
+      try {
+        const res = await fetch('/api/billing/plan', {
+          method: 'PUT', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ plan: selectedPlan }),
+        });
+        if (!res.ok) { const d = await res.json(); throw new Error(d.error); }
+        sucEl.textContent = 'Plan updated successfully!'; sucEl.classList.add('visible');
+        setTimeout(() => sucEl.classList.remove('visible'), 3000);
+        loadBilling(); loadInvoices();
+      } catch (err) { errEl.textContent = err.message; errEl.classList.add('visible'); }
+    });
+    document.getElementById('cancelPlanBtn').addEventListener('click', async () => {
+      if (!confirm('Are you sure you want to cancel your plan? You will be downgraded to Free.')) return;
+      const errEl = document.getElementById('planError');
+      const sucEl = document.getElementById('planSuccess');
+      errEl.classList.remove('visible'); sucEl.classList.remove('visible');
+      try {
+        const res = await fetch('/api/billing/cancel', { method: 'POST' });
+        if (!res.ok) { const d = await res.json(); throw new Error(d.error); }
+        sucEl.textContent = 'Plan canceled. You are now on the Free plan.'; sucEl.classList.add('visible');
+        loadBilling();
+      } catch (err) { errEl.textContent = err.message; errEl.classList.add('visible'); }
+    });
+    document.getElementById('addCardBtn').addEventListener('click', () => {
+      document.getElementById('cardModalTitle').textContent = 'Add Payment Method';
+      document.getElementById('cardForm').reset();
+      document.getElementById('cardError').classList.remove('visible');
+      document.getElementById('cardModal').classList.add('open');
+    });
+    document.getElementById('updateCardBtn').addEventListener('click', () => {
+      document.getElementById('cardModalTitle').textContent = 'Update Payment Method';
+      document.getElementById('cardForm').reset();
+      document.getElementById('cardError').classList.remove('visible');
+      document.getElementById('cardModal').classList.add('open');
+    });
+    document.getElementById('cardModalClose').addEventListener('click', () => document.getElementById('cardModal').classList.remove('open'));
+    document.getElementById('cardCancel').addEventListener('click', () => document.getElementById('cardModal').classList.remove('open'));
+    document.getElementById('cardNumber').addEventListener('input', function() {
+      let v = this.value.replace(/\s/g, '').replace(/\D/g, '');
+      v = v.match(/.{1,4}/g)?.join(' ') || v;
+      this.value = v;
+    });
+    document.getElementById('cardForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const errEl = document.getElementById('cardError');
+      errEl.classList.remove('visible');
+      try {
+        const res = await fetch('/api/billing/card', {
+          method: 'PUT', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            cardNumber: document.getElementById('cardNumber').value,
+            expMonth: document.getElementById('cardExpMonth').value,
+            expYear: document.getElementById('cardExpYear').value,
+            cvc: document.getElementById('cardCvc').value,
+          }),
+        });
+        if (!res.ok) { const d = await res.json(); throw new Error(d.error); }
+        document.getElementById('cardModal').classList.remove('open');
+        loadBilling();
+      } catch (err) { errEl.textContent = err.message; errEl.classList.add('visible'); }
+    });
+    document.getElementById('addressForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const errEl = document.getElementById('addrError');
+      const sucEl = document.getElementById('addrSuccess');
+      errEl.classList.remove('visible'); sucEl.classList.remove('visible');
+      try {
+        const res = await fetch('/api/billing/address', {
+          method: 'PUT', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            line1: document.getElementById('addrLine1').value,
+            line2: document.getElementById('addrLine2').value,
+            city: document.getElementById('addrCity').value,
+            state: document.getElementById('addrState').value,
+            zip: document.getElementById('addrZip').value,
+            country: document.getElementById('addrCountry').value,
+          }),
+        });
+        if (!res.ok) { const d = await res.json(); throw new Error(d.error); }
+        sucEl.textContent = 'Billing address saved!'; sucEl.classList.add('visible');
+        setTimeout(() => sucEl.classList.remove('visible'), 3000);
+      } catch (err) { errEl.textContent = err.message; errEl.classList.add('visible'); }
+    });
+    async function loadInvoices() {
+      try {
+        const res = await fetch('/api/billing/invoices');
+        if (!res.ok) throw new Error('Failed');
+        const invoices = await res.json();
+        if (invoices.length === 0) {
+          document.getElementById('invoicesEmpty').style.display = '';
+          document.getElementById('invoiceTable').style.display = 'none';
+          return;
+        }
+        document.getElementById('invoicesEmpty').style.display = 'none';
+        document.getElementById('invoiceTable').style.display = '';
+        const tbody = document.getElementById('invoiceBody');
+        tbody.innerHTML = '';
+        invoices.forEach(inv => {
+          const tr = document.createElement('tr');
+          const badgeClass = inv.status === 'paid' ? 'badge-paid' : inv.status === 'pending' ? 'badge-pending' : 'badge-failed';
+          tr.innerHTML = '<td>' + inv.stripe_invoice_id + '</td><td>' + new Date(inv.created_at).toLocaleDateString() + '</td><td>$' + (inv.amount_paid_cents / 100).toFixed(2) + '</td><td><span class="badge ' + badgeClass + '">' + inv.status + '</span></td>';
+          tbody.appendChild(tr);
+        });
+      } catch (err) { console.error('Error loading invoices:', err); }
+    }
+    // ═══ ACCOUNT USERS ═══
+    function showUsersTab() {
+      // Add the Users tab button if not already there
+      const tabs = document.querySelector('.settings-tabs');
+      if (!document.querySelector('[data-tab="users"]')) {
+        const usersTab = document.createElement('button');
+        usersTab.className = 'settings-tab';
+        usersTab.dataset.tab = 'users';
+        usersTab.textContent = 'Team';
+        // Insert after Account tab
+        const accountTab = document.querySelector('[data-tab="account"]');
+        accountTab.after(usersTab);
+        usersTab.addEventListener('click', () => {
+          document.querySelectorAll('.settings-tab').forEach(t => t.classList.remove('active'));
+          document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+          usersTab.classList.add('active');
+          document.getElementById('tab-users').classList.add('active');
+          document.getElementById('tab-users').style.display = '';
+        });
+      }
+      // Update hash handler
+      const origHandleHash = handleHash;
+    }
+
+    async function loadAccountUsers() {
+      try {
+        const res = await fetch('/api/account/users');
+        if (!res.ok) throw new Error('Failed');
+        const users = await res.json();
+        document.getElementById('userCount').textContent = '(' + users.length + ')';
+        const tbody = document.getElementById('usersTableBody');
+        tbody.innerHTML = '';
+        users.forEach(u => {
+          const tr = document.createElement('tr');
+          const name = [u.firstName, u.lastName].filter(Boolean).join(' ') || '—';
+          const roleClass = u.disabled ? 'badge-disabled' : 'badge-' + u.role;
+          const roleLabel = u.disabled ? 'Disabled' : u.role.charAt(0).toUpperCase() + u.role.slice(1);
+          const isSelf = u.id === currentUserId;
+          const canRemove = !isSelf && !(u.role === 'superadmin' && currentUserRole !== 'superadmin');
+          tr.innerHTML = '<td>' + name + (u.title ? '<br><small style="color:var(--text-muted)">' + u.title + '</small>' : '') + '</td>'
+            + '<td>' + u.email + '</td>'
+            + '<td><span class="badge-role ' + roleClass + '">' + roleLabel + '</span></td>'
+            + '<td>' + new Date(u.createdAt).toLocaleDateString() + '</td>'
+            + '<td>' + (canRemove ? '<button class="btn btn-danger btn-sm remove-user-btn" data-id="' + u.id + '" data-email="' + u.email + '">Remove</button>' : (isSelf ? '<span style="color:var(--text-muted);font-size:0.8rem">You</span>' : '')) + '</td>';
+          tbody.appendChild(tr);
+        });
+        // Attach remove handlers
+        document.querySelectorAll('.remove-user-btn').forEach(btn => {
+          btn.addEventListener('click', async () => {
+            const userId = btn.dataset.id;
+            const email = btn.dataset.email;
+            if (!confirm('Remove ' + email + ' from your account? This cannot be undone.')) return;
+            const errEl = document.getElementById('usersError');
+            const sucEl = document.getElementById('usersSuccess');
+            errEl.classList.remove('visible'); sucEl.classList.remove('visible');
+            try {
+              const res = await fetch('/api/account/users/' + userId, { method: 'DELETE' });
+              if (!res.ok) { const d = await res.json(); throw new Error(d.error); }
+              sucEl.textContent = email + ' has been removed.'; sucEl.classList.add('visible');
+              setTimeout(() => sucEl.classList.remove('visible'), 3000);
+              loadAccountUsers();
+            } catch (err) { errEl.textContent = err.message; errEl.classList.add('visible'); }
+          });
+        });
+      } catch (err) { console.error('Error loading account users:', err); }
+    }
+
+    // Add User modal
+    document.getElementById('addUserBtn').addEventListener('click', () => {
+      document.getElementById('addUserForm').reset();
+      document.getElementById('addUserError').classList.remove('visible');
+      document.getElementById('addUserModal').classList.add('open');
+    });
+    document.getElementById('addUserModalClose').addEventListener('click', () => document.getElementById('addUserModal').classList.remove('open'));
+    document.getElementById('addUserCancel').addEventListener('click', () => document.getElementById('addUserModal').classList.remove('open'));
+
+    document.getElementById('addUserForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const errEl = document.getElementById('addUserError');
+      errEl.classList.remove('visible');
+      const payload = {
+        email: document.getElementById('newUserEmail').value,
+        password: document.getElementById('newUserPassword').value,
+        role: document.getElementById('newUserRole').value,
+        firstName: document.getElementById('newUserFirstName').value,
+        lastName: document.getElementById('newUserLastName').value,
+        title: document.getElementById('newUserTitle').value,
+      };
+      try {
+        const res = await fetch('/api/account/users', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        if (!res.ok) { const d = await res.json(); throw new Error(d.error); }
+        document.getElementById('addUserModal').classList.remove('open');
+        const sucEl = document.getElementById('usersSuccess');
+        sucEl.textContent = payload.email + ' has been added!'; sucEl.classList.add('visible');
+        setTimeout(() => sucEl.classList.remove('visible'), 3000);
+        loadAccountUsers();
+      } catch (err) { errEl.textContent = err.message; errEl.classList.add('visible'); }
+    });
+
+    // Preferences
+    async function loadPreferences() {
+      try {
+        const res = await fetch('/api/users/preferences');
+        if (!res.ok) throw new Error('Failed');
+        const prefs = await res.json();
+        document.getElementById('prefDarkMode').checked = prefs.theme === 'dark';
+        document.getElementById('prefLanguage').value = prefs.language || 'en';
+        document.getElementById('prefTimezone').value = prefs.timezone || 'UTC';
+        document.getElementById('prefDateFormat').value = prefs.date_format || 'MM/DD/YYYY';
+        document.getElementById('prefNotifications').checked = !!prefs.notifications_enabled;
+        applyTheme(prefs.theme);
+        applyLanguage(prefs.language || 'en');
+      } catch (err) { console.error('Error loading preferences:', err); }
+    }
+    document.getElementById('prefLanguage').addEventListener('change', (e) => { applyLanguage(e.target.value); });
+    document.getElementById('savePrefBtn').addEventListener('click', async () => {
+      const errEl = document.getElementById('prefError');
+      const sucEl = document.getElementById('prefSuccess');
+      errEl.classList.remove('visible'); sucEl.classList.remove('visible');
+      const payload = {
+        theme: document.getElementById('prefDarkMode').checked ? 'dark' : 'light',
+        language: document.getElementById('prefLanguage').value,
+        timezone: document.getElementById('prefTimezone').value,
+        date_format: document.getElementById('prefDateFormat').value,
+        notifications_enabled: document.getElementById('prefNotifications').checked,
+      };
+      try {
+        const res = await fetch('/api/users/preferences', {
+          method: 'PUT', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        if (!res.ok) { const d = await res.json(); throw new Error(d.error); }
+        sucEl.textContent = 'Preferences saved successfully!'; sucEl.classList.add('visible');
+        setTimeout(() => sucEl.classList.remove('visible'), 3000);
+      } catch (err) { errEl.textContent = err.message; errEl.classList.add('visible'); }
+    });
+
+    // User dropdown
+    (function initUserMenu() {
+      const btn = document.getElementById('userMenuBtn');
+      const dd  = document.getElementById('userDropdown');
+      if (!btn || !dd) return;
+      btn.addEventListener('click', e => { e.stopPropagation(); dd.classList.toggle('open'); });
+      document.addEventListener('click', () => dd.classList.remove('open'));
+      dd.addEventListener('click', e => e.stopPropagation());
+      fetch('/api/auth/me').then(r => r.ok ? r.json() : null).then(me => {
+        if (!me) return;
+        const initial = (me.email || '?')[0].toUpperCase();
+        const av = document.getElementById('userAvatar');
+        const ml = document.getElementById('userMenuLabel');
+        if (av) av.textContent = initial;
+        if (ml) ml.textContent = me.email;
+      }).catch(() => {});
+    })();
+    document.getElementById('logoutBtn').addEventListener('click', async () => {
+      await fetch('/api/auth/logout', { method: 'POST' });
+      window.location.href = '/login';
+    });
+
+    // Init
+    document.addEventListener('DOMContentLoaded', () => {
+      loadProfile();
+      loadPreferences();
+      loadBilling();
+      loadInvoices();
+    });
+  </script>
+  <script src="/adminNav.js"></script>
+</body>
+</html>

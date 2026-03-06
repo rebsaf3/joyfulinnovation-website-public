@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register — NyLi Assets</title>
+  <style>
+    /* ── Reset & base ──────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body {
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: linear-gradient(170deg, #fdf8f4 0%, #faf5f0 50%, #fff 100%);
+      color: #1a1a2e;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    /* ── Layout container with split design ────────────────────────── */
+    .register-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      width: 100%;
+      max-width: 1000px;
+      align-items: center;
+    }
+
+    /* ── Value messaging (left side) ──────────────────────────────────── */
+    .messaging {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .messaging h1 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      line-height: 1.2;
+      color: #1a1a2e;
+    }
+
+    .messaging p {
+      font-size: 1rem;
+      line-height: 1.6;
+      color: #555;
+    }
+
+    .messaging .benefit {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .messaging .benefit::before {
+      content: "✓";
+      flex-shrink: 0;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #0d9488;
+      color: white;
+      border-radius: 50%;
+      font-weight: bold;
+      font-size: 0.875rem;
+    }
+
+    .messaging .benefit-text {
+      color: #555;
+      font-size: 0.95rem;
+    }
+
+    /* ── Form card (right side) ─────────────────────────────────────── */
+    .form-card {
+      background: white;
+      border-radius: 12px;
+      border: 1px solid #e8e2db;
+      box-shadow: 0 4px 24px rgba(13, 148, 136, 0.07);
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .form-card h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #1a1a2e;
+    }
+
+    /* ── Form field ────────────────────────────────────────────────── */
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-group label {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: #1a1a2e;
+    }
+
+    .form-group input {
+      padding: 10px 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      background: #fafbfc;
+      font-size: 0.95rem;
+      color: #1a1a2e;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: #0d9488;
+      box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.1);
+    }
+
+    .form-group .hint {
+      font-size: 0.8rem;
+      color: #888;
+      margin-top: 2px;
+    }
+
+    /* ── Button ─────────────────────────────────────────────────────── */
+    .btn {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, opacity 0.2s;
+    }
+
+    .btn-primary {
+      background: #0d9488;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #0f766e;
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    /* ── Links & footer ────────────────────────────────────────────── */
+    .form-footer {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      text-align: center;
+      font-size: 0.875rem;
+    }
+
+    .form-footer a {
+      color: #0d9488;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .form-footer a:hover {
+      text-decoration: underline;
+    }
+
+    .divider {
+      color: #888;
+    }
+
+    /* ── Error message ──────────────────────────────────────────────── */
+    .error {
+      padding: 10px 12px;
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      border-radius: 6px;
+      color: #dc2626;
+      font-size: 0.875rem;
+      display: none;
+    }
+
+    .error.visible {
+      display: block;
+    }
+
+    /* ── Responsive ─────────────────────────────────────────────────── */
+    @media (max-width: 768px) {
+      .register-container {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+
+      .messaging h1 {
+        font-size: 1.8rem;
+      }
+
+      .form-card {
+        padding: 28px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="register-container">
+    <!-- ── Value messaging (left) ──────────────────────────────────── -->
+    <div class="messaging">
+      <h1>Get Started with NyLi Assets</h1>
+      <p>Create your account to start identifying and reclaiming unused software licenses across your organization.</p>
+
+      <div>
+        <div class="benefit">
+          <span class="benefit-text"><strong>No credit card</strong> — 7-day free trial, start right now</span>
+        </div>
+        <div class="benefit">
+          <span class="benefit-text"><strong>Instant setup</strong> — Create account and upload CSVs immediately</span>
+        </div>
+        <div class="benefit">
+          <span class="benefit-text"><strong>Multi-tenant</strong> — One account per team or company</span>
+        </div>
+        <div class="benefit">
+          <span class="benefit-text"><strong>Secure</strong> — Passwords hashed, sessions managed securely</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Registration form card (right) ────────────────────────────── -->
+    <div class="form-card">
+      <h2>Create Account</h2>
+
+      <div class="error" id="errorMsg"></div>
+
+      <form id="registerForm">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="you@company.com" required>
+        </div>
+
+        <div class="form-group">
+          <label for="companyName">Company Name</label>
+          <input type="text" id="companyName" name="companyName" placeholder="Acme Corp" required>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" placeholder="••••••••" required>
+          <span class="hint">At least 8 characters</span>
+        </div>
+
+        <button type="submit" class="btn btn-primary" id="registerBtn">
+          <span id="btnText">Create Account</span>
+        </button>
+      </form>
+
+      <div class="form-footer">
+        <div>
+          Already have an account?
+          <a href="/login">Sign in</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('registerForm');
+    const emailInput = document.getElementById('email');
+    const companyNameInput = document.getElementById('companyName');
+    const passwordInput = document.getElementById('password');
+    const registerBtn = document.getElementById('registerBtn');
+    const btnText = document.getElementById('btnText');
+    const errorMsg = document.getElementById('errorMsg');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const email = emailInput.value.trim();
+      const companyName = companyNameInput.value.trim();
+      const password = passwordInput.value;
+
+      if (!email || !companyName || !password) {
+        showError('All fields are required.');
+        return;
+      }
+
+      if (password.length < 8) {
+        showError('Password must be at least 8 characters.');
+        return;
+      }
+
+      registerBtn.disabled = true;
+      btnText.textContent = 'Creating account...';
+      errorMsg.classList.remove('visible');
+
+      try {
+        const res = await fetch('/api/auth/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, companyName, password }),
+        });
+
+        if (res.ok) {
+          // Auto-logged in; redirect to upload page
+          window.location.href = '/home';
+        } else {
+          const data = await res.json();
+          showError(data.error || 'Registration failed. Please try again.');
+        }
+      } catch (err) {
+        showError('Network error. Please try again.');
+        console.error(err);
+      } finally {
+        registerBtn.disabled = false;
+        btnText.textContent = 'Create Account';
+      }
+    });
+
+    function showError(msg) {
+      errorMsg.textContent = msg;
+      errorMsg.classList.add('visible');
+    }
+  </script>
+</body>
+</html>
