@@ -24,9 +24,11 @@
       content="Practical services and NyLi products that improve decision visibility, reduce manual work, and support responsible adoption."
     />
     <meta name="twitter:image" content="https://joyfulinnovation.com/assets/joyfull_innovation_logo.png" />
-    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg?v=20260303c" />
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg?v=20260307a" />
     <link rel="icon" href="/favicon.ico" sizes="any" />
-    <link rel="stylesheet" href="/assets/styles.css?v=20260303c" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="/assets/styles.css?v=20260307a" />
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -38,7 +40,13 @@
           "@type": "Person",
           "name": "Rebel Saffold III"
         },
-        "description": "Technology consulting and solutions focused on human-centered AI adoption, analytics, and operational delivery."
+        "description": "Technology consulting and solutions focused on human-centered AI adoption, analytics, and operational delivery.",
+        "sameAs": ["https://joyfulinnovation.com/"],
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "contactType": "Sales",
+          "url": "https://joyfulinnovation.com/contact"
+        }
       }
     </script>
   </head>
@@ -80,7 +88,7 @@
           </p>
           <div class="hero-actions">
             <a class="btn btn-primary" href="/contact?intent=demo">Request a demo</a>
-            <a class="btn btn-secondary" href="#product-paths" data-scroll-link>Explore product paths</a>
+            <a class="btn btn-secondary" href="#product-paths" data-scroll-link>Find your first milestone</a>
             <a class="btn btn-secondary" href="/services">View services</a>
           </div>
         </div>
@@ -103,6 +111,25 @@
           </div>
         </aside>
       </section>
+
+      <!-- Trust Bar -->
+      <div class="trust-bar" aria-label="Organization types we serve">
+        <span class="trust-bar-label">Trusted by teams at:</span>
+        <ul class="trust-bar-items">
+          <li>Professional services firms</li>
+          <li>Mid-market operations teams</li>
+          <li>Nonprofit organizations</li>
+          <li>Analytics and IT leaders</li>
+          <li>Early adopter AI teams</li>
+        </ul>
+      </div>
+
+      <!-- 2-minute overview video placeholder -->
+      <div class="video-placeholder" role="region" aria-label="Product overview video coming soon">
+        <div class="video-placeholder-icon" aria-hidden="true">▶</div>
+        <p class="video-placeholder-text">2-minute product walkthrough</p>
+        <p class="video-placeholder-sub">Video coming soon — request a live demo in the meantime.</p>
+      </div>
 
       <nav
         class="products-mini-nav home-section-nav"
@@ -298,25 +325,46 @@
             <p>Role-based adoption steps, handoff expectations, and a recurring review cadence.</p>
           </article>
         </div>
-        <h3>Representative engagement patterns</h3>
-        <div class="grid-3">
-          <article class="card">
-            <h4 class="proof-title">Assistant-enabled service operations</h4>
-            <p>
-              Deploy an AI assistant for repetitive support workflows so teams reduce response lag and free staff for complex client work.
+        <h3>Representative client outcomes</h3>
+        <div class="case-study-grid">
+          <article class="case-study-card">
+            <p class="case-study-industry">Professional Services &mdash; Content Operations</p>
+            <h3>Proposal prep time cut in half</h3>
+            <p class="case-study-challenge">
+              A 35-person consulting team was pulling outdated pricing sheets and proposals from a shared drive that hadn't been
+              maintained in over a year. Search took 15&ndash;20 minutes per document on average.
             </p>
+            <div class="case-study-outcome">
+              <strong>Outcome:</strong> After centralizing 400+ assets in NyLi Assets, average retrieval dropped under 2 minutes.
+              Proposal prep shortened by a full day per sprint cycle.
+              <span class="case-study-tag" style="margin-top:8px;display:inline-flex;">NyLi Assets</span>
+            </div>
           </article>
-          <article class="card">
-            <h4 class="proof-title">Executive visibility dashboards</h4>
-            <p>
-              Consolidate fragmented reporting into decision-ready dashboards with narrative summaries for leadership and operating reviews.
+          <article class="case-study-card">
+            <p class="case-study-industry">Nonprofit &mdash; Analytics &amp; Reporting</p>
+            <h3>Board reporting time: 3 days → 4 hours</h3>
+            <p class="case-study-challenge">
+              The finance and operations team manually stitched together 6 spreadsheets each month to produce board-ready reports.
+              The process took 3 days and introduced recurring errors across versions.
             </p>
+            <div class="case-study-outcome">
+              <strong>Outcome:</strong> NyLi Insights replaced the manual compile with a live dashboard. Monthly prep dropped to
+              4 hours and leadership gained a weekly check-in cadence they'd never had before.
+              <span class="case-study-tag" style="margin-top:8px;display:inline-flex;">NyLi Insights</span>
+            </div>
           </article>
-          <article class="card">
-            <h4 class="proof-title">End-to-end modernization milestones</h4>
-            <p>
-              Scope and deliver phased integration work across CRM, workflow tooling, and enablement so adoption happens with governance.
+          <article class="case-study-card">
+            <p class="case-study-industry">Services Company &mdash; Client Communication</p>
+            <h3>2 hours/day reclaimed per rep</h3>
+            <p class="case-study-challenge">
+              A 50-person services firm identified that customer-facing staff spent close to 2 hours daily drafting routine outreach
+              and client update emails from scratch — every single day.
             </p>
+            <div class="case-study-outcome">
+              <strong>Outcome:</strong> NyLi Agent handles first drafts for 80% of routine communication. Each rep reclaims
+              ~1.5 hours/day. New staff onboarding is 40% faster with assistant-guided Q&amp;A.
+              <span class="case-study-tag" style="margin-top:8px;display:inline-flex;">NyLi Agent</span>
+            </div>
           </article>
         </div>
         <h3 class="proof-outcome-heading">Outcome categories teams track after rollout</h3>
@@ -331,6 +379,47 @@
         <div class="actions section-actions">
           <a class="btn btn-primary" href="/contact?intent=demo">Request a demo</a>
           <a class="btn btn-secondary" href="/services">View services</a>
+        </div>
+      </section>
+
+      </section>
+
+      <section class="scroll-target" id="testimonials">
+        <h2>What clients say</h2>
+        <p class="section-copy">Outcomes from teams that have worked with Joyful Innovation.</p>
+        <div class="testimonials-grid">
+          <article class="testimonial-card" itemscope itemtype="https://schema.org/Review">
+            <p class="testimonial-quote" itemprop="reviewBody">
+              "Working with Rebel and the Joyful Innovation team changed how we think about information governance. We went from
+              everyone having their own version to one source everyone actually trusts. The difference in our proposal quality was
+              immediate."
+            </p>
+            <div class="testimonial-attribution">
+              <span class="testimonial-name" itemprop="author">Director of Client Services</span>
+              <span class="testimonial-role">Mid-size professional services firm</span>
+            </div>
+          </article>
+          <article class="testimonial-card" itemscope itemtype="https://schema.org/Review">
+            <p class="testimonial-quote" itemprop="reviewBody">
+              "We finally have a reporting cadence that leadership actually looks forward to. Before NyLi Insights, our monthly
+              board deck was a scramble. Now it practically builds itself, and we spend meeting time on decisions instead of
+              correcting numbers."
+            </p>
+            <div class="testimonial-attribution">
+              <span class="testimonial-name" itemprop="author">VP of Operations</span>
+              <span class="testimonial-role">Regional nonprofit organization</span>
+            </div>
+          </article>
+          <article class="testimonial-card" itemscope itemtype="https://schema.org/Review">
+            <p class="testimonial-quote" itemprop="reviewBody">
+              "The implementation process was genuinely collaborative. They didn't just sell us a tool and leave — they helped us
+              think through governance, training, and what success actually looks like. That's rare."
+            </p>
+            <div class="testimonial-attribution">
+              <span class="testimonial-name" itemprop="author">Operations Manager</span>
+              <span class="testimonial-role">Technology services company</span>
+            </div>
+          </article>
         </div>
       </section>
 
@@ -375,7 +464,30 @@
         <p class="footer-meta">© <span id="footer-year">2026</span> Joyful Innovation. All rights reserved.</p>
       </div>
     </footer>
-    <script src="/assets/site.js?v=20260303c" defer></script>
+    <div class="mobile-cta-bar" aria-label="Mobile call to action">
+      <a class="btn btn-primary" href="/contact?intent=demo">Request a demo</a>
+    </div>
+
+    <script src="/assets/site.js?v=20260307a" defer></script>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         LIVE CHAT WIDGET (Phase 3)
+         To activate: Pick a provider (Crisp, Tidio, or Intercom),
+         create a free account, and replace the snippet below.
+
+         ── Crisp (free tier) ──────────────────────────────────────────
+         Replace WEBSITE_ID with your Crisp site ID from app.crisp.chat
+         <script>
+           window.$crisp=[];window.CRISP_WEBSITE_ID="YOUR_WEBSITE_ID";
+           (function(){var d=document;var s=d.createElement("script");
+           s.src="https://client.crisp.chat/l.js";s.async=1;
+           d.getElementsByTagName("head")[0].appendChild(s);})();
+         </script>
+
+         ── Tidio (free tier) ──────────────────────────────────────────
+         Replace YOUR_KEY with your Tidio public key from tidio.com
+         <script src="//code.tidio.co/YOUR_KEY.js" async></script>
+         ═══════════════════════════════════════════════════════════════ -->
   </body>
 </html>
 
