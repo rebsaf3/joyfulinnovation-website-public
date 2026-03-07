@@ -14,6 +14,8 @@
   --radius: 16px;
   --shadow: 0 14px 28px rgba(34, 42, 52, 0.11);
   --header-offset: 92px;
+  --container-max: 1320px;
+  --container-gutter: clamp(18px, 3.2vw, 44px);
 }
 
 * {
@@ -72,8 +74,24 @@ img {
 }
 
 .container {
-  width: min(1140px, 92%);
+  width: min(var(--container-max), calc(100% - (var(--container-gutter) * 2)));
   margin: 0 auto;
+}
+
+.mt-0 {
+  margin-top: 0 !important;
+}
+
+.mt-10 {
+  margin-top: 10px !important;
+}
+
+.mt-12 {
+  margin-top: 12px !important;
+}
+
+.mt-20 {
+  margin-top: 20px !important;
 }
 
 .skip-link {
@@ -226,11 +244,11 @@ img {
 }
 
 main.container {
-  padding: 26px 0 10px;
+  padding: 34px 0 18px;
 }
 
 section {
-  margin-bottom: 14px;
+  margin-bottom: 20px;
 }
 
 .page-hero,
@@ -241,7 +259,7 @@ main > section:not(.cta) {
   border: 1px solid var(--line);
   border-radius: 20px;
   box-shadow: var(--shadow);
-  padding: 24px;
+  padding: clamp(22px, 2.2vw, 30px);
 }
 
 .hero {
@@ -1905,7 +1923,7 @@ select[aria-invalid="true"] {
   }
 
   main.container {
-    padding-top: 18px;
+    padding-top: 20px;
   }
 
   .page-hero,
@@ -2206,6 +2224,10 @@ select[aria-invalid="true"] {
 
 .case-study-outcome strong {
   color: #1a7a3c;
+}
+
+.case-study-outcome .case-study-tag {
+  margin-top: 8px;
 }
 
 .case-study-tag {
