@@ -42,11 +42,9 @@ body {
   font-family: "Inter", "Segoe UI", system-ui, sans-serif;
   color: var(--ink);
   line-height: 1.6;
-  background:
-    radial-gradient(circle at 0% 0%, rgba(241, 143, 1, 0.14) 0%, transparent 34%),
-    radial-gradient(circle at 100% 0%, rgba(46, 134, 171, 0.14) 0%, transparent 38%),
-    linear-gradient(180deg, #f4f9fd 0%, var(--bg) 100%);
+  background: #fff; /* flat white background for clean, technical appearance */
 }
+
 
 a {
   color: var(--brand-deep);
@@ -233,15 +231,17 @@ img {
 
 .btn-primary {
   color: #fff;
-  background: linear-gradient(145deg, var(--brand-deep), var(--brand));
-  box-shadow: 0 10px 24px rgba(46, 134, 171, 0.3);
+  background: var(--brand); /* flat brand color */
+  box-shadow: none; /* remove shadows for a flatter, more technical look */
 }
+
 
 .btn-secondary {
   color: var(--ink);
-  background: linear-gradient(180deg, #fff, #dceef7);
+  background: #f0f6fb; /* very light muted fill */
   border-color: var(--line);
 }
+
 
 main.container {
   padding: 34px 0 18px;
@@ -255,12 +255,13 @@ section {
 .hero,
 .panel,
 main > section:not(.cta) {
-  background: linear-gradient(180deg, rgba(248, 252, 255, 0.96) 0%, rgba(224, 239, 250, 0.96) 100%);
+  background: #ffffff; /* panels now plain white with subtle border */
   border: 1px solid var(--line);
-  border-radius: 20px;
-  box-shadow: var(--shadow);
+  border-radius: 12px; /* slightly reduced rounding for a sharper feel */
+  box-shadow: 0 4px 16px rgba(31,44,56,0.08);
   padding: clamp(22px, 2.2vw, 30px);
 }
+
 
 .hero {
   display: grid;
@@ -280,17 +281,21 @@ main > section:not(.cta) {
 }
 
 h1 {
-  margin: 0 0 12px;
-  line-height: 1.14;
-  letter-spacing: -0.02em;
+  margin: 0 0 14px;
+  line-height: 1.1;
+  letter-spacing: -0.015em;
   font-size: clamp(2rem, 4.8vw, 3rem);
+  font-weight: 700;
 }
 
+
 h2 {
-  margin: 0 0 10px;
-  line-height: 1.2;
-  font-size: clamp(1.35rem, 3vw, 1.9rem);
+  margin: 0 0 12px;
+  line-height: 1.25;
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  font-weight: 600;
 }
+
 
 h3 {
   margin: 0;
