@@ -15,9 +15,9 @@
   - `NyLi Agent`: assistant interface for production workflow deployment
 - Added a working product decision helper with goal-based routing.
 - Rewrote product pages:
-  - `product-assetpilot.html`: tighter opening, workflow steps, use cases, trust/access section.
-  - `product-insightpilot.html`: tighter opening, workflow, NL-question/summaries/alerts framing, use cases, trust/access section.
-  - `product-flowpilot.html`: production availability language, intended capabilities, onboarding + demo CTAs.
+  - `nyli-assets.html`: tighter opening, workflow steps, use cases, trust/access section.
+  - `nyli-insights.html`: tighter opening, workflow, NL-question/summaries/alerts framing, use cases, trust/access section.
+  - `nyli-agent.html`: production availability language, intended capabilities, onboarding + demo CTAs.
 
 ## Services messaging
 - Rewrote `services.html` for outcome-based positioning and scannability.

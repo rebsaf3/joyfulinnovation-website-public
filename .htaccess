@@ -24,6 +24,13 @@ RewriteRule ^faq/?$ /contact [R=301,L]
 # Redirect retired InsightPilot support route to Support
 RewriteRule ^insightpilot-support/?$ /support [R=301,L]
 
+# Redirect legacy NyLi Assets route to new clean slug
+RewriteRule ^product-assetpilot/?$ /nyli-assets [R=301,L]
+
+# Redirect legacy NyLi Insights and NyLi Agent routes to clean slugs
+RewriteRule ^product-insightpilot/?$ /nyli-insights [R=301,L]
+RewriteRule ^product-flowpilot/?$ /nyli-agent [R=301,L]
+
 # Redirect legacy blog URLs to /blog/
 RewriteRule ^(insight-[^/]+)/?$ /blog/$1 [R=301,L]
 

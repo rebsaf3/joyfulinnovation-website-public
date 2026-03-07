@@ -33,18 +33,21 @@ No build step is required for normal content updates.
 
 1. `index.html` - homepage
 2. `products.html` - product overview
-3. `product-assetpilot.html` - NyLi Assets detail page
-4. `product-flowpilot.html` - NyLi Agent detail page
-5. `product-insightpilot.html` - NyLi Insights detail page
-6. `services.html` - services overview
-7. `insights.html` - resources landing page
-8. `support.html` - support center and knowledge base
-9. `contact.html` - contact form page
-10. `privacy-policy.html` - privacy policy
-11. `terms.html` - terms of service
-12. `blog/` - blog article pages
-13. `assets/styles.css` - shared site styles
-14. `assets/` - JavaScript, favicon, and decorative graphics
+3. `nyli-assets.html` - NyLi Assets detail page
+4. `nyli-agent.html` - NyLi Agent detail page
+5. `nyli-insights.html` - NyLi Insights detail page
+6. `product-assetpilot.html` - legacy redirect shim to `nyli-assets.html`
+7. `product-flowpilot.html` - legacy redirect shim to `nyli-agent.html`
+8. `product-insightpilot.html` - legacy redirect shim to `nyli-insights.html`
+9. `services.html` - services overview
+10. `insights.html` - resources landing page
+11. `support.html` - support center and knowledge base
+12. `contact.html` - contact form page
+13. `privacy-policy.html` - privacy policy
+14. `terms.html` - terms of service
+15. `blog/` - blog article pages
+16. `assets/styles.css` - shared site styles
+17. `assets/` - JavaScript, favicon, and decorative graphics
 
 ## How We Work In This Repo
 

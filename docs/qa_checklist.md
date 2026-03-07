@@ -14,22 +14,22 @@
 3. Use decision helper and verify each goal returns the expected recommendation and routes correctly.
 
 ## Each product page CTAs
-1. `product-assetpilot`:
+1. `nyli-assets`:
    - Verify `Request a demo` routes to `/contact?interest=NyLi%20Assets`.
-   - Verify `Go to login options` routes to `/login`.
-2. `product-insightpilot`:
+   - Verify `Login options` routes to `/login`.
+2. `nyli-insights`:
    - Verify `Request a demo` routes to `/contact?interest=NyLi%20Insights`.
-   - Verify `Go to login options` routes to `/login`.
-3. `product-flowpilot`:
-   - Verify `Request access` routes to `/contact?interest=NyLi%20Agent`.
-   - Verify `Request a demo` routes to `/contact?intent=demo`.
+   - Verify `Login options` routes to `/login`.
+3. `nyli-agent`:
+   - Verify `Request a demo` routes to `/contact?interest=NyLi%20Agent`.
+   - Verify `Existing user login` routes to `/login`.
 
 ## Login page routing
 1. Open `/login` and verify product destinations:
    - NyLi Assets login external link opens.
    - NyLi Insights login external link opens.
    - NyLi Agent login external link opens.
-2. Verify NyLi Agent card also offers `Request access` fallback path.
+2. Verify each product card includes `View product page` to the matching clean slug route.
 
 ## Contact form submission and success state
 1. Open `/contact` and confirm required fields are present.

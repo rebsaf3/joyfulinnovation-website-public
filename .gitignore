@@ -10,3 +10,11 @@ node_modules/
 .vscode/
 dist/
 build/
+
+# Runtime/local state artifacts
+*.db
+*.db-shm
+*.db-wal
+deploy/reploy-stack/app/data/*.db
+deploy/reploy-stack/app/data/*.db-shm
+deploy/reploy-stack/app/data/*.db-wal

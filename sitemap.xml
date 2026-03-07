@@ -16,13 +16,13 @@
     <loc>https://joyfulinnovation.com/privacy-policy</loc>
   </url>
   <url>
-    <loc>https://joyfulinnovation.com/product-assetpilot</loc>
+    <loc>https://joyfulinnovation.com/nyli-assets</loc>
   </url>
   <url>
-    <loc>https://joyfulinnovation.com/product-flowpilot</loc>
+    <loc>https://joyfulinnovation.com/nyli-agent</loc>
   </url>
   <url>
-    <loc>https://joyfulinnovation.com/product-insightpilot</loc>
+    <loc>https://joyfulinnovation.com/nyli-insights</loc>
   </url>
   <url>
     <loc>https://joyfulinnovation.com/products</loc>
@@ -65,5 +65,35 @@
   </url>
   <url>
     <loc>https://joyfulinnovation.com/blog/insight-startups-global-ai-transformation</loc>
+  </url>
+  <url>
+    <loc>https://joyfulinnovation.com/blog/insight-agent-creation-framework-discovery-deployment</loc>
+  </url>
+  <url>
+    <loc>https://joyfulinnovation.com/blog/insight-custom-agent-anti-patterns-avoidance</loc>
+  </url>
+  <url>
+    <loc>https://joyfulinnovation.com/blog/insight-agent-validation-test-prompt-pack</loc>
+  </url>
+  <url>
+    <loc>https://joyfulinnovation.com/blog/insight-conversation-mining-patterns-agent-discovery</loc>
+  </url>
+  <url>
+    <loc>https://joyfulinnovation.com/blog/insight-intent-classification-for-custom-agents</loc>
+  </url>
+  <url>
+    <loc>https://joyfulinnovation.com/blog/insight-tool-strategy-primary-secondary-prohibited</loc>
+  </url>
+  <url>
+    <loc>https://joyfulinnovation.com/blog/insight-single-responsibility-custom-agent-design</loc>
+  </url>
+  <url>
+    <loc>https://joyfulinnovation.com/blog/insight-agent-failure-modes-error-recovery</loc>
+  </url>
+  <url>
+    <loc>https://joyfulinnovation.com/blog/insight-context-preservation-memory-patterns</loc>
+  </url>
+  <url>
+    <loc>https://joyfulinnovation.com/blog/insight-agent-registry-naming-conventions-governance</loc>
   </url>
 </urlset>

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Custom Agent Anti-Patterns</title>
+  <desc id="desc">Visual cover with warning markers and correction arrows representing anti-pattern review.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0.9" y2="1">
+      <stop offset="0%" stop-color="#3b1f2a" />
+      <stop offset="100%" stop-color="#a83a4c" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)" />
+  <polygon points="210,130 280,250 140,250" fill="#ffd166" />
+  <polygon points="560,130 630,250 490,250" fill="#ffd166" />
+  <polygon points="910,130 980,250 840,250" fill="#ffd166" />
+  <path d="M180 430 C340 500, 500 500, 660 430" stroke="#ffffff" stroke-width="10" fill="none" />
+  <path d="M540 430 C700 360, 860 360, 1020 430" stroke="#ffffff" stroke-width="10" fill="none" />
+  <text x="600" y="322" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="56" font-weight="700" text-anchor="middle">Custom Agent Anti-Patterns</text>
+  <text x="600" y="382" fill="#ffe3e8" font-family="Segoe UI, Arial, sans-serif" font-size="30" text-anchor="middle">Detect, Correct, Prevent</text>
+</svg>
