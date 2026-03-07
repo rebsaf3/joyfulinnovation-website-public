@@ -140,7 +140,7 @@ try {
     try { db.exec("ALTER TABLE users ADD COLUMN is_admin INTEGER DEFAULT 0"); } catch (_) {}
     try { db.exec("ALTER TABLE users ADD COLUMN disabled INTEGER DEFAULT 0"); } catch (_) {}
 
-    const admin = db.prepare("SELECT id, email FROM users WHERE is_admin = 1").get();
+    const admin = db.prepare("SELECT id, email, password_hash FROM users WHERE is_admin = 1").get();
     if (!admin) {
       if (isProdLike && (!process.env.OWNER_EMAIL || !process.env.OWNER_PASSWORD)) {
         console.error("[FATAL] First-run bootstrap needs OWNER_EMAIL and OWNER_PASSWORD in production.");
@@ -167,13 +167,21 @@ try {
       // changes in Railway variables take effect without wiping the DB.
       const envEmail = process.env.OWNER_EMAIL;
       const envPass  = process.env.OWNER_PASSWORD;
-      const hash = await bcrypt.hash(envPass, 12);
-      db.prepare("UPDATE users SET email = ?, password_hash = ? WHERE id = ?")
-        .run(envEmail, hash, admin.id);
-      if (admin.email !== envEmail) {
-        console.log(`[BOOT] Owner email updated: ${admin.email} → ${envEmail}`);
+      // Only re-hash and write if the email changed or the password doesn't match
+      // the stored hash (avoids a bcrypt work-factor hit on every restart).
+      const emailChanged = admin.email !== envEmail;
+      const passwordChanged = !(await bcrypt.compare(envPass, admin.password_hash || "").catch(() => false));
+      if (emailChanged || passwordChanged) {
+        const hash = await bcrypt.hash(envPass, 12);
+        db.prepare("UPDATE users SET email = ?, password_hash = ? WHERE id = ?")
+          .run(envEmail, hash, admin.id);
+        if (emailChanged) {
+          console.log(`[BOOT] Owner email updated: ${admin.email} → ${envEmail}`);
+        } else {
+          console.log(`[BOOT] Owner password re-synced for ${envEmail}`);
+        }
       } else {
-        console.log(`[BOOT] Owner password re-synced for ${envEmail}`);
+        console.log(`[BOOT] Owner credentials unchanged for ${envEmail} — skipping re-hash`);
       }
     }
   } catch (err) {

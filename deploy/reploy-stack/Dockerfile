@@ -12,6 +12,10 @@ RUN npm run build --prefix nyli-agent-swarm/nyli-agent-swarm/client
 
 WORKDIR /opt/reploy-stack
 
+# Run as non-root for container security (node:20-slim includes the 'node' user)
+RUN chown -R node:node /opt/reploy-stack
+USER node
+
 ENV NODE_ENV=production
 ENV PORT=3000
 ENV MESH_PORT=3099

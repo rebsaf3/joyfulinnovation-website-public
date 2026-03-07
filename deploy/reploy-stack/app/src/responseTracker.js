@@ -2,6 +2,11 @@ const crypto = require("crypto");
 const bcrypt = require("bcrypt");
 const { maskToken } = require("./sanitizeLogging");
 
+/** Compute a SHA-256 hex digest – used for fast indexed token lookup. */
+function sha256hex(value) {
+  return crypto.createHash("sha256").update(value).digest("hex");
+}
+
 /**
  * Create confirmation request rows for a set of inactive users and return
  * the generated tokens.
@@ -21,8 +26,9 @@ function createConfirmationRequests(db, inactiveUserIds) {
     for (const inactiveUserId of ids) {
       const id = crypto.randomUUID();
       const token = crypto.randomBytes(32).toString("hex");
-      // Hash token with bcrypt (COST=10 for fast verification, this is not password)
-      const tokenHash = bcrypt.hashSync(token, 10);
+      // Store SHA-256 digest in token_hash for O(1) indexed lookup.
+      // SHA-256 is appropriate for random confirmation tokens (not passwords).
+      const tokenHash = sha256hex(token);
       stmt.run({ id, inactiveUserId, token, tokenHash });
       results.push({ id, inactiveUserId, token }); // Return plaintext token for email
     }
@@ -66,34 +72,25 @@ function recordResponse(db, token, response, meta = {}) {
     throw new Error(`Invalid response: expected "yes" or "no", got "${response}"`);
   }
 
-  // Look up the confirmation request + its associated inactive user by hashed token
-  let matchedRow = null;
-  
-  // First try: Find by hashed token (bcrypt comparison - constant-time)
-  const allRequests = db
+  // ── O(1) indexed token lookup ────────────────────────────────────────────
+  // 1. Try SHA-256 lookup (new tokens): token_hash column is indexed.
+  const tokenSha256 = sha256hex(token);
+  let matchedRow = db
     .prepare(
       `SELECT cr.id AS cr_id, cr.response, cr.token_hash, cr.token,
               cr.created_at AS cr_created_at,
               iu.id AS user_id, iu.user_key, iu.email, iu.run_id, iu.audit_status
        FROM confirmation_requests cr
-       JOIN inactive_users iu ON iu.id = cr.inactive_user_id`
+       JOIN inactive_users iu ON iu.id = cr.inactive_user_id
+       WHERE cr.token_hash = ?`
     )
-    .all();
-  
-  // Find matching request by comparing token hash (constant-time comparison)
-  for (const r of allRequests) {
-    if (r.token_hash && bcrypt.compareSync(token, r.token_hash)) {
-      matchedRow = r;
-      break;
-    }
-  }
-  
+    .get(tokenSha256);
+
   if (!matchedRow) {
-    // Fallback: Also check by plaintext token for backward compatibility during migration
-    matchedRow = db
+    // 2. Fallback: plaintext token lookup for legacy records (token column is indexed).
+    const candidate = db
       .prepare(
-        `SELECT cr.id AS cr_id, cr.response,
-                cr.token_hash, cr.token,
+        `SELECT cr.id AS cr_id, cr.response, cr.token_hash, cr.token,
                 cr.created_at AS cr_created_at,
                 iu.id AS user_id, iu.user_key, iu.email, iu.run_id, iu.audit_status
          FROM confirmation_requests cr
@@ -101,10 +98,19 @@ function recordResponse(db, token, response, meta = {}) {
          WHERE cr.token = ?`
       )
       .get(token);
-    
-    if (!matchedRow) {
-      return { found: false, alreadyResponded: false };
+
+    if (candidate) {
+      // If the legacy record has a bcrypt hash, verify it (single compare, not a loop).
+      if (candidate.token_hash && candidate.token_hash.startsWith("$2")) {
+        const valid = bcrypt.compareSync(token, candidate.token_hash);
+        if (!valid) return { found: false, alreadyResponded: false };
+      }
+      matchedRow = candidate;
     }
+  }
+
+  if (!matchedRow) {
+    return { found: false, alreadyResponded: false };
   }
 
   if (matchedRow.response !== null) {

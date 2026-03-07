@@ -63,7 +63,7 @@ jobs:
           fi
 
           if [ -z "$protocol" ]; then
-            protocol="ftp"
+            protocol="ftps"
           fi
 
           protocol="$(echo "$protocol" | tr '[:upper:]' '[:lower:]')"

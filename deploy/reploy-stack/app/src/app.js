@@ -166,6 +166,10 @@ function createApp(db, options = {}) {
     res.setHeader("Referrer-Policy", "strict-origin-when-cross-origin");
     res.setHeader("Permissions-Policy", "geolocation=(), microphone=(), camera=()");
     res.setHeader("Cross-Origin-Resource-Policy", "same-site");
+    // HSTS: tell browsers to only use HTTPS (production / Railway only)
+    if (process.env.RAILWAY_ENVIRONMENT || process.env.NODE_ENV === "production") {
+      res.setHeader("Strict-Transport-Security", "max-age=31536000; includeSubDomains");
+    }
     next();
   });
 
@@ -213,7 +217,7 @@ function createApp(db, options = {}) {
   // Skip JSON parsing for the Stripe webhook (needs raw body for HMAC verification)
   app.use((req, res, next) => {
     if (req.originalUrl === '/webhooks/stripe') return next();
-    express.json()(req, res, next);
+    express.json({ limit: '100kb' })(req, res, next);
   });
 
   // ── Session management ────────────────────────────────────────────────
@@ -474,7 +478,6 @@ function createApp(db, options = {}) {
       }
 
       // Regenerate session to prevent session fixation
-      const oldSession = req.session;
       req.session.regenerate((err) => {
         if (err) {
           logErr("session.regenerate", err);

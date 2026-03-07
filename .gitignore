@@ -11,6 +11,9 @@ node_modules/
 dist/
 build/
 
+# Explicit credential files (also caught by the global .env rule above)
+deploy/reploy-stack/app/.env
+
 # Runtime/local state artifacts
 *.db
 *.db-shm

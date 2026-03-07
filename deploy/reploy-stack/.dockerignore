@@ -7,3 +7,6 @@ app/nyli-agent-swarm/nyli-agent-swarm/logs/*.log
 app/nyli-agent-swarm/nyli-agent-swarm/server/logs/*.log
 *.log
 .git
+# Never bake credentials into the image
+app/.env
+.env

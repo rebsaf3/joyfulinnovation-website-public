@@ -3,7 +3,7 @@ const Stripe = require('stripe');
 function createStripeClient(stripeApiKey) {
   const key = stripeApiKey || process.env.STRIPE_API_KEY;
   if (!key) throw new Error('STRIPE_API_KEY not set');
-  return new Stripe(key, { apiVersion: '2022-11-15' });
+  return new Stripe(key, { apiVersion: '2024-06-20' });
 }
 
 async function createCheckoutSession({ db, companyId, interval = 'month', successUrl, cancelUrl }) {
