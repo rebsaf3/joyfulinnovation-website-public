@@ -31,4 +31,4 @@ jobs:
         run: |
           export PATH="$HOME/.railway/bin:$PATH"
           # deploy the current directory; adjust project/service if needed
-          railway up --yes
+          railway up
