@@ -8,6 +8,8 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    env:
+      RAILWAY_TOKEN: ${{ secrets.RAILWAY_API_KEY }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -15,20 +17,7 @@ jobs:
       - name: Install Railway CLI
         run: |
           curl -fsSL https://railway.app/install.sh | sh
-          # the CLI will be added to $HOME/.railway/bin
-          export PATH="$HOME/.railway/bin:$PATH"
-
-      - name: Authenticate with Railway
-        env:
-          RAILWAY_API_KEY: ${{ secrets.RAILWAY_API_KEY }}
-        run: |
-          export PATH="$HOME/.railway/bin:$PATH"
-          railway login --apiKey "$RAILWAY_API_KEY" || true
+          echo "$HOME/.railway/bin" >> "$GITHUB_PATH"
 
       - name: Deploy to Railway
-        env:
-          RAILWAY_API_KEY: ${{ secrets.RAILWAY_API_KEY }}
-        run: |
-          export PATH="$HOME/.railway/bin:$PATH"
-          # deploy the current directory; adjust project/service if needed
-          railway up
+        run: railway up
