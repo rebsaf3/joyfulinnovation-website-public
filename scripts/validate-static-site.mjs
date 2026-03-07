@@ -74,6 +74,7 @@ function shouldValidateRef(ref) {
     ref.startsWith('tel:') ||
     ref.startsWith('javascript:') ||
     ref.startsWith('data:') ||
+    ref.startsWith('//') ||
     /^[a-z]+:\/\//i.test(ref)
   );
 }
