@@ -1,91 +1,110 @@
 # Joyful Innovation Website
 
-This repository contains the public marketing website for **Joyful Innovation**.
+This repository contains the public Joyful Innovation website and its deployment guardrails.
 
-It is a lightweight static site (HTML + CSS) used for:
+The root of the repo is a static marketing site. A separate operational application lives under `deploy/reploy-stack/` and should be treated as a different surface with its own runtime and instructions.
 
-1. Brand presence
-2. Product messaging
-3. Contact lead capture
-4. Basic legal pages (privacy and terms)
+## Repo Layout
 
-## What This Repo Actually Is
+### Public site
 
-This is not an app backend, agent framework, or API service.
+- Root HTML pages for marketing, product, legal, and support content
+- `blog/` for article pages
+- `assets/` for shared CSS, JS, data, and imagery
+- `scripts/` for static validation checks used before deploy
 
-It is a content-forward website with hand-edited pages:
+### Operational app
 
-1. `index.html` for homepage messaging
-2. `products.html` plus product detail pages
-3. `support.html` and `contact.html`
-4. `privacy-policy.html` and `terms.html`
-5. Shared styles and visual assets in `assets/`
+- `deploy/reploy-stack/` for the NyLi operational stack
+- Follow `deploy/reploy-stack/README.md` for runtime work in that area
 
-## Stack
+## Public Site Stack
+
+The public site is intentionally simple:
 
 1. Plain HTML pages
 2. Shared CSS in `assets/styles.css`
-3. SVG assets for branding/visuals (`assets/favicon.svg`, `assets/human-connection.svg`)
+3. Shared behavior in `assets/site.js`
+4. Page-specific scripts where needed
+5. Data-driven listing pages powered by `assets/data/*.js`
 
-No build step is required for normal content updates.
+There is no frontend build step for standard public-site updates.
 
-## File Map
+## Source Of Truth
 
-1. `index.html` - homepage
-2. `products.html` - product overview
-3. `nyli-assets.html` - NyLi Assets detail page
-4. `nyli-agent.html` - NyLi Agent detail page
-5. `nyli-insights.html` - NyLi Insights detail page
-6. `product-assetpilot.html` - legacy redirect shim to `nyli-assets.html`
-7. `product-flowpilot.html` - legacy redirect shim to `nyli-agent.html`
-8. `product-insightpilot.html` - legacy redirect shim to `nyli-insights.html`
-9. `services.html` - services overview
-10. `insights.html` - resources landing page
-11. `support.html` - support center and knowledge base
-12. `contact.html` - contact form page
-13. `privacy-policy.html` - privacy policy
-14. `terms.html` - terms of service
-15. `blog/` - blog article pages
-16. `assets/styles.css` - shared site styles
-17. `assets/` - JavaScript, favicon, and decorative graphics
+Use these files as the baseline for future work:
 
-## How We Work In This Repo
+1. `AGENTS.md` for repository-wide agent instructions
+2. `docs/site-standards.md` for the operating procedure and definition of done
+3. `assets/styles.css` for visual system, layout, spacing, and shared components
+4. `index.html` for the canonical public header/footer shell
+5. `CHANGELOG.md` for release-style change history
+6. `docs/changes_summary.md` for narrative context and site-wide work history
 
-1. Keep copy and branding consistent across all pages.
-2. Keep nav, footer, and legal links aligned site-wide.
-3. Favor simple, readable HTML and reusable CSS.
-4. Treat this as a production-facing marketing property.
+## Public Site Standards
 
-## Typical Update Workflow
+These rules are enforced both by documentation and CI:
 
-1. Create a branch
-2. Edit copy/design in relevant HTML/CSS files
-3. Review site rendering locally
-4. Commit and push
-5. Open PR to `main`
+1. Keep the shared public header consistent across all non-redirect public pages.
+2. Keep the shared public footer consistent across all non-redirect public pages.
+3. Do not add inline `style=` attributes to public pages.
+4. Do not allow asset version drift for the same shared file across pages.
+5. Update the changelog and narrative summary for structural, deploy, security, or multi-file work.
 
-## Current Brand Standards
+## Local Workflow
 
-1. Company name: **Joyful Innovation**
-2. Header CTA text: **Contact Us**
-3. Include links to Privacy Policy and Terms of Service in footer
+Serve the public site locally with:
 
-## Accessibility & Navigation
+```powershell
+pwsh ./run-local.ps1
+```
 
-- All pages include `aria-current="page"` attributes on active navigation links for screen reader support
-- Active nav links are styled in brand blue color with bold weight for visual clarity
-- All internal links are verified and working
-- No broken external resources (favicon.svg reference removed - file not in repo)
+The default local URL is `http://localhost:5500/index.html`.
+
+## Validation
+
+Run both checks from the repo root before finishing public-site work:
+
+```powershell
+node scripts/validate-static-site.mjs
+node scripts/validate-site-shell.mjs
+```
+
+What they catch:
+
+1. Missing required public files
+2. Broken internal links and references
+3. Shared header/footer shell drift
+4. Malformed script includes
+5. Inline-style regressions on public pages
+6. Asset version drift across pages
+7. Missing core SEO metadata on public pages
+8. Missing skip-link, `main-content`, single-`h1`, or image `alt` markers
 
 ## Deployment
 
-Site is deployed to HostGator via GitHub Actions workflow (`.github/workflows/deploy.yml`) on every push to `main` branch.
-Set `assets/site-config.js` with the live form submission endpoint before enabling contact and support submissions in production.
+The public site deploys to HostGator through `.github/workflows/deploy.yml` on pushes to `main`.
 
-See [CHANGELOG.md](CHANGELOG.md) for recent updates and fixes.
+The workflow now treats validation as the standing reviewer:
+
+1. Validate required site files and internal references
+2. Validate shared shell consistency
+3. Validate FTP settings
+4. Deploy via FTP/FTPS/SFTP based on repo configuration
+
+`assets/site-config.js` must point at the correct live submission endpoint before contact or support form handling is enabled in production.
+
+## Change Logging
+
+Use both logs intentionally:
+
+1. `CHANGELOG.md` for concise release notes
+2. `docs/changes_summary.md` for narrative context and major site history
+
+If a change affects site-wide styling, shared shell structure, deployment behavior, automation, or governance, update both.
 
 ## License
 
-MIT License. See `LICENSE`.
+MIT. See `LICENSE`.
 
 

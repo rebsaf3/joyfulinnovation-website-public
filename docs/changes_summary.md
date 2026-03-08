@@ -1,5 +1,26 @@
 # Changes Summary
 
+## March 2026 hardening and governance
+- Fixed the deploy blocker in `scripts/validate-static-site.mjs` so protocol-relative third-party URLs no longer fail the pre-deploy crawl.
+- Re-established a single shared public shell across marketing pages and blog pages:
+  - standardized header markup
+  - standardized footer markup
+  - corrected malformed shared script includes
+- Widened the desktop layout and tightened spacing so the public site uses a broader, more deliberate responsive baseline.
+- Shifted the visual language away from soft gradients and toward a flatter, more technical presentation in shared components.
+- Added server-side no-cache headers to reduce stale frontend asset behavior during rollout windows.
+- Added repo governance artifacts so future work starts from the now-clean baseline instead of re-solving the same consistency problems:
+  - `AGENTS.md`
+  - `docs/site-standards.md`
+  - `scripts/validate-site-shell.mjs`
+- Extended CI validation so deploys now fail if the public shell drifts, if the same shared asset is referenced with multiple versions, or if inline styles reappear on public pages.
+
+## Operating expectation going forward
+- `CHANGELOG.md` is the concise release log.
+- This file remains the narrative context log for major public-site, deployment, and governance changes.
+- Shared shell changes should be modeled on `index.html` and `assets/styles.css`, then verified with both validators before deploy.
+- Shared validation now also protects basic SEO and accessibility baselines, not just link integrity and shell consistency.
+
 ## Conversion and copy
 - Rewrote the homepage hero and first-scroll sections for immediate clarity with required CTAs:
   - Primary: `Request a demo`

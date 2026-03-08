@@ -22,6 +22,9 @@ jobs:
       - name: Validate static site content
         run: node scripts/validate-static-site.mjs
 
+      - name: Validate public site shell consistency
+        run: node scripts/validate-site-shell.mjs
+
       - name: Validate required FTP settings
         env:
           FTP_SERVER: ${{ secrets.FTP_SERVER }}
