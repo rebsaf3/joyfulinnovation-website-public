@@ -25,6 +25,9 @@ jobs:
       - name: Validate public site shell consistency
         run: node scripts/validate-site-shell.mjs
 
+      - name: Validate repository governance
+        run: node scripts/validate-repo-governance.mjs
+
       - name: Validate required FTP settings
         env:
           FTP_SERVER: ${{ secrets.FTP_SERVER }}

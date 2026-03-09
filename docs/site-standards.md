@@ -72,6 +72,7 @@ Run from the repo root:
 ```powershell
 node scripts/validate-static-site.mjs
 node scripts/validate-site-shell.mjs
+node scripts/validate-repo-governance.mjs
 ```
 
 Use `pwsh ./run-local.ps1` to serve the public site locally when a browser check is needed.

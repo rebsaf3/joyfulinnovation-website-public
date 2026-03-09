@@ -944,7 +944,8 @@ select[aria-invalid="true"] {
 }
 
 .contact-form-shell {
-  order: 2;
+  grid-column: 2;
+  grid-row: 1;
 }
 
 .contact-form-intro {
@@ -978,7 +979,8 @@ select[aria-invalid="true"] {
 }
 
 .contact-info-card {
-  order: 1;
+  grid-column: 1;
+  grid-row: 1;
   display: grid;
   gap: 10px;
 }
@@ -1965,11 +1967,13 @@ select[aria-invalid="true"] {
   }
 
   .contact-form-shell {
-    order: 1;
+    grid-column: auto;
+    grid-row: auto;
   }
 
   .contact-info-card {
-    order: 2;
+    grid-column: auto;
+    grid-row: auto;
   }
 
   .contact-submit {

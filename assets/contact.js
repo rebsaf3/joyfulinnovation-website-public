@@ -251,17 +251,26 @@
     setSubmitting(true);
 
     try {
-      const payload = new FormData(form);
+      const interest = (form.querySelector('[name="interest"]')?.value || '').trim();
+      const messageText = (form.querySelector('[name="message"]')?.value || '').trim();
+      const payload = {
+        name: (form.querySelector('[name="name"]')?.value || '').trim(),
+        email: (form.querySelector('[name="email"]')?.value || '').trim(),
+        phone: (form.querySelector('[name="phone"]')?.value || '').trim(),
+        company: (form.querySelector('[name="company"]')?.value || '').trim(),
+        message: interest ? `[Interest: ${interest}]\n\n${messageText}` : messageText,
+      };
       const response = await fetch(endpoint, {
         method: 'POST',
-        body: payload,
+        body: JSON.stringify(payload),
         headers: {
+          'Content-Type': 'application/json',
           Accept: 'application/json',
         },
       });
 
       if (!response.ok) {
-        throw new Error('Submission failed');
+        throw new Error(`Submission failed: ${response.status}`);
       }
 
       form.reset();

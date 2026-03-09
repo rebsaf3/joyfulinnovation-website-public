@@ -63,11 +63,12 @@ The default local URL is `http://localhost:5500/index.html`.
 
 ## Validation
 
-Run both checks from the repo root before finishing public-site work:
+Run all three checks from the repo root before finishing work:
 
 ```powershell
 node scripts/validate-static-site.mjs
 node scripts/validate-site-shell.mjs
+node scripts/validate-repo-governance.mjs
 ```
 
 What they catch:
@@ -80,6 +81,7 @@ What they catch:
 6. Asset version drift across pages
 7. Missing core SEO metadata on public pages
 8. Missing skip-link, `main-content`, single-`h1`, or image `alt` markers
+9. Missing or degraded governance files and required section headings
 
 ## Deployment
 
@@ -89,8 +91,9 @@ The workflow now treats validation as the standing reviewer:
 
 1. Validate required site files and internal references
 2. Validate shared shell consistency
-3. Validate FTP settings
-4. Deploy via FTP/FTPS/SFTP based on repo configuration
+3. Validate repository governance files
+4. Validate FTP settings
+5. Deploy via FTP/FTPS/SFTP based on repo configuration
 
 `assets/site-config.js` must point at the correct live submission endpoint before contact or support form handling is enabled in production.
 

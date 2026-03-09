@@ -36,12 +36,13 @@ Before making structural, visual, deployment, or documentation changes, read the
 
 ## Required Validation Before Finishing
 
-Run both validators from the repo root:
+Run all three validators from the repo root:
 
 1. `node scripts/validate-static-site.mjs`
 2. `node scripts/validate-site-shell.mjs`
+3. `node scripts/validate-repo-governance.mjs`
 
-If either validator fails, fix the root cause instead of bypassing the check.
+If any validator fails, fix the root cause instead of bypassing the check.
 
 ## Required Documentation Updates
 

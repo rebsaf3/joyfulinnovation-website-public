@@ -7,11 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- Contact page layout: replaced unreliable CSS `order` property on `.contact-form-shell` and `.contact-info-card` with explicit `grid-column` / `grid-row` placement, eliminating the blank-left-column rendering bug on desktop. Mobile responsive overrides updated to reset to auto placement. `styles.css` bumped to `v=20260309a` across all 35 HTML files.
+
 ### Added
+- `scripts/validate-repo-governance.mjs` — meta-validator that checks governance files are present and contain required sections; prevents silent governance layer degradation
+- Contact form now POSTs JSON to CRM endpoint `https://leber-crm-production.up.railway.app/api/public/lead-forms/lcrm0contact0us0form0001/submit` with fields `name`, `email`, `phone`, `company`, and `message` (interest prepended to message text)
+
+### Changed
+- `assets/site-config.js`: set `provider` to `crm` and populated `endpoint` with the CRM lead-form submit URL (`v=20260308b`)
+- `assets/contact.js`: replaced `FormData` submission with `JSON.stringify` payload and `Content-Type: application/json` header (`v=20260308b`)
 - SEO and accessibility guardrails in `scripts/validate-site-shell.mjs` for canonical URLs, social metadata, skip-link/main structure, single-`h1`, and image `alt` coverage
 
 ### Changed
+- Added `validate-repo-governance.mjs` step to `deploy.yml` so governance integrity is enforced on every deploy
+- Updated `AGENTS.md`, `docs/site-standards.md`, and `README.md` to reference all three validators
 - Expanded the repository standards docs to describe the new SEO/accessibility validation scope
+- Updated deployment workflow steps list in `README.md` to reflect the new governance validation step
 
 ## [1.4.0] - 2026-03-08
 

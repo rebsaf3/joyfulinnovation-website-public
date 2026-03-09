@@ -1,6 +1,24 @@
 # Changes Summary
 
-## March 2026 hardening and governance
+## March 2026 — governance completion: meta-validator and self-governing state
+- Added `scripts/validate-repo-governance.mjs` to close the final governance gap:
+  - Checks that all required governance files exist (AGENTS.md, docs/site-standards.md, README.md, CHANGELOG.md, docs/changes_summary.md, both public-site validators, this validator, and deploy.yml).
+  - Checks that AGENTS.md contains all required section headings and references all three validators.
+  - Checks that docs/site-standards.md contains Purpose, Validation Commands, and Definition Of Done sections and references all three validators.
+  - Checks that README.md references all three validators and AGENTS.md.
+  - Checks that deploy.yml runs all three validators before deploying.
+  - Checks that CHANGELOG.md has at least one version entry.
+- Wired `validate-repo-governance.mjs` into `.github/workflows/deploy.yml` as the third pre-deploy validation step.
+- Updated AGENTS.md, docs/site-standards.md, and README.md to reference the new governance validator.
+- This completes the self-governing baseline: if governance files are removed or degraded, CI will fail before anything deploys.
+
+## Operating expectation going forward
+- All three validators must pass before any work is considered done or deployable.
+- `CHANGELOG.md` is the concise release log.
+- This file remains the narrative context log for major public-site, deployment, and governance changes.
+- Shared shell changes should be modeled on `index.html` and `assets/styles.css`, then verified with all three validators before deploy.
+- Shared validation protects link integrity, shell consistency, SEO/accessibility baselines, and governance file integrity.
+
 - Fixed the deploy blocker in `scripts/validate-static-site.mjs` so protocol-relative third-party URLs no longer fail the pre-deploy crawl.
 - Re-established a single shared public shell across marketing pages and blog pages:
   - standardized header markup
