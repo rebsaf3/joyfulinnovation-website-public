@@ -939,13 +939,14 @@ select[aria-invalid="true"] {
 
 .contact-split {
   grid-template-columns: minmax(260px, 0.92fr) minmax(0, 1.08fr);
-  align-items: start;
+  align-items: stretch;
   gap: 10px;
 }
 
 .contact-form-shell {
   grid-column: 2;
   grid-row: 1;
+  height: 100%;
 }
 
 .contact-form-intro {
@@ -981,6 +982,7 @@ select[aria-invalid="true"] {
 .contact-info-card {
   grid-column: 1;
   grid-row: 1;
+  height: 100%;
   display: grid;
   gap: 10px;
 }
