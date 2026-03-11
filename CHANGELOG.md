@@ -22,7 +22,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Homepage copy (`index.html`) rewritten with concrete operational language across hero, router panel, trust bar audiences, how-we-work steps, product-path value statements, and proof outcomes.
 - Services page copy (`services.html`) rewritten across hero, service router, all service cards, phase model, engagement options, representative examples, FAQ wording, and next-step CTA language.
-- Service CTAs updated from consultation-oriented wording to direct problem-first wording (for example, "Get help with your first use case" and "Get help with this problem").
+- Services page CTAs updated from consultation-oriented wording to direct problem-first wording (e.g. “Get help with your first use case” and “Get help with this problem”).
+- Comprehensive resources page overhaul (`insights.html` and related assets): renamed to “Resources”, updated meta tags and schema.org JSON‑LD; hero copy, breadcrumb, and search placeholder rewritten; quick filters relabeled (All, Guides, Case notes, Templates, Articles) and tag taxonomy simplified to high‑level topics; persistent “Popular starting points” added with new dynamic featured‑resources container; fixed JavaScript filtering/sorting behaviour (default‑sort logic, count badges, empty state, badge flash); removed buzzwords and all residual product/“NyLi” references; CSS adjustments for new containers; resource data tags normalized to new taxonomy.
 - `assets/site-config.js`: set `provider` to `crm` and populated `endpoint` with the CRM lead-form submit URL (`v=20260308b`)
 - `assets/contact.js`: replaced `FormData` submission with `JSON.stringify` payload and `Content-Type: application/json` header (`v=20260308b`)
 - SEO and accessibility guardrails in `scripts/validate-site-shell.mjs` for canonical URLs, social metadata, skip-link/main structure, single-`h1`, and image `alt` coverage

@@ -10,7 +10,7 @@ window.JOYFUL_RESOURCES = [
     imageAlt: 'Conversation mining map for role, tools, tasks, and constraints.',
     date: '2026-03-07',
     readingTime: '6 minute read',
-    tags: ['conversation-mining', 'agent-discovery', 'requirements'],
+    tags: ['AI strategy and guardrails', 'Workflow design'],
   },
   {
     id: 'resource-intent-classification',
@@ -23,7 +23,7 @@ window.JOYFUL_RESOURCES = [
     imageAlt: 'Intent map across custom agent archetypes.',
     date: '2026-03-07',
     readingTime: '7 minute read',
-    tags: ['intent-classification', 'agent-strategy', 'disambiguation'],
+    tags: ['AI strategy and guardrails'],
   },
   {
     id: 'resource-tool-strategy-policy',
@@ -36,7 +36,7 @@ window.JOYFUL_RESOURCES = [
     imageAlt: 'Tool policy matrix with primary, conditional, and prohibited lanes.',
     date: '2026-03-07',
     readingTime: '6 minute read',
-    tags: ['tool-policy', 'orchestration', 'fallbacks'],
+    tags: ['AI strategy and guardrails'],
   },
   {
     id: 'resource-single-responsibility-design',
@@ -49,7 +49,7 @@ window.JOYFUL_RESOURCES = [
     imageAlt: 'Single-responsibility lane diagram for custom agent scope control.',
     date: '2026-03-07',
     readingTime: '5 minute read',
-    tags: ['single-responsibility', 'scope-control', 'agent-design'],
+    tags: ['Agent architecture'],
   },
   {
     id: 'resource-failure-modes-recovery',
@@ -62,7 +62,7 @@ window.JOYFUL_RESOURCES = [
     imageAlt: 'Failure path diagram with fallback recovery lanes.',
     date: '2026-03-07',
     readingTime: '6 minute read',
-    tags: ['error-handling', 'failure-modes', 'recovery'],
+    tags: ['Agent architecture'],
   },
   {
     id: 'resource-context-memory-patterns',
@@ -75,7 +75,7 @@ window.JOYFUL_RESOURCES = [
     imageAlt: 'Memory tiers and context preservation flow for custom agents.',
     date: '2026-03-07',
     readingTime: '6 minute read',
-    tags: ['context-preservation', 'memory', 'consistency'],
+    tags: ['Agent architecture'],
   },
   {
     id: 'resource-registry-naming-governance',
@@ -88,7 +88,7 @@ window.JOYFUL_RESOURCES = [
     imageAlt: 'Registry governance board with naming conventions and tags.',
     date: '2026-03-07',
     readingTime: '5 minute read',
-    tags: ['registry', 'naming-conventions', 'governance'],
+    tags: ['AI strategy and guardrails'],
   },
   {
     id: 'resource-agent-creation-framework',
@@ -101,7 +101,7 @@ window.JOYFUL_RESOURCES = [
     imageAlt: 'Agent lifecycle cards from discovery through deployment.',
     date: '2026-03-07',
     readingTime: '8 minute read',
-    tags: ['agent-customization', 'design-framework', 'validation'],
+    tags: ['Agent architecture', 'Rollout and adoption'],
     featured: true,
   },
   {
@@ -115,7 +115,7 @@ window.JOYFUL_RESOURCES = [
     imageAlt: 'Warning markers and correction arrows for anti-pattern remediation.',
     date: '2026-03-07',
     readingTime: '7 minute read',
-    tags: ['anti-patterns', 'governance', 'agent-design'],
+    tags: ['Agent architecture'],
     featured: true,
   },
   {
@@ -129,7 +129,7 @@ window.JOYFUL_RESOURCES = [
     imageAlt: 'Checklist and prompt cards for agent validation.',
     date: '2026-03-07',
     readingTime: '6 minute read',
-    tags: ['prompt-engineering', 'test-prompts', 'quality-gates'],
+    tags: ['Agent architecture'],
     featured: true,
   },
   {
@@ -141,6 +141,7 @@ window.JOYFUL_RESOURCES = [
     url: '/blog/insight-navigating-ai-chatbots-key-concepts-trends',
     image: '/assets/insight-post-10.svg',
     imageAlt: 'AI chatbot evolution with technology and adoption signals.',
+    tags: ['AI strategy and guardrails'],
   },
   {
     id: 'resource-chatbot-guide-2026',
@@ -151,6 +152,7 @@ window.JOYFUL_RESOURCES = [
     url: '/blog/insight-demystifying-ai-chatbots-practical-guide-2026',
     image: '/assets/insight-post-9.svg',
     imageAlt: 'AI chatbot architecture and implementation flow.',
+    tags: ['AI strategy and guardrails'],
   },
   {
     id: 'resource-software-inventory',
@@ -161,6 +163,7 @@ window.JOYFUL_RESOURCES = [
     url: '/blog/insight-review-software-inventory',
     image: '/assets/insight-post-8.svg',
     imageAlt: 'Software inventory review process visualization.',
+    tags: ['Knowledge systems'],
   },
   {
     id: 'resource-license-reclaim',
@@ -171,6 +174,7 @@ window.JOYFUL_RESOURCES = [
     url: '/blog/insight-license-reclaim-playbook',
     image: '/assets/insight-post-1.svg',
     imageAlt: 'Software license reclaim workflow illustration.',
+    tags: ['Knowledge systems', 'Reporting and visibility'],
   },
   {
     id: 'resource-audit-trail',
@@ -181,6 +185,7 @@ window.JOYFUL_RESOURCES = [
     url: '/blog/insight-audit-trail-best-practices',
     image: '/assets/insight-post-2.svg',
     imageAlt: 'Compliance audit trail and governance records.',
+    tags: ['Reporting and visibility'],
   },
   {
     id: 'resource-sam-reflections',
@@ -191,6 +196,7 @@ window.JOYFUL_RESOURCES = [
     url: '/blog/insight-reflections-software-asset-management-on-demand',
     image: '/assets/insight-post-7.svg',
     imageAlt: 'Software asset management lifecycle stages.',
+    tags: ['Knowledge systems'],
   },
   {
     id: 'resource-ai-risk-review',
@@ -201,6 +207,7 @@ window.JOYFUL_RESOURCES = [
     url: '/blog/insight-ai-risk-review-patterns',
     image: '/assets/insight-post-3.svg',
     imageAlt: 'AI risk review pattern matrix.',
+    tags: ['AI strategy and guardrails'],
   },
   {
     id: 'resource-ai-fatigue-playbook',
@@ -211,6 +218,7 @@ window.JOYFUL_RESOURCES = [
     url: '/blog/insight-ai-fatigue-progress-optional',
     image: '/assets/insight-post-6.svg',
     imageAlt: 'Team planning AI adoption using a practical playbook.',
+    tags: ['AI strategy and guardrails'],
   },
   {
     id: 'resource-ai-breakthroughs',
@@ -221,6 +229,7 @@ window.JOYFUL_RESOURCES = [
     url: '/blog/insight-ai-breakthroughs-2025-enterprise-adoption',
     image: '/assets/insight-post-5.svg',
     imageAlt: 'AI breakthroughs and enterprise adoption gap visual.',
+    tags: ['AI strategy and guardrails'],
   },
   {
     id: 'resource-startups-ai',
@@ -231,5 +240,6 @@ window.JOYFUL_RESOURCES = [
     url: '/blog/insight-startups-global-ai-transformation',
     image: '/assets/insight-post-4.svg',
     imageAlt: 'Startup-led global AI transformation concept.',
+    tags: ['AI strategy and guardrails'],
   },
 ];

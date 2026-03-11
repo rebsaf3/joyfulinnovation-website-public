@@ -1187,6 +1187,10 @@ select[aria-invalid="true"] {
   margin-bottom: 12px;
 }
 
+.resource-featured-wrap {
+  margin-bottom: 12px;
+}
+
 .resource-presets-title {
   margin-bottom: 8px;
   font-size: 1rem;

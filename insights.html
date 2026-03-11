@@ -6,14 +6,14 @@
     <title>Resources | Joyful Innovation</title>
     <meta
       name="description"
-      content="Browse Joyful Innovation resources by Guides, Case Notes, Templates, and Blog Posts with working search and filters."
+      content="Browse guides, templates, case notes, and articles that help teams organize knowledge, improve visibility, and put AI into real workflows."
     />
     <link rel="canonical" href="https://joyfulinnovation.com/insights" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Resources | Joyful Innovation" />
     <meta
       property="og:description"
-      content="Find practical resources for NyLi products and service planning, organized by taxonomy with quick filtering."
+      content="Browse guides, templates, case notes, and articles that help teams organize knowledge, improve visibility, and put AI into real workflows."
     />
     <meta property="og:url" content="https://joyfulinnovation.com/insights" />
     <meta property="og:image" content="https://joyfulinnovation.com/assets/insight-post-10.svg" />
@@ -21,7 +21,7 @@
     <meta name="twitter:title" content="Resources | Joyful Innovation" />
     <meta
       name="twitter:description"
-      content="Find practical resources for NyLi products and service planning, organized by taxonomy with quick filtering."
+      content="Browse guides, templates, case notes, and articles that help teams organize knowledge, improve visibility, and put AI into real workflows."
     />
     <meta name="twitter:image" content="https://joyfulinnovation.com/assets/insight-post-10.svg" />
     <script type="application/ld+json">
@@ -156,7 +156,7 @@
     <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg?v=20260307a" />
     <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin /><link rel="stylesheet" href="/assets/styles.css?v=20260309b" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin /><link rel="stylesheet" href="/assets/styles.css?v=20260310a" />
   </head>
   <body>
     <a class="skip-link" href="#main-content">Skip to main content</a>
@@ -189,24 +189,34 @@
       <section class="page-hero">
         <p class="breadcrumb"><a href="/">Home</a> / Resources</p>
         <div class="resource-hero-heading">
-          <h1>Resources</h1>
-          <span class="pill resource-total-badge" id="resource-total-badge" aria-live="polite">0 available</span>
+          <p class="eyebrow">Resources</p>
+        <h1>Resources for practical AI, better systems, and clearer operations</h1>
+          <span class="pill resource-total-badge" id="resource-total-badge" aria-live="polite" hidden>0 available</span>
         </div>
         <p class="section-copy">
-          Browse practical material for product rollout, governance planning, and operational improvement.
+          Browse guides, templates, case notes, and articles that help teams organize knowledge, improve visibility, and put AI into real workflows.
         </p>
-        <p class="small resource-hero-help">Use search and filters together to quickly narrow to the right starting point.</p>
+        <p class="small resource-hero-help">Use these resources to learn, plan, and move from messy processes to practical execution.</p>
+      </section>
+
+      <section class="scroll-target" id="overview-framing">
+        <h2>What you’ll find here</h2>
+        <p class="section-copy">Practical resources for teams building better systems across knowledge, operations, analytics, and AI. Use them to shape decisions, support implementation, and avoid preventable chaos.</p>
       </section>
 
       <section>
-        <h2>Find what you need quickly</h2>
+        <!-- featured resources will be rendered here by JS if any exist -->
+        <div class="resource-featured-wrap" id="resource-featured-wrap"></div>
 
-        <div class="resource-presets-wrap" id="resource-presets-wrap">
+        <!-- static popular starting points controls -->
+        <div class="resource-presets-wrap">
           <h3 class="resource-presets-title">Popular starting points</h3>
           <div class="resource-presets" role="group" aria-label="Resource filter presets">
-            <button class="pill resource-preset" type="button" data-resource-preset="governance">Governance</button>
-            <button class="pill resource-preset" type="button" data-resource-preset="rollout">Rollout planning</button>
-            <button class="pill resource-preset" type="button" data-resource-preset="templates">Templates</button>
+            <button class="pill resource-preset" type="button" data-resource-preset="AI strategy and guardrails">AI guardrails and governance</button>
+            <button class="pill resource-preset" type="button" data-resource-preset="Knowledge systems">Knowledge systems and content structure</button>
+            <button class="pill resource-preset" type="button" data-resource-preset="Reporting and visibility">Reporting and decision visibility</button>
+            <button class="pill resource-preset" type="button" data-resource-preset="Workflow design">Workflow rollout and adoption</button>
+            <button class="pill resource-preset" type="button" data-resource-preset="Agent architecture">Agent design and orchestration</button>
           </div>
         </div>
 
@@ -251,7 +261,7 @@
                 <input
                   id="resource-search"
                   type="search"
-                  placeholder="Search by topic, keyword, or category (Press / to focus)"
+                  placeholder="Search by keyword, topic, or tag (press / to focus)"
                   autocomplete="off"
                 />
               </div>
@@ -262,7 +272,7 @@
             </div>
 
             <div class="resources-count-row">
-              <p id="resource-count" class="result-count result-count-prominent" aria-live="polite">Showing resources</p>
+              <p id="resource-count" class="result-count result-count-prominent" aria-live="polite">Loading resources…</p>
               <button class="btn btn-secondary resources-clear-all-inline" type="button" data-clear-all>Clear all</button>
             </div>
 
@@ -271,7 +281,7 @@
               <button class="chip" type="button" data-resource-filter="guides" aria-pressed="false">Guides</button>
               <button class="chip" type="button" data-resource-filter="case-notes" aria-pressed="false">Case Notes</button>
               <button class="chip" type="button" data-resource-filter="templates" aria-pressed="false">Templates</button>
-              <button class="chip" type="button" data-resource-filter="blog-posts" aria-pressed="false">Blog posts</button>
+              <button class="chip" type="button" data-resource-filter="blog-posts" aria-pressed="false">Articles</button>
             </div>
             <div
               class="filter-buttons resources-secondary-filters"
@@ -287,7 +297,7 @@
 
             <div id="resource-empty-state" class="card resource-empty-state" hidden>
               <h3>No resources match your current filters</h3>
-              <p>Try a different keyword or clear filters to see all resources.</p>
+              <p>Use the &quot;Reset filters&quot; button or clear any search terms, tags, or categories to return to the full list.</p>
               <div class="actions">
                 <button class="btn btn-primary" type="button" data-clear-all>Reset filters</button>
               </div>
@@ -383,9 +393,9 @@
         <p class="footer-meta">© <span id="footer-year">2026</span> Joyful Innovation. All rights reserved.</p>
       </div>
     </footer>
-    <script src="/assets/data/resources-data.js?v=20260307a" defer></script>
+    <script src="/assets/data/resources-data.js?v=20260310a" defer></script>
     <script src="/assets/site.js?v=20260308a" defer></script>
-    <script src="/assets/resources.js?v=20260308a" defer></script>
+    <script src="/assets/resources.js?v=20260310a" defer></script>
   </body>
 </html>
 

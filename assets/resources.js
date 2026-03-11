@@ -10,7 +10,7 @@
   const secondaryWrap = document.getElementById('resource-secondary-filter-wrap');
   const secondaryList = document.getElementById('resource-secondary-list');
   const secondaryPills = document.getElementById('resource-secondary-pills');
-  const presetsWrap = document.getElementById('resource-presets-wrap');
+  const featuredWrap = document.getElementById('resource-featured-wrap');
   const quickFilterWrap = document.querySelector('.resources-quick-filters');
   const sortControls = Array.from(document.querySelectorAll('[data-resource-sort]'));
   const clearAllButtons = Array.from(document.querySelectorAll('[data-clear-all]'));
@@ -24,7 +24,15 @@
   const mobileQuery = window.matchMedia('(max-width: 960px)');
 
   const data = window.JOYFUL_RESOURCES || [];
-  if (!grid || !search || !count || !quickFilterWrap || !sortControls.length) return;
+  // start with a neutral placeholder so the UI never shows "0" before script runs
+  if (count) {
+     count.textContent = 'Loading resources...';
+  }
+  if (totalBadge) {
+    // hide badge until we've calculated the proper number
+    totalBadge.hidden = true;
+  }
+  // proceed even if some optional controls are missing; counts and grid require only those selectors
 
   const PAGE_SIZE = 6;
   const collator = new Intl.Collator(undefined, { sensitivity: 'base' });
@@ -117,7 +125,7 @@
   const hasTags = tags.length > 0;
   const featuredResources = data.filter((item) => item.featured === true);
 
-  if (presetsWrap && featuredResources.length > 0) {
+  if (featuredWrap && featuredResources.length > 0) {
     const featuredCards = featuredResources
       .slice(0, 6)
       .map(
@@ -130,12 +138,13 @@
       )
       .join('');
 
-    presetsWrap.innerHTML = `
+    featuredWrap.innerHTML = `
       <h3 class="resource-presets-title">Featured resources</h3>
       <div class="resource-featured-row" role="list">${featuredCards}</div>
     `;
   }
-  const hasReliableDates = data.length > 0 && data.every((item) => item.date && !Number.isNaN(Date.parse(item.date)));
+  // consider dates reliable if at least one entry has a parsable date; missing dates will appear at bottom when sorting newest
+  const hasReliableDates = data.some((item) => item.date && !Number.isNaN(Date.parse(item.date)));
   const defaultSort = hasReliableDates ? 'newest' : 'az';
 
   const sortOptions = [];
@@ -373,17 +382,18 @@
   };
 
   const updateCount = (visibleCount, filteredCount) => {
+    if (!count) return;
+
+    let text;
     if (filteredCount === 0) {
-      count.textContent = `Showing 0 of ${data.length}`;
-      return;
+      text = `Showing 0 of ${data.length}`;
+    } else {
+      text = `Showing ${visibleCount} of ${filteredCount}`;
+      if (filteredCount !== data.length) {
+        text += ` (${data.length} total)`;
+      }
     }
-
-    if (filteredCount === data.length) {
-      count.textContent = `Showing ${visibleCount} of ${filteredCount}`;
-      return;
-    }
-
-    count.textContent = `Showing ${visibleCount} of ${filteredCount} (${data.length} total)`;
+    count.textContent = text;
   };
 
   const render = ({ keepScroll = false } = {}) => {
@@ -399,7 +409,13 @@
     updateUrlState();
 
     if (totalBadge) {
-      totalBadge.textContent = `${data.length} available`;
+      const available = filtered.length;
+      const label = available === 1 ? 'resource' : 'resources';
+      totalBadge.textContent =
+        available === data.length
+          ? `${available} ${label} available`
+          : `${available} ${label} available (${data.length} total)`;
+      totalBadge.hidden = false;
     }
 
     const hasResults = filtered.length > 0;
@@ -516,17 +532,19 @@
     button.addEventListener('click', () => {
       const preset = button.getAttribute('data-resource-preset') || '';
       state.selectedTags.clear();
+      state.selectedCategories.clear();
+      state.searchTerm = '';
       state.sort = defaultSort;
 
-      if (preset === 'templates') {
-        state.searchTerm = '';
-        state.selectedCategories = new Set(['templates']);
-      } else if (preset === 'governance') {
-        state.searchTerm = 'governance';
-        state.selectedCategories.clear();
-      } else if (preset === 'rollout') {
-        state.searchTerm = 'rollout';
-        state.selectedCategories.clear();
+      if (preset) {
+        // treat preset as a tag name; some values may not match exactly so normalize
+        // if preset matches a known tag, select that tag
+        if (tags.includes(preset)) {
+          state.selectedTags.add(preset);
+        } else {
+          // fallback: use search term
+          state.searchTerm = preset;
+        }
       }
 
       state.visibleCount = PAGE_SIZE;

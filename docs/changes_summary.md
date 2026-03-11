@@ -84,11 +84,8 @@
 - Converted Resources to data-driven rendering:
   - `assets/data/resources-data.js`
   - `assets/resources.js`
-- Implemented working client-side taxonomy filter + search on `insights.html`:
-  - Guides
-  - Case Notes
-  - Templates
-  - Blog posts
+- Overhauled `/insights` page and renamed it “Resources”: page title, breadcrumb, nav, meta tags, schema, hero copy, and search placeholder rewritten; buzzword-free framing and high‑level topic taxonomy introduced.
+- Added persistent popular starting points and dynamic featured‑resources container; simplified tag taxonomy to six high-level topics; quick filters relabeled (All, Guides, Case notes, Templates, Articles); default sort now favors newest when dates exist; JS fixes eliminated flash-of-zero, corrected counts, and improved empty state messaging.
 - Converted Support knowledge entries to data-driven rendering:
   - `assets/data/support-data.js`
   - `assets/support.js`
