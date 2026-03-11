@@ -822,7 +822,11 @@ h4 {
 }
 
 .post-label {
-  margin: 0 0 8px;
+  margin: 0 0 12px;
+}
+
+#product-paths .product-path-card h3 {
+  margin-top: 0;
 }
 
 .cta {
