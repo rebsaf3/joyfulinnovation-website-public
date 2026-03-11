@@ -20,6 +20,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Contact form now POSTs JSON to CRM endpoint `https://leber-crm-production.up.railway.app/api/public/lead-forms/lcrm0contact0us0form0001/submit` with fields `name`, `email`, `phone`, `company`, and `message` (interest prepended to message text)
 
 ### Changed
+- Homepage copy (`index.html`) rewritten with concrete operational language across hero, router panel, trust bar audiences, how-we-work steps, product-path value statements, and proof outcomes.
+- Services page copy (`services.html`) rewritten across hero, service router, all service cards, phase model, engagement options, representative examples, FAQ wording, and next-step CTA language.
+- Service CTAs updated from consultation-oriented wording to direct problem-first wording (for example, "Get help with your first use case" and "Get help with this problem").
 - `assets/site-config.js`: set `provider` to `crm` and populated `endpoint` with the CRM lead-form submit URL (`v=20260308b`)
 - `assets/contact.js`: replaced `FormData` submission with `JSON.stringify` payload and `Content-Type: application/json` header (`v=20260308b`)
 - SEO and accessibility guardrails in `scripts/validate-site-shell.mjs` for canonical URLs, social metadata, skip-link/main structure, single-`h1`, and image `alt` coverage
