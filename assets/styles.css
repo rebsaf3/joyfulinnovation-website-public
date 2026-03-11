@@ -730,8 +730,13 @@ h4 {
 }
 
 .proof-grid {
-  margin-top: 10px;
-  gap: 10px;
+  margin-top: 20px;
+  gap: 20px;
+}
+
+/* add breathing room inside each proof card */
+.proof-deliverable {
+  padding: 16px;
 }
 
 .proof-deliverable {
@@ -766,7 +771,7 @@ h4 {
 }
 
 .proof-list {
-  margin-top: 10px;
+  margin-top: 20px;
   columns: 2;
   column-gap: 24px;
   padding-left: 20px;
@@ -785,7 +790,7 @@ h4 {
   border: 1px solid rgba(31, 44, 56, 0.12);
   border-radius: 14px;
   background: linear-gradient(170deg, #f8fbfe, #f6efe3);
-  padding: 8px 12px 10px;
+  padding: 16px 20px;
 }
 
 .list {
