@@ -17,9 +17,19 @@
     document.documentElement.style.setProperty('--header-offset', `${header.offsetHeight}px`);
   };
 
+  const HEADER_SCROLL_ENTER = 24;
+  const HEADER_SCROLL_EXIT = 6;
+  let isHeaderScrolled = false;
+
   const updateHeaderState = () => {
     if (!header) return;
-    header.classList.toggle('is-scrolled', window.scrollY > 10);
+
+    const y = window.scrollY || 0;
+    const nextScrolled = isHeaderScrolled ? y > HEADER_SCROLL_EXIT : y > HEADER_SCROLL_ENTER;
+    if (nextScrolled === isHeaderScrolled) return;
+
+    isHeaderScrolled = nextScrolled;
+    header.classList.toggle('is-scrolled', isHeaderScrolled);
     syncHeaderOffset();
   };
 
@@ -49,8 +59,21 @@
     });
   }
 
-  window.addEventListener('scroll', updateHeaderState, { passive: true });
+  let headerTicking = false;
+  window.addEventListener(
+    'scroll',
+    () => {
+      if (headerTicking) return;
+      headerTicking = true;
+      window.requestAnimationFrame(() => {
+        updateHeaderState();
+        headerTicking = false;
+      });
+    },
+    { passive: true }
+  );
   window.addEventListener('resize', syncHeaderOffset);
+  syncHeaderOffset();
   updateHeaderState();
 
   const toPathname = (href) => {

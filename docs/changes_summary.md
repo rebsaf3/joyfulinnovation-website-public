@@ -1,5 +1,11 @@
 # Changes Summary
 
+## March 2026 — sticky header stability fix
+- Fixed a top-of-page sticky-header shake/jitter across public pages by updating `assets/site.js` scroll handling.
+- Added hysteresis (separate enter/exit scroll thresholds) so the header no longer rapidly toggles scrolled state near `scrollY=0`.
+- Throttled scroll-state updates with `requestAnimationFrame` to reduce layout thrash and visual instability.
+- Bumped shared `site.js` asset version to `v=20260310b` across all public HTML pages to ensure browsers pick up the fix immediately.
+
 ## March 2026 — governance completion: meta-validator and self-governing state
 - Added `scripts/validate-repo-governance.mjs` to close the final governance gap:
   - Checks that all required governance files exist (AGENTS.md, docs/site-standards.md, README.md, CHANGELOG.md, docs/changes_summary.md, both public-site validators, this validator, and deploy.yml).
