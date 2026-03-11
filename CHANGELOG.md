@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Fixed
+- Homepage testimonials section: corrected malformed opening tag for `#testimonials` in `index.html` to restore valid HTML structure and consistent rendering.
+- Homepage section chip tracking: restored `data-track-sections` to use `product-paths` so active-state tracking in the local section nav matches the actual section ID.
 - Contact page layout: replaced unreliable CSS `order` property on `.contact-form-shell` and `.contact-info-card` with explicit `grid-column` / `grid-row` placement, eliminating the blank-left-column rendering bug on desktop. Mobile responsive overrides updated to reset to auto placement.
 - Contact page sizing: updated `.contact-split` to `align-items: stretch` and set `.contact-form-shell` and `.contact-info-card` to `height: 100%` so both desktop columns render the same height. `styles.css` bumped to `v=20260309b` across all 35 HTML files.
 
