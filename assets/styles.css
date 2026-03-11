@@ -827,6 +827,11 @@ h4 {
 
 #product-paths .product-path-card h3 {
   margin-top: 0;
+  margin-bottom: 8px;
+}
+
+#product-paths .product-path-card .post-label {
+  margin-bottom: 16px;
 }
 
 .cta {
@@ -2459,6 +2464,12 @@ select[aria-invalid="true"] {
 
 /* ── Section: What clients say ─────────────────────────────────── */
 #testimonials {
+  margin-top: 40px;
+}
+
+#testimonials h2 {
+  margin-bottom: 8px;
+}
   scroll-margin-top: calc(var(--header-offset) + 58px);
 }
 
