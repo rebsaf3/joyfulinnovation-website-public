@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title24 desc24">
+  <title id="title24">AI pilot decision gates cover</title>
+  <desc id="desc24">Graphic showing midpoint review, ROI checkpoints, and go-no-go decision paths for an AI pilot.</desc>
+  <defs>
+    <linearGradient id="g24" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#263238" />
+      <stop offset="100%" stop-color="#ef476f" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#g24)" />
+  <circle cx="230" cy="220" r="62" fill="rgba(255,255,255,0.18)" />
+  <circle cx="230" cy="220" r="30" fill="none" stroke="#ffffff" stroke-width="10" />
+  <path d="M230 190v30l22 14" fill="none" stroke="#ffffff" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" />
+  <path d="M310 220h160" stroke="#ffffff" stroke-width="10" stroke-linecap="round" />
+  <path d="M470 220l38-24v48z" fill="#ffffff" />
+  <rect x="560" y="160" width="250" height="120" rx="22" fill="rgba(255,255,255,0.12)" stroke="#ffffff" stroke-opacity="0.3" />
+  <rect x="860" y="130" width="220" height="64" rx="18" fill="rgba(255,255,255,0.14)" />
+  <rect x="860" y="226" width="220" height="64" rx="18" fill="rgba(255,255,255,0.14)" />
+  <rect x="860" y="322" width="220" height="64" rx="18" fill="rgba(255,255,255,0.14)" />
+  <path d="M810 220h40" stroke="#ffffff" stroke-width="8" stroke-linecap="round" />
+  <path d="M810 258h40" stroke="#ffffff" stroke-width="8" stroke-linecap="round" />
+  <path d="M810 346h40" stroke="#ffffff" stroke-width="8" stroke-linecap="round" />
+  <text x="120" y="470" fill="#ffffff" font-size="56" font-family="Segoe UI, Arial" font-weight="700">Pilot Decision Gates</text>
+  <text x="120" y="522" fill="#ffe8ef" font-size="28" font-family="Segoe UI, Arial">Midpoint review, ROI, and final outcome choices</text>
+</svg>

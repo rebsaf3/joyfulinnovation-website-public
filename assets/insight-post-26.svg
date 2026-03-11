@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title26 desc26">
+  <title id="title26">AI governance best practices cover</title>
+  <desc id="desc26">Illustration showing governance controls for an AI pilot, including monitoring, data boundaries, and human review.</desc>
+  <defs>
+    <linearGradient id="g26" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#17324d" />
+      <stop offset="100%" stop-color="#16a34a" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#g26)" />
+  <rect x="110" y="135" width="360" height="360" rx="24" fill="rgba(255,255,255,0.12)" stroke="#ffffff" stroke-opacity="0.35" />
+  <path d="M190 230h200" stroke="#ffffff" stroke-width="12" stroke-linecap="round" />
+  <path d="M190 290h160" stroke="#ffffff" stroke-width="12" stroke-linecap="round" opacity="0.8" />
+  <path d="M190 350h180" stroke="#ffffff" stroke-width="12" stroke-linecap="round" opacity="0.65" />
+  <circle cx="820" cy="240" r="86" fill="rgba(255,255,255,0.14)" />
+  <path d="M820 188l46 18v34c0 52-31 93-46 103-15-10-46-51-46-103v-34z" fill="none" stroke="#ffffff" stroke-width="12" stroke-linejoin="round" />
+  <path d="M798 244l18 18 28-34" fill="none" stroke="#ffffff" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" />
+  <text x="600" y="485" fill="#ffffff" font-size="54" font-family="Segoe UI, Arial" font-weight="700" text-anchor="middle">AI Governance Best Practices</text>
+  <text x="600" y="538" fill="#ebfff2" font-size="28" font-family="Segoe UI, Arial" text-anchor="middle">Clear rules, human review, monitoring, and control</text>
+</svg>

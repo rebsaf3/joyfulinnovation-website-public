@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title22 desc22">
+  <title id="title22">AI pilot usage policy cover</title>
+  <desc id="desc22">Illustration representing data boundaries, review controls, and value tracking in an AI pilot.</desc>
+  <defs>
+    <linearGradient id="g22" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#253746" />
+      <stop offset="100%" stop-color="#4fb286" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#g22)" />
+  <rect x="120" y="120" width="360" height="390" rx="26" fill="rgba(255,255,255,0.12)" stroke="#ffffff" stroke-opacity="0.35" />
+  <rect x="170" y="176" width="260" height="36" rx="18" fill="rgba(255,255,255,0.2)" />
+  <rect x="170" y="244" width="220" height="16" rx="8" fill="rgba(255,255,255,0.32)" />
+  <rect x="170" y="286" width="240" height="16" rx="8" fill="rgba(255,255,255,0.22)" />
+  <rect x="170" y="328" width="190" height="16" rx="8" fill="rgba(255,255,255,0.18)" />
+  <path d="M185 400l42 42 92-116" fill="none" stroke="#eafcf2" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" />
+  <circle cx="920" cy="220" r="76" fill="rgba(255,255,255,0.14)" />
+  <circle cx="920" cy="220" r="42" fill="none" stroke="#ffffff" stroke-width="12" />
+  <path d="M920 184v42l28 18" fill="none" stroke="#ffffff" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" />
+  <text x="540" y="410" fill="#ffffff" font-size="54" font-family="Segoe UI, Arial" font-weight="700">Pilot Usage Policy</text>
+  <text x="540" y="470" fill="#eefcf5" font-size="30" font-family="Segoe UI, Arial">Data boundaries, review, and value tracking</text>
+</svg>

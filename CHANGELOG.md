@@ -19,6 +19,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - `scripts/validate-repo-governance.mjs` — meta-validator that checks governance files are present and contain required sections; prevents silent governance layer degradation
 - Contact form now POSTs JSON to CRM endpoint `https://leber-crm-production.up.railway.app/api/public/lead-forms/lcrm0contact0us0form0001/submit` with fields `name`, `email`, `phone`, `company`, and `message` (interest prepended to message text)
+- Two new anonymized AI pilot policy resources based on the user-policy source document: `blog/insight-ai-pilot-access-policy-rules.html` and `blog/insight-ai-pilot-usage-policy-review-controls.html`, plus matching SVG cover assets and resource discovery entries.
+- Two additional anonymized AI pilot resources based on the POC source document: `blog/insight-ai-pilot-intake-selection-framework.html` and `blog/insight-ai-pilot-decision-gates-roi.html`, plus matching SVG cover assets and resource discovery entries.
+- One additional AI strategy resource from supplied copy: `blog/insight-when-to-use-a-secondary-ai-tool.html`, plus matching SVG cover art and discovery updates.
+- One additional AI governance resource from supplied copy: `blog/insight-ai-governance-best-practices-for-pilots.html`, plus matching SVG cover art and discovery updates.
+- One additional AI pilot rollout resource from supplied copy: `blog/insight-how-to-run-an-ai-pilot-program.html`, plus matching SVG cover art and discovery updates.
 
 ### Changed
 - Homepage copy (`index.html`) rewritten with concrete operational language across hero, router panel, trust bar audiences, how-we-work steps, product-path value statements, and proof outcomes.

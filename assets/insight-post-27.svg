@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title27 desc27">
+  <title id="title27">How to run an AI pilot program cover</title>
+  <desc id="desc27">Illustration showing a structured AI pilot rollout with planning, governance, and measurable outcomes.</desc>
+  <defs>
+    <linearGradient id="g27" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#10263d" />
+      <stop offset="100%" stop-color="#ea580c" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#g27)" />
+  <rect x="120" y="120" width="390" height="390" rx="28" fill="rgba(255,255,255,0.12)" stroke="#ffffff" stroke-opacity="0.35" />
+  <path d="M205 225h220" stroke="#ffffff" stroke-width="12" stroke-linecap="round" />
+  <path d="M205 290h180" stroke="#ffffff" stroke-width="12" stroke-linecap="round" opacity="0.82" />
+  <path d="M205 355h140" stroke="#ffffff" stroke-width="12" stroke-linecap="round" opacity="0.68" />
+  <circle cx="815" cy="220" r="72" fill="rgba(255,255,255,0.14)" />
+  <path d="M760 330h145" stroke="#ffffff" stroke-width="12" stroke-linecap="round" opacity="0.86" />
+  <path d="M760 390h110" stroke="#ffffff" stroke-width="12" stroke-linecap="round" opacity="0.7" />
+  <path d="M800 200l34 34-34 34" fill="none" stroke="#ffffff" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" />
+  <text x="600" y="492" fill="#ffffff" font-size="50" font-family="Segoe UI, Arial" font-weight="700" text-anchor="middle">How to Run an AI Pilot Program</text>
+  <text x="600" y="542" fill="#fff2e8" font-size="27" font-family="Segoe UI, Arial" text-anchor="middle">Clear goals, governance, rollout discipline, and ROI tracking</text>
+</svg>
